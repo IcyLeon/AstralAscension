@@ -1,15 +1,16 @@
 using UnityEngine;
 
-public class CharacterStates
+public class CharacterState
 {
     private IState currentStates;
+    public Characters characters { get; } 
 
-    public void Update()
+    public virtual void Update()
     {
         if (currentStates != null)
             currentStates.Update();
     }
-    public void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         if (currentStates != null)
             currentStates.FixedUpdate();
@@ -20,25 +21,26 @@ public class CharacterStates
         if (currentStates != null)
             currentStates.OnAnimationTransition();
     }
-    public void OnCollisionEnter(Collision collision)
+
+    public virtual void OnCollisionEnter(Collision collision)
     {
         if (currentStates != null)
             currentStates.OnCollisionEnter(collision);
     }
 
-    public void OnCollisionExit(Collision collision)
+    public virtual void OnCollisionExit(Collision collision)
     {
         if (currentStates != null)
             currentStates.OnCollisionExit(collision);
     }
 
-    public void OnCollisionStay(Collision collision)
+    public virtual void OnCollisionStay(Collision collision)
     {
         if (currentStates != null)
             currentStates.OnCollisionStay(collision);
     }
 
-    public void ChangeState(IState newState)
+    public virtual void ChangeState(IState newState)
     {
         if (currentStates != null)
             currentStates.Exit();
@@ -46,5 +48,11 @@ public class CharacterStates
         currentStates = newState;
 
         currentStates.Enter();
+    }
+
+    public CharacterState(Characters characters)
+    {
+        this.characters = characters;
+
     }
 }

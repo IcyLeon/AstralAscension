@@ -3039,6 +3039,7 @@ GameObject:
   - component: {fileID: 5642396297214191927}
   - component: {fileID: 8349329766862024641}
   - component: {fileID: 3605952183913479330}
+  - component: {fileID: 5993719531800717929}
   m_Layer: 0
   m_Name: Keqing
   m_TagString: Untagged
@@ -3327,6 +3328,19 @@ MonoBehaviour:
   windPower: 1
   gravity: 9.81
   isGUI: 0
+--- !u!114 &5993719531800717929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433884047672863223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99f80b0ed14c7d4ca60c26aec9079b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCharactersSO: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e, type: 2}
 --- !u!1 &1436706502840854719
 GameObject:
   m_ObjectHideFlags: 0

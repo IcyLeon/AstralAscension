@@ -5,6 +5,8 @@ using UnityEngine;
 public class CharacterData
 {
     protected CharactersSO charactersSO;
+    protected float maxHealth;
+    protected float currentHealth;
 
     public CharacterData(CharactersSO charactersSO)
     {

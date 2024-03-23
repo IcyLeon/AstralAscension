@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayableCharacters : Characters
+public class Keqing : PlayableCharacters
 {
-    [SerializeField] private PlayerCharactersSO PlayerCharactersSO;
-    public Player player { get; }
-
     protected override void Start()
     {
         base.Start();
+        characterState = new KeqingState(this);
     }
 }
