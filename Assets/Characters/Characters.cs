@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Characters : MonoBehaviour, IDamageable
 {
-    protected CharacterState characterState;
+    protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -15,41 +15,41 @@ public class Characters : MonoBehaviour, IDamageable
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (characterState != null)
+        if (characterStateMachine != null)
         {
-            characterState.Update();
+            characterStateMachine.Update();
         }
     }
 
     protected virtual void FixedUpdate()
     {
-        if (characterState != null)
+        if (characterStateMachine != null)
         {
-            characterState.FixedUpdate();
+            characterStateMachine.FixedUpdate();
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (characterState != null)
+        if (characterStateMachine != null)
         {
-            characterState.OnCollisionEnter(collision);
+            characterStateMachine.OnCollisionEnter(collision);
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (characterState != null)
+        if (characterStateMachine != null)
         {
-            characterState.OnCollisionStay(collision);
+            characterStateMachine.OnCollisionStay(collision);
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (characterState != null)
+        if (characterStateMachine != null)
         {
-            characterState.OnCollisionExit(collision);
+            characterStateMachine.OnCollisionExit(collision);
         }
     }
 

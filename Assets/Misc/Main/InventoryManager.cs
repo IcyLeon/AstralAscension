@@ -14,8 +14,12 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        inventory = new Inventory(1000);
         instance = this;
+    }
+
+    private void Start()
+    {
+        inventory = new Inventory(1000);
     }
 
     public void AddMora(int Amt)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterState
+public class CharacterStateMachine
 {
     private IState currentStates;
     public Characters characters { get; } 
@@ -50,7 +50,7 @@ public class CharacterState
         currentStates.Enter();
     }
 
-    public CharacterState(Characters characters)
+    public CharacterStateMachine(Characters characters)
     {
         this.characters = characters;
 

@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControlState : IState
+public class PlayerCharacterState : IState
 {
+    protected PlayableCharacterStateMachine playableCharacterState { get; }
+
+    public PlayerCharacterState(PlayableCharacterStateMachine pcs)
+    {
+        playableCharacterState = pcs;
+    }
+
     public virtual void Enter()
     {
     }
@@ -12,9 +19,23 @@ public class PlayerControlState : IState
     {
     }
 
+    protected virtual void SubscribeInputs()
+    {
+
+    }
+    protected virtual void UnsubscribeInputs()
+    {
+
+    }
+
     public virtual void FixedUpdate()
     {
     }
+
+    public virtual void Update()
+    {
+    }
+
 
     public virtual void OnAnimationTransition()
     {
@@ -29,10 +50,6 @@ public class PlayerControlState : IState
     }
 
     public virtual void OnCollisionStay(Collision collision)
-    {
-    }
-
-    public virtual void Update()
     {
     }
 }

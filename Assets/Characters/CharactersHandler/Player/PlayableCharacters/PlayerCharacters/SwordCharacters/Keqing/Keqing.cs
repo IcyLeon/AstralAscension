@@ -7,6 +7,6 @@ public class Keqing : PlayableCharacters
     protected override void Start()
     {
         base.Start();
-        characterState = new KeqingState(this);
+        characterStateMachine = new KeqingStateMachine(this);
     }
 }

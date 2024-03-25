@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayableCharacterState : CharacterState
+public class PlayableCharacterStateMachine : CharacterStateMachine
 {
-    private PlayerState playerState;
+    private PlayerStateMachine playerStateMachine;
 
     public Player player { 
         get
@@ -15,29 +15,29 @@ public class PlayableCharacterState : CharacterState
 
     public override void Update()
     {
-        if (playerState != null)
-            playerState.Update();
+        if (playerStateMachine != null)
+            playerStateMachine.Update();
 
         base.Update();
     }
 
     public override void FixedUpdate()
     {
-        if (playerState != null)
-            playerState.FixedUpdate();
+        if (playerStateMachine != null)
+            playerStateMachine.FixedUpdate();
 
         base.FixedUpdate();
     }
 
-    public PlayableCharacterState(Characters characters) : base(characters)
+    public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {
-        playerState = new PlayerState(this);
+        playerStateMachine = new PlayerStateMachine(this);
 
 
     }
 
 
-    private PlayableCharacters playableCharacters
+    public PlayableCharacters playableCharacters
     {
         get
         {

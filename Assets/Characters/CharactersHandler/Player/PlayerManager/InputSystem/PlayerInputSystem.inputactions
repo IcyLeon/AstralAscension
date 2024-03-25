@@ -7,12 +7,12 @@
             "actions": [
                 {
                     "name": "Look",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "3327253c-72b0-40d3-aab5-ea67c0e1b630",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Movement",
@@ -31,13 +31,31 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "e26cc73a-8156-4e88-a7db-3150bc1a0120",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BowAim",
+                    "type": "Button",
+                    "id": "b218ff21-762f-412f-901d-c6a04edd5084",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "79efe896-e8a0-4c08-91b5-a050e74d817b",
-                    "path": "",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -81,7 +99,7 @@
                 {
                     "name": "left",
                     "id": "f7ca95c7-fae9-4861-aab5-555145ec56b9",
-                    "path": "<Keyboard>/anyKey",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -108,6 +126,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fae1b1f0-5f48-4d15-9036-e3e8413133b4",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ceba9497-1850-4b14-abca-f630c523797d",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BowAim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
