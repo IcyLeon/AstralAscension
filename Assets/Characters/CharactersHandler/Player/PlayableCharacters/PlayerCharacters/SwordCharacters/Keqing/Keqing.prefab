@@ -3040,6 +3040,7 @@ GameObject:
   - component: {fileID: 8349329766862024641}
   - component: {fileID: 3605952183913479330}
   - component: {fileID: 5993719531800717929}
+  - component: {fileID: 5244961614716165218}
   m_Layer: 0
   m_Name: Keqing
   m_TagString: Untagged
@@ -3055,7 +3056,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433884047672863223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5016241, y: 0.5, z: -2.7823722}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3074,7 +3075,7 @@ Animator:
   m_GameObject: {fileID: 1433884047672863223}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c8ec3aa3fdd7a3e42a87787e94aaae5d, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 62befe2634a5c5f4ca839616dfba7b37, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 1
   m_ApplyRootMotion: 1
@@ -3341,6 +3342,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCharactersSO: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e, type: 2}
+--- !u!136 &5244961614716165218
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433884047672863223}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.25
+  m_Height: 1.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &1436706502840854719
 GameObject:
   m_ObjectHideFlags: 0

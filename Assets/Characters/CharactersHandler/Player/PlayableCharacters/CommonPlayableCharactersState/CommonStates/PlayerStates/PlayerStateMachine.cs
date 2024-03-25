@@ -2,13 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState
+public class PlayerStateMachine
 {
-    public PlayableCharacterState playableCharacterState { get; }
+    public PlayableCharacters playableCharacter { get; }
+    public PlayerIdleState playerIdleState { get; }
+    public PlayerRunState playerRunState { get; }
+    public PlayerWeakStopState playerWeakStopState { get; }
+
     public Player player { 
         get
         {
-            return playableCharacterState.player;
+            return playableCharacter.player;
+        }
+    }
+
+    public PlayerData playerData
+    {
+        get
+        {
+            return player.playerData;
         }
     }
 
@@ -59,9 +71,12 @@ public class PlayerState
         currentStates.Enter();
     }
 
-    public PlayerState(PlayableCharacterState PCS)
+    public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
-        playableCharacterState = PCS;
-
+        playableCharacter = PCS.playableCharacters;
+        playerIdleState = new PlayerIdleState(this);
+        playerRunState = new PlayerRunState(this);
+        playerWeakStopState = new PlayerWeakStopState(this);
+        ChangeState(playerIdleState);
     }
 }
