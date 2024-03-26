@@ -21,17 +21,17 @@ MonoBehaviour:
       <TimeToBeConsideredConsecutive>k__BackingField: 1
       <DashLimitReachedCooldown>k__BackingField: 1.75
     <PlayerStopData>k__BackingField:
-      <WeakDecelerationForce>k__BackingField: 6
-      <StrongDecelerationForce>k__BackingField: 8.5
+      <WeakDecelerationForce>k__BackingField: 4.5
+      <StrongDecelerationForce>k__BackingField: 6.5
     <PlayerRunData>k__BackingField:
       <SpeedModifier>k__BackingField: 1
     <PlayerSprintData>k__BackingField:
       <SpeedModifier>k__BackingField: 1.8
   <AirborneData>k__BackingField:
     <PlayerJumpData>k__BackingField:
-      <JumpDecelerationForce>k__BackingField: 1.5
+      <JumpDecelerationForce>k__BackingField: 3.5
       <RotationTime>k__BackingField: 0.02
-      <JumpForceY>k__BackingField: 8
+      <JumpForceY>k__BackingField: 5
       <IdleJumpForceMagnitudeXZ>k__BackingField: 0
       <WeakJumpForceMagnitudeXZ>k__BackingField: 4
       <StrongJumpForceMagnitudeXZ>k__BackingField: 8

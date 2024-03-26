@@ -12,7 +12,12 @@ public class PlayerStopState : PlayerGroundedState
     {
         base.FixedUpdate();
 
-        RotateTowardsTargetRotation();
+        SmoothRotateToTargetRotation();
+
+        if (IsMovingHorizontal())
+        {
+            DecelerateHorizontal();
+        }
     }
 
     public override void OnAnimationTransition()

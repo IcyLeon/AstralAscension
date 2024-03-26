@@ -42,17 +42,45 @@ public class PlayerMovementState : IState
         UpdatePhysicsMovement();
     }
 
+    protected void DecelerateHorizontal()
+    {
+        Vector3 vel = GetHorizontalVelocity();
+        playerStateMachine.player.Rb.AddForce(-vel * playerStateMachine.playerData.DecelerateForce, ForceMode.Acceleration);
+    }
+     
+    protected bool IsMovingHorizontal(float val = 0.1f)
+    {
+        return GetHorizontalVelocity().magnitude >= val;
+    }
+
+    protected bool IsMovingUp(float val = 0.1f)
+    {
+        return GetVerticalVelocity().y > val;
+    }
+
+    protected void DecelerateVertical()
+    {
+        Vector3 vel = GetVerticalVelocity();
+        playerStateMachine.player.Rb.AddForce(-vel * playerStateMachine.playerData.DecelerateForce, ForceMode.Acceleration);
+    }
+
     private void UpdatePhysicsMovement()
     {
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (playerStateMachine.playerData.movementInput == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f)
             return;
 
+        Vector3 direction = RotateToInputTargetDirection();
+        SmoothRotateToTargetRotation();
+        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * direction) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+    }
+
+    protected Vector3 RotateToInputTargetDirection()
+    {
         Vector2 inputdir = playerStateMachine.playerData.movementInput;
         float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
         Vector3 direction = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
         UpdateTargetRotationData(angle);
-        RotateTowardsTargetRotation();
-        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * direction) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+        return direction;
     }
 
     protected void ResetVelocity()
@@ -65,7 +93,7 @@ public class PlayerMovementState : IState
         return movementSpeed;
     }
 
-    protected void RotateTowardsTargetRotation()
+    protected void SmoothRotateToTargetRotation()
     {
         float currentAngleY = playerStateMachine.player.Rb.transform.eulerAngles.y;
         if (currentAngleY == playerStateMachine.playerData.targetYawRotation)
