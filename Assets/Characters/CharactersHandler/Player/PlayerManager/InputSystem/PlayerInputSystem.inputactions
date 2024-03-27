@@ -142,6 +142,17 @@
                 },
                 {
                     "name": "",
+                    "id": "602e2ce1-9219-441d-b0e3-06e431345a7d",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ceba9497-1850-4b14-abca-f630c523797d",
                     "path": "<Keyboard>/r",
                     "interactions": "",
