@@ -54,6 +54,6 @@ public class PlayerGroundedState : PlayerMovementState
 
     private void OnFall()
     {
-        //playerStateMachine.ChangeState(playerStateMachine.playerFallState);
+        playerStateMachine.ChangeState(playerStateMachine.playerFallingState);
     }
 }

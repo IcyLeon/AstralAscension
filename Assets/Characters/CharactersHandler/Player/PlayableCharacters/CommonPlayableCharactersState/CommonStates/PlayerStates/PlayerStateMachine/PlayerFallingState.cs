@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFallingState : PlayerGroundedState
+public class PlayerFallingState : PlayerAirborneState
 {
     public PlayerFallingState(PlayerStateMachine PS) : base(PS)
     {
@@ -11,12 +11,24 @@ public class PlayerFallingState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        playerStateMachine.playerData.SpeedModifier = 0f;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
         LimitFallVelocity();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (IsGrounded())
+        {
+            playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+            return;
+        }
     }
 
     private void LimitFallVelocity()
@@ -28,8 +40,8 @@ public class PlayerFallingState : PlayerGroundedState
             return;
         }
 
-        Vector3 limitVel = new Vector3(0f, -FallSpeedLimit - velocity.y, 0f);
-        playerStateMachine.player.Rb.AddForce(limitVel, ForceMode.VelocityChange);
+        float limitVelocityY = Mathf.Max(velocity.y, -FallSpeedLimit);
+        playerStateMachine.player.Rb.velocity = new Vector3(playerStateMachine.player.Rb.velocity.x, limitVelocityY, playerStateMachine.player.Rb.velocity.z);
     }
 
     public override void Exit()

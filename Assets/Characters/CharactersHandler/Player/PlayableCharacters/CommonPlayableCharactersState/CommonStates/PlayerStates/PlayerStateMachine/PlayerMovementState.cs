@@ -20,10 +20,10 @@ public class PlayerMovementState : IState
 
     protected bool IsGrounded()
     {
-        Vector3 position = playerStateMachine.player.transform.position;
-        position.y += playerStateMachine.playableCharacter.MainCollider.radius;
+        Vector3 position = playerStateMachine.player.Rb.position;
+        position.y += playerStateMachine.playableCharacter.MainCollider.radius / 2f;
 
-        return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius);
+        return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore);
     }
 
     protected virtual void SubscribeInputs()
@@ -131,7 +131,7 @@ public class PlayerMovementState : IState
 
     protected Vector3 GetVerticalVelocity()
     {
-        return new Vector3(playerStateMachine.player.Rb.velocity.x, 0f, playerStateMachine.player.Rb.velocity.z);
+        return new Vector3(0f, playerStateMachine.player.Rb.velocity.y, 0f);
     }
 
 

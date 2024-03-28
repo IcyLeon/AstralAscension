@@ -5,6 +5,13 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    #region Collision Events
+    public delegate void OnCollisionEvent(Collision collision);
+    public OnCollisionEvent OnCollisionEnterEvent;
+    public OnCollisionEvent OnCollisionStayEvent;
+    public OnCollisionEvent OnCollisionExitEvent;
+    #endregion
+
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
@@ -19,6 +26,20 @@ public class Player : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnCollisionEnterEvent?.Invoke(collision);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        OnCollisionStayEvent?.Invoke(collision);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        OnCollisionExitEvent?.Invoke(collision);
+    }
 
     public PlayerInputSystem.PlayerActions playerInputAction
     {
