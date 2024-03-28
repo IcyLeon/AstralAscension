@@ -29,6 +29,15 @@ public class Characters : MonoBehaviour, IDamageable
         }
     }
 
+    public static void StartAnimation(Animator animator, string HashParameter)
+    {
+        if (animator == null)
+            return;
+
+        if (CharacterManager.ContainsParam(animator, HashParameter))
+            animator.SetBool(HashParameter, true);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (characterStateMachine != null)

@@ -8,6 +8,7 @@ public class PlayerStateMachine
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
     public PlayerWeakStopState playerWeakStopState { get; }
+    public PlayerJumpState playerJumpState { get; }
 
     public Player player { 
         get
@@ -77,6 +78,7 @@ public class PlayerStateMachine
         playerIdleState = new PlayerIdleState(this);
         playerRunState = new PlayerRunState(this);
         playerWeakStopState = new PlayerWeakStopState(this);
+        playerJumpState = new PlayerJumpState(this);
         ChangeState(playerIdleState);
     }
 }

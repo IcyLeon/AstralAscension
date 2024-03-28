@@ -9,6 +9,34 @@ public class PlayerGroundedState : PlayerMovementState
     {
     }
 
+    protected override void SubscribeInputs()
+    {
+        base.SubscribeInputs();
+        playerStateMachine.player.playerInputAction.Jump.started += Jump_started;
+    }
+
+    private void Jump_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnJump();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (!IsGrounded())
+        {
+            OnFall();
+            return;
+        }
+    }
+
+    protected override void UnsubscribeInputs()
+    {
+        base.UnsubscribeInputs();
+        playerStateMachine.player.playerInputAction.Jump.started -= Jump_started;
+    }
+
     protected void OnMove()
     {
         if (playerStateMachine.playerData.movementInput == Vector2.zero)
@@ -17,5 +45,15 @@ public class PlayerGroundedState : PlayerMovementState
         }
 
         playerStateMachine.ChangeState(playerStateMachine.playerRunState);
+    }
+
+    private void OnJump()
+    {
+        playerStateMachine.ChangeState(playerStateMachine.playerJumpState);
+    }
+
+    private void OnFall()
+    {
+        //playerStateMachine.ChangeState(playerStateMachine.playerFallState);
     }
 }

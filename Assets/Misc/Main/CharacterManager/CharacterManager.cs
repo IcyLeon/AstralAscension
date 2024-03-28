@@ -12,4 +12,14 @@ public class CharacterManager : MonoBehaviour
         instance = this;
     }
 
+    public static bool ContainsParam(Animator _Anim, string _ParamName)
+    {
+        foreach (AnimatorControllerParameter param in _Anim.parameters)
+        {
+            if (param.name == _ParamName)
+                return true;
+        }
+        return false;
+    }
+
 }

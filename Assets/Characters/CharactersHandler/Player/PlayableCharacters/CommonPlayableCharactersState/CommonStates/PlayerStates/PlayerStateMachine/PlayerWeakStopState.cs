@@ -11,6 +11,7 @@ public class PlayerWeakStopState : PlayerStopState
     public override void Enter()
     {
         base.Enter();
+        playerStateMachine.playerData.DecelerateForce = playerStateMachine.playerData.groundedData.PlayerStopData.WeakDecelerationForce;
     }
 
     public override void Exit()
