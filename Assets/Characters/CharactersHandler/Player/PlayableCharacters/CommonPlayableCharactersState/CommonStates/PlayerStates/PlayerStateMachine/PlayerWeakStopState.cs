@@ -11,11 +11,13 @@ public class PlayerWeakStopState : PlayerStopState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakStopParameter);
         playerStateMachine.playerData.DecelerateForce = playerStateMachine.playerData.groundedData.PlayerStopData.WeakDecelerationForce;
     }
 
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakStopParameter);
     }
 }

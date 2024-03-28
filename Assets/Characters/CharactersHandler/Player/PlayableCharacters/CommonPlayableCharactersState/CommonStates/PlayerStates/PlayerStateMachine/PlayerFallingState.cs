@@ -11,12 +11,14 @@ public class PlayerFallingState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
         playerStateMachine.playerData.SpeedModifier = 0f;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
         LimitFallVelocity();
     }
 
@@ -26,7 +28,7 @@ public class PlayerFallingState : PlayerAirborneState
 
         if (IsGrounded())
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+            playerStateMachine.ChangeState(playerStateMachine.playerLandingState);
             return;
         }
     }
@@ -35,11 +37,6 @@ public class PlayerFallingState : PlayerAirborneState
     {
         float FallSpeedLimit = playerStateMachine.playerData.airborneData.PlayerFallData.FallLimitVelocity;
         Vector3 velocity = GetVerticalVelocity();
-        if (velocity.y >= -FallSpeedLimit)
-        {
-            return;
-        }
-
         float limitVelocityY = Mathf.Max(velocity.y, -FallSpeedLimit);
         playerStateMachine.player.Rb.velocity = new Vector3(playerStateMachine.player.Rb.velocity.x, limitVelocityY, playerStateMachine.player.Rb.velocity.z);
     }
@@ -47,5 +44,6 @@ public class PlayerFallingState : PlayerAirborneState
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
     }
 }

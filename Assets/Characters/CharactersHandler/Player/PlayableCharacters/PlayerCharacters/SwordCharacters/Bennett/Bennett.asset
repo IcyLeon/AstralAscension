@@ -15,7 +15,10 @@ MonoBehaviour:
   characterName: Bennett
   characterDescription: 
   characterIcon: {fileID: 0}
-  ascensionInformation: []
+  <Rarity>k__BackingField: 4
+  <AscensionInformation>k__BackingField: []
+  <PlayableCharacterAnimationSO>k__BackingField: {fileID: 11400000, guid: e43879c9dc513be4b987ce9aa3322d17,
+    type: 2}
   partyCharacterIcon: {fileID: 0}
   ElementalSkillIcons: []
   ElementalBurstIcons: []

@@ -9,10 +9,27 @@ public class PlayerGroundedState : PlayerMovementState
     {
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        StartAnimation("isGrounded");
+    }
+
     protected override void SubscribeInputs()
     {
         base.SubscribeInputs();
         playerStateMachine.player.playerInputAction.Jump.started += Jump_started;
+        playerStateMachine.player.playerInputAction.Dash.started += Dash_started;
+    }
+
+    private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (this is PlayerDashState)
+        {
+            return;
+        }
+
+        //playerStateMachine.ChangeState(playerStateMachine.playerDashState);
     }
 
     private void Jump_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -35,12 +52,14 @@ public class PlayerGroundedState : PlayerMovementState
     {
         base.UnsubscribeInputs();
         playerStateMachine.player.playerInputAction.Jump.started -= Jump_started;
+        playerStateMachine.player.playerInputAction.Dash.started -= Dash_started;
     }
 
     protected void OnMove()
     {
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (playerStateMachine.playerData.canSprint)
         {
+
             return;
         }
 

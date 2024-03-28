@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Characters : MonoBehaviour, IDamageable
 {
+    [field: SerializeField] public Animator animator { get; private set; }
     protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
@@ -13,6 +15,11 @@ public class Characters : MonoBehaviour, IDamageable
     }
 
     protected virtual void OnEnable()
+    {
+
+    }
+
+    protected virtual void OnAnimatorMove()
     {
 
     }
@@ -36,6 +43,14 @@ public class Characters : MonoBehaviour, IDamageable
         }
     }
 
+    private void OnCharacterAnimationTransition()
+    {
+        if (characterStateMachine != null)
+        {
+            characterStateMachine.OnAnimationTransition();
+        }
+    }
+
     protected virtual void FixedUpdate()
     {
         if (characterStateMachine != null)
@@ -51,6 +66,15 @@ public class Characters : MonoBehaviour, IDamageable
 
         if (CharacterManager.ContainsParam(animator, HashParameter))
             animator.SetBool(HashParameter, true);
+    }
+
+    public static void StopAnimation(Animator animator, string HashParameter)
+    {
+        if (animator == null)
+            return;
+
+        if (CharacterManager.ContainsParam(animator, HashParameter))
+            animator.SetBool(HashParameter, false);
     }
 
     public virtual void TakeDamage(IDamageable source, float BaseDamageAmount)

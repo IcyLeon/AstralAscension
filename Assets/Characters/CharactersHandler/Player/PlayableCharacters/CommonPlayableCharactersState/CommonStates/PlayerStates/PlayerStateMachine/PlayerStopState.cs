@@ -8,6 +8,12 @@ public class PlayerStopState : PlayerGroundedState
     {
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        StartAnimation("isStopping");
+    }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -20,16 +26,28 @@ public class PlayerStopState : PlayerGroundedState
         }
     }
 
-    public override void OnAnimationTransition()
+    public override void Update()
     {
-        base.OnAnimationTransition();
+        base.Update();
 
         if (playerStateMachine.playerData.movementInput == Vector2.zero)
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
             return;
         }
 
         OnMove();
+    }
+
+    public override void OnAnimationTransition()
+    {
+        base.OnAnimationTransition();
+
+        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        StopAnimation("isStopping");
     }
 }

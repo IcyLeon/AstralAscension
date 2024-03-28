@@ -7,4 +7,10 @@ public class PlayerAirborneState : PlayerMovementState
     public PlayerAirborneState(PlayerStateMachine PS) : base(PS)
     {
     }
+
+    public override void Enter()
+    {
+        base.Enter();
+        StopAnimation("isGrounded");
+    }
 }

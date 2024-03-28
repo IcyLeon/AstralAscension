@@ -3073,7 +3073,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433884047672863223}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c8ec3aa3fdd7a3e42a87787e94aaae5d, type: 3}
   m_Controller: {fileID: 9100000, guid: 62befe2634a5c5f4ca839616dfba7b37, type: 2}
   m_CullingMode: 1
@@ -3341,7 +3341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99f80b0ed14c7d4ca60c26aec9079b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCharactersSO: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e, type: 2}
+  <animator>k__BackingField: {fileID: 5642396297214191927}
+  <PlayerCharactersSO>k__BackingField: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e,
+    type: 2}
   <MainCollider>k__BackingField: {fileID: 5244961614716165218}
 --- !u!136 &5244961614716165218
 CapsuleCollider:

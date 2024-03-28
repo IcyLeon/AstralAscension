@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerJumpState : PlayerAirborneState
 {
     private bool canRotate = false;
+    private bool canStartFalling;
+
     public PlayerJumpState(PlayerStateMachine PS) : base(PS)
     {
     }
@@ -12,7 +14,8 @@ public class PlayerJumpState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
-        ResetVelocity();
+
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
 
         playerStateMachine.playerData.SpeedModifier = 0f; 
 
@@ -44,8 +47,9 @@ public class PlayerJumpState : PlayerAirborneState
         Vector3 forcedir = playerStateMachine.player.transform.forward;
         if (canRotate)
         {
-            forcedir = RotateToInputTargetDirection();
+            forcedir = GetDirection(playerStateMachine.playerData.targetYawRotation);
         }
+        ResetVelocity();
 
         forcedir = forcedir.normalized * playerStateMachine.playerData.currentJumpForceMagnitudeXZ;
         forcedir.y = playerStateMachine.playerData.airborneData.PlayerJumpData.JumpForceY;
@@ -56,11 +60,17 @@ public class PlayerJumpState : PlayerAirborneState
     {
         base.Update();
 
-        if (IsMovingDown())
+        if (!canStartFalling && IsMovingUp(0f))
         {
-            OnFall();
+            canStartFalling = true;
+        }
+
+        if (!canStartFalling || IsMovingUp(0f))
+        {
             return;
         }
+
+        OnFall();
     }
 
     private void OnFall()
@@ -68,15 +78,11 @@ public class PlayerJumpState : PlayerAirborneState
         playerStateMachine.ChangeState(playerStateMachine.playerFallingState);
     }
 
-    private bool IsMovingDown(float val = 0.1f)
-    {
-        return GetVerticalVelocity().y < -val;
-    }
-
     public override void Exit()
     {
         base.Exit();
         InitBaseRotation();
-        canRotate = false;
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
+        canStartFalling = canRotate = false;
     }
 }
