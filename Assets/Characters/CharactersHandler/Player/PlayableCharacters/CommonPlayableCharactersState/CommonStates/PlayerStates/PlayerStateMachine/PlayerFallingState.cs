@@ -17,6 +17,7 @@ public class PlayerFallingState : PlayerAirborneState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
         LimitFallVelocity();
     }
 
@@ -35,11 +36,6 @@ public class PlayerFallingState : PlayerAirborneState
     {
         float FallSpeedLimit = playerStateMachine.playerData.airborneData.PlayerFallData.FallLimitVelocity;
         Vector3 velocity = GetVerticalVelocity();
-        if (velocity.y >= -FallSpeedLimit)
-        {
-            return;
-        }
-
         float limitVelocityY = Mathf.Max(velocity.y, -FallSpeedLimit);
         playerStateMachine.player.Rb.velocity = new Vector3(playerStateMachine.player.Rb.velocity.x, limitVelocityY, playerStateMachine.player.Rb.velocity.z);
     }

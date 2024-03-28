@@ -28,11 +28,16 @@ public class PlayerMovementState : IState
 
     protected virtual void SubscribeInputs()
     {
+        playerStateMachine.player.playerInputAction.Movement.started += Movement_started;
     }
 
+    protected virtual void Movement_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+    }
 
     protected virtual void UnsubscribeInputs()
     {
+        playerStateMachine.player.playerInputAction.Movement.started -= Movement_started;
     }
 
     public virtual void Enter()
@@ -63,7 +68,7 @@ public class PlayerMovementState : IState
 
     protected bool IsMovingUp(float val = 0.1f)
     {
-        return GetVerticalVelocity().y > val;
+        return GetVerticalVelocity().y >= val;
     }
 
     protected void DecelerateVertical()
@@ -77,18 +82,16 @@ public class PlayerMovementState : IState
         if (playerStateMachine.playerData.movementInput == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f)
             return;
 
-        Vector3 direction = RotateToInputTargetDirection();
-        SmoothRotateToTargetRotation();
-        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * direction) - GetHorizontalVelocity(), ForceMode.VelocityChange);
-    }
-
-    protected Vector3 RotateToInputTargetDirection()
-    {
         Vector2 inputdir = playerStateMachine.playerData.movementInput;
         float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
-        Vector3 direction = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
         UpdateTargetRotationData(angle);
-        return direction;
+        SmoothRotateToTargetRotation();
+        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(angle)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+    }
+
+    protected Vector3 GetDirection(float angleInDeg)
+    {
+        return new Vector3(Mathf.Sin(angleInDeg * Mathf.Deg2Rad), 0f, Mathf.Cos(angleInDeg * Mathf.Deg2Rad));
     }
 
     protected void ResetVelocity()
@@ -111,7 +114,6 @@ public class PlayerMovementState : IState
 
         float angle = Mathf.SmoothDampAngle(currentAngleY, playerStateMachine.playerData.targetYawRotation, ref playerStateMachine.playerData.dampedTargetRotationCurrentVelocity, playerStateMachine.playerData.rotationTime - playerStateMachine.playerData.dampedTargetRotationPassedTime);
         playerStateMachine.playerData.dampedTargetRotationPassedTime += Time.deltaTime;
-
         playerStateMachine.player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
 
     }

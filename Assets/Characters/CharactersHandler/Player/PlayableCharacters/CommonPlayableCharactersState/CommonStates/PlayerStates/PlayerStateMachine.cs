@@ -8,6 +8,8 @@ public class PlayerStateMachine
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
     public PlayerWeakStopState playerWeakStopState { get; }
+    public PlayerDashState playerDashState { get; }
+    public PlayerStrongStopState playerStrongStopState { get; }
     public PlayerJumpState playerJumpState { get; }
     public PlayerFallingState playerFallingState { get; }
 
@@ -32,8 +34,6 @@ public class PlayerStateMachine
     {
         if (currentStates != null)
             currentStates.Update();
-
-        Debug.Log(currentStates);
     }
     public void FixedUpdate()
     {
@@ -82,6 +82,8 @@ public class PlayerStateMachine
         playerRunState = new PlayerRunState(this);
         playerWeakStopState = new PlayerWeakStopState(this);
         playerJumpState = new PlayerJumpState(this);
+        playerDashState = new PlayerDashState(this);
+        playerStrongStopState = new PlayerStrongStopState(this);
         playerFallingState = new PlayerFallingState(this);
         ChangeState(playerIdleState);
     }

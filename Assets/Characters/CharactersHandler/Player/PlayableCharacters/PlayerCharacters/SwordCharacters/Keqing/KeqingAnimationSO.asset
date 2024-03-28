@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec96b060c092c8b4b84241e8277d28c9, type: 3}
+  m_Name: KeqingAnimationSO
+  m_EditorClassIdentifier: 
+  <CommonPlayableCharacterHashParameters>k__BackingField:
+    dashHashParameters: 
+    weakStopParameters: 
+    strongStopParameters: 

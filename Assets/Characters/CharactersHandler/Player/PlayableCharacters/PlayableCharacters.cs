@@ -73,7 +73,6 @@ public class PlayableCharacters : Characters
 
     private void OnCollisionStayEvent(Collision collision)
     {
-        Debug.Log("ttt");
         if (characterStateMachine != null)
         {
             characterStateMachine.OnCollisionStay(collision);

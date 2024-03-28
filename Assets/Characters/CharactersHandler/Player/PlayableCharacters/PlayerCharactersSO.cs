@@ -5,14 +5,15 @@ using UnityEngine;
 public class PlayerCharactersSO : CharactersSO
 {
     [Serializable]
-    public class AscensionInformation
+    public class AscensionInfo
     {
         public AnimationCurve BaseHP;
         public AnimationCurve BaseATK;
         public AnimationCurve BaseDEF;
     }
 
-    public AscensionInformation[] ascensionInformation;
+    [field: SerializeField] public AscensionInfo[] AscensionInformation { get; private set; }
+    [field: SerializeField] public PlayableCharacterAnimationSO PlayableCharacterAnimationSO { get; private set; }
 
     [Header("Player Character Infomation")]
     public Sprite partyCharacterIcon;

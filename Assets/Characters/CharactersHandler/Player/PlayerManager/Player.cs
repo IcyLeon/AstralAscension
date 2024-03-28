@@ -31,6 +31,18 @@ public class Player : MonoBehaviour
         OnCollisionEnterEvent?.Invoke(collision);
     }
 
+    public void DisableInput(InputAction PA, float sec)
+    {
+        StartCoroutine(DisableInputCoroutine(PA, sec));
+    }
+
+    private IEnumerator DisableInputCoroutine(InputAction PA, float sec)
+    {
+        PA.Disable();
+        yield return new WaitForSeconds(sec);
+        PA.Enable();
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         OnCollisionStayEvent?.Invoke(collision);
