@@ -18,6 +18,14 @@ public class PlayerMovementState : IState
         playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.groundedData.RotationTime;
     }
 
+    protected bool IsGrounded()
+    {
+        Vector3 position = playerStateMachine.player.transform.position;
+        position.y += playerStateMachine.playableCharacter.MainCollider.radius;
+
+        return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius);
+    }
+
     protected virtual void SubscribeInputs()
     {
     }

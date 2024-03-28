@@ -20,6 +20,17 @@ public class PlayerGroundedState : PlayerMovementState
         OnJump();
     }
 
+    public override void Update()
+    {
+        base.Update();
+
+        if (!IsGrounded())
+        {
+            OnFall();
+            return;
+        }
+    }
+
     protected override void UnsubscribeInputs()
     {
         base.UnsubscribeInputs();
@@ -39,6 +50,10 @@ public class PlayerGroundedState : PlayerMovementState
     private void OnJump()
     {
         playerStateMachine.ChangeState(playerStateMachine.playerJumpState);
-        return;
+    }
+
+    private void OnFall()
+    {
+        //playerStateMachine.ChangeState(playerStateMachine.playerFallState);
     }
 }
