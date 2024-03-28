@@ -12,6 +12,21 @@ public class Characters : MonoBehaviour, IDamageable
         
     }
 
+    protected virtual void OnEnable()
+    {
+
+    }
+
+    protected virtual void OnDisable()
+    {
+
+    }
+
+    protected virtual void OnDestroy()
+    {
+
+    }
+
     // Update is called once per frame
     protected virtual void Update()
     {
@@ -36,30 +51,6 @@ public class Characters : MonoBehaviour, IDamageable
 
         if (CharacterManager.ContainsParam(animator, HashParameter))
             animator.SetBool(HashParameter, true);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.OnCollisionEnter(collision);
-        }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.OnCollisionStay(collision);
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.OnCollisionExit(collision);
-        }
     }
 
     public virtual void TakeDamage(IDamageable source, float BaseDamageAmount)

@@ -12,6 +12,7 @@ public class PlayerJumpState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
+        ResetVelocity();
 
         playerStateMachine.playerData.SpeedModifier = 0f; 
 
@@ -43,7 +44,7 @@ public class PlayerJumpState : PlayerAirborneState
         Vector3 forcedir = playerStateMachine.player.transform.forward;
         if (canRotate)
         {
-            RotateToInputTargetDirection();
+            forcedir = RotateToInputTargetDirection();
         }
 
         forcedir = forcedir.normalized * playerStateMachine.playerData.currentJumpForceMagnitudeXZ;
@@ -64,7 +65,7 @@ public class PlayerJumpState : PlayerAirborneState
 
     private void OnFall()
     {
-
+        playerStateMachine.ChangeState(playerStateMachine.playerFallingState);
     }
 
     private bool IsMovingDown(float val = 0.1f)
