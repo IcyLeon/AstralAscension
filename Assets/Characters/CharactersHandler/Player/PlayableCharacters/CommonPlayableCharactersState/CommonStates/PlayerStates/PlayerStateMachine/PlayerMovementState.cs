@@ -97,7 +97,7 @@ public class PlayerMovementState : IState
         float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
         SmoothRotateToTargetRotation();
-        //playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(angle)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(angle)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
     protected Vector3 GetDirection(float angleInDeg)

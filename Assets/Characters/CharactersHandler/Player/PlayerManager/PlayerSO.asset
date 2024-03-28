@@ -16,6 +16,7 @@ MonoBehaviour:
     <BaseSpeed>k__BackingField: 5
     <RotationTime>k__BackingField: 0.14
     <PlayerDashData>k__BackingField:
+      <BaseDashSpeed>k__BackingField: 5
       <RotationTime>k__BackingField: 0.02
       <ConsecutiveDashesLimitAmount>k__BackingField: 2
       <TimeToBeConsideredConsecutive>k__BackingField: 1
@@ -31,7 +32,7 @@ MonoBehaviour:
     <PlayerJumpData>k__BackingField:
       <JumpDecelerationForce>k__BackingField: 3.5
       <RotationTime>k__BackingField: 0.02
-      <JumpForceY>k__BackingField: 6
+      <JumpForceY>k__BackingField: 8
       <IdleJumpForceMagnitudeXZ>k__BackingField: 0
       <WeakJumpForceMagnitudeXZ>k__BackingField: 5
       <StrongJumpForceMagnitudeXZ>k__BackingField: 8
