@@ -9,6 +9,12 @@ public class PlayerGroundedState : PlayerMovementState
     {
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        StartAnimation("isGrounded");
+    }
+
     protected override void SubscribeInputs()
     {
         base.SubscribeInputs();
@@ -51,11 +57,6 @@ public class PlayerGroundedState : PlayerMovementState
 
     protected void OnMove()
     {
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
-        {
-            return;
-        }
-
         if (playerStateMachine.playerData.canSprint)
         {
 

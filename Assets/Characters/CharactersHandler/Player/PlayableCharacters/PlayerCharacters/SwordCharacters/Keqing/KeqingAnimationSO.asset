@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: KeqingAnimationSO
   m_EditorClassIdentifier: 
   <CommonPlayableCharacterHashParameters>k__BackingField:
-    dashHashParameters: 
-    weakStopParameters: 
-    strongStopParameters: 
+    movementParameters: Velocity
+    dashParameter: isDashing
+    weakStopParameter: isWeakStopping
+    strongStopParameter: isStrongStopping
+    fallParameter: isFalling
+    jumpParameter: isJumping
+    landParameter: isLanding
+    plungeParameter: isPlunging

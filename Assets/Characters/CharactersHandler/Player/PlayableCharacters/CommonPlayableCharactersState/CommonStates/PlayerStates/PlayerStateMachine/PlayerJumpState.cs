@@ -14,6 +14,9 @@ public class PlayerJumpState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
+
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
+
         playerStateMachine.playerData.SpeedModifier = 0f; 
 
         PlayerJumpData playerJumpData = playerStateMachine.playerData.airborneData.PlayerJumpData;
@@ -79,6 +82,7 @@ public class PlayerJumpState : PlayerAirborneState
     {
         base.Exit();
         InitBaseRotation();
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
         canStartFalling = canRotate = false;
     }
 }

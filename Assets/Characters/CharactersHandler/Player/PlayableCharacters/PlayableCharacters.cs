@@ -4,11 +4,29 @@ using UnityEngine;
 
 public class PlayableCharacters : Characters
 {
-    [SerializeField] private PlayerCharactersSO PlayerCharactersSO;
+    [field: SerializeField] public PlayerCharactersSO PlayerCharactersSO { get; private set; }
 
     [field: SerializeField] public CapsuleCollider MainCollider { get; private set; }
 
     public Player player { get; private set; }
+
+    public PlayableCharacterAnimationSO PlayableCharacterAnimationSO
+    {
+        get
+        {
+            return PlayerCharactersSO.PlayableCharacterAnimationSO;
+        }
+    }
+
+    private void OnPlayerAnimationTransition()
+    {
+        PlayableCharacterStateMachine pcm = characterStateMachine as PlayableCharacterStateMachine;
+
+        if (pcm.playerStateMachine != null)
+        {
+            pcm.playerStateMachine.OnAnimationTransition();
+        }
+    }
 
     private void Awake()
     {
@@ -21,6 +39,11 @@ public class PlayableCharacters : Characters
         player.OnCollisionEnterEvent += OnCollisionEnterEvent;
         player.OnCollisionStayEvent += OnCollisionStayEvent;
         player.OnCollisionExitEvent += OnCollisionExitEvent;
+    }
+
+    protected override void OnAnimatorMove()
+    {
+        player.Rb.MovePosition(player.Rb.position + animator.deltaPosition);
     }
 
     protected override void OnDisable()

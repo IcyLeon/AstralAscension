@@ -11,6 +11,7 @@ public class PlayerFallingState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
         playerStateMachine.playerData.SpeedModifier = 0f;
     }
 
@@ -27,7 +28,7 @@ public class PlayerFallingState : PlayerAirborneState
 
         if (IsGrounded())
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+            playerStateMachine.ChangeState(playerStateMachine.playerLandingState);
             return;
         }
     }
@@ -43,5 +44,6 @@ public class PlayerFallingState : PlayerAirborneState
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
     }
 }

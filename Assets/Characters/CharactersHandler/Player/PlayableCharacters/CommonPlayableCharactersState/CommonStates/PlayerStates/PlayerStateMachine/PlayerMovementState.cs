@@ -77,6 +77,17 @@ public class PlayerMovementState : IState
         playerStateMachine.player.Rb.AddForce(-vel * playerStateMachine.playerData.DecelerateForce, ForceMode.Acceleration);
     }
 
+    protected void StartAnimation(string parameter)
+    {
+        Characters.StartAnimation(playerStateMachine.playableCharacter.animator, parameter);
+    }
+
+    protected void StopAnimation(string parameter)
+    {
+        Characters.StopAnimation(playerStateMachine.playableCharacter.animator, parameter);
+    }
+
+
     private void UpdatePhysicsMovement()
     {
         if (playerStateMachine.playerData.movementInput == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f)
@@ -86,7 +97,7 @@ public class PlayerMovementState : IState
         float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
         SmoothRotateToTargetRotation();
-        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(angle)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+        //playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(angle)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
     protected Vector3 GetDirection(float angleInDeg)
@@ -136,7 +147,13 @@ public class PlayerMovementState : IState
         return new Vector3(0f, playerStateMachine.player.Rb.velocity.y, 0f);
     }
 
+    private void BlendMovement()
+    {
+        PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
+        float val = playerStateMachine.playerData.SpeedModifier / playerStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
 
+        playerStateMachine.playableCharacter.animator.SetFloat(cpc.movementParameters, val, 0.1f, Time.deltaTime);
+    }
     private void ReadMovement()
     {
         playerStateMachine.playerData.movementInput = playerStateMachine.player.playerInputAction.Movement.ReadValue<Vector2>();
@@ -161,5 +178,6 @@ public class PlayerMovementState : IState
     public virtual void Update()
     {
         ReadMovement();
+        BlendMovement();
     }
 }

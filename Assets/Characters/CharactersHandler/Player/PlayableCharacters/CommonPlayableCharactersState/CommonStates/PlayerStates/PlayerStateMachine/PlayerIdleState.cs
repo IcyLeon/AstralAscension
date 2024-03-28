@@ -11,6 +11,7 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
         ResetVelocity();
     }
@@ -19,6 +20,10 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Update();
 
+        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        {
+            return;
+        }
         OnMove();
     }
 

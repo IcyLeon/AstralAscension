@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayableCharacterStateMachine : CharacterStateMachine
 {
-    private PlayerStateMachine playerStateMachine;
+    public PlayerStateMachine playerStateMachine { get; }
 
     public Player player { 
         get

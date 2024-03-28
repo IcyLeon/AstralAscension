@@ -25,7 +25,7 @@ public class PlayerData
         canSprint = false;
         groundedData = player.PlayerSO.GroundedData;
         airborneData = player.PlayerSO.AirborneData;
-        SpeedModifier = 1f;
+        SpeedModifier = 0f;
         DecelerateForce = 0f;
         currentJumpForceMagnitudeXZ = 0f;
         dampedTargetRotationPassedTime = 0;

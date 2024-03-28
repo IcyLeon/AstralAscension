@@ -13,6 +13,8 @@ public class PlayerStateMachine
     public PlayerJumpState playerJumpState { get; }
     public PlayerFallingState playerFallingState { get; }
 
+    public PlayerLandingState playerLandingState { get; }
+
     public Player player { 
         get
         {
@@ -34,6 +36,8 @@ public class PlayerStateMachine
     {
         if (currentStates != null)
             currentStates.Update();
+
+        Debug.Log(currentStates);
     }
     public void FixedUpdate()
     {
@@ -85,6 +89,7 @@ public class PlayerStateMachine
         playerDashState = new PlayerDashState(this);
         playerStrongStopState = new PlayerStrongStopState(this);
         playerFallingState = new PlayerFallingState(this);
+        playerLandingState = new PlayerLandingState(this);
         ChangeState(playerIdleState);
     }
 }
