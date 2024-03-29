@@ -29,7 +29,7 @@ public class PlayerGroundedState : PlayerMovementState
             return;
         }
 
-        //playerStateMachine.ChangeState(playerStateMachine.playerDashState);
+        playerStateMachine.ChangeState(playerStateMachine.playerDashState);
     }
 
     private void Jump_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -59,7 +59,7 @@ public class PlayerGroundedState : PlayerMovementState
     {
         if (playerStateMachine.playerData.canSprint)
         {
-
+            playerStateMachine.ChangeState(playerStateMachine.playerRunState);
             return;
         }
 

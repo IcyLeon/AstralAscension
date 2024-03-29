@@ -10,12 +10,15 @@ public class PlayerDashState : PlayerGroundedState
     private bool canRotate;
     public PlayerDashState(PlayerStateMachine PS) : base(PS)
     {
+        StartTime = Time.time;
     }
 
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
         playerStateMachine.playerData.SpeedModifier = 0f;
+        playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
         canRotate = playerStateMachine.playerData.movementInput != Vector2.zero;
         Dash();
         StartTime = Time.time;
@@ -62,7 +65,7 @@ public class PlayerDashState : PlayerGroundedState
         UpdateConsecutiveDash();
     }
 
-    protected override void Movement_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    protected override void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         playerStateMachine.playerData.canSprint = true;
     }
@@ -78,5 +81,11 @@ public class PlayerDashState : PlayerGroundedState
         }
 
         OnMove();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
     }
 }

@@ -547,7 +547,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.34447947
+      - time: 0.5851574
         functionName: OnPlayerAnimationTransition
         data: 
         objectReferenceParameter: {instanceID: 0}

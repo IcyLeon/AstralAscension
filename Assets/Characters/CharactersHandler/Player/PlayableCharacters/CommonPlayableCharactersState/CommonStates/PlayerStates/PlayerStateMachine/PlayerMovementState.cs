@@ -28,16 +28,16 @@ public class PlayerMovementState : IState
 
     protected virtual void SubscribeInputs()
     {
-        playerStateMachine.player.playerInputAction.Movement.started += Movement_started;
+        playerStateMachine.player.playerInputAction.Movement.performed += Movement_performed;
     }
 
-    protected virtual void Movement_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    protected virtual void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
     }
 
     protected virtual void UnsubscribeInputs()
     {
-        playerStateMachine.player.playerInputAction.Movement.started -= Movement_started;
+        playerStateMachine.player.playerInputAction.Movement.performed -= Movement_performed;
     }
 
     public virtual void Enter()
@@ -79,12 +79,12 @@ public class PlayerMovementState : IState
 
     protected void StartAnimation(string parameter)
     {
-        Characters.StartAnimation(playerStateMachine.playableCharacter.animator, parameter);
+        Characters.StartAnimation(playerStateMachine.playableCharacter.Animator, parameter);
     }
 
     protected void StopAnimation(string parameter)
     {
-        Characters.StopAnimation(playerStateMachine.playableCharacter.animator, parameter);
+        Characters.StopAnimation(playerStateMachine.playableCharacter.Animator, parameter);
     }
 
 
@@ -152,7 +152,7 @@ public class PlayerMovementState : IState
         PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
         float val = playerStateMachine.playerData.SpeedModifier / playerStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
 
-        playerStateMachine.playableCharacter.animator.SetFloat(cpc.movementParameters, val, 0.1f, Time.deltaTime);
+        playerStateMachine.playableCharacter.Animator.SetFloat(cpc.movementParameters, val, 0.1f, Time.deltaTime);
     }
     private void ReadMovement()
     {
