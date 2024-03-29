@@ -19,11 +19,6 @@ public class Characters : MonoBehaviour, IDamageable
 
     }
 
-    protected virtual void OnAnimatorMove()
-    {
-
-    }
-
     protected virtual void OnDisable()
     {
 
@@ -43,7 +38,7 @@ public class Characters : MonoBehaviour, IDamageable
         }
     }
 
-    private void OnCharacterAnimationTransition()
+    public void OnCharacterAnimationTransition()
     {
         if (characterStateMachine != null)
         {

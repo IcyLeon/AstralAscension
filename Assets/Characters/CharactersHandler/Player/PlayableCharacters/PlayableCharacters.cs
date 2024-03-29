@@ -18,7 +18,7 @@ public class PlayableCharacters : Characters
         }
     }
 
-    private void OnPlayerAnimationTransition()
+    public void OnPlayerAnimationTransition()
     {
         PlayableCharacterStateMachine pcm = characterStateMachine as PlayableCharacterStateMachine;
 
@@ -39,11 +39,6 @@ public class PlayableCharacters : Characters
         player.OnCollisionEnterEvent += OnCollisionEnterEvent;
         player.OnCollisionStayEvent += OnCollisionStayEvent;
         player.OnCollisionExitEvent += OnCollisionExitEvent;
-    }
-
-    protected override void OnAnimatorMove()
-    {
-        player.Rb.MovePosition(player.Rb.position + animator.deltaPosition);
     }
 
     protected override void OnDisable()

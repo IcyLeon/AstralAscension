@@ -64,7 +64,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6851172880247133355}
-  - component: {fileID: 6591365409935597776}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_0"
   m_TagString: Untagged
@@ -88,28 +87,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6591365409935597776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53157626212964869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 8544050501242199381}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &90707843691621195
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +215,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 559895439068868477}
-  - component: {fileID: 7788024210044312504}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_10"
   m_TagString: Untagged
@@ -262,28 +238,6 @@ Transform:
   m_Father: {fileID: 3304076109548920919}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7788024210044312504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 161235201859257235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 4730067375443952994}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &192803696739648141
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +340,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7667003014332732392}
-  - component: {fileID: 5450468823804207107}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_10"
   m_TagString: Untagged
@@ -410,28 +363,74 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5450468823804207107
+--- !u!1 &303882851474343399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8983109292517536815}
+  - component: {fileID: 787839521136189350}
+  - component: {fileID: 4687831836315012832}
+  m_Layer: 3
+  m_Name: CharacterModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8983109292517536815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303882851474343399}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7076072229689240021}
+  - {fileID: 5159546102436732214}
+  m_Father: {fileID: 3151073333175285641}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &787839521136189350
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303882851474343399}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 55d8000689eab4a48a6c7be255a6206a, type: 3}
+  m_Controller: {fileID: 9100000, guid: 62befe2634a5c5f4ca839616dfba7b37, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &4687831836315012832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 294474133799677549}
+  m_GameObject: {fileID: 303882851474343399}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
+  m_Script: {fileID: 11500000, guid: b7e53d1ba19f01e48ab7b3630157b56b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 3304076109548920919}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
+  <Character>k__BackingField: {fileID: 5412789336601351339}
 --- !u!1 &326006702902921306
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,7 +809,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3421432474632933755}
-  - component: {fileID: 9162377662043672865}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_6"
   m_TagString: Untagged
@@ -834,28 +832,6 @@ Transform:
   m_Father: {fileID: 1259878958263958442}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9162377662043672865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 552849955248157270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 3980383697566167993}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &557252195960655588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +991,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2261287768278527445}
-  - component: {fileID: 4166701688087854693}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_2"
   m_TagString: Untagged
@@ -1039,28 +1014,6 @@ Transform:
   m_Father: {fileID: 6180205994258756257}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4166701688087854693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626027686682506463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5413109988124595412}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &679322301669379431
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,7 +1125,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 536557289312412603}
-  - component: {fileID: 5027396301363004146}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_8"
   m_TagString: Untagged
@@ -1196,28 +1148,6 @@ Transform:
   m_Father: {fileID: 529192525021934100}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5027396301363004146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 714585554066789676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 6419327139593578880}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &721225006916848261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1659,7 +1589,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3304076109548920919}
-  - component: {fileID: 7307525367026637449}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_10"
   m_TagString: Untagged
@@ -1683,28 +1612,6 @@ Transform:
   m_Father: {fileID: 7667003014332732392}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7307525367026637449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930016685491565243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 559895439068868477}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &971249822181588449
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,7 +2160,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2025786667689832224}
-  - component: {fileID: 3275459697430415644}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_6"
   m_TagString: Untagged
@@ -2277,28 +2183,6 @@ Transform:
   m_Father: {fileID: 7091255895178438271}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3275459697430415644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1267564201237984033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 1259878958263958442}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &1280602402087559808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,7 +2404,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2124269194481402934}
-  - component: {fileID: 1265011231715582404}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_8"
   m_TagString: Untagged
@@ -2544,28 +2427,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1265011231715582404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465017599789022724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 9124827872940453405}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &1471534201860258661
 GameObject:
   m_ObjectHideFlags: 0
@@ -2703,7 +2564,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1615968972180733271}
-  - component: {fileID: 5910789689485323083}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_1"
   m_TagString: Untagged
@@ -2727,28 +2587,6 @@ Transform:
   m_Father: {fileID: 4158117675825293818}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5910789689485323083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1600474277416545005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5494429225089660900}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &1617356991226200494
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,7 +2651,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 529192525021934100}
-  - component: {fileID: 1118231947307894141}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_8"
   m_TagString: Untagged
@@ -2837,28 +2674,6 @@ Transform:
   m_Father: {fileID: 9124827872940453405}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1118231947307894141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641150485961477568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 536557289312412603}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &1648528845595465347
 GameObject:
   m_ObjectHideFlags: 0
@@ -3122,7 +2937,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 479199939981641473}
-  - component: {fileID: 4727689178560349532}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_9"
   m_TagString: Untagged
@@ -3146,28 +2960,6 @@ Transform:
   m_Father: {fileID: 1580806956375418455}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4727689178560349532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948841522724255529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 7795068453148448792}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &2026918168070599446
 GameObject:
   m_ObjectHideFlags: 0
@@ -3327,7 +3119,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2142239848012083382}
-  - component: {fileID: 7727487799922484906}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_5"
   m_TagString: Untagged
@@ -3351,28 +3142,6 @@ Transform:
   m_Father: {fileID: 6688441770550804948}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7727487799922484906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101700670453513830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 6680030514776647970}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &2108668327927211367
 GameObject:
   m_ObjectHideFlags: 0
@@ -3802,7 +3571,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3667775843410834816}
-  - component: {fileID: 2767258278682664256}
   m_Layer: 3
   m_Name: "\u5E26_0_1.L"
   m_TagString: Untagged
@@ -3826,28 +3594,6 @@ Transform:
   m_Father: {fileID: 3365296058946055518}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2767258278682664256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2370887019189464187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 7300895880483477140}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &2373691865069137203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3857,7 +3603,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3151073333175285641}
-  - component: {fileID: 9032796249843281395}
   - component: {fileID: 3555132893389089856}
   - component: {fileID: 5412789336601351339}
   - component: {fileID: 2951356107405484920}
@@ -3881,31 +3626,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7076072229689240021}
-  - {fileID: 5159546102436732214}
+  - {fileID: 8983109292517536815}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &9032796249843281395
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2373691865069137203}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 55d8000689eab4a48a6c7be255a6206a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 62befe2634a5c5f4ca839616dfba7b37, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 1
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &3555132893389089856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3970,20 +3694,12 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   springBones:
-  - {fileID: 2767258278682664256}
-  - {fileID: 2264749483257091902}
-  - {fileID: 8793049502224020594}
-  - {fileID: 2877984755543499780}
   - {fileID: 5481947658855872717}
   - {fileID: 4723736138329538572}
   - {fileID: 6583579234164288728}
   - {fileID: 1340082271954764102}
   - {fileID: 6543924322238738705}
   - {fileID: 3257508322981898718}
-  - {fileID: 6033384716873223344}
-  - {fileID: 15072065589017143}
-  - {fileID: 4563227988903954107}
-  - {fileID: 7492808912699144075}
   - {fileID: 5341123968532259925}
   - {fileID: 6053651693458189632}
   - {fileID: 1149906095705146919}
@@ -4041,87 +3757,39 @@ MonoBehaviour:
   - {fileID: 1766389781236956196}
   - {fileID: 5076400711821970577}
   - {fileID: 3342033006610490276}
-  - {fileID: 6591365409935597776}
-  - {fileID: 5804538252393016959}
-  - {fileID: 8735204950668744136}
-  - {fileID: 2489902415930918326}
   - {fileID: 1624139348047838061}
   - {fileID: 551830309898552648}
   - {fileID: 8921995636360998022}
-  - {fileID: 8392503716426777640}
-  - {fileID: 6394361094571759556}
-  - {fileID: 5910789689485323083}
-  - {fileID: 6193429313733619560}
   - {fileID: 7117281368201698450}
   - {fileID: 5210494488069320047}
   - {fileID: 2758192901045769730}
-  - {fileID: 5441283296179021214}
-  - {fileID: 4166701688087854693}
-  - {fileID: 2467906267110402784}
-  - {fileID: 552153814609641086}
   - {fileID: 5859674409742670452}
   - {fileID: 2804754576430099200}
   - {fileID: 1026777295721596939}
-  - {fileID: 7182694598651897264}
-  - {fileID: 7081985877221745840}
-  - {fileID: 3993010497469093980}
-  - {fileID: 2215813260621780519}
   - {fileID: 5211899624021646774}
   - {fileID: 117607588894976583}
   - {fileID: 8457291858589685203}
-  - {fileID: 1062757753795609737}
-  - {fileID: 6498481283723599063}
-  - {fileID: 8968551780156969624}
-  - {fileID: 4470528741139384582}
   - {fileID: 928955137949035536}
   - {fileID: 6577721872383799527}
   - {fileID: 9003855667837253092}
-  - {fileID: 2242722060097626904}
-  - {fileID: 1611472212806492874}
-  - {fileID: 7727487799922484906}
-  - {fileID: 3919082007332781158}
   - {fileID: 5468105500913507611}
   - {fileID: 8431732120414721978}
   - {fileID: 7622413664864124720}
-  - {fileID: 2312633243088839632}
-  - {fileID: 3275459697430415644}
-  - {fileID: 9076812032949429118}
-  - {fileID: 9162377662043672865}
   - {fileID: 3685601563611684049}
   - {fileID: 846483468461709109}
   - {fileID: 5892837731772107279}
-  - {fileID: 8684124925627353734}
-  - {fileID: 7821916995741547644}
-  - {fileID: 6931627023502087927}
-  - {fileID: 8583400217239912326}
   - {fileID: 2443917233089532834}
   - {fileID: 8012569538589916069}
   - {fileID: 618533987470403345}
-  - {fileID: 1265011231715582404}
-  - {fileID: 7832990272729561294}
-  - {fileID: 1118231947307894141}
-  - {fileID: 5027396301363004146}
   - {fileID: 1614473961590886431}
   - {fileID: 4695693803448628007}
   - {fileID: 26254612490129554}
-  - {fileID: 4696534446497969659}
-  - {fileID: 8386246210956182625}
-  - {fileID: 651902448691393381}
-  - {fileID: 4727689178560349532}
   - {fileID: 1821701696501979740}
   - {fileID: 3063755586571117520}
   - {fileID: 2175712993856400912}
-  - {fileID: 5450468823804207107}
-  - {fileID: 7307525367026637449}
-  - {fileID: 7788024210044312504}
-  - {fileID: 3803613980163322305}
   - {fileID: 9111419066212274096}
   - {fileID: 3769257134675394069}
   - {fileID: 3416584559280344988}
-  - {fileID: 4919494096498674971}
-  - {fileID: 1069394689707503396}
-  - {fileID: 357847531360278143}
-  - {fileID: 4188117125205703549}
   - {fileID: 5474087470086103970}
   - {fileID: 5821124676777596218}
   - {fileID: 4465444444105194814}
@@ -4144,7 +3812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99f80b0ed14c7d4ca60c26aec9079b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <animator>k__BackingField: {fileID: 9032796249843281395}
+  <animator>k__BackingField: {fileID: 787839521136189350}
   <PlayerCharactersSO>k__BackingField: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e,
     type: 2}
   <MainCollider>k__BackingField: {fileID: 2951356107405484920}
@@ -4158,7 +3826,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.3
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -4299,7 +3967,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3880916948442339202}
-  - component: {fileID: 1062757753795609737}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_4"
   m_TagString: Untagged
@@ -4323,28 +3990,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1062757753795609737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2414700246418805883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5480129633594341405}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &2417391618544992068
 GameObject:
   m_ObjectHideFlags: 0
@@ -4904,7 +4549,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 908523913637558999}
-  - component: {fileID: 4188117125205703549}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_11"
   m_TagString: Untagged
@@ -4928,28 +4572,6 @@ Transform:
   m_Father: {fileID: 2294645948654821318}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4188117125205703549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2783227939222601027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 8766625703935960706}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &2830064898490267218
 GameObject:
   m_ObjectHideFlags: 0
@@ -5023,7 +4645,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7034609256626327171}
-  - component: {fileID: 1069394689707503396}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_11"
   m_TagString: Untagged
@@ -5047,28 +4668,6 @@ Transform:
   m_Father: {fileID: 5630424287081862973}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1069394689707503396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2837441697979132611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 2294645948654821318}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &2861230958310096075
 GameObject:
   m_ObjectHideFlags: 0
@@ -5559,7 +5158,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1842080252301764470}
-  m_Father: {fileID: 3151073333175285641}
+  m_Father: {fileID: 8983109292517536815}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3107765208858803212
@@ -6519,7 +6118,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7091255895178438271}
-  - component: {fileID: 2312633243088839632}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_6"
   m_TagString: Untagged
@@ -6543,28 +6141,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2312633243088839632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3570399210985337655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 2025786667689832224}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &3574114527141386045
 GameObject:
   m_ObjectHideFlags: 0
@@ -6756,7 +6332,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9117470094189976881}
-  - component: {fileID: 7492808912699144075}
   m_Layer: 3
   m_Name: "\u5E26_3_1.R"
   m_TagString: Untagged
@@ -6780,28 +6355,6 @@ Transform:
   m_Father: {fileID: 3971078470285814744}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7492808912699144075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3651953364290232888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 9049555318503440888}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &3659752350800528392
 GameObject:
   m_ObjectHideFlags: 0
@@ -6811,7 +6364,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5385512759804373217}
-  - component: {fileID: 2242722060097626904}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_5"
   m_TagString: Untagged
@@ -6835,28 +6387,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2242722060097626904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3659752350800528392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 6688441770550804948}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &3662188545345805326
 GameObject:
   m_ObjectHideFlags: 0
@@ -6961,7 +6491,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5280408475885297162}
-  - component: {fileID: 6931627023502087927}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_7"
   m_TagString: Untagged
@@ -6985,28 +6514,6 @@ Transform:
   m_Father: {fileID: 6097378353662765990}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6931627023502087927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3733077797660097868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 3008300882992471445}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &3742728595091894033
 GameObject:
   m_ObjectHideFlags: 0
@@ -7047,7 +6554,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6688441770550804948}
-  - component: {fileID: 1611472212806492874}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_5"
   m_TagString: Untagged
@@ -7071,28 +6577,6 @@ Transform:
   m_Father: {fileID: 5385512759804373217}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1611472212806492874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3753197772207991804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 2142239848012083382}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &3760245267326718212
 GameObject:
   m_ObjectHideFlags: 0
@@ -7102,7 +6586,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5480129633594341405}
-  - component: {fileID: 6498481283723599063}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_4"
   m_TagString: Untagged
@@ -7126,28 +6609,6 @@ Transform:
   m_Father: {fileID: 3880916948442339202}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6498481283723599063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3760245267326718212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 6821668459810932763}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &3809913482612572429
 GameObject:
   m_ObjectHideFlags: 0
@@ -7437,7 +6898,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5505937287431680673}
-  - component: {fileID: 8684124925627353734}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_7"
   m_TagString: Untagged
@@ -7461,28 +6921,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8684124925627353734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3975355968025803034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 6097378353662765990}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &3995796435902777460
 GameObject:
   m_ObjectHideFlags: 0
@@ -7807,12 +7245,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4211817553211215160}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1514612, y: 1.1514612, z: 1.1514612}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3151073333175285641}
+  m_Father: {fileID: 8983109292517536815}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &3658384021572465020
@@ -8276,7 +7714,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5413109988124595412}
-  - component: {fileID: 2467906267110402784}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_2"
   m_TagString: Untagged
@@ -8300,28 +7737,6 @@ Transform:
   m_Father: {fileID: 2261287768278527445}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2467906267110402784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4297219894626129937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 7977054805258133786}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &4316122127658915866
 GameObject:
   m_ObjectHideFlags: 0
@@ -8515,7 +7930,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9124827872940453405}
-  - component: {fileID: 7832990272729561294}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_8"
   m_TagString: Untagged
@@ -8539,28 +7953,6 @@ Transform:
   m_Father: {fileID: 2124269194481402934}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7832990272729561294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4473645510918998575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 529192525021934100}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &4501051696915339261
 GameObject:
   m_ObjectHideFlags: 0
@@ -9041,7 +8433,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6180205994258756257}
-  - component: {fileID: 5441283296179021214}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_2"
   m_TagString: Untagged
@@ -9065,28 +8456,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5441283296179021214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4692658274986582337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 2261287768278527445}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &4714466650738547847
 GameObject:
   m_ObjectHideFlags: 0
@@ -9182,7 +8551,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1259878958263958442}
-  - component: {fileID: 9076812032949429118}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_6"
   m_TagString: Untagged
@@ -9206,28 +8574,6 @@ Transform:
   m_Father: {fileID: 2025786667689832224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9076812032949429118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4759418097316523025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 3421432474632933755}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &4761295201779755945
 GameObject:
   m_ObjectHideFlags: 0
@@ -9395,7 +8741,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1580806956375418455}
-  - component: {fileID: 651902448691393381}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_9"
   m_TagString: Untagged
@@ -9420,28 +8765,6 @@ Transform:
   m_Father: {fileID: 572549420910912380}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &651902448691393381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4866641326469718283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 479199939981641473}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &4911236997734099735
 GameObject:
   m_ObjectHideFlags: 0
@@ -9507,7 +8830,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8072253866980690653}
-  - component: {fileID: 8392503716426777640}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_1"
   m_TagString: Untagged
@@ -9531,28 +8853,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8392503716426777640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4933322182005181585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 4158117675825293818}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &4938928287919770409
 GameObject:
   m_ObjectHideFlags: 0
@@ -10668,7 +9968,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4158117675825293818}
-  - component: {fileID: 6394361094571759556}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_1"
   m_TagString: Untagged
@@ -10692,28 +9991,6 @@ Transform:
   m_Father: {fileID: 8072253866980690653}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6394361094571759556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5752726425432572675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 1615968972180733271}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &5767425048211688060
 GameObject:
   m_ObjectHideFlags: 0
@@ -10786,7 +10063,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4730067375443952994}
-  - component: {fileID: 3803613980163322305}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_10"
   m_TagString: Untagged
@@ -10810,28 +10086,6 @@ Transform:
   m_Father: {fileID: 559895439068868477}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3803613980163322305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5806134258509302747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 4649478463253529053}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &5811765307908447072
 GameObject:
   m_ObjectHideFlags: 0
@@ -10929,7 +10183,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5413075725668961905}
-  - component: {fileID: 8735204950668744136}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_0"
   m_TagString: Untagged
@@ -10953,28 +10206,6 @@ Transform:
   m_Father: {fileID: 8544050501242199381}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8735204950668744136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5830552821983136892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 6817754044206236769}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &5841400417251027228
 GameObject:
   m_ObjectHideFlags: 0
@@ -11619,7 +10850,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7300895880483477140}
-  - component: {fileID: 2264749483257091902}
   m_Layer: 3
   m_Name: "\u5E26_1_1.L"
   m_TagString: Untagged
@@ -11643,28 +10873,6 @@ Transform:
   m_Father: {fileID: 3667775843410834816}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2264749483257091902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6237504799283417693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 7157390875713106243}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &6242775212131610801
 GameObject:
   m_ObjectHideFlags: 0
@@ -11968,7 +11176,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3971078470285814744}
-  - component: {fileID: 4563227988903954107}
   m_Layer: 3
   m_Name: "\u5E26_2_1.R"
   m_TagString: Untagged
@@ -11992,28 +11199,6 @@ Transform:
   m_Father: {fileID: 4780966165185134763}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4563227988903954107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6553694155480264128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 9117470094189976881}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &6555525170736163247
 GameObject:
   m_ObjectHideFlags: 0
@@ -12780,7 +11965,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6817754044206236769}
-  - component: {fileID: 2489902415930918326}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_0"
   m_TagString: Untagged
@@ -12804,28 +11988,6 @@ Transform:
   m_Father: {fileID: 5413075725668961905}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2489902415930918326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6833131628291618991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 9063714441670855627}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &6838317841508804668
 GameObject:
   m_ObjectHideFlags: 0
@@ -12835,7 +11997,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6937762560418223034}
-  - component: {fileID: 7081985877221745840}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_3"
   m_TagString: Untagged
@@ -12860,28 +12021,6 @@ Transform:
   m_Father: {fileID: 4511238219991809084}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7081985877221745840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6838317841508804668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 1663011392669266590}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &6844785536548076197
 GameObject:
   m_ObjectHideFlags: 0
@@ -13768,7 +12907,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5494429225089660900}
-  - component: {fileID: 6193429313733619560}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_1"
   m_TagString: Untagged
@@ -13792,28 +12930,6 @@ Transform:
   m_Father: {fileID: 1615968972180733271}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6193429313733619560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109021324115484109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5949063428725679369}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7110800347047056214
 GameObject:
   m_ObjectHideFlags: 0
@@ -14713,7 +13829,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5630424287081862973}
-  - component: {fileID: 4919494096498674971}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_11"
   m_TagString: Untagged
@@ -14737,28 +13852,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4919494096498674971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7746764293805514935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 7034609256626327171}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7762305798191575557
 GameObject:
   m_ObjectHideFlags: 0
@@ -14768,7 +13861,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 244103505601845043}
-  - component: {fileID: 6033384716873223344}
   m_Layer: 3
   m_Name: "\u5E26_0_1.R"
   m_TagString: Untagged
@@ -14792,28 +13884,6 @@ Transform:
   m_Father: {fileID: 3365296058946055518}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6033384716873223344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7762305798191575557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 4780966165185134763}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7832012361547197780
 GameObject:
   m_ObjectHideFlags: 0
@@ -14823,7 +13893,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7977054805258133786}
-  - component: {fileID: 552153814609641086}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_2"
   m_TagString: Untagged
@@ -14847,28 +13916,6 @@ Transform:
   m_Father: {fileID: 5413109988124595412}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &552153814609641086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7832012361547197780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 4304999560706418715}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7838846301710475545
 GameObject:
   m_ObjectHideFlags: 0
@@ -14948,7 +13995,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7841412735441289615}
-  m_LocalRotation: {x: 0.61436486, y: 0.4867003, z: -0.53420675, w: 0.31670457}
+  m_LocalRotation: {x: 0.61436486, y: 0.48670033, z: -0.53420675, w: 0.3167046}
   m_LocalPosition: {x: 0.00016968863, y: 0.0022151996, z: -0.000094233255}
   m_LocalScale: {x: 1, y: 1, z: 0.9999999}
   m_ConstrainProportionsScale: 0
@@ -14966,7 +14013,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4526668930077482170}
-  - component: {fileID: 2877984755543499780}
   m_Layer: 3
   m_Name: "\u5E26_3_1.L"
   m_TagString: Untagged
@@ -14990,28 +14036,6 @@ Transform:
   m_Father: {fileID: 7157390875713106243}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2877984755543499780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7869122933304984141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 8672524702353704909}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7873992289948755466
 GameObject:
   m_ObjectHideFlags: 0
@@ -15108,7 +14132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1663011392669266590}
-  - component: {fileID: 3993010497469093980}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_3"
   m_TagString: Untagged
@@ -15133,28 +14156,6 @@ Transform:
   m_Father: {fileID: 6937762560418223034}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3993010497469093980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7907424657693612568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 93795563387218956}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7909818856612540272
 GameObject:
   m_ObjectHideFlags: 0
@@ -15196,7 +14197,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4511238219991809084}
-  - component: {fileID: 7182694598651897264}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_3"
   m_TagString: Untagged
@@ -15220,28 +14220,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7182694598651897264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7915567096234470851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 6937762560418223034}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7940096657105760001
 GameObject:
   m_ObjectHideFlags: 0
@@ -15251,7 +14229,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572549420910912380}
-  - component: {fileID: 8386246210956182625}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_9"
   m_TagString: Untagged
@@ -15276,28 +14253,6 @@ Transform:
   m_Father: {fileID: 3743004220561352632}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8386246210956182625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7940096657105760001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 1580806956375418455}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &7972001760512804037
 GameObject:
   m_ObjectHideFlags: 0
@@ -15510,7 +14465,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 93795563387218956}
-  - component: {fileID: 2215813260621780519}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_3"
   m_TagString: Untagged
@@ -15535,28 +14489,6 @@ Transform:
   m_Father: {fileID: 1663011392669266590}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2215813260621780519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8093025657818148957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 4714600925199067825}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8105633849324714834
 GameObject:
   m_ObjectHideFlags: 0
@@ -15597,7 +14529,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2294645948654821318}
-  - component: {fileID: 357847531360278143}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_11"
   m_TagString: Untagged
@@ -15621,28 +14552,6 @@ Transform:
   m_Father: {fileID: 7034609256626327171}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &357847531360278143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8112016311415432931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 908523913637558999}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8150599625103466340
 GameObject:
   m_ObjectHideFlags: 0
@@ -16071,7 +14980,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6097378353662765990}
-  - component: {fileID: 7821916995741547644}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_7"
   m_TagString: Untagged
@@ -16095,28 +15003,6 @@ Transform:
   m_Father: {fileID: 5505937287431680673}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7821916995741547644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8300064674297408360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5280408475885297162}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8311977773929720947
 GameObject:
   m_ObjectHideFlags: 0
@@ -16247,7 +15133,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2395233434098419501}
-  - component: {fileID: 4470528741139384582}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_4"
   m_TagString: Untagged
@@ -16271,28 +15156,6 @@ Transform:
   m_Father: {fileID: 6821668459810932763}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4470528741139384582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8325998680173549417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5276463195326882357}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8348052721589162447
 GameObject:
   m_ObjectHideFlags: 0
@@ -16489,7 +15352,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6821668459810932763}
-  - component: {fileID: 8968551780156969624}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_2_4"
   m_TagString: Untagged
@@ -16513,28 +15375,6 @@ Transform:
   m_Father: {fileID: 5480129633594341405}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8968551780156969624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8462512671558674290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 2395233434098419501}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8485624034783754704
 GameObject:
   m_ObjectHideFlags: 0
@@ -16725,7 +15565,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6680030514776647970}
-  - component: {fileID: 3919082007332781158}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_5"
   m_TagString: Untagged
@@ -16749,28 +15588,6 @@ Transform:
   m_Father: {fileID: 2142239848012083382}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3919082007332781158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8650052971181550899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 301250307151439842}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8655842287418545314
 GameObject:
   m_ObjectHideFlags: 0
@@ -16930,7 +15747,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3743004220561352632}
-  - component: {fileID: 4696534446497969659}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_0_9"
   m_TagString: Untagged
@@ -16954,28 +15770,6 @@ Transform:
   m_Father: {fileID: 8476815901873004412}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4696534446497969659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8796765063870111212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 572549420910912380}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8797758747840620212
 GameObject:
   m_ObjectHideFlags: 0
@@ -17113,7 +15907,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4780966165185134763}
-  - component: {fileID: 15072065589017143}
   m_Layer: 3
   m_Name: "\u5E26_1_1.R"
   m_TagString: Untagged
@@ -17137,28 +15930,6 @@ Transform:
   m_Father: {fileID: 244103505601845043}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &15072065589017143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8854382630696845982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 3971078470285814744}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8858394882617715393
 GameObject:
   m_ObjectHideFlags: 0
@@ -17382,7 +16153,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3008300882992471445}
-  - component: {fileID: 8583400217239912326}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_3_7"
   m_TagString: Untagged
@@ -17406,28 +16176,6 @@ Transform:
   m_Father: {fileID: 5280408475885297162}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8583400217239912326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8955868755052486072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5579355536754265042}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &8990766952359443747
 GameObject:
   m_ObjectHideFlags: 0
@@ -17578,7 +16326,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7157390875713106243}
-  - component: {fileID: 8793049502224020594}
   m_Layer: 3
   m_Name: "\u5E26_2_1.L"
   m_TagString: Untagged
@@ -17602,28 +16349,6 @@ Transform:
   m_Father: {fileID: 7300895880483477140}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8793049502224020594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9021696661901471485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 4526668930077482170}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &9058473423026095293
 GameObject:
   m_ObjectHideFlags: 0
@@ -17633,7 +16358,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8544050501242199381}
-  - component: {fileID: 5804538252393016959}
   m_Layer: 3
   m_Name: "\u30B9\u30AB\u30FC\u30C8_1_0"
   m_TagString: Untagged
@@ -17657,28 +16381,6 @@ Transform:
   m_Father: {fileID: 6851172880247133355}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5804538252393016959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9058473423026095293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698033d576d14e9c85202d0b21b26075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  child: {fileID: 5413075725668961905}
-  boneAxis: {x: 0, y: 1, z: 0}
-  radius: 0.05
-  isUseEachBoneForceSettings: 0
-  stiffnessForce: 0.01
-  dragForce: 0.4
-  springForce: {x: 0, y: -0.0001, z: 0}
-  colliders: []
-  debug: 1
-  threshold: 0.01
 --- !u!1 &9119100612573209901
 GameObject:
   m_ObjectHideFlags: 0
