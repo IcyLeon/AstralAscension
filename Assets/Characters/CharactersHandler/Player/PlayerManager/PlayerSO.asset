@@ -16,7 +16,7 @@ MonoBehaviour:
     <BaseSpeed>k__BackingField: 5
     <RotationTime>k__BackingField: 0.14
     <PlayerDashData>k__BackingField:
-      <BaseDashSpeed>k__BackingField: 5
+      <BaseDashSpeed>k__BackingField: 12
       <RotationTime>k__BackingField: 0.02
       <ConsecutiveDashesLimitAmount>k__BackingField: 2
       <TimeToBeConsideredConsecutive>k__BackingField: 1

@@ -80,6 +80,15 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""e57b36eb-43e9-4cb0-884e-dd7b9ad07740"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -203,6 +212,17 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d163b523-3098-4951-8e79-3f5e2dd93fc5"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": ""NormalizeVector2,InvertVector2"",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -217,6 +237,7 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_BowAim = m_Player.FindAction("BowAim", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -282,6 +303,7 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_BowAim;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Zoom;
     public struct PlayerActions
     {
         private @PlayerInputSystem m_Wrapper;
@@ -292,6 +314,7 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @BowAim => m_Wrapper.m_Player_BowAim;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -319,6 +342,9 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Zoom.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -341,6 +367,9 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
             }
         }
     }
@@ -353,5 +382,6 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnBowAim(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }

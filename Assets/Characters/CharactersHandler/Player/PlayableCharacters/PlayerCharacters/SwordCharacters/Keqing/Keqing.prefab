@@ -3812,7 +3812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99f80b0ed14c7d4ca60c26aec9079b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <animator>k__BackingField: {fileID: 787839521136189350}
+  <Animator>k__BackingField: {fileID: 787839521136189350}
   <PlayerCharactersSO>k__BackingField: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e,
     type: 2}
   <MainCollider>k__BackingField: {fileID: 2951356107405484920}

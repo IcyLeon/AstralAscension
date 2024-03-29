@@ -23,6 +23,6 @@ public class PlayableCharacterAnimationEvents : CharacterAnimationEvents
     protected override void OnAnimatorMove()
     {
         Player player = playableCharacters.player;
-        player.Rb.MovePosition(player.Rb.position + playableCharacters.animator.deltaPosition);
+        player.Rb.MovePosition(player.Rb.position + playableCharacters.Animator.deltaPosition);
     }
 }

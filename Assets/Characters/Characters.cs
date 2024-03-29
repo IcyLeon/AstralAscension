@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Characters : MonoBehaviour, IDamageable
 {
-    [field: SerializeField] public Animator animator { get; private set; }
+    [field: SerializeField] public Animator Animator { get; private set; }
     protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
