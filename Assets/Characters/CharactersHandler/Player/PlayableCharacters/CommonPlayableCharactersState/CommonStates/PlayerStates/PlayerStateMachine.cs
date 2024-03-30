@@ -12,7 +12,7 @@ public class PlayerStateMachine
     public PlayerStrongStopState playerStrongStopState { get; }
     public PlayerJumpState playerJumpState { get; }
     public PlayerFallingState playerFallingState { get; }
-
+    public PlayerSprintState playerSprintState { get; }
     public PlayerLandingState playerLandingState { get; }
 
     public Player player { 
@@ -90,6 +90,7 @@ public class PlayerStateMachine
         playerStrongStopState = new PlayerStrongStopState(this);
         playerFallingState = new PlayerFallingState(this);
         playerLandingState = new PlayerLandingState(this);
+        playerSprintState = new PlayerSprintState(this);
         ChangeState(playerIdleState);
     }
 }

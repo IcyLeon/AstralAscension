@@ -59,7 +59,7 @@ public class PlayerGroundedState : PlayerMovementState
     {
         if (playerStateMachine.playerData.canSprint)
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerRunState);
+            playerStateMachine.ChangeState(playerStateMachine.playerSprintState);
             return;
         }
 

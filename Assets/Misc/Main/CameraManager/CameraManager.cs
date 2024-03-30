@@ -52,7 +52,6 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Player.playerInputAction.Zoom.ReadValue<Vector2>());
         UpdateZoomCamera();
     }
 }

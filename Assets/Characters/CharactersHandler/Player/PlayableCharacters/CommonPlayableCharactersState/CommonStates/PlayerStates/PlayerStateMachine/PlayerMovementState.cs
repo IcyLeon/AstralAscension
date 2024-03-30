@@ -28,16 +28,17 @@ public class PlayerMovementState : IState
 
     protected virtual void SubscribeInputs()
     {
-        playerStateMachine.player.playerInputAction.Movement.performed += Movement_performed;
+
     }
 
-    protected virtual void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    protected virtual void Movement_performed(Vector2 movementInput)
     {
     }
+
 
     protected virtual void UnsubscribeInputs()
     {
-        playerStateMachine.player.playerInputAction.Movement.performed -= Movement_performed;
+
     }
 
     public virtual void Enter()
@@ -90,14 +91,16 @@ public class PlayerMovementState : IState
 
     private void UpdatePhysicsMovement()
     {
-        if (playerStateMachine.playerData.movementInput == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f)
-            return;
-
         Vector2 inputdir = playerStateMachine.playerData.movementInput;
+        if (inputdir == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f)
+        {
+            return;
+        }
+
         float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
         SmoothRotateToTargetRotation();
-        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(angle)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(playerStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
     protected Vector3 GetDirection(float angleInDeg)
@@ -147,7 +150,7 @@ public class PlayerMovementState : IState
         return new Vector3(0f, playerStateMachine.player.Rb.velocity.y, 0f);
     }
 
-    private void BlendMovement()
+    private void BlendMovementAnimation()
     {
         PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
         float val = playerStateMachine.playerData.SpeedModifier / playerStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
@@ -157,6 +160,9 @@ public class PlayerMovementState : IState
     private void ReadMovement()
     {
         playerStateMachine.playerData.movementInput = playerStateMachine.player.playerInputAction.Movement.ReadValue<Vector2>();
+        
+        if (playerStateMachine.playerData.movementInput.magnitude > 0)
+            Movement_performed(playerStateMachine.playerData.movementInput);
     }
 
     public virtual void OnAnimationTransition()
@@ -178,6 +184,6 @@ public class PlayerMovementState : IState
     public virtual void Update()
     {
         ReadMovement();
-        BlendMovement();
+        BlendMovementAnimation();
     }
 }

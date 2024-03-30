@@ -264,7 +264,7 @@ ModelImporter:
       humanName: LeftShoulder
       limit:
         min: {x: 0, y: -15, z: 0}
-        max: {x: 0, y: 15, z: 45}
+        max: {x: 0, y: 15, z: 50}
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 1
@@ -272,7 +272,7 @@ ModelImporter:
       humanName: RightShoulder
       limit:
         min: {x: 0, y: -15, z: 0}
-        max: {x: 0, y: 15, z: 45}
+        max: {x: 0, y: 15, z: 50}
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 1

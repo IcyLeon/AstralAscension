@@ -3846,7 +3846,7 @@ MonoBehaviour:
   threshold: 0.5
   interval: 5
   windPower: 1
-  gravity: 9.81
+  gravity: 6.3765
   isGUI: 0
 --- !u!1 &2400390708838380753
 GameObject:

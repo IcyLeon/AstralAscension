@@ -27,7 +27,7 @@ MonoBehaviour:
     <PlayerRunData>k__BackingField:
       <SpeedModifier>k__BackingField: 1
     <PlayerSprintData>k__BackingField:
-      <SpeedModifier>k__BackingField: 1.8
+      <SpeedModifier>k__BackingField: 1.5
   <AirborneData>k__BackingField:
     <PlayerJumpData>k__BackingField:
       <JumpDecelerationForce>k__BackingField: 3.5
