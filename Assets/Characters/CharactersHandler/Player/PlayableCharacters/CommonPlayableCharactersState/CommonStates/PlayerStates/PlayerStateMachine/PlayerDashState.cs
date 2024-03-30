@@ -17,6 +17,10 @@ public class PlayerDashState : PlayerGroundedState
     {
         base.Enter();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
+        
+        playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
+        playableCharacters.player.PlayPlayerSoundEffect(playableCharacters.player.GetRandomDashClip());
+
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
         canRotate = playerStateMachine.playerData.movementInput != Vector2.zero;

@@ -64,7 +64,7 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""BowAim"",
+                    ""name"": ""Bow Aim"",
                     ""type"": ""Button"",
                     ""id"": ""b218ff21-762f-412f-901d-c6a04edd5084"",
                     ""expectedControlType"": ""Button"",
@@ -89,6 +89,24 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Switch Characters"",
+                    ""type"": ""Value"",
+                    ""id"": ""20ee601b-3464-4a2e-b323-9a26ec5357ee"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Review Cursor"",
+                    ""type"": ""Button"",
+                    ""id"": ""e0973f33-2272-4f71-b417-8b129062eadc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,7 +216,7 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""BowAim"",
+                    ""action"": ""Bow Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -223,6 +241,61 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8919e09-6d15-455e-9c72-058b04edd439"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Characters"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c97a185-03e3-43c9-a87a-f362a528034f"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Characters"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5cf1c31a-87e5-4435-88a1-a2f1bd5f9f5e"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Characters"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""418737cf-7601-4833-b0c7-ddbdb59f71d7"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Characters"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99f78f38-4aaa-4528-864b-73e80cf3a397"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Review Cursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -235,9 +308,11 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_BowAim = m_Player.FindAction("BowAim", throwIfNotFound: true);
+        m_Player_BowAim = m_Player.FindAction("Bow Aim", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
+        m_Player_SwitchCharacters = m_Player.FindAction("Switch Characters", throwIfNotFound: true);
+        m_Player_ReviewCursor = m_Player.FindAction("Review Cursor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,6 +379,8 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_BowAim;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Zoom;
+    private readonly InputAction m_Player_SwitchCharacters;
+    private readonly InputAction m_Player_ReviewCursor;
     public struct PlayerActions
     {
         private @PlayerInputSystem m_Wrapper;
@@ -315,6 +392,8 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         public InputAction @BowAim => m_Wrapper.m_Player_BowAim;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
+        public InputAction @SwitchCharacters => m_Wrapper.m_Player_SwitchCharacters;
+        public InputAction @ReviewCursor => m_Wrapper.m_Player_ReviewCursor;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -345,6 +424,12 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @Zoom.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @SwitchCharacters.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchCharacters;
+                @SwitchCharacters.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchCharacters;
+                @SwitchCharacters.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchCharacters;
+                @ReviewCursor.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReviewCursor;
+                @ReviewCursor.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReviewCursor;
+                @ReviewCursor.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReviewCursor;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -370,6 +455,12 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @SwitchCharacters.started += instance.OnSwitchCharacters;
+                @SwitchCharacters.performed += instance.OnSwitchCharacters;
+                @SwitchCharacters.canceled += instance.OnSwitchCharacters;
+                @ReviewCursor.started += instance.OnReviewCursor;
+                @ReviewCursor.performed += instance.OnReviewCursor;
+                @ReviewCursor.canceled += instance.OnReviewCursor;
             }
         }
     }
@@ -383,5 +474,7 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         void OnBowAim(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnSwitchCharacters(InputAction.CallbackContext context);
+        void OnReviewCursor(InputAction.CallbackContext context);
     }
 }

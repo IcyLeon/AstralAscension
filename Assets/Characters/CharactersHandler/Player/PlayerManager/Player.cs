@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
+
+    [SerializeField] private AudioClip[] DashClips;
+    [SerializeField] private AudioSource PlayerSoundSource;
+
     public PlayerData playerData { get; private set; }
 
     private PlayerInput playerInput;
@@ -29,6 +33,22 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         OnCollisionEnterEvent?.Invoke(collision);
+    }
+
+    public AudioClip GetRandomDashClip()
+    {
+        if (DashClips.Length == 0)
+            return null;
+
+        return DashClips[Random.Range(0, DashClips.Length)];
+    }
+
+    public void PlayPlayerSoundEffect(AudioClip clip)
+    {
+        if (clip == null)
+            return;
+
+        PlayerSoundSource.PlayOneShot(clip);
     }
 
     public void DisableInput(InputAction PA, float sec)
