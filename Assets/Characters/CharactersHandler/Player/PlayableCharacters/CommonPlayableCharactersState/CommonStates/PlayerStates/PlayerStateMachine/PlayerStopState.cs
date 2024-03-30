@@ -34,7 +34,6 @@ public class PlayerStopState : PlayerGroundedState
         {
             return;
         }
-
         OnMove();
     }
 

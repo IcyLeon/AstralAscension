@@ -65,7 +65,7 @@ public class PlayerDashState : PlayerGroundedState
         UpdateConsecutiveDash();
     }
 
-    protected override void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    protected override void Movement_performed(Vector2 movementInput)
     {
         playerStateMachine.playerData.canSprint = true;
     }
