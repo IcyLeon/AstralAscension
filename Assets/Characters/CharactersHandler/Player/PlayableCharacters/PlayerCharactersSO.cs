@@ -15,6 +15,7 @@ public class PlayerCharactersSO : CharactersSO
     [field: SerializeField] public Rarity Rarity { get; private set; } = Rarity.ONE_STAR;
     [field: SerializeField] public AscensionInfo[] AscensionInformation { get; private set; }
     [field: SerializeField] public PlayableCharacterAnimationSO PlayableCharacterAnimationSO { get; private set; }
+    [field: SerializeField] public PlayableCharacterVoicelinesSO PlayableCharacterVoicelinesSO { get; private set; }
 
     [Header("Player Character Infomation")]
     public Sprite partyCharacterIcon;
