@@ -12,9 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f39139fc94057e4f8a8bede0863592c, type: 3}
   m_Name: KeqingVO
   m_EditorClassIdentifier: 
-  <JumpVOClips>k__BackingField: []
-  <DashVOClips>k__BackingField: []
-  <BasicAttackVOClips>k__BackingField: []
-  <ElementalSkillVOClips>k__BackingField: []
-  <ElementalBurstVOClips>k__BackingField: []
-  <LightInjuredVOClips>k__BackingField: []
+  JumpVOClips:
+  - {fileID: 8300000, guid: 8e50013e4bdc4b84e8da9bd46e8588a1, type: 3}
+  - {fileID: 8300000, guid: c93515e6728090a4295a8e8456ecd444, type: 3}
+  - {fileID: 8300000, guid: 791f93ddb6d204a429ce1bfa6126a0fe, type: 3}
+  - {fileID: 8300000, guid: f119060f270a08848ac90cb85e6d7032, type: 3}
+  - {fileID: 8300000, guid: c10d0a229d8c434429647a0cc8668ac3, type: 3}
+  FallenVOClips:
+  - {fileID: 8300000, guid: d7fe59d007da7224aba30d30bfd373d7, type: 3}
+  - {fileID: 8300000, guid: d0ed186bd3eb1cb42a1252874ebbb0d2, type: 3}
+  - {fileID: 8300000, guid: dee4232abc91b344aaf04a4ffabb51e7, type: 3}
+  DashVOClips:
+  - {fileID: 8300000, guid: 69c5333702f4e374c96a57e09700f26b, type: 3}
+  - {fileID: 8300000, guid: 68a4838991a58b8459b414b22fcf7687, type: 3}
+  - {fileID: 8300000, guid: 3e90d44c3ca751f4fb70cc0dce3dab3d, type: 3}
+  BasicAttackVOClips:
+  - {fileID: 8300000, guid: 76c79545c9dc0bb47b59c1217dcea82d, type: 3}
+  - {fileID: 8300000, guid: 250ede5fdd07cf94e92b941cc3544941, type: 3}
+  - {fileID: 8300000, guid: eff060231cecee047bac835d6cf88e92, type: 3}
+  - {fileID: 8300000, guid: 23e2cb67df948104089a6f35d52bfcaa, type: 3}
+  - {fileID: 8300000, guid: 009f74bb86d7e594abff63c2e1e37d5e, type: 3}
+  - {fileID: 8300000, guid: 47b71cb18f8face4d8d33a34913aa5b6, type: 3}
+  - {fileID: 8300000, guid: c06da33ce346a52478d692ae99afc98e, type: 3}
+  ElementalSkillVOClips:
+  - {fileID: 8300000, guid: a62a78fc57efd264f88c99696dadcd65, type: 3}
+  - {fileID: 8300000, guid: 49dde1be7f13b4144a7d4fda969ba1de, type: 3}
+  - {fileID: 8300000, guid: 47fd5716c2b102345a110196c2323df2, type: 3}
+  - {fileID: 8300000, guid: 1d7377f93ac2db042ad696c38c8a1e95, type: 3}
+  - {fileID: 8300000, guid: 748ab294c7250d840b812e17057e5312, type: 3}
+  - {fileID: 8300000, guid: d677374e67d375a44990974731c65e85, type: 3}
+  ElementalBurstVOClips:
+  - {fileID: 8300000, guid: 67a4f5eae81365447a79516e5e2fe180, type: 3}
+  - {fileID: 8300000, guid: 98b34e519692e75439649de853778087, type: 3}
+  - {fileID: 8300000, guid: 4f56d9b509614c247890b1699046c8dc, type: 3}
+  LightInjuredVOClips: []

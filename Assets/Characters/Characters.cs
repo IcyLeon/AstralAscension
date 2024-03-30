@@ -6,12 +6,19 @@ using UnityEngine;
 public class Characters : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public Animator Animator { get; private set; }
+    [SerializeField] private AudioSource VoiceSource;
+
     protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
         
+    }
+
+    protected void PlayVOClip(AudioClip clip)
+    {
+        VoiceSource.PlayOneShot(clip);
     }
 
     protected virtual void OnEnable()

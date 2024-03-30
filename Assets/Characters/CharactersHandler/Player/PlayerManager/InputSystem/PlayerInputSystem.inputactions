@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "BowAim",
+                    "name": "Bow Aim",
                     "type": "Button",
                     "id": "b218ff21-762f-412f-901d-c6a04edd5084",
                     "expectedControlType": "Button",
@@ -67,6 +67,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Switch Characters",
+                    "type": "Value",
+                    "id": "20ee601b-3464-4a2e-b323-9a26ec5357ee",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Review Cursor",
+                    "type": "Button",
+                    "id": "e0973f33-2272-4f71-b417-8b129062eadc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -176,7 +194,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "BowAim",
+                    "action": "Bow Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -199,6 +217,61 @@
                     "processors": "NormalizeVector2,InvertVector2",
                     "groups": "",
                     "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8919e09-6d15-455e-9c72-058b04edd439",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Characters",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1c97a185-03e3-43c9-a87a-f362a528034f",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Characters",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5cf1c31a-87e5-4435-88a1-a2f1bd5f9f5e",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Characters",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "418737cf-7601-4833-b0c7-ddbdb59f71d7",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Characters",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99f78f38-4aaa-4528-864b-73e80cf3a397",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Review Cursor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

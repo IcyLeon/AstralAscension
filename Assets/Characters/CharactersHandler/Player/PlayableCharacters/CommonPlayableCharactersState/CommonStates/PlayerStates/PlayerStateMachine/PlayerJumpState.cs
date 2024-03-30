@@ -15,7 +15,8 @@ public class PlayerJumpState : PlayerAirborneState
     {
         base.Enter();
 
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
+        StartAnimation(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
+        playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomJumpVOClip());
 
         playerStateMachine.playerData.SpeedModifier = 0f; 
 

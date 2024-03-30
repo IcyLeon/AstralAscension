@@ -13,6 +13,13 @@ public class PlayerMovementState : IState
         InitBaseRotation();
     }
 
+    public PlayableCharacters playableCharacters
+    {
+        get
+        {
+            return playerStateMachine.playableCharacter;
+        }
+    }
     protected void InitBaseRotation()
     {
         playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.groundedData.RotationTime;

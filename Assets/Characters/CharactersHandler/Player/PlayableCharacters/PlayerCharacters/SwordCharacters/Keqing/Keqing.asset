@@ -37,6 +37,8 @@ MonoBehaviour:
       m_RotationOrder: 0
   <PlayableCharacterAnimationSO>k__BackingField: {fileID: 11400000, guid: 9127efd820acb2e449ccf6faa1959009,
     type: 2}
+  <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 11400000, guid: c8acc20ec993bde45905780d7a777141,
+    type: 2}
   partyCharacterIcon: {fileID: 21300000, guid: 428cc95efa1f8694586cfb04152d80b6, type: 3}
   ElementalSkillIcons:
   - {fileID: 21300000, guid: a4bac38242c77b545b78ebffe324bea3, type: 3}

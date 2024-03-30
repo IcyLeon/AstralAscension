@@ -76,6 +76,13 @@ public class PlayableCharacters : Characters
     //        MainCollider.radius);
     //}
 
+    public void PlayVOAudio(AudioClip clip)
+    {
+        if (clip == null)
+            return;
+
+        PlayVOClip(clip);
+    }
     protected override void Update()
     {
         base.Update();
