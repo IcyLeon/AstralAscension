@@ -18,19 +18,31 @@ public class PlayableCharacters : Characters
         }
     }
 
+    public PlayableCharacterStateMachine PlayableCharacterStateMachine
+    {
+        get
+        {
+            return characterStateMachine as PlayableCharacterStateMachine;
+        }
+    }
+
     public void OnPlayerAnimationTransition()
     {
-        PlayableCharacterStateMachine pcm = characterStateMachine as PlayableCharacterStateMachine;
-
-        if (pcm.playerStateMachine != null)
+        if (PlayableCharacterStateMachine.playerStateMachine != null)
         {
-            pcm.playerStateMachine.OnAnimationTransition();
+            PlayableCharacterStateMachine.playerStateMachine.OnAnimationTransition();
         }
     }
 
     private void Awake()
     {
         player = transform.parent.GetComponent<Player>();
+        PlayerPlungeState.OnPlungeAction += OnPlungeATK;
+    }
+
+    private void OnPlungeATK(Vector3 position)
+    {
+
     }
 
     protected override void OnEnable()
@@ -50,6 +62,7 @@ public class PlayableCharacters : Characters
     protected override void OnDestroy()
     {
         base.OnDestroy();
+        PlayerPlungeState.OnPlungeAction -= OnPlungeATK;
         UnsubscribeEvents();
     }
 
@@ -83,6 +96,7 @@ public class PlayableCharacters : Characters
 
         PlayVOClip(clip);
     }
+
     protected override void Update()
     {
         base.Update();

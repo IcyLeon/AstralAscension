@@ -9,5 +9,8 @@ public interface IState
     void OnCollisionEnter(Collision collision);
     void OnCollisionExit(Collision collision);
     void OnCollisionStay(Collision collision);
+    void OnTriggerEnter(Collider Collider);
+    void OnTriggerExit(Collider Collider);
+    void OnTriggerStay(Collider Collider);
     void OnAnimationTransition();
 }

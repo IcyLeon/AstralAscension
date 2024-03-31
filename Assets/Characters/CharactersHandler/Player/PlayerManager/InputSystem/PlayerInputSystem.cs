@@ -107,6 +107,33 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8acbb14-6a1b-4729-8cba-d13b8e8d6987"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Elemental Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c4ae5de-3169-4c58-b913-6e8b5c2b4b37"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Elemental Burst"",
+                    ""type"": ""Button"",
+                    ""id"": ""70121f56-bfce-4c94-820f-b4e605560727"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -222,6 +249,17 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1805fdec-32c8-4158-8a1e-678636e8352c"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bow Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a2ee44c5-1dcd-4f26-805d-08a385b7fa8a"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -296,6 +334,39 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Review Cursor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e30b535-08d7-4c26-9f57-79219e8f1c29"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46ef1cd8-c393-41b6-bbea-eb44b2242952"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Elemental Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0b9c7d7-3078-4234-bfbd-83f845941301"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Elemental Burst"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -313,6 +384,9 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
         m_Player_SwitchCharacters = m_Player.FindAction("Switch Characters", throwIfNotFound: true);
         m_Player_ReviewCursor = m_Player.FindAction("Review Cursor", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_ElementalSkill = m_Player.FindAction("Elemental Skill", throwIfNotFound: true);
+        m_Player_ElementalBurst = m_Player.FindAction("Elemental Burst", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -381,6 +455,9 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Zoom;
     private readonly InputAction m_Player_SwitchCharacters;
     private readonly InputAction m_Player_ReviewCursor;
+    private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_ElementalSkill;
+    private readonly InputAction m_Player_ElementalBurst;
     public struct PlayerActions
     {
         private @PlayerInputSystem m_Wrapper;
@@ -394,6 +471,9 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputAction @SwitchCharacters => m_Wrapper.m_Player_SwitchCharacters;
         public InputAction @ReviewCursor => m_Wrapper.m_Player_ReviewCursor;
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @ElementalSkill => m_Wrapper.m_Player_ElementalSkill;
+        public InputAction @ElementalBurst => m_Wrapper.m_Player_ElementalBurst;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -430,6 +510,15 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @ReviewCursor.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReviewCursor;
                 @ReviewCursor.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReviewCursor;
                 @ReviewCursor.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReviewCursor;
+                @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @ElementalSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElementalSkill;
+                @ElementalSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElementalSkill;
+                @ElementalSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElementalSkill;
+                @ElementalBurst.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElementalBurst;
+                @ElementalBurst.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElementalBurst;
+                @ElementalBurst.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElementalBurst;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -461,6 +550,15 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @ReviewCursor.started += instance.OnReviewCursor;
                 @ReviewCursor.performed += instance.OnReviewCursor;
                 @ReviewCursor.canceled += instance.OnReviewCursor;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
+                @ElementalSkill.started += instance.OnElementalSkill;
+                @ElementalSkill.performed += instance.OnElementalSkill;
+                @ElementalSkill.canceled += instance.OnElementalSkill;
+                @ElementalBurst.started += instance.OnElementalBurst;
+                @ElementalBurst.performed += instance.OnElementalBurst;
+                @ElementalBurst.canceled += instance.OnElementalBurst;
             }
         }
     }
@@ -476,5 +574,8 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         void OnZoom(InputAction.CallbackContext context);
         void OnSwitchCharacters(InputAction.CallbackContext context);
         void OnReviewCursor(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
+        void OnElementalSkill(InputAction.CallbackContext context);
+        void OnElementalBurst(InputAction.CallbackContext context);
     }
 }

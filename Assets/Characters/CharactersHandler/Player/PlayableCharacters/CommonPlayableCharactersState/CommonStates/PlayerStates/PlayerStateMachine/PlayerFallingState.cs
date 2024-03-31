@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerFallingState : PlayerAirborneState
 {
+
     public PlayerFallingState(PlayerStateMachine PS) : base(PS)
     {
     }
@@ -22,23 +23,25 @@ public class PlayerFallingState : PlayerAirborneState
         LimitFallVelocity();
     }
 
+    private float GetSpeedY()
+    {
+        return Mathf.Abs(GetVerticalVelocity().y);
+    }
+
     public override void Update()
     {
         base.Update();
 
         if (IsGrounded())
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerLandingState);
+            if (GetSpeedY() < 10f) // got issue
+            {
+                playerStateMachine.ChangeState(playerStateMachine.playerSoftLandingState);
+                return;
+            }
+            playerStateMachine.ChangeState(playerStateMachine.playerHardLandingState);
             return;
         }
-    }
-
-    private void LimitFallVelocity()
-    {
-        float FallSpeedLimit = playerStateMachine.playerData.airborneData.PlayerFallData.FallLimitVelocity;
-        Vector3 velocity = GetVerticalVelocity();
-        float limitVelocityY = Mathf.Max(velocity.y, -FallSpeedLimit);
-        playerStateMachine.player.Rb.velocity = new Vector3(playerStateMachine.player.Rb.velocity.x, limitVelocityY, playerStateMachine.player.Rb.velocity.z);
     }
 
     public override void Exit()

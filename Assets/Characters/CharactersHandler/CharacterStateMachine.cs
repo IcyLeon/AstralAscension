@@ -2,57 +2,72 @@ using UnityEngine;
 
 public class CharacterStateMachine
 {
-    private IState currentStates;
-    public Characters characters { get; } 
+    protected StateMachineManager<PlayerCharacterState> StateMachineManager;
+    public Characters characters { get; }
 
     public virtual void Update()
     {
-        if (currentStates != null)
-            currentStates.Update();
-    }
-    public virtual void FixedUpdate()
-    {
-        if (currentStates != null)
-            currentStates.FixedUpdate();
+        StateMachineManager.Update();
     }
 
-    public void OnAnimationTransition()
+    public virtual void FixedUpdate()
     {
-        if (currentStates != null)
-            currentStates.OnAnimationTransition();
+        StateMachineManager.FixedUpdate();
+    }
+
+    public virtual void OnAnimationTransition()
+    {
+        StateMachineManager.OnAnimationTransition();
     }
 
     public virtual void OnCollisionEnter(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionEnter(collision);
+        StateMachineManager.OnCollisionEnter(collision);
     }
 
     public virtual void OnCollisionExit(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionExit(collision);
+        StateMachineManager.OnCollisionExit(collision);
     }
 
     public virtual void OnCollisionStay(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionStay(collision);
+        StateMachineManager.OnCollisionStay(collision);
+    }
+    public virtual void OnTriggerEnter(Collider Collider)
+    {
+        StateMachineManager.OnTriggerEnter(Collider);
+    }
+
+    public virtual void OnTriggerExit(Collider Collider)
+    {
+        StateMachineManager.OnTriggerExit(Collider);
+    }
+
+    public virtual void OnTriggerStay(Collider Collider)
+    {
+        StateMachineManager.OnTriggerStay(Collider);
     }
 
     public virtual void ChangeState(IState newState)
     {
-        if (currentStates != null)
-            currentStates.Exit();
-
-        currentStates = newState;
-
-        currentStates.Enter();
+        StateMachineManager.ChangeState((PlayerCharacterState)newState);
     }
 
     public CharacterStateMachine(Characters characters)
     {
+        StateMachineManager = new StateMachineManager<PlayerCharacterState>();
         this.characters = characters;
 
+    }
+
+    public void StartAnimation(string parameter)
+    {
+        Characters.StartAnimation(characters.Animator, parameter);
+    }
+
+    public void StopAnimation(string parameter)
+    {
+        Characters.StopAnimation(characters.Animator, parameter);
     }
 }

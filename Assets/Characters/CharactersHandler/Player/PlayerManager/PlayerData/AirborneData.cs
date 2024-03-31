@@ -8,4 +8,5 @@ public class AirborneData
 {
     [field: SerializeField] public PlayerJumpData PlayerJumpData { get; private set; }
     [field: SerializeField] public PlayerFallData PlayerFallData { get; private set; }
+    [field: SerializeField] public PlayerPlungeData PlayerPlungeData { get; private set; }
 }

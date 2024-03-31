@@ -31,6 +31,11 @@ public class Characters : MonoBehaviour, IDamageable
 
     }
 
+    public virtual bool IsDead()
+    {
+        return false;
+    }
+
     protected virtual void OnDestroy()
     {
 
