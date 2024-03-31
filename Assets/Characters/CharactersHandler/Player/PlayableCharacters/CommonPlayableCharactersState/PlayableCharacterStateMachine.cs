@@ -6,6 +6,13 @@ public class PlayableCharacterStateMachine : CharacterStateMachine
 {
     public PlayerStateMachine playerStateMachine { get; }
 
+    public PlayableCharacters playableCharacters
+    {
+        get
+        {
+            return (PlayableCharacters)characters;
+        }
+    }
     public Player player { 
         get
         {
@@ -32,16 +39,12 @@ public class PlayableCharacterStateMachine : CharacterStateMachine
     public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {
         playerStateMachine = new PlayerStateMachine(this);
-
-
     }
 
-
-    public PlayableCharacters playableCharacters
+    public bool IsSkillCasting()
     {
-        get
-        {
-            return (PlayableCharacters)characters;
-        }
+        IState currentState = StateMachineManager.currentStates;
+        return currentState is PlayerElementalSkillState ||
+            currentState is PlayerElementalBurstState;
     }
 }

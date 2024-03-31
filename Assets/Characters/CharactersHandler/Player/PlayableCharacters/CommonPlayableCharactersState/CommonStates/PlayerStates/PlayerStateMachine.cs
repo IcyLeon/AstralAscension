@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStateMachine
 {
+    private StateMachineManager<PlayerMovementState> StateMachineManager;
     public PlayableCharacters playableCharacter { get; }
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
@@ -13,9 +14,13 @@ public class PlayerStateMachine
     public PlayerJumpState playerJumpState { get; }
     public PlayerFallingState playerFallingState { get; }
     public PlayerSprintState playerSprintState { get; }
-    public PlayerLandingState playerLandingState { get; }
+    public PlayerHardLandingState playerHardLandingState { get; }
+    public PlayerSoftLandingState playerSoftLandingState { get; }
+    public PlayerPlungeLandingState playerPlungeLandingState { get; }
+    public PlayerPlungeState playerPlungeState { get; }
 
-    public Player player { 
+    public Player player
+    {
         get
         {
             return playableCharacter.player;
@@ -30,57 +35,58 @@ public class PlayerStateMachine
         }
     }
 
-    private IState currentStates;
-
     public void Update()
     {
-        if (currentStates != null)
-            currentStates.Update();
-
-        Debug.Log(currentStates);
+        StateMachineManager.Update();
     }
     public void FixedUpdate()
     {
-        if (currentStates != null)
-            currentStates.FixedUpdate();
+        StateMachineManager.FixedUpdate();
     }
 
     public void OnAnimationTransition()
     {
-        if (currentStates != null)
-            currentStates.OnAnimationTransition();
+        StateMachineManager.OnAnimationTransition();
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionEnter(collision);
+        StateMachineManager.OnCollisionEnter(collision);
     }
 
     public void OnCollisionExit(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionExit(collision);
+        StateMachineManager.OnCollisionExit(collision);
     }
 
     public void OnCollisionStay(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionStay(collision);
+        StateMachineManager.OnCollisionStay(collision);
     }
+    public void OnTriggerEnter(Collider Collider)
+    {
+        StateMachineManager.OnTriggerEnter(Collider);
+    }
+
+    public void OnTriggerExit(Collider Collider)
+    {
+        StateMachineManager.OnTriggerExit(Collider);
+    }
+
+    public void OnTriggerStay(Collider Collider)
+    {
+        StateMachineManager.OnTriggerStay(Collider);
+    }
+
 
     public void ChangeState(IState newState)
     {
-        if (currentStates != null)
-            currentStates.Exit();
-
-        currentStates = newState;
-
-        currentStates.Enter();
+        StateMachineManager.ChangeState((PlayerMovementState)newState);
     }
 
     public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
+        StateMachineManager = new StateMachineManager<PlayerMovementState>();
         playableCharacter = PCS.playableCharacters;
         playerIdleState = new PlayerIdleState(this);
         playerRunState = new PlayerRunState(this);
@@ -89,8 +95,11 @@ public class PlayerStateMachine
         playerDashState = new PlayerDashState(this);
         playerStrongStopState = new PlayerStrongStopState(this);
         playerFallingState = new PlayerFallingState(this);
-        playerLandingState = new PlayerLandingState(this);
+        playerSoftLandingState = new PlayerSoftLandingState(this);
+        playerHardLandingState = new PlayerHardLandingState(this);
+        playerPlungeLandingState = new PlayerPlungeLandingState(this);
         playerSprintState = new PlayerSprintState(this);
+        playerPlungeState = new PlayerPlungeState(this);
         ChangeState(playerIdleState);
     }
 }

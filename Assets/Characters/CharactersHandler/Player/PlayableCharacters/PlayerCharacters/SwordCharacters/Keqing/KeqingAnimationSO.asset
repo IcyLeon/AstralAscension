@@ -19,5 +19,7 @@ MonoBehaviour:
     strongStopParameter: isStrongStopping
     fallParameter: isFalling
     jumpParameter: isJumping
-    landParameter: isLanding
+    weakLandParameter: isWeakLanding
+    hardLandParameter: isHardLanding
     plungeParameter: isPlunging
+    plungeLandingParameter: isPlungeLanding

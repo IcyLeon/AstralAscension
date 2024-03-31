@@ -8,6 +8,7 @@ public class PlayerData
     public AirborneData airborneData { get; private set; }
 
     public bool canSprint;
+    public bool allowPlunge;
     public float targetYawRotation;
     public float rotationTime;
     public float dampedTargetRotationCurrentVelocity; // do nothing
@@ -23,6 +24,7 @@ public class PlayerData
     public PlayerData(Player player)
     {
         canSprint = false;
+        allowPlunge = true;
         groundedData = player.PlayerSO.GroundedData;
         airborneData = player.PlayerSO.AirborneData;
         SpeedModifier = 0f;

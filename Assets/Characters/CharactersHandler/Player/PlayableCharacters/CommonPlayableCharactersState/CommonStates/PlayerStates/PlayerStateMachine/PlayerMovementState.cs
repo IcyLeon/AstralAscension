@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +34,6 @@ public class PlayerMovementState : IState
 
     protected virtual void SubscribeInputs()
     {
-
     }
 
     protected virtual void Movement_performed(Vector2 movementInput)
@@ -45,7 +43,6 @@ public class PlayerMovementState : IState
 
     protected virtual void UnsubscribeInputs()
     {
-
     }
 
     public virtual void Enter()
@@ -74,6 +71,7 @@ public class PlayerMovementState : IState
         return GetHorizontalVelocity().magnitude >= val;
     }
 
+
     protected bool IsMovingUp(float val = 0.1f)
     {
         return GetVerticalVelocity().y >= val;
@@ -95,11 +93,15 @@ public class PlayerMovementState : IState
         Characters.StopAnimation(playerStateMachine.playableCharacter.Animator, parameter);
     }
 
+    protected bool IsSkillCasting()
+    {
+        return playableCharacters.PlayableCharacterStateMachine.IsSkillCasting();
+    }
 
     private void UpdatePhysicsMovement()
     {
         Vector2 inputdir = playerStateMachine.playerData.movementInput;
-        if (inputdir == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f)
+        if (inputdir == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f || IsSkillCasting())
         {
             return;
         }
@@ -185,6 +187,17 @@ public class PlayerMovementState : IState
     }
 
     public virtual void OnCollisionStay(Collision collision)
+    {
+    }
+    public virtual void OnTriggerEnter(Collider Collider)
+    {
+    }
+
+    public virtual void OnTriggerExit(Collider Collider)
+    {
+    }
+
+    public virtual void OnTriggerStay(Collider Collider)
     {
     }
 

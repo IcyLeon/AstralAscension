@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed12f1a35e204e4439b9385c992e3720, type: 3}
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
+  <SoundData>k__BackingField:
+    <DashClips>k__BackingField:
+    - {fileID: 8300000, guid: 7208576d446cba34f9774e5185c5c601, type: 3}
+    - {fileID: 8300000, guid: 408ad4e0680d1ee468cff80ba932f05a, type: 3}
+    - {fileID: 8300000, guid: b74ee074bbb6a8d469a9b2d363edb0d5, type: 3}
   <GroundedData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
     <RotationTime>k__BackingField: 0.14
@@ -37,4 +42,7 @@ MonoBehaviour:
       <WeakJumpForceMagnitudeXZ>k__BackingField: 5
       <StrongJumpForceMagnitudeXZ>k__BackingField: 8
     <PlayerFallData>k__BackingField:
-      <FallLimitVelocity>k__BackingField: 18
+      <FallLimitVelocity>k__BackingField: 20
+    <PlayerPlungeData>k__BackingField:
+      <PlungeSpeed>k__BackingField: 10
+      <GroundCheckDistance>k__BackingField: 10

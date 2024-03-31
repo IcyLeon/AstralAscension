@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class PlayerCharacterState : IState
 {
-    protected PlayableCharacterStateMachine playableCharacterState { get; }
+    protected PlayableCharacterStateMachine playableCharacterStateMachine { get; }
 
     public PlayerCharacterState(PlayableCharacterStateMachine pcs)
     {
-        playableCharacterState = pcs;
+        playableCharacterStateMachine = pcs;
     }
 
     public virtual void Enter()
     {
+        SubscribeInputs();
     }
 
     public virtual void Exit()
     {
+        UnsubscribeInputs();
     }
 
     protected virtual void SubscribeInputs()
@@ -50,6 +52,18 @@ public class PlayerCharacterState : IState
     }
 
     public virtual void OnCollisionStay(Collision collision)
+    {
+    }
+
+    public virtual void OnTriggerEnter(Collider Collider)
+    {
+    }
+
+    public virtual void OnTriggerExit(Collider Collider)
+    {
+    }
+
+    public virtual void OnTriggerStay(Collider Collider)
     {
     }
 }

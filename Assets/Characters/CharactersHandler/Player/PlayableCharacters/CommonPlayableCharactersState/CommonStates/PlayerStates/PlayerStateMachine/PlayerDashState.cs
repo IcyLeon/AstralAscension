@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerDashState : PlayerGroundedState
 {
@@ -13,13 +14,22 @@ public class PlayerDashState : PlayerGroundedState
         StartTime = Time.time;
     }
 
+    private AudioClip GetRandomDashClip()
+    {
+        AudioClip[] clips = playerStateMachine.player.PlayerSO.SoundData.DashClips;
+        if (clips.Length == 0)
+            return null;
+
+        return clips[Random.Range(0, clips.Length)];
+    }
+
     public override void Enter()
     {
         base.Enter();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
         
         playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
-        playableCharacters.player.PlayPlayerSoundEffect(playableCharacters.player.GetRandomDashClip());
+        playableCharacters.player.PlayPlayerSoundEffect(GetRandomDashClip());
 
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;

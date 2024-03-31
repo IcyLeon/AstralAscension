@@ -18,8 +18,10 @@ public class PlayableCharacterAnimationSO : ScriptableObject
         public string strongStopParameter;
         public string fallParameter;
         public string jumpParameter;
-        public string landParameter;
+        public string weakLandParameter;
+        public string hardLandParameter;
         public string plungeParameter;
+        public string plungeLandingParameter;
     }
 
     [field: SerializeField] public CommonPlayableCharacterHash CommonPlayableCharacterHashParameters { get; private set; }
