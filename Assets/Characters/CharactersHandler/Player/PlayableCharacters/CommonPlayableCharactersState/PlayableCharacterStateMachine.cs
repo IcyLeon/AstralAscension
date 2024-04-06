@@ -36,6 +36,14 @@ public class PlayableCharacterStateMachine : CharacterStateMachine
         base.FixedUpdate();
     }
 
+    public override void LateUpdate()
+    {
+        if (playerStateMachine != null)
+            playerStateMachine.LateUpdate();
+
+        base.LateUpdate();
+    }
+
     public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {
         playerStateMachine = new PlayerStateMachine(this);

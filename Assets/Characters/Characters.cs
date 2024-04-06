@@ -66,6 +66,14 @@ public class Characters : MonoBehaviour, IDamageable
         }
     }
 
+    protected virtual void LateUpdate()
+    {
+        if (characterStateMachine != null)
+        {
+            characterStateMachine.LateUpdate();
+        }
+    }
+
     public static void StartAnimation(Animator animator, string HashParameter)
     {
         if (animator == null)
@@ -73,6 +81,15 @@ public class Characters : MonoBehaviour, IDamageable
 
         if (CharacterManager.ContainsParam(animator, HashParameter))
             animator.SetBool(HashParameter, true);
+    }
+
+    public static void SetAnimationTrigger(Animator animator, string HashParameter)
+    {
+        if (animator == null)
+            return;
+
+        if (CharacterManager.ContainsParam(animator, HashParameter))
+            animator.SetTrigger(HashParameter);
     }
 
     public static void StopAnimation(Animator animator, string HashParameter)

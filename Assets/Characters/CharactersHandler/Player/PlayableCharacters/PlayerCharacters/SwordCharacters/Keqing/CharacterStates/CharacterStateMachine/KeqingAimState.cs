@@ -8,6 +8,17 @@ public class KeqingAimState : KeqingElementalSkillState
     {
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+
+        StartAnimation(keqingStateMachine.keqingAnimationSO.aimParameter);
+
+        playableCharacterStateMachine.playerStateMachine.ChangeState(
+            playableCharacterStateMachine.playerStateMachine.playerAimState
+            );
+
+    }
     protected override void SubscribeInputs()
     {
         base.SubscribeInputs();
@@ -16,8 +27,7 @@ public class KeqingAimState : KeqingElementalSkillState
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        Debug.Log("tt");
-        keqingStateMachine.ChangeState(keqingStateMachine.swordState);
+        keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }
 
     protected override void UnsubscribeInputs()
@@ -25,5 +35,11 @@ public class KeqingAimState : KeqingElementalSkillState
         base.UnsubscribeInputs();
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
 
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        StopAnimation(keqingStateMachine.keqingAnimationSO.aimParameter);
     }
 }

@@ -17,6 +17,12 @@ public class StateMachineManager<T> where T : IState
             currentStates.FixedUpdate();
     }
 
+    public void LateUpdate()
+    {
+        if (currentStates != null)
+            currentStates.LateUpdate();
+    }
+
     public void OnAnimationTransition()
     {
         if (currentStates != null)

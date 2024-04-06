@@ -18,6 +18,7 @@ public class PlayerStateMachine
     public PlayerSoftLandingState playerSoftLandingState { get; }
     public PlayerPlungeLandingState playerPlungeLandingState { get; }
     public PlayerPlungeState playerPlungeState { get; }
+    public PlayerAimState playerAimState { get; }
 
     public Player player
     {
@@ -42,6 +43,11 @@ public class PlayerStateMachine
     public void FixedUpdate()
     {
         StateMachineManager.FixedUpdate();
+    }
+
+    public void LateUpdate()
+    {
+        StateMachineManager.LateUpdate();
     }
 
     public void OnAnimationTransition()
@@ -88,6 +94,7 @@ public class PlayerStateMachine
     {
         StateMachineManager = new StateMachineManager<PlayerMovementState>();
         playableCharacter = PCS.playableCharacters;
+        playerAimState = new PlayerAimState(this);
         playerIdleState = new PlayerIdleState(this);
         playerRunState = new PlayerRunState(this);
         playerWeakStopState = new PlayerWeakStopState(this);

@@ -15,6 +15,11 @@ public class CharacterStateMachine
         StateMachineManager.FixedUpdate();
     }
 
+    public virtual void LateUpdate()
+    {
+        StateMachineManager.LateUpdate();
+    }
+
     public virtual void OnAnimationTransition()
     {
         StateMachineManager.OnAnimationTransition();

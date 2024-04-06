@@ -21,14 +21,65 @@ public class CameraManager : MonoBehaviour
     public Camera CameraMain { get; private set; }
     private Player player;
 
+
+    private Coroutine toggleAimCameraCoroutine;
+
     private void Awake()
     {
         aimTargetYaw = aimTargetPitch = 0f;
+
         PlayerCamera.Follow = CameraTarget;
         AimCamera.Follow = CameraTarget;
+
         player = transform.parent.GetComponent<Player>();
         playerTransposerCameras = PlayerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         playerPOV = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
+    }
+
+    private IEnumerator ToggleAimCameraDelayCoroutine(bool enable, float time)
+    {
+        yield return new WaitForSeconds(time);
+        EnableAimCamera(enable);
+        toggleAimCameraCoroutine = null;
+    }
+
+    public void ToggleAimCamera(bool enable, float time = 0f)
+    {
+        if (time == 0f)
+        {
+            EnableAimCamera(enable);
+            return;
+        }
+
+        if (toggleAimCameraCoroutine != null)
+            StopCoroutine(toggleAimCameraCoroutine);
+
+        toggleAimCameraCoroutine = StartCoroutine(ToggleAimCameraDelayCoroutine(enable, time));
+    }
+
+    private float GetAngle(float angle)
+    {
+        float val = angle;
+        if (val > 180f)
+            val -= 360f;
+
+        return val;
+    }
+
+    private void EnableAimCamera(bool enable)
+    {
+        if (enable)
+        {
+            aimTargetPitch = GetAngle(CameraMain.transform.rotation.eulerAngles.x);
+            aimTargetYaw = GetAngle(CameraMain.transform.rotation.eulerAngles.y);
+        }
+
+        AimCamera.gameObject.SetActive(enable);
+    }
+
+    public bool IsAimCameraActive()
+    {
+        return AimCamera.gameObject.activeSelf;
     }
 
     private void Start()
@@ -43,15 +94,27 @@ public class CameraManager : MonoBehaviour
 
     private void Update3rdPersonCam()
     {
-        aimTargetYaw = Mathf.Clamp(aimTargetYaw, float.MinValue, float.MaxValue);
+        if (aimTargetYaw > playerPOV.m_HorizontalAxis.m_MaxValue)
+        {
+            aimTargetYaw -= playerPOV.m_HorizontalAxis.m_MaxValue - playerPOV.m_HorizontalAxis.m_MinValue;
+        }
+        else if (aimTargetYaw < playerPOV.m_HorizontalAxis.m_MinValue)
+        {
+            aimTargetYaw += playerPOV.m_HorizontalAxis.m_MaxValue - playerPOV.m_HorizontalAxis.m_MinValue;
+        }
+
         aimTargetPitch = Mathf.Clamp(aimTargetPitch, playerPOV.m_VerticalAxis.m_MinValue, playerPOV.m_VerticalAxis.m_MaxValue);
+        
         CameraTarget.transform.rotation = Quaternion.Euler(aimTargetPitch, aimTargetYaw, 0f);
     }
+
     private void Look_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        Vector2 look = player.playerInputAction.Look.ReadValue<Vector2>();
+        if (!IsAimCameraActive())
+            return;
 
-        aimTargetPitch += look.y * Time.deltaTime * CameraSO.CameraAimData.RotationSpeed;
+        Vector2 look = player.playerInputAction.Look.ReadValue<Vector2>();
+        aimTargetPitch += (look.y * -1f) * Time.deltaTime * CameraSO.CameraAimData.RotationSpeed;
         aimTargetYaw += look.x * Time.deltaTime * CameraSO.CameraAimData.RotationSpeed;
     }
 

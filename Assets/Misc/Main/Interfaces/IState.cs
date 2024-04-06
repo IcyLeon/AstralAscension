@@ -6,6 +6,7 @@ public interface IState
     void Update();
     void Exit();
     void FixedUpdate();
+    void LateUpdate();
     void OnCollisionEnter(Collision collision);
     void OnCollisionExit(Collision collision);
     void OnCollisionStay(Collision collision);
