@@ -33,6 +33,9 @@ public class PlayerCharacterState : IState
     public virtual void FixedUpdate()
     {
     }
+    public virtual void LateUpdate()
+    {
+    }
 
     public virtual void Update()
     {
@@ -65,5 +68,19 @@ public class PlayerCharacterState : IState
 
     public virtual void OnTriggerStay(Collider Collider)
     {
+    }
+
+    protected void StartAnimation(string parameter)
+    {
+        Characters.StartAnimation(playableCharacterStateMachine.characters.Animator, parameter);
+    }
+
+    protected void SetAnimationTrigger(string parameter)
+    {
+        Characters.SetAnimationTrigger(playableCharacterStateMachine.characters.Animator, parameter);
+    }
+    protected void StopAnimation(string parameter)
+    {
+        Characters.StopAnimation(playableCharacterStateMachine.characters.Animator, parameter);
     }
 }

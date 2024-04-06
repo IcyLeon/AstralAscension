@@ -21,7 +21,7 @@ public class PlayerMovementState : IState
     }
     protected void InitBaseRotation()
     {
-        playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.groundedData.RotationTime;
+        playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.groundedData.BaseRotationTime;
     }
 
     protected bool IsGrounded()
@@ -30,6 +30,11 @@ public class PlayerMovementState : IState
         position.y += playerStateMachine.playableCharacter.MainCollider.radius / 2f;
 
         return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore);
+    }
+
+    protected bool IsAiming()
+    {
+        return this is PlayerAimState;
     }
 
     protected virtual void SubscribeInputs()
@@ -53,6 +58,11 @@ public class PlayerMovementState : IState
     public virtual void Exit()
     {
         UnsubscribeInputs();
+    }
+
+    public virtual void LateUpdate()
+    {
+
     }
 
     public virtual void FixedUpdate()
@@ -106,9 +116,13 @@ public class PlayerMovementState : IState
             return;
         }
 
-        float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
-        UpdateTargetRotationData(angle);
-        SmoothRotateToTargetRotation();
+        if (!IsAiming())
+        {
+            float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
+            UpdateTargetRotationData(angle);
+            SmoothRotateToTargetRotation();
+        }
+
         playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(playerStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
@@ -163,6 +177,11 @@ public class PlayerMovementState : IState
     {
         PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
         float val = playerStateMachine.playerData.SpeedModifier / playerStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
+        
+        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        {
+            val = 0f;
+        }
 
         playerStateMachine.playableCharacter.Animator.SetFloat(cpc.movementParameters, val, 0.1f, Time.deltaTime);
     }

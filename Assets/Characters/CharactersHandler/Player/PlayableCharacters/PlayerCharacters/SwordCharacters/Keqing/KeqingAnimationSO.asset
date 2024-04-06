@@ -23,3 +23,7 @@ MonoBehaviour:
     hardLandParameter: isHardLanding
     plungeParameter: isPlunging
     plungeLandingParameter: isPlungeLanding
+    deadParameter: isDead
+  <aimParameter>k__BackingField: isAiming
+  <throwParameter>k__BackingField: Throw
+  <elementalSkillSlashParameter>k__BackingField: ESkillSlash

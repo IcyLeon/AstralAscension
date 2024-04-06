@@ -13,6 +13,7 @@ public class SwordState : PlayerCharacterState
     {
         base.SubscribeInputs();
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started += ElementalSkill_started;
         playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
@@ -20,7 +21,12 @@ public class SwordState : PlayerCharacterState
     {
         base.UnsubscribeInputs();
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
         playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
+    }
+
+    protected virtual void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
     }
 
     protected virtual void ElementalSkill_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

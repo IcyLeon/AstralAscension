@@ -19,7 +19,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b74ee074bbb6a8d469a9b2d363edb0d5, type: 3}
   <GroundedData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
-    <RotationTime>k__BackingField: 0.14
+    <BaseRotationTime>k__BackingField: 0.14
     <PlayerDashData>k__BackingField:
       <BaseDashSpeed>k__BackingField: 12
       <RotationTime>k__BackingField: 0.02
@@ -33,6 +33,8 @@ MonoBehaviour:
       <SpeedModifier>k__BackingField: 1
     <PlayerSprintData>k__BackingField:
       <SpeedModifier>k__BackingField: 1.5
+    <PlayerAimData>k__BackingField:
+      <SpeedModifier>k__BackingField: 0.65
   <AirborneData>k__BackingField:
     <PlayerJumpData>k__BackingField:
       <JumpDecelerationForce>k__BackingField: 3.5
