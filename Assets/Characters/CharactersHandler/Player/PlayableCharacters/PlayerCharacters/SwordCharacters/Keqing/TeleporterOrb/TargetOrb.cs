@@ -14,7 +14,6 @@ public class TargetOrb : MonoBehaviour
 
     private void OnEnable()
     {
-
         AimAudioSource.Play();
     }
 

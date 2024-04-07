@@ -56,6 +56,19 @@ public class PlayableCharacters : Characters
         player.OnCollisionEnterEvent += OnCollisionEnterEvent;
         player.OnCollisionStayEvent += OnCollisionStayEvent;
         player.OnCollisionExitEvent += OnCollisionExitEvent;
+
+        player.Interact.OnInteractEnter += OnInteractEnter;
+        player.Interact.OnInteractExit += OnInteractExit;
+    }
+
+    private void OnInteractEnter(Collider collider)
+    {
+        OnInteractionEnter?.Invoke(collider);
+    }
+
+    private void OnInteractExit(Collider collider)
+    {
+        OnInteractionExit?.Invoke(collider);
     }
 
     protected override void OnDisable()
@@ -76,6 +89,9 @@ public class PlayableCharacters : Characters
         player.OnCollisionEnterEvent -= OnCollisionEnterEvent;
         player.OnCollisionStayEvent -= OnCollisionStayEvent;
         player.OnCollisionExitEvent -= OnCollisionExitEvent;
+
+        player.Interact.OnInteractEnter -= OnInteractEnter;
+        player.Interact.OnInteractExit -= OnInteractExit;
     }
 
     protected override void Start()

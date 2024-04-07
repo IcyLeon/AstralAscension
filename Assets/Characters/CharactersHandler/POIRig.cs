@@ -5,7 +5,7 @@ using UnityEngine;
 public class POIRig : MonoBehaviour
 {
     private Dictionary<Collider, IInteractable> POI_List;
-    [SerializeField] private Characters characters;
+    [SerializeField] protected Characters characters;
     [SerializeField] private AimRig AimRig;
     [SerializeField] private Transform Target;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
@@ -14,14 +14,14 @@ public class POIRig : MonoBehaviour
     private void Awake()
     {
         POI_List = new();
-        Player.OnInteractionEnter += OnInteractionEnter;
-        Player.OnInteractionExit += OnInteractionExit;
+        characters.OnInteractionEnter += OnInteractionEnter;
+        characters.OnInteractionExit += OnInteractionExit;
     }
 
     private void OnDestroy()
     {
-        Player.OnInteractionEnter -= OnInteractionEnter;
-        Player.OnInteractionExit -= OnInteractionExit;
+        characters.OnInteractionEnter -= OnInteractionEnter;
+        characters.OnInteractionExit -= OnInteractionExit;
     }
 
     private void OnInteractionEnter(Collider collider)
@@ -42,10 +42,15 @@ public class POIRig : MonoBehaviour
         UpdateTarget();
     }
 
+    protected virtual bool CanMoveHead()
+    {
+        return true;
+    }
+
     private void UpdateTarget()
     {
         Transform closestTarget = GetClosestTarget(characters.transform.position);
-        if (closestTarget == null)
+        if (closestTarget == null || !CanMoveHead())
         {
             AimRig.SetTargetWeight(0f);
             return;
