@@ -1345,8 +1345,8 @@ MonoBehaviour:
     type: 2}
   <Rb>k__BackingField: {fileID: 870528458}
   <CameraManager>k__BackingField: {fileID: 1792152409}
+  <Interact>k__BackingField: {fileID: 883423448}
   PlayerSoundSource: {fileID: 870528459}
-  interact: {fileID: 883423448}
 --- !u!1 &883423445
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,7 +1405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec84cf4b57b56e6458c5bb0572cacc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionRange: 2
+  InteractionRange: 2.5
   InteractionsCollider: {fileID: 883423447}
 --- !u!1 &922236415
 GameObject:

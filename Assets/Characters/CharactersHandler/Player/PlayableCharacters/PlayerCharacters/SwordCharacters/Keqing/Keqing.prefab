@@ -14238,7 +14238,7 @@ GameObject:
   - component: {fileID: 3919050538968268365}
   - component: {fileID: 5337478303780764139}
   - component: {fileID: 1472157248246880502}
-  - component: {fileID: 4620770119237694991}
+  - component: {fileID: 8635614414826847995}
   m_Layer: 3
   m_Name: POIRig
   m_TagString: Untagged
@@ -14306,7 +14306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 5337478303780764139}
   soothingSpeed: 15
---- !u!114 &4620770119237694991
+--- !u!114 &8635614414826847995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14315,7 +14315,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7396475803838595444}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca8719e8b2d9d3a4887bed39d6f811f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 94f4b4db05c3e2e4bb8c91389be217a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characters: {fileID: 5412789336601351339}

@@ -12,17 +12,13 @@ public class Player : MonoBehaviour
     public OnCollisionEvent OnCollisionExitEvent;
     #endregion
 
-    #region Interaction Events
-    public static Interact.OnInteractEvent OnInteractionEnter;
-    public static Interact.OnInteractEvent OnInteractionExit;
-    #endregion
-
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
 
+    [field: SerializeField] public Interact Interact { get; private set; }
+
     [SerializeField] private AudioSource PlayerSoundSource;
-    [SerializeField] private Interact interact;
 
     public PlayerData playerData { get; private set; }
 
@@ -34,25 +30,6 @@ public class Player : MonoBehaviour
     {
         playerData = new PlayerData(this);
         playerInput = GetComponent<PlayerInput>();
-
-        interact.OnInteractEnter += OnInteractEnter;
-        interact.OnInteractExit += OnInteractExit;
-    }
-
-    private void OnDestroy()
-    {
-        interact.OnInteractEnter -= OnInteractEnter;
-        interact.OnInteractExit -= OnInteractExit;
-    }
-
-    private void OnInteractEnter(Collider collider)
-    {
-        OnInteractionEnter?.Invoke(collider);
-    }
-
-    private void OnInteractExit(Collider collider)
-    {
-        OnInteractionExit?.Invoke(collider);
     }
 
     public void PlayPlayerSoundEffect(AudioClip clip)

@@ -8,6 +8,9 @@ public class Characters : MonoBehaviour, IDamageable
     [field: SerializeField] public Animator Animator { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
 
+    public Interact.OnInteractEvent OnInteractionEnter;
+    public Interact.OnInteractEvent OnInteractionExit;
+
     protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
@@ -28,7 +31,6 @@ public class Characters : MonoBehaviour, IDamageable
 
     protected virtual void OnEnable()
     {
-
     }
 
     protected virtual void OnDisable()
