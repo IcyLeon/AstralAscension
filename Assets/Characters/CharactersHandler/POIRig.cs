@@ -49,8 +49,14 @@ public class POIRig : MonoBehaviour
 
     private void UpdateTarget()
     {
+        if (!CanMoveHead())
+        {
+            AimRig.SetTargetWeight(0f);
+            return;
+        }
+
         Transform closestTarget = GetClosestTarget(characters.transform.position);
-        if (closestTarget == null || !CanMoveHead())
+        if (closestTarget == null)
         {
             AimRig.SetTargetWeight(0f);
             return;
