@@ -42,7 +42,6 @@ public class PlayableCharacters : Characters
     {
         base.Awake();
         player = transform.parent.GetComponent<Player>();
-        PlayerPlungeState.OnPlungeAction += OnPlungeATK;
     }
 
     private void OnPlungeATK(Vector3 position)
@@ -56,7 +55,7 @@ public class PlayableCharacters : Characters
         player.OnCollisionEnterEvent += OnCollisionEnterEvent;
         player.OnCollisionStayEvent += OnCollisionStayEvent;
         player.OnCollisionExitEvent += OnCollisionExitEvent;
-
+        PlayerPlungeState.OnPlungeAction += OnPlungeATK;
         player.Interact.OnInteractEnter += OnInteractEnter;
         player.Interact.OnInteractExit += OnInteractExit;
     }
@@ -80,7 +79,6 @@ public class PlayableCharacters : Characters
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        PlayerPlungeState.OnPlungeAction -= OnPlungeATK;
         UnsubscribeEvents();
     }
 
@@ -89,7 +87,7 @@ public class PlayableCharacters : Characters
         player.OnCollisionEnterEvent -= OnCollisionEnterEvent;
         player.OnCollisionStayEvent -= OnCollisionStayEvent;
         player.OnCollisionExitEvent -= OnCollisionExitEvent;
-
+        PlayerPlungeState.OnPlungeAction -= OnPlungeATK;
         player.Interact.OnInteractEnter -= OnInteractEnter;
         player.Interact.OnInteractExit -= OnInteractExit;
     }

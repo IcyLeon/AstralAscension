@@ -72,7 +72,7 @@ public class POIRig : MonoBehaviour
 
         foreach(var Collider in POI_List.Keys)
         {
-            float distance = Vector3.Distance(Collider.transform.position, position);
+            float distance = (Collider.transform.position - position).sqrMagnitude;
             if (distance < nearestDistance)
             {
                 targetTransform = Collider.transform;
