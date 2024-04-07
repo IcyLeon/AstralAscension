@@ -11,12 +11,6 @@ public class PlayerHardLandingState : PlayerLandingState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.hardLandParameter);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.hardLandParameter);
+        SetAnimationTrigger(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.hardLandParameter);
     }
 }

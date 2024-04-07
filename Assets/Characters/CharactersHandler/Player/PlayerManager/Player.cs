@@ -12,21 +12,47 @@ public class Player : MonoBehaviour
     public OnCollisionEvent OnCollisionExitEvent;
     #endregion
 
+    #region Interaction Events
+    public static Interact.OnInteractEvent OnInteractionEnter;
+    public static Interact.OnInteractEvent OnInteractionExit;
+    #endregion
+
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
 
     [SerializeField] private AudioSource PlayerSoundSource;
+    [SerializeField] private Interact interact;
 
     public PlayerData playerData { get; private set; }
 
     private PlayerInput playerInput;
+
 
     // Start is called before the first frame update
     private void Awake()
     {
         playerData = new PlayerData(this);
         playerInput = GetComponent<PlayerInput>();
+
+        interact.OnInteractEnter += OnInteractEnter;
+        interact.OnInteractExit += OnInteractExit;
+    }
+
+    private void OnDestroy()
+    {
+        interact.OnInteractEnter -= OnInteractEnter;
+        interact.OnInteractExit -= OnInteractExit;
+    }
+
+    private void OnInteractEnter(Collider collider)
+    {
+        OnInteractionEnter?.Invoke(collider);
+    }
+
+    private void OnInteractExit(Collider collider)
+    {
+        OnInteractionExit?.Invoke(collider);
     }
 
     public void PlayPlayerSoundEffect(AudioClip clip)
@@ -40,6 +66,22 @@ public class Player : MonoBehaviour
     public void DisableInput(InputAction PA, float sec)
     {
         StartCoroutine(DisableInputCoroutine(PA, sec));
+    }
+
+    public static Vector3 GetTargetCameraRayPosition(float maxDistance)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2f, Screen.height / 2f));
+        return ray.origin + ray.direction * maxDistance;
+    }
+
+    public static Vector3 GetRayPosition(Vector3 originPosition, Vector3 direction, float maxDistance)
+    {
+        if (Physics.Raycast(originPosition, direction.normalized, out RaycastHit hit, maxDistance, ~LayerMask.GetMask("Ignore Raycast")))
+        {
+            return hit.point;
+        }
+
+        return originPosition + direction.normalized * maxDistance;
     }
 
     private IEnumerator DisableInputCoroutine(InputAction PA, float sec)

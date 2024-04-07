@@ -24,16 +24,17 @@ public class PlayerGroundedState : PlayerMovementState
 
     private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (this is PlayerDashState)
-        {
+        if (this is PlayerDashState || IsSkillCasting())
             return;
-        }
 
         playerStateMachine.ChangeState(playerStateMachine.playerDashState);
     }
 
     private void Jump_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (IsSkillCasting())
+            return;
+
         OnJump();
     }
 
@@ -73,6 +74,9 @@ public class PlayerGroundedState : PlayerMovementState
 
     private void OnFall()
     {
+        if (IsSkillCasting())
+            return;
+
         playerStateMachine.ChangeState(playerStateMachine.playerFallingState);
     }
 }

@@ -18,7 +18,8 @@ public class KeqingThrowState : KeqingElementalSkillState
     {
         base.OnAnimationTransition();
 
-        keqingStateMachine.player.CameraManager.ToggleAimCamera(false, 0.25f);
+        keqingStateMachine.player.CameraManager.ToggleAimCamera(false, 0.08f);
+
         keqingStateMachine.ChangeState(keqingStateMachine.swordState);
     }
 }
