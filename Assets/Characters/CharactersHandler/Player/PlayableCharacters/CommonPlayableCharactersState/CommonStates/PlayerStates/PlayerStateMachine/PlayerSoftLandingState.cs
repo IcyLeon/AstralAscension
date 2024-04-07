@@ -11,12 +11,6 @@ public class PlayerSoftLandingState : PlayerLandingState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakLandParameter);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakLandParameter);
+        SetAnimationTrigger(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakLandParameter);
     }
 }

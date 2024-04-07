@@ -11,9 +11,14 @@ public class Characters : MonoBehaviour, IDamageable
     protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         
+    }
+
+    protected virtual void Start()
+    {
+
     }
 
     protected void PlayVOClip(AudioClip clip)

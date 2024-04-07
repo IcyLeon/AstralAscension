@@ -15,15 +15,15 @@ MonoBehaviour:
   <CommonPlayableCharacterHashParameters>k__BackingField:
     movementParameters: Velocity
     dashParameter: isDashing
-    weakStopParameter: isWeakStopping
-    strongStopParameter: isStrongStopping
     fallParameter: isFalling
     jumpParameter: isJumping
-    weakLandParameter: isWeakLanding
-    hardLandParameter: isHardLanding
     plungeParameter: isPlunging
     plungeLandingParameter: isPlungeLanding
-    deadParameter: isDead
+    deadParameter: Dead
+    weakLandParameter: WeakLanding
+    hardLandParameter: HardLanding
+    weakStopParameter: WeakStopping
+    strongStopParameter: StrongStopping
   <aimParameter>k__BackingField: isAiming
   <throwParameter>k__BackingField: Throw
   <elementalSkillSlashParameter>k__BackingField: ESkillSlash

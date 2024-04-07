@@ -102,6 +102,10 @@ public class PlayerMovementState : IState
     {
         Characters.StopAnimation(playerStateMachine.playableCharacter.Animator, parameter);
     }
+    protected void SetAnimationTrigger(string parameter)
+    {
+        Characters.SetAnimationTrigger(playerStateMachine.playableCharacter.Animator, parameter);
+    }
 
     protected bool IsSkillCasting()
     {

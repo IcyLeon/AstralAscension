@@ -4,7 +4,7 @@ public class CharacterStateMachine
 {
     protected StateMachineManager<PlayerCharacterState> StateMachineManager;
     public Characters characters { get; }
-
+    public CharacterReuseableData characterReuseableData { get; protected set; }
     public virtual void Update()
     {
         StateMachineManager.Update();

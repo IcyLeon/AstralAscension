@@ -12,6 +12,8 @@ public class PlayerCharactersSO : CharactersSO
         public AnimationCurve BaseDEF;
     }
 
+    [field: SerializeField] public float ElementalSkillRange { get; private set; } = 1f;
+
     [field: SerializeField] public Rarity Rarity { get; private set; } = Rarity.ONE_STAR;
     [field: SerializeField] public AscensionInfo[] AscensionInformation { get; private set; }
     [field: SerializeField] public PlayableCharacterAnimationSO PlayableCharacterAnimationSO { get; private set; }

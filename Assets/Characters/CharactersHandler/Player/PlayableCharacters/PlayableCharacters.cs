@@ -8,6 +8,10 @@ public class PlayableCharacters : Characters
 
     [field: SerializeField] public CapsuleCollider MainCollider { get; private set; }
 
+    [field: SerializeField] public Collider BasicAttackCollider { get; private set; }
+
+    [field: SerializeField] public AimRig POIRig { get; private set; }
+
     public Player player { get; private set; }
 
     public PlayableCharacterAnimationSO PlayableCharacterAnimationSO
@@ -34,8 +38,9 @@ public class PlayableCharacters : Characters
         }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         player = transform.parent.GetComponent<Player>();
         PlayerPlungeState.OnPlungeAction += OnPlungeATK;
     }

@@ -5,8 +5,9 @@ using UnityEngine;
 public class Inventory
 {
     public int mora { get; private set; }
-    private Dictionary<Item, ItemSO> ItemList;
-    //private Dictionary<PlayerCharactersSO, C>
+    private List<Item> itemList;
+    private Dictionary<PlayerCharactersSO, CharacterData> playableCharacterList;
+
     public void AddMora(int Amt)
     {
         mora += Amt;
@@ -24,10 +25,10 @@ public class Inventory
 
     private Item isItemExisted(ItemSO itemSO)
     {
-        foreach(var item in ItemList)
+        foreach(var item in itemList)
         {
-            if (item.Key.itemSO == itemSO)
-                return item.Key;
+            if (item.itemSO == itemSO)
+                return item;
         }
 
         return null;
@@ -36,6 +37,7 @@ public class Inventory
     public Inventory(int StartingMora = 0)
     {
         mora = StartingMora;
-        ItemList = new();
+        itemList = new();
+        playableCharacterList = new();
     }
 }
