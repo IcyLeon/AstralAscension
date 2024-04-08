@@ -52,7 +52,6 @@ public class POIRig : MonoBehaviour
         if (Characters.closestInteractionTransform == null)
             return null;
 
-        Debug.Log(Characters.transform.forward);
         Vector3 dir = Characters.closestInteractionTransform.position - Characters.transform.position;
         if (Vector3.Angle(Characters.transform.forward, dir) <= FOVAngle / 2f)
         {
