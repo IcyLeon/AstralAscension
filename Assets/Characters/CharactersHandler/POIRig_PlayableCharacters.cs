@@ -8,7 +8,7 @@ public class POIRig_PlayableCharacters : POIRig
     {
         get
         {
-            return (PlayableCharacters)characters;
+            return (PlayableCharacters)Characters;
         }
     }
 

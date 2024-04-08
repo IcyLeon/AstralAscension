@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayableCharacters : Characters
+public abstract class PlayableCharacters : Characters
 {
     [field: SerializeField] public PlayerCharactersSO PlayerCharactersSO { get; private set; }
 
     [field: SerializeField] public CapsuleCollider MainCollider { get; private set; }
 
     [field: SerializeField] public Collider BasicAttackCollider { get; private set; }
-
-    [field: SerializeField] public AimRig POIRig { get; private set; }
 
     public Player player { get; private set; }
 
@@ -49,6 +47,12 @@ public class PlayableCharacters : Characters
 
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        UpdateInteractionTransform(player.PlayerInteract.closestInteractionTransform);
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -56,18 +60,16 @@ public class PlayableCharacters : Characters
         player.OnCollisionStayEvent += OnCollisionStayEvent;
         player.OnCollisionExitEvent += OnCollisionExitEvent;
         PlayerPlungeState.OnPlungeAction += OnPlungeATK;
-        player.Interact.OnInteractEnter += OnInteractEnter;
-        player.Interact.OnInteractExit += OnInteractExit;
+
+        player.PlayerInteract.OnInteractEnter += OnInteractEnter;
+        player.PlayerInteract.OnInteractExit += OnInteractExit;
     }
 
     private void OnInteractEnter(Collider collider)
     {
-        OnInteractionEnter?.Invoke(collider);
     }
-
     private void OnInteractExit(Collider collider)
     {
-        OnInteractionExit?.Invoke(collider);
     }
 
     protected override void OnDisable()
@@ -88,8 +90,9 @@ public class PlayableCharacters : Characters
         player.OnCollisionStayEvent -= OnCollisionStayEvent;
         player.OnCollisionExitEvent -= OnCollisionExitEvent;
         PlayerPlungeState.OnPlungeAction -= OnPlungeATK;
-        player.Interact.OnInteractEnter -= OnInteractEnter;
-        player.Interact.OnInteractExit -= OnInteractExit;
+
+        player.PlayerInteract.OnInteractEnter -= OnInteractEnter;
+        player.PlayerInteract.OnInteractExit -= OnInteractExit;
     }
 
     protected override void Start()
@@ -115,12 +118,6 @@ public class PlayableCharacters : Characters
 
         PlayVOClip(clip);
     }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     private void OnCollisionEnterEvent(Collision collision)
     {
         if (characterStateMachine != null)

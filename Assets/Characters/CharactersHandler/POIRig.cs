@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class POIRig : MonoBehaviour
 {
-    private Dictionary<Collider, IInteractable> POI_List;
-    [SerializeField] protected Characters characters;
+    protected Characters Characters;
+    [Range(0f, 180f)]
+    [SerializeField] private float FOVAngle = 90f;
     [SerializeField] private AimRig AimRig;
     [SerializeField] private Transform Target;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
@@ -13,31 +14,27 @@ public class POIRig : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        POI_List = new();
-        characters.OnInteractionEnter += OnInteractionEnter;
-        characters.OnInteractionExit += OnInteractionExit;
+        Characters = GetCharacters();
     }
 
-    private void OnDestroy()
+    private Characters GetCharacters()
     {
-        characters.OnInteractionEnter -= OnInteractionEnter;
-        characters.OnInteractionExit -= OnInteractionExit;
-    }
+        Transform currentTransform = transform;
 
-    private void OnInteractionEnter(Collider collider)
-    {
-        if (collider.TryGetComponent(out IInteractable IInteractable)) {
-            POI_List.Add(collider, IInteractable);
+        while (currentTransform != null)
+        {
+            if (currentTransform.TryGetComponent(out Characters characters))
+            {
+                return characters;
+            }
+            currentTransform = currentTransform.transform.parent;
         }
+        return null;
     }
 
-    private void OnInteractionExit(Collider collider)
-    {
-        POI_List.Remove(collider);
-    }
 
     // Update is called once per frame
-    private void Update()
+    private void LateUpdate()
     {
         UpdateTarget();
     }
@@ -45,6 +42,24 @@ public class POIRig : MonoBehaviour
     protected virtual bool CanMoveHead()
     {
         return true;
+    }
+
+    public Transform GetClosestTransform()
+    {
+        if (Characters == null)
+            return null;
+
+        if (Characters.closestInteractionTransform == null)
+            return null;
+
+        Debug.Log(Characters.transform.forward);
+        Vector3 dir = Characters.closestInteractionTransform.position - Characters.transform.position;
+        if (Vector3.Angle(Characters.transform.forward, dir) <= FOVAngle / 2f)
+        {
+            return Characters.closestInteractionTransform;
+        }
+
+        return null;
     }
 
     private void UpdateTarget()
@@ -55,7 +70,7 @@ public class POIRig : MonoBehaviour
             return;
         }
 
-        Transform closestTarget = GetClosestTarget(characters.transform.position);
+        Transform closestTarget = GetClosestTransform();
         if (closestTarget == null)
         {
             AimRig.SetTargetWeight(0f);
@@ -63,24 +78,6 @@ public class POIRig : MonoBehaviour
         }
         Target.transform.position = Vector3.MoveTowards(Target.transform.position, closestTarget.transform.position, Time.deltaTime * MoveTowardsSoothingTime);
         AimRig.SetTargetWeight(1f);
-    }
-
-    private Transform GetClosestTarget(Vector3 position)
-    {
-        float nearestDistance = Mathf.Infinity;
-        Transform targetTransform = null;
-
-        foreach(var Collider in POI_List.Keys)
-        {
-            float distance = (Collider.transform.position - position).sqrMagnitude;
-            if (distance < nearestDistance)
-            {
-                targetTransform = Collider.transform;
-                nearestDistance = distance;
-            }
-        }
-
-        return targetTransform;
     }
 
     public void SetTargetPosition(Vector3 WorldPosition)
