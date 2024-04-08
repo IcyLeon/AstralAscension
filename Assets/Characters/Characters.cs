@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Characters : MonoBehaviour, IDamageable
+public abstract class Characters : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public Animator Animator { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
-
-    public Interact.OnInteractEvent OnInteractionEnter;
-    public Interact.OnInteractEvent OnInteractionExit;
-
+    public Transform closestInteractionTransform { get; protected set; }
     protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
@@ -22,6 +19,11 @@ public class Characters : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
 
+    }
+
+    protected void UpdateInteractionTransform(Transform transform)
+    {
+        closestInteractionTransform = transform;
     }
 
     protected void PlayVOClip(AudioClip clip)

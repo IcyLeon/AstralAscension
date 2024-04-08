@@ -4331,7 +4331,6 @@ MonoBehaviour:
     type: 2}
   <MainCollider>k__BackingField: {fileID: 2951356107405484920}
   <BasicAttackCollider>k__BackingField: {fileID: 2621724480662290340}
-  <POIRig>k__BackingField: {fileID: 1472157248246880502}
   <AimRig>k__BackingField: {fileID: 9177261536529458908}
   hairpinTeleporter: {fileID: 0}
   <TargetOrb>k__BackingField: {fileID: 4214112610100515410}
@@ -14318,7 +14317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f4b4db05c3e2e4bb8c91389be217a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters: {fileID: 5412789336601351339}
+  FOVAngle: 180
   AimRig: {fileID: 1472157248246880502}
   Target: {fileID: 5570647464360397748}
   MoveTowardsSoothingTime: 10
