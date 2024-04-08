@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1535762473653973107}
   - component: {fileID: 2696887655594354880}
   m_Layer: 0
-  m_Name: InteractionFOV
+  m_Name: NPCInteractionFOV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,8 +55,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8233613814138613980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec84cf4b57b56e6458c5bb0572cacc93, type: 3}
+  m_Script: {fileID: 11500000, guid: 7090bdf193aa798418612c8562aec74d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionRange: 2
+  InteractionRange: 4.5
   InteractionsCollider: {fileID: 1535762473653973107}
