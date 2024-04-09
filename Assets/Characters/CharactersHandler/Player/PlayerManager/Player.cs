@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
 
     private PlayerInput playerInput;
 
-
     // Start is called before the first frame update
     private void Awake()
     {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class Characters : MonoBehaviour, IDamageable
+public abstract class Characters : MonoBehaviour, IDamageable, IPointOfInterest
 {
+    [SerializeField] private Transform POITargetTransform;
     [field: SerializeField] public Animator Animator { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
     public Transform closestInteractionTransform { get; protected set; }
@@ -19,6 +20,11 @@ public abstract class Characters : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
 
+    }
+
+    public Transform GetIPointOfInterestTransform()
+    {
+        return POITargetTransform;
     }
 
     protected void UpdateInteractionTransform(Transform transform)

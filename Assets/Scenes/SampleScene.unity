@@ -11793,7 +11793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8719e8b2d9d3a4887bed39d6f811f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FOVAngle: 90
+  Characters: {fileID: 1787081014}
+  FOVAngle: 180
   AimRig: {fileID: 1295557908}
   Target: {fileID: 1047610042}
   MoveTowardsSoothingTime: 10
@@ -16527,6 +16528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc9e98cc8eba14488126fe02c992dcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  POITargetTransform: {fileID: 2046080863}
   <Animator>k__BackingField: {fileID: 1732213758}
   VoiceSource: {fileID: 1787081015}
   NPCInteract: {fileID: 1837807154}

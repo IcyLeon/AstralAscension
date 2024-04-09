@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseNPC : Characters
 {
     [SerializeField] private NPCInteract NPCInteract;
+
     protected override void Update()
     {
         base.Update();
