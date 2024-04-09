@@ -9222,6 +9222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25929aabcd4c81b4fb97cefba148eb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ProbabilityPlayVO: 0.8
   CharacterDataSO:
   - {fileID: 11400000, guid: 81c5c30e2d574be48b7f14006f8f65cb, type: 2}
   - {fileID: 11400000, guid: 6bc80473b15263c438e5969df021ad63, type: 2}
