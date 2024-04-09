@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5435258285246486033}
   - component: {fileID: 1535762473653973107}
   - component: {fileID: 2696887655594354880}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NPCInteractionFOV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
