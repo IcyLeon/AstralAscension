@@ -60,16 +60,6 @@ public abstract class PlayableCharacters : Characters
         player.OnCollisionStayEvent += OnCollisionStayEvent;
         player.OnCollisionExitEvent += OnCollisionExitEvent;
         PlayerPlungeState.OnPlungeAction += OnPlungeATK;
-
-        player.PlayerInteract.OnInteractEnter += OnInteractEnter;
-        player.PlayerInteract.OnInteractExit += OnInteractExit;
-    }
-
-    private void OnInteractEnter(Collider collider)
-    {
-    }
-    private void OnInteractExit(Collider collider)
-    {
     }
 
     protected override void OnDisable()
@@ -90,9 +80,6 @@ public abstract class PlayableCharacters : Characters
         player.OnCollisionStayEvent -= OnCollisionStayEvent;
         player.OnCollisionExitEvent -= OnCollisionExitEvent;
         PlayerPlungeState.OnPlungeAction -= OnPlungeATK;
-
-        player.PlayerInteract.OnInteractEnter -= OnInteractEnter;
-        player.PlayerInteract.OnInteractExit -= OnInteractExit;
     }
 
     protected override void Start()

@@ -21,6 +21,13 @@ public class PlayerGroundedState : PlayerMovementState
         playerStateMachine.player.playerInputAction.Jump.started += Jump_started;
         playerStateMachine.player.playerInputAction.Dash.started += Dash_started;
     }
+    protected void OnSkillCast()
+    {
+        if (!playableCharacters.PlayableCharacterStateMachine.IsSkillCasting())
+            return;
+
+        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+    }
 
     private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {

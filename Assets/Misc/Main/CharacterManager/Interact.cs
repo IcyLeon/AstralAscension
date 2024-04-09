@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Interact<T> : MonoBehaviour
 {
     [Header("Interactions Data")]
-    private Dictionary<Collider, T> Interact_List;
+    private Dictionary<Transform, T> Interact_List;
     [SerializeField] private float InteractionRange = 1f;
     [SerializeField] private SphereCollider InteractionsCollider;
 
@@ -29,7 +29,7 @@ public abstract class Interact<T> : MonoBehaviour
     {
         if (other.TryGetComponent(out T IInteractable))
         {
-            Interact_List.Add(other, IInteractable);
+            Interact_List.Add(other.transform, IInteractable);
             OnInteractEnter?.Invoke(other);
         }
     }
@@ -40,6 +40,14 @@ public abstract class Interact<T> : MonoBehaviour
             return false;
 
         return closestInteractionTransform.GetComponent<T>() != null;
+    }
+
+    public T GetObject(Transform transform)
+    {
+        if (transform != null && Interact_List.TryGetValue(transform, out T value))
+            return value;
+
+        return default(T);
     }
 
     private Transform GetClosestTarget(Vector3 position)
@@ -69,7 +77,7 @@ public abstract class Interact<T> : MonoBehaviour
     {
         if (other.TryGetComponent(out T IInteractable))
         {
-            Interact_List.Remove(other);
+            Interact_List.Remove(other.transform);
             OnInteractExit?.Invoke(other);
         }
     }
