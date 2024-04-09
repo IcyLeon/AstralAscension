@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestInteract : MonoBehaviour, IInteractable
+public class TestInteract : MonoBehaviour, IInteractable, IPointOfInterest
 {
+    public Transform GetIPointOfInterestTransform()
+    {
+        return transform;
+    }
+
     public void Interact()
     {
     }

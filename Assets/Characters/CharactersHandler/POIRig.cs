@@ -4,33 +4,14 @@ using UnityEngine;
 
 public class POIRig : MonoBehaviour
 {
-    protected Characters Characters;
+    [SerializeField] protected Characters Characters;
     [Range(0f, 180f)]
     [SerializeField] private float FOVAngle = 90f;
     [SerializeField] private AimRig AimRig;
     [SerializeField] private Transform Target;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
 
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        Characters = GetCharacters();
-    }
-
-    private Characters GetCharacters()
-    {
-        Transform currentTransform = transform;
-
-        while (currentTransform != null)
-        {
-            if (currentTransform.TryGetComponent(out Characters characters))
-            {
-                return characters;
-            }
-            currentTransform = currentTransform.transform.parent;
-        }
-        return null;
-    }
+    private IPointOfInterest closestPointOfInterest;
 
 
     // Update is called once per frame
@@ -44,21 +25,33 @@ public class POIRig : MonoBehaviour
         return true;
     }
 
-    public Transform GetClosestTransform()
+    public Vector3 GetClosestTransformPosition()
     {
         if (Characters == null)
-            return null;
+            return default(Vector3);
 
         if (Characters.closestInteractionTransform == null)
-            return null;
+            return default(Vector3);
 
-        Vector3 dir = Characters.closestInteractionTransform.position - Characters.transform.position;
-        if (Vector3.Angle(Characters.transform.forward, dir) <= FOVAngle / 2f)
+        Vector3 LookAtPosition = Characters.closestInteractionTransform.position;
+
+        if (closestPointOfInterest == null)
         {
-            return Characters.closestInteractionTransform;
+            closestPointOfInterest = Characters.closestInteractionTransform.GetComponent<IPointOfInterest>();
         }
 
-        return null;
+        if (closestPointOfInterest != null)
+        {
+            LookAtPosition = closestPointOfInterest.GetIPointOfInterestTransform().position;
+        }
+
+        Vector3 dir = LookAtPosition - Characters.GetIPointOfInterestTransform().position;
+        if (Vector3.Angle(Characters.transform.forward, dir) <= FOVAngle / 2f)
+        {
+            return LookAtPosition;
+        }
+
+        return default(Vector3);
     }
 
     private void UpdateTarget()
@@ -69,13 +62,13 @@ public class POIRig : MonoBehaviour
             return;
         }
 
-        Transform closestTarget = GetClosestTransform();
-        if (closestTarget == null)
+        Vector3 closestTarget = GetClosestTransformPosition();
+        if (closestTarget == default(Vector3))
         {
             AimRig.SetTargetWeight(0f);
             return;
         }
-        Target.transform.position = Vector3.MoveTowards(Target.transform.position, closestTarget.transform.position, Time.deltaTime * MoveTowardsSoothingTime);
+        Target.transform.position = Vector3.MoveTowards(Target.transform.position, closestTarget, Time.deltaTime * MoveTowardsSoothingTime);
         AimRig.SetTargetWeight(1f);
     }
 

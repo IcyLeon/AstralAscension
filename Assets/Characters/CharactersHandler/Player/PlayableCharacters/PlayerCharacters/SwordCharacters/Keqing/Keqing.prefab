@@ -4325,6 +4325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99f80b0ed14c7d4ca60c26aec9079b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  POITargetTransform: {fileID: 3916871604430524750}
   <Animator>k__BackingField: {fileID: 787839521136189350}
   VoiceSource: {fileID: 3216654781972711093}
   <PlayerCharactersSO>k__BackingField: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e,
@@ -14317,6 +14318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f4b4db05c3e2e4bb8c91389be217a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Characters: {fileID: 5412789336601351339}
   FOVAngle: 180
   AimRig: {fileID: 1472157248246880502}
   Target: {fileID: 5570647464360397748}
