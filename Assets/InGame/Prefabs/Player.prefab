@@ -1391,7 +1391,7 @@ GameObject:
   - component: {fileID: 8489295495762639495}
   - component: {fileID: 8489295495762639489}
   - component: {fileID: 8489295495762639488}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlayerInteractionFOV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
