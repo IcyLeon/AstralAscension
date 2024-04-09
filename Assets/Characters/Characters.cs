@@ -32,8 +32,11 @@ public abstract class Characters : MonoBehaviour, IDamageable, IPointOfInterest
         closestInteractionTransform = transform;
     }
 
-    protected void PlayVOClip(AudioClip clip)
+    public void PlayVOAudio(AudioClip clip)
     {
+        if (clip == null)
+            return;
+
         VoiceSource.PlayOneShot(clip);
     }
 

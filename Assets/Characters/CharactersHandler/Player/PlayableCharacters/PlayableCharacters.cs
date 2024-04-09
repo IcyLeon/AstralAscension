@@ -111,13 +111,6 @@ public abstract class PlayableCharacters : Characters
     //        MainCollider.radius);
     //}
 
-    public void PlayVOAudio(AudioClip clip)
-    {
-        if (clip == null)
-            return;
-
-        PlayVOClip(clip);
-    }
     private void OnCollisionEnterEvent(Collision collision)
     {
         if (characterStateMachine != null)

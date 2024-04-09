@@ -15,9 +15,17 @@ public class PlayableCharacterVoicelinesSO : ScriptableObject
 
     private AudioClip GetRandomAudioClip(AudioClip[] clip)
     {
+        CharacterManager characterManager = CharacterManager.instance;
+        if (characterManager == null)
+            return null;
+
+        if (!CharacterManager.isInProbabilityRange(characterManager.GetProbabilityPlayVO()))
+            return null;
+
         int randomIdx = Random.Range(0, clip.Length);
         if (clip.Length == 0)
             return null;
+
         return clip[randomIdx];
     }
 
