@@ -14,8 +14,23 @@ public class POIRig : MonoBehaviour
     private IPointOfInterest closestPointOfInterest;
     private Transform currentTransform;
 
+    private Vector3 originalTargetPosition;
+    private Vector3 closestTarget;
+
+    private const float OffsetLength = 0.35f;
+
+    private void Awake()
+    {
+        originalTargetPosition = Characters.GetIPointOfInterestTransform().position + transform.forward * OffsetLength;
+    }
+
     // Update is called once per frame
     private void LateUpdate()
+    {
+        MoveTarget();
+    }
+
+    private void Update()
     {
         UpdateTarget();
     }
@@ -25,13 +40,13 @@ public class POIRig : MonoBehaviour
         return true;
     }
 
-    public Vector3 GetClosestTransformPosition()
+    private Vector3 GetClosestTransformPosition()
     {
         if (Characters == null)
-            return default(Vector3);
+            return originalTargetPosition;
 
         if (Characters.closestInteractionTransform == null)
-            return default(Vector3);
+            return originalTargetPosition;
 
         Vector3 LookAtPosition = Characters.closestInteractionTransform.position;
 
@@ -52,24 +67,31 @@ public class POIRig : MonoBehaviour
             return LookAtPosition;
         }
 
-        return default(Vector3);
+        return originalTargetPosition;
+    }
+
+    private void MoveTarget()
+    {
+        Vector3 WorldPosition = Vector3.MoveTowards(Target.transform.position, closestTarget, Time.deltaTime * MoveTowardsSoothingTime);
+        SetTargetPosition(WorldPosition);
     }
 
     private void UpdateTarget()
     {
+        closestTarget = GetClosestTransformPosition();
+
         if (!CanMoveHead())
         {
             AimRig.SetTargetWeight(0f);
             return;
         }
 
-        Vector3 closestTarget = GetClosestTransformPosition();
-        if (closestTarget == default(Vector3))
+        if (closestTarget == originalTargetPosition)
         {
             AimRig.SetTargetWeight(0f);
             return;
         }
-        Target.transform.position = Vector3.MoveTowards(Target.transform.position, closestTarget, Time.deltaTime * MoveTowardsSoothingTime);
+
         AimRig.SetTargetWeight(1f);
     }
 
