@@ -12,7 +12,7 @@ public class POIRig : MonoBehaviour
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
 
     private IPointOfInterest closestPointOfInterest;
-
+    private Transform currentTransform;
 
     // Update is called once per frame
     private void LateUpdate()
@@ -35,9 +35,10 @@ public class POIRig : MonoBehaviour
 
         Vector3 LookAtPosition = Characters.closestInteractionTransform.position;
 
-        if (closestPointOfInterest == null)
+        if (currentTransform != Characters.closestInteractionTransform)
         {
             closestPointOfInterest = Characters.closestInteractionTransform.GetComponent<IPointOfInterest>();
+            currentTransform = Characters.closestInteractionTransform;
         }
 
         if (closestPointOfInterest != null)
