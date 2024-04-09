@@ -9,6 +9,7 @@ public class AimRig : MonoBehaviour
     [SerializeField] private float soothingSpeed = 1f;
     private float targetRigWeight;
 
+
     // Start is called before the first frame update
     void Start()
     {

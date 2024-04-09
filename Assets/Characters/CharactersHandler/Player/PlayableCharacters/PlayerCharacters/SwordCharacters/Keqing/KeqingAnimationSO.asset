@@ -20,10 +20,10 @@ MonoBehaviour:
     plungeParameter: isPlunging
     plungeLandingParameter: isPlungeLanding
     deadParameter: Dead
-    weakLandParameter: WeakLanding
-    hardLandParameter: HardLanding
-    weakStopParameter: WeakStopping
-    strongStopParameter: StrongStopping
+    weakLandParameter: WeakLand
+    hardLandParameter: HardLand
+    weakStopParameter: WeakStop
+    strongStopParameter: StrongStop
   <aimParameter>k__BackingField: isAiming
   <throwParameter>k__BackingField: Throw
   <elementalSkillSlashParameter>k__BackingField: ESkillSlash
