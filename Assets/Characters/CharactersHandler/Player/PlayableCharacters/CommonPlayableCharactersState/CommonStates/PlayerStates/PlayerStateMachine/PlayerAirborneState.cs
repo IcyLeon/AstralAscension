@@ -36,6 +36,19 @@ public class PlayerAirborneState : PlayerMovementState
         playerStateMachine.player.Rb.velocity = new Vector3(playerStateMachine.player.Rb.velocity.x, limitVelocityY, playerStateMachine.player.Rb.velocity.z);
     }
 
+    protected void OnGroundTransition()
+    {
+        if (IsGrounded())
+        {
+            if (Mathf.Abs(GetVerticalVelocity().y) < 10f) // got issue
+            {
+                playerStateMachine.ChangeState(playerStateMachine.playerSoftLandingState);
+                return;
+            }
+            playerStateMachine.ChangeState(playerStateMachine.playerHardLandingState);
+            return;
+        }
+    }
 
     public override void Enter()
     {

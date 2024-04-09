@@ -9,6 +9,23 @@ public class KeqingState : SwordState
     {
     }
 
+    protected override void SubscribeInputs()
+    {
+        base.SubscribeInputs();
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+    }
+
+    private void ElementalSkill_canceled(InputAction.CallbackContext obj)
+    {
+        keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
+    }
+
+    protected override void UnsubscribeInputs()
+    {
+        base.UnsubscribeInputs();
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+    }
+
     protected override void ElementalBurst_performed(InputAction.CallbackContext obj)
     {
     }

@@ -14320,6 +14320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Characters: {fileID: 5412789336601351339}
   FOVAngle: 180
+  MultiAimConstraint: {fileID: 856034220876977985}
   AimRig: {fileID: 1472157248246880502}
   Target: {fileID: 5570647464360397748}
   MoveTowardsSoothingTime: 10

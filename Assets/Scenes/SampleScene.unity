@@ -10703,6 +10703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Characters: {fileID: 1787081014}
   FOVAngle: 180
+  MultiAimConstraint: {fileID: 278095464}
   AimRig: {fileID: 1295557908}
   Target: {fileID: 1047610042}
   MoveTowardsSoothingTime: 10

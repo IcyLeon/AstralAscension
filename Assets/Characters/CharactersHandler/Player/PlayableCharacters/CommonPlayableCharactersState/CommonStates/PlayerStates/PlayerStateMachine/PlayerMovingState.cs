@@ -16,7 +16,8 @@ public class PlayerMovingState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
-        
+
+        OnSkillCast();
         if (playerStateMachine.playerData.movementInput == Vector2.zero)
         {
             OnStop();

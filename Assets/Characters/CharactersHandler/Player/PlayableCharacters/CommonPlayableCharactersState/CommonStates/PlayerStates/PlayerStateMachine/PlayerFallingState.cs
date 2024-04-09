@@ -23,25 +23,11 @@ public class PlayerFallingState : PlayerAirborneState
         LimitFallVelocity();
     }
 
-    private float GetSpeedY()
-    {
-        return Mathf.Abs(GetVerticalVelocity().y);
-    }
 
     public override void Update()
     {
         base.Update();
-
-        if (IsGrounded())
-        {
-            if (GetSpeedY() < 10f) // got issue
-            {
-                playerStateMachine.ChangeState(playerStateMachine.playerSoftLandingState);
-                return;
-            }
-            playerStateMachine.ChangeState(playerStateMachine.playerHardLandingState);
-            return;
-        }
+        OnGroundTransition();
     }
 
     public override void Exit()

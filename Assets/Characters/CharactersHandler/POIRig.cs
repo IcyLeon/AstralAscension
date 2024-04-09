@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class POIRig : MonoBehaviour
 {
     [SerializeField] protected Characters Characters;
     [Range(0f, 180f)]
     [SerializeField] private float FOVAngle = 90f;
+    [SerializeField] private MultiAimConstraint MultiAimConstraint;
     [SerializeField] private AimRig AimRig;
     [SerializeField] private Transform Target;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
@@ -21,7 +23,7 @@ public class POIRig : MonoBehaviour
 
     private void Awake()
     {
-        originalTargetPosition = Characters.GetIPointOfInterestTransform().position + transform.forward * OffsetLength;
+        originalTargetPosition = MultiAimConstraint.data.constrainedObject.position + transform.forward * OffsetLength;
     }
 
     // Update is called once per frame
@@ -52,8 +54,8 @@ public class POIRig : MonoBehaviour
 
         if (currentTransform != Characters.closestInteractionTransform)
         {
-            closestPointOfInterest = Characters.closestInteractionTransform.GetComponent<IPointOfInterest>();
             currentTransform = Characters.closestInteractionTransform;
+            closestPointOfInterest = currentTransform.GetComponent<IPointOfInterest>();
         }
 
         if (closestPointOfInterest != null)
@@ -61,8 +63,8 @@ public class POIRig : MonoBehaviour
             LookAtPosition = closestPointOfInterest.GetIPointOfInterestTransform().position;
         }
 
-        Vector3 dir = LookAtPosition - Characters.GetIPointOfInterestTransform().position;
-        if (Vector3.Angle(Characters.transform.forward, dir) <= FOVAngle / 2f)
+        Vector3 dir = LookAtPosition - MultiAimConstraint.data.constrainedObject.position;
+        if (Vector3.Angle(Characters.transform.forward, dir.normalized) <= FOVAngle / 2f)
         {
             return LookAtPosition;
         }

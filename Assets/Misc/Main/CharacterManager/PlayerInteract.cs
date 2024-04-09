@@ -21,7 +21,9 @@ public class PlayerInteract : Interact<IInteractable>
     {
         if (isInteractableObject())
         {
-            Debug.Log("tt");
+            Debug.Log("Interact!");
         }
+
+        Debug.Log(GetObject(closestInteractionTransform));
     }
 }

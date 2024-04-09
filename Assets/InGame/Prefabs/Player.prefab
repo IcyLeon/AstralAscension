@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &239975823828223627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7520020141566734896}
+  - component: {fileID: 7493357707388202747}
+  m_Layer: 0
+  m_Name: PlayerCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7520020141566734896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239975823828223627}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8489295494363605637}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7493357707388202747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239975823828223627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02150fbb9aade84f873e7ef0b94601c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 8489295494363605632}
 --- !u!1 &8489295493921739727
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +712,7 @@ Transform:
   m_Children:
   - {fileID: 8489295495762639495}
   - {fileID: 8489295494311766348}
+  - {fileID: 7520020141566734896}
   - {fileID: 8489295495052446740}
   - {fileID: 6803485233693621184}
   m_Father: {fileID: 0}
@@ -1203,7 +1249,7 @@ Transform:
   - {fileID: 8489295493921739720}
   - {fileID: 8489295494498299185}
   m_Father: {fileID: 8489295494363605637}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8489295495052446741
 MonoBehaviour:
@@ -1410,7 +1456,7 @@ PrefabInstance:
     - target: {fileID: 3151073333175285641, guid: 837339f5700e3cd42bc0d4e368fd84f8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3151073333175285641, guid: 837339f5700e3cd42bc0d4e368fd84f8,
         type: 3}
