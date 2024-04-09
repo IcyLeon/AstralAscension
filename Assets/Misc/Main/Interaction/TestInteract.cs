@@ -9,7 +9,7 @@ public class TestInteract : MonoBehaviour, IInteractable, IPointOfInterest
         return transform;
     }
 
-    public void Interact()
+    public void Interact(Transform sourceTransform)
     {
     }
 
