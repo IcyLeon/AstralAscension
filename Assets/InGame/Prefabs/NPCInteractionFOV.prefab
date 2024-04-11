@@ -58,5 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7090bdf193aa798418612c8562aec74d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractLayers:
+    serializedVersion: 2
+    m_Bits: 8
   InteractionRange: 4.5
   InteractionsCollider: {fileID: 1535762473653973107}

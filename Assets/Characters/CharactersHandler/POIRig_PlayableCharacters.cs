@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class POIRig_PlayableCharacters : POIRig
 {
-    public PlayableCharacters playableCharacters
+    [SerializeField] private PlayableCharacters PlayableCharacters;
+
+    private void Start()
     {
-        get
-        {
-            return (PlayableCharacters)Characters;
-        }
+        interactReference = PlayableCharacters.player.PlayerInteract;
     }
 
     protected override bool CanMoveHead()
     {
-        return !playableCharacters.PlayableCharacterStateMachine.IsSkillCasting();
+        return !PlayableCharacters.PlayableCharacterStateMachine.IsSkillCasting();
     }
 }

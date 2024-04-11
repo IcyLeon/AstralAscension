@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class POIRig : MonoBehaviour
+public abstract class POIRig : MonoBehaviour
 {
-    [SerializeField] protected Characters Characters;
+    protected Interact interactReference;
+
+    [Header("Rig Data")]
     [Range(0f, 180f)]
     [SerializeField] private float FOVAngle = 90f;
     [SerializeField] private MultiAimConstraint MultiAimConstraint;
     [SerializeField] private AimRig AimRig;
-    [SerializeField] private Transform Target;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
 
     private IPointOfInterest closestPointOfInterest;
@@ -44,17 +45,17 @@ public class POIRig : MonoBehaviour
 
     private Vector3 GetClosestTransformPosition()
     {
-        if (Characters == null)
+        if (interactReference == null)
             return originalTargetPosition;
 
-        if (Characters.closestInteractionTransform == null)
+        if (interactReference.closestInteractionTransform == null)
             return originalTargetPosition;
 
-        Vector3 LookAtPosition = Characters.closestInteractionTransform.position;
+        Vector3 LookAtPosition = interactReference.closestInteractionTransform.position;
 
-        if (currentTransform != Characters.closestInteractionTransform)
+        if (currentTransform != interactReference.closestInteractionTransform)
         {
-            currentTransform = Characters.closestInteractionTransform;
+            currentTransform = interactReference.closestInteractionTransform;
             closestPointOfInterest = currentTransform.GetComponent<IPointOfInterest>();
         }
 
@@ -64,7 +65,7 @@ public class POIRig : MonoBehaviour
         }
 
         Vector3 dir = LookAtPosition - MultiAimConstraint.data.constrainedObject.position;
-        if (Vector3.Angle(Characters.transform.forward, dir.normalized) <= FOVAngle / 2f)
+        if (Vector3.Angle(interactReference.transform.forward, dir.normalized) <= FOVAngle / 2f)
         {
             return LookAtPosition;
         }
@@ -74,7 +75,7 @@ public class POIRig : MonoBehaviour
 
     private void MoveTarget()
     {
-        Vector3 WorldPosition = Vector3.MoveTowards(Target.transform.position, closestTarget, Time.deltaTime * MoveTowardsSoothingTime);
+        Vector3 WorldPosition = Vector3.MoveTowards(MultiAimConstraint.data.sourceObjects[0].transform.position, closestTarget, Time.deltaTime * MoveTowardsSoothingTime);
         SetTargetPosition(WorldPosition);
     }
 
@@ -99,6 +100,6 @@ public class POIRig : MonoBehaviour
 
     public void SetTargetPosition(Vector3 WorldPosition)
     {
-        Target.transform.position = WorldPosition;
+        MultiAimConstraint.data.sourceObjects[0].transform.position = WorldPosition;
     }
 }
