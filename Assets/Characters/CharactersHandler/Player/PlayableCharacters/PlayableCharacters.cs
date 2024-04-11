@@ -50,7 +50,7 @@ public abstract class PlayableCharacters : Characters
     protected override void Update()
     {
         base.Update();
-        UpdateInteractionTransform(player.PlayerInteract.closestInteractionTransform);
+
     }
 
     protected override void OnEnable()

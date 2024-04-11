@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Interact<T> : MonoBehaviour
+public abstract class Interact : MonoBehaviour
 {
     [Header("Interactions Data")]
-    private Dictionary<Transform, T> Interact_List;
+    private Dictionary<Transform, Collider> Interact_List;
+    [SerializeField] private LayerMask InteractLayers;
     [SerializeField] private float InteractionRange = 1f;
     [SerializeField] private SphereCollider InteractionsCollider;
 
@@ -25,29 +27,12 @@ public abstract class Interact<T> : MonoBehaviour
     {
     }
 
-    private void OnTriggerEnter(Collider other)
+    public Collider GetObject(Transform transform)
     {
-        if (other.TryGetComponent(out T IInteractable))
-        {
-            Interact_List.Add(other.transform, IInteractable);
-            OnInteractEnter?.Invoke(other);
-        }
-    }
-
-    protected bool isInteractableObject()
-    {
-        if (closestInteractionTransform == null)
-            return false;
-
-        return closestInteractionTransform.GetComponent<T>() != null;
-    }
-
-    public T GetObject(Transform transform)
-    {
-        if (transform != null && Interact_List.TryGetValue(transform, out T value))
+        if (transform != null && Interact_List.TryGetValue(transform, out Collider value))
             return value;
 
-        return default(T);
+        return null;
     }
 
     private Transform GetClosestTarget(Vector3 position)
@@ -73,11 +58,19 @@ public abstract class Interact<T> : MonoBehaviour
         closestInteractionTransform = GetClosestTarget(InteractionsCollider.bounds.center);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & InteractLayers) != 0)
+        {
+            Interact_List.Add(other.transform, other);
+            OnInteractEnter?.Invoke(other);
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out T IInteractable))
+        if (Interact_List.Remove(other.transform))
         {
-            Interact_List.Remove(other.transform);
             OnInteractExit?.Invoke(other);
         }
     }

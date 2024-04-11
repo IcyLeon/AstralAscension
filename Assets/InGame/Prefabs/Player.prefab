@@ -1438,6 +1438,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e5365aa7c1e5f43ab6351e15c54b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractLayers:
+    serializedVersion: 2
+    m_Bits: 192
   InteractionRange: 4
   InteractionsCollider: {fileID: 8489295495762639489}
   <player>k__BackingField: {fileID: 8489295494363605632}

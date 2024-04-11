@@ -4,16 +4,8 @@ using UnityEngine;
 
 public class BaseNPC : Characters, IInteractable
 {
-    [SerializeField] private NPCInteract NPCInteract;
-
     public void Interact(Transform sourceTransform)
     {
 
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        UpdateInteractionTransform(NPCInteract.closestInteractionTransform);
     }
 }

@@ -8,7 +8,6 @@ public abstract class Characters : MonoBehaviour, IDamageable, IPointOfInterest
     [SerializeField] private Transform POITargetTransform;
     [field: SerializeField] public Animator Animator { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
-    public Transform closestInteractionTransform { get; protected set; }
     protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
@@ -25,11 +24,6 @@ public abstract class Characters : MonoBehaviour, IDamageable, IPointOfInterest
     public Transform GetIPointOfInterestTransform()
     {
         return POITargetTransform;
-    }
-
-    protected void UpdateInteractionTransform(Transform transform)
-    {
-        closestInteractionTransform = transform;
     }
 
     public void PlayVOAudio(AudioClip clip)

@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteract : Interact<IInteractable>
+public class PlayerInteract : Interact
 {
     [field: SerializeField] public Player player { get; private set; }
-
+ 
     protected override void Start()
     {
         base.Start();
@@ -17,13 +18,17 @@ public class PlayerInteract : Interact<IInteractable>
         player.playerInputAction.Interact.started -= Interact_started;
     }
 
+
     private void Interact_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (isInteractableObject())
-        {
-            Debug.Log("Interact!");
-        }
+        Collider collider = GetObject(closestInteractionTransform);
+        if (collider == null)
+            return;
 
-        Debug.Log(GetObject(closestInteractionTransform));
+        if (collider.TryGetComponent(out IInteractable interactable))
+        {
+            interactable.Interact(player.transform);
+            Debug.Log("Interact " + interactable);
+        }
     }
 }

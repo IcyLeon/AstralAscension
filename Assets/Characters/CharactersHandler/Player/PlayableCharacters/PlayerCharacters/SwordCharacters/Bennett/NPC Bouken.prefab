@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 49734730}
   - component: {fileID: 49734731}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,8 +98,8 @@ GameObject:
   - component: {fileID: 1178275663}
   - component: {fileID: 1178275662}
   - component: {fileID: 1178275665}
-  - component: {fileID: 1178275664}
-  m_Layer: 3
+  - component: {fileID: 4423181161413248044}
+  m_Layer: 0
   m_Name: POIRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 1178275662}
   soothingSpeed: 15
---- !u!114 &1178275664
+--- !u!114 &4423181161413248044
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,15 +175,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1178275661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca8719e8b2d9d3a4887bed39d6f811f5, type: 3}
+  m_Script: {fileID: 11500000, guid: ef236f13107290847b75825c09d07a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Characters: {fileID: 537253564}
   FOVAngle: 180
   MultiAimConstraint: {fileID: 49734731}
   AimRig: {fileID: 1178275665}
-  Target: {fileID: 1701620138}
   MoveTowardsSoothingTime: 10
+  interact: {fileID: 2696887656187803932}
 --- !u!1 &1701620137
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1701620138}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5287,7 +5286,7 @@ Transform:
   - {fileID: 1070807192224408798}
   - {fileID: 1178275663}
   m_Father: {fileID: 3790777868002626513}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6208309243586181026
 Animator:
@@ -6718,7 +6717,7 @@ GameObject:
   - component: {fileID: 537253559}
   - component: {fileID: 537253569}
   - component: {fileID: 537253564}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NPC Bouken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6737,8 +6736,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4377021753246348294}
   - {fileID: 5435258283566712781}
+  - {fileID: 4377021753246348294}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6883,7 +6882,6 @@ MonoBehaviour:
   POITargetTransform: {fileID: 9115663086645749072}
   <Animator>k__BackingField: {fileID: 6208309243586181026}
   VoiceSource: {fileID: 537253559}
-  NPCInteract: {fileID: 2696887656187803932}
 --- !u!1 &4667954535138776434
 GameObject:
   m_ObjectHideFlags: 0
@@ -12066,7 +12064,7 @@ PrefabInstance:
     - target: {fileID: 5435258285246486033, guid: 505e97e93ec1b4c45a58c4f0e1e7efc2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5435258285246486033, guid: 505e97e93ec1b4c45a58c4f0e1e7efc2,
         type: 3}
