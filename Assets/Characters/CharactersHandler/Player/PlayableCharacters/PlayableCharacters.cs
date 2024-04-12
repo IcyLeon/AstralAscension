@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayableCharacters : Characters
+public abstract class PlayableCharacters : DamageableCharacters
 {
     [field: SerializeField] public PlayerCharactersSO PlayerCharactersSO { get; private set; }
 
@@ -30,6 +30,9 @@ public abstract class PlayableCharacters : Characters
 
     public void OnPlayerAnimationTransition()
     {
+        if (PlayableCharacterStateMachine == null)
+            return;
+
         if (PlayableCharacterStateMachine.playerStateMachine != null)
         {
             PlayableCharacterStateMachine.playerStateMachine.OnAnimationTransition();

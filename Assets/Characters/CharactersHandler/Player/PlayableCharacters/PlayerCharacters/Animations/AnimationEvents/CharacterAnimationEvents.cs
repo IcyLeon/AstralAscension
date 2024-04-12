@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterAnimationEvents : MonoBehaviour
 {
-    [field: SerializeField] public Characters Character { get; private set; }
+    [field: SerializeField] public DamageableCharacters Character { get; private set; }
 
     private void OnCharacterAnimationTransition()
     {

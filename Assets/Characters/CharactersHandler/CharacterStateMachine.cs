@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class CharacterStateMachine
+public abstract class CharacterStateMachine
 {
-    protected StateMachineManager<PlayerCharacterState> StateMachineManager;
+    protected StateMachineManager StateMachineManager;
     public Characters characters { get; }
     public CharacterReuseableData characterReuseableData { get; protected set; }
     public virtual void Update()
@@ -54,14 +54,14 @@ public class CharacterStateMachine
         StateMachineManager.OnTriggerStay(Collider);
     }
 
-    public virtual void ChangeState(IState newState)
+    public void ChangeState(IState newState)
     {
-        StateMachineManager.ChangeState((PlayerCharacterState)newState);
+        StateMachineManager.ChangeState(newState);
     }
 
     public CharacterStateMachine(Characters characters)
     {
-        StateMachineManager = new StateMachineManager<PlayerCharacterState>();
+        StateMachineManager = new StateMachineManager();
         this.characters = characters;
 
     }

@@ -34,12 +34,11 @@ public class KeqingStateMachine : SwordCharacterStateMachine
 
     public KeqingStateMachine(Characters characters) : base(characters)
     {
-        swordState = new KeqingState(this);
         characterReuseableData = new KeqingReuseableData();
+        playerElementalStateHandler = new KeqingElementalStateHandler(this);
         keqingAimState = new KeqingAimState(this);
         keqingThrowState = new KeqingThrowState(this);
         keqingTeleportState = new KeqingTeleportState(this);
         keqingESlashState = new KeqingESlashState(this);
-        ChangeState(swordState);
     }
 }

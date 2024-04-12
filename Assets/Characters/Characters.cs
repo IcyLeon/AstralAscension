@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class Characters : MonoBehaviour, IDamageable, IPointOfInterest
+public abstract class Characters : MonoBehaviour, IPointOfInterest
 {
     [SerializeField] private Transform POITargetTransform;
     [field: SerializeField] public Animator Animator { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
-    protected CharacterStateMachine characterStateMachine;
 
     // Start is called before the first frame update
     protected virtual void Awake()
@@ -43,11 +42,6 @@ public abstract class Characters : MonoBehaviour, IDamageable, IPointOfInterest
 
     }
 
-    public virtual bool IsDead()
-    {
-        return false;
-    }
-
     protected virtual void OnDestroy()
     {
 
@@ -56,34 +50,14 @@ public abstract class Characters : MonoBehaviour, IDamageable, IPointOfInterest
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.Update();
-        }
-    }
-
-    public void OnCharacterAnimationTransition()
-    {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.OnAnimationTransition();
-        }
     }
 
     protected virtual void FixedUpdate()
     {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.FixedUpdate();
-        }
     }
 
     protected virtual void LateUpdate()
     {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.LateUpdate();
-        }
     }
 
     public static void StartAnimation(Animator animator, string HashParameter)

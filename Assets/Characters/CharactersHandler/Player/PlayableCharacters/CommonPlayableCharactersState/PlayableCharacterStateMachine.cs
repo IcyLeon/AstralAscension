@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayableCharacterStateMachine : CharacterStateMachine
+public abstract class PlayableCharacterStateMachine : CharacterStateMachine
 {
     public PlayerStateMachine playerStateMachine { get; }
+    public PlayerElementalStateHandler playerElementalStateHandler { get; protected set; }
 
     public PlayableCharacters playableCharacters
     {
@@ -47,6 +48,7 @@ public class PlayableCharacterStateMachine : CharacterStateMachine
     public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {
         playerStateMachine = new PlayerStateMachine(this);
+
     }
 
     public bool IsSkillCasting()

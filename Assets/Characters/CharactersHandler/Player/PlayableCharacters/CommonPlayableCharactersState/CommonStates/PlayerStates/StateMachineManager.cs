@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachineManager<T> where T : IState
+public class StateMachineManager
 {
-    public T currentStates { get; private set; }
+    public IState currentStates { get; private set; }
 
     public void Update()
     {
+        Debug.Log(currentStates);
         if (currentStates != null)
             currentStates.Update();
     }
@@ -64,7 +65,7 @@ public class StateMachineManager<T> where T : IState
             currentStates.OnTriggerStay(Collider);
     }
 
-    public void ChangeState(T newState)
+    public void ChangeState(IState newState)
     {
         if (currentStates != null)
             currentStates.Exit();

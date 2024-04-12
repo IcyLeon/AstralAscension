@@ -18,7 +18,7 @@ public class KeqingESlashState : KeqingElementalSkillState
     {
         base.OnAnimationTransition();
 
-        keqingStateMachine.ChangeState(keqingStateMachine.swordState);
+        keqingStateMachine.ChangeState(keqingStateMachine.swordIdleState);
     }
 
 }
