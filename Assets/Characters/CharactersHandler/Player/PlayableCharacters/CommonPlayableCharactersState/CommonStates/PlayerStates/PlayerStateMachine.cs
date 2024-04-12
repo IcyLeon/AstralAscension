@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStateMachine
 {
-    private StateMachineManager<PlayerMovementState> StateMachineManager;
+    private StateMachineManager StateMachineManager;
     public PlayableCharacters playableCharacter { get; }
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
@@ -87,12 +87,12 @@ public class PlayerStateMachine
 
     public void ChangeState(IState newState)
     {
-        StateMachineManager.ChangeState((PlayerMovementState)newState);
+        StateMachineManager.ChangeState(newState);
     }
 
     public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
-        StateMachineManager = new StateMachineManager<PlayerMovementState>();
+        StateMachineManager = new StateMachineManager();
         playableCharacter = PCS.playableCharacters;
         playerAimState = new PlayerAimState(this);
         playerIdleState = new PlayerIdleState(this);

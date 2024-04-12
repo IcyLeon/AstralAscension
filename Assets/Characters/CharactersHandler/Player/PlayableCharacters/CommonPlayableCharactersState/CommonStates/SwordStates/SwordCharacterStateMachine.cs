@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class SwordCharacterStateMachine : PlayableCharacterStateMachine
 {
-    public SwordState swordState { get; protected set; }
+    public SwordIdleState swordIdleState { get; protected set; }
     public SwordCharacterStateMachine(Characters characters) : base(characters)
     {
+        swordIdleState = new SwordIdleState(this);
+        ChangeState(swordIdleState);
     }
 }

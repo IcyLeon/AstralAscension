@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerCharacterState : IState
+public abstract class PlayerCharacterState : IState
 {
     protected PlayableCharacterStateMachine playableCharacterStateMachine { get; }
 
@@ -23,11 +24,29 @@ public class PlayerCharacterState : IState
 
     protected virtual void SubscribeInputs()
     {
-
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started += ElementalSkill_started;
+        playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
+
     protected virtual void UnsubscribeInputs()
     {
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
+        playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
+    }
 
+    protected virtual void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+    }
+
+    protected virtual void ElementalSkill_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+
+    }
+
+    protected virtual void ElementalBurst_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
     }
 
     public virtual void FixedUpdate()
