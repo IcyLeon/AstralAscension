@@ -8,7 +8,7 @@ public class PlayerAirborneState : PlayerMovementState
     {
     }
 
-    protected override void SubscribeInputs()
+    public override void SubscribeInputs()
     {
         base.SubscribeInputs();
         playerStateMachine.player.playerInputAction.Attack.performed += Attack_performed;
@@ -22,7 +22,7 @@ public class PlayerAirborneState : PlayerMovementState
         playerStateMachine.ChangeState(playerStateMachine.playerPlungeState);
     }
 
-    protected override void UnsubscribeInputs()
+    public override void UnsubscribeInputs()
     {
         base.UnsubscribeInputs();
         playerStateMachine.player.playerInputAction.Attack.performed -= Attack_performed;

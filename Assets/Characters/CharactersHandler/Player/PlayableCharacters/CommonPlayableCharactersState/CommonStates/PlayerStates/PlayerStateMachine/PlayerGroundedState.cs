@@ -15,7 +15,7 @@ public class PlayerGroundedState : PlayerMovementState
         StartAnimation("isGrounded");
     }
 
-    protected override void SubscribeInputs()
+    public override void SubscribeInputs()
     {
         base.SubscribeInputs();
         playerStateMachine.player.playerInputAction.Jump.started += Jump_started;
@@ -56,7 +56,7 @@ public class PlayerGroundedState : PlayerMovementState
         }
     }
 
-    protected override void UnsubscribeInputs()
+    public override void UnsubscribeInputs()
     {
         base.UnsubscribeInputs();
         playerStateMachine.player.playerInputAction.Jump.started -= Jump_started;

@@ -5,8 +5,6 @@ using UnityEngine;
 public abstract class PlayableCharacterStateMachine : CharacterStateMachine
 {
     public PlayerStateMachine playerStateMachine { get; }
-    public PlayerElementalStateHandler playerElementalStateHandler { get; protected set; }
-
     public PlayableCharacters playableCharacters
     {
         get

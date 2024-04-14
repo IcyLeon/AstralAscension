@@ -37,7 +37,7 @@ public class PlayerMovementState : IState
         return this is PlayerAimState;
     }
 
-    protected virtual void SubscribeInputs()
+    public virtual void SubscribeInputs()
     {
     }
 
@@ -46,7 +46,7 @@ public class PlayerMovementState : IState
     }
 
 
-    protected virtual void UnsubscribeInputs()
+    public virtual void UnsubscribeInputs()
     {
     }
 
