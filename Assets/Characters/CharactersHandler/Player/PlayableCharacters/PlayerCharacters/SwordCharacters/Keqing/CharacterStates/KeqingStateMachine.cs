@@ -32,10 +32,14 @@ public class KeqingStateMachine : SwordCharacterStateMachine
         }
     }
 
+    protected override void InitState()
+    {
+        swordState = new KeqingState(this);
+    }
+
     public KeqingStateMachine(Characters characters) : base(characters)
     {
         characterReuseableData = new KeqingReuseableData();
-        playerElementalStateHandler = new KeqingElementalStateHandler(this);
         keqingAimState = new KeqingAimState(this);
         keqingThrowState = new KeqingThrowState(this);
         keqingTeleportState = new KeqingTeleportState(this);

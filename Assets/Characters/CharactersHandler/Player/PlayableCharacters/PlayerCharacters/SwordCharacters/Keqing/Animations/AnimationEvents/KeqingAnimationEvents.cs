@@ -5,6 +5,7 @@ using UnityEngine;
 public class KeqingAnimationEvents : PlayableCharacterAnimationEvents
 {
     [SerializeField] private GameObject HairpinTeleporterPrefab;
+    private ObjectPool<HairpinTeleporter> objectPool;
 
     public Keqing keqing { 
         get 
@@ -15,21 +16,30 @@ public class KeqingAnimationEvents : PlayableCharacterAnimationEvents
 
     private void Start()
     {
-        InitHairPin(HairpinTeleporterPrefab);
+        objectPool = new ObjectPool<HairpinTeleporter>(HairpinTeleporterPrefab, playableCharacters.transform);
+        objectPool.ObjectCreated += OnHairPinObjectCreated;
     }
 
-    private void InitHairPin(GameObject go)
+    private void Update()
     {
-        GameObject hairpinGO = ObjectPoolManager.instance.CreateGameObject(go, playableCharacters.transform);
-        HairpinTeleporter HT = hairpinGO.GetComponent<HairpinTeleporter>();
-        HT.SetPlayableCharacter(keqing);
-        hairpinGO.SetActive(false);
-        keqing.hairpinTeleporter = HT;
+        keqing.hairpinTeleporter = objectPool.GetPooledObject();
+    }
+
+    private void OnHairPinObjectCreated(GameObject existGO)
+    {
+        HairpinTeleporter HT = existGO.GetComponent<HairpinTeleporter>();
+        if (HT == null)
+            return;
+
+        HT.SetPlayableCharacter(playableCharacters);
+    }
+
+    private void OnDestroy()
+    {
+        objectPool.ObjectCreated -= OnHairPinObjectCreated;
     }
 
     private void ShootTeleporter()
     {
-
-        keqing.hairpinTeleporter.gameObject.SetActive(true);
     }
 }

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerElementalStateHandler : IState
+public abstract class PlayerElementalState : IState
 {
     protected PlayableCharacterStateMachine playableCharacterStateMachine { get; }
 
-    public PlayerElementalStateHandler(PlayableCharacterStateMachine pcs)
+    public PlayerElementalState(PlayableCharacterStateMachine pcs)
     {
         playableCharacterStateMachine = pcs;
     }
@@ -21,18 +21,16 @@ public abstract class PlayerElementalStateHandler : IState
         UnsubscribeInputs();
     }
 
-    protected virtual void SubscribeInputs()
+    public virtual void SubscribeInputs()
     {
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started += ElementalSkill_started;
-        playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
-    protected virtual void UnsubscribeInputs()
+    public virtual void UnsubscribeInputs()
     {
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
-        playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
     }
 
     protected virtual void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -42,10 +40,6 @@ public abstract class PlayerElementalStateHandler : IState
     protected virtual void ElementalSkill_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
 
-    }
-
-    protected virtual void ElementalBurst_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
     }
 
     public virtual void FixedUpdate()
@@ -86,5 +80,19 @@ public abstract class PlayerElementalStateHandler : IState
 
     public virtual void Update()
     {
+    }
+
+    protected void StartAnimation(string parameter)
+    {
+        Characters.StartAnimation(playableCharacterStateMachine.characters.Animator, parameter);
+    }
+
+    protected void SetAnimationTrigger(string parameter)
+    {
+        Characters.SetAnimationTrigger(playableCharacterStateMachine.characters.Animator, parameter);
+    }
+    protected void StopAnimation(string parameter)
+    {
+        Characters.StopAnimation(playableCharacterStateMachine.characters.Animator, parameter);
     }
 }

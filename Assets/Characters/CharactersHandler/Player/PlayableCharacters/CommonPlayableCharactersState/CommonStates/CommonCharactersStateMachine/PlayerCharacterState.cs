@@ -22,14 +22,14 @@ public abstract class PlayerCharacterState : IState
         UnsubscribeInputs();
     }
 
-    protected virtual void SubscribeInputs()
+    public virtual void SubscribeInputs()
     {
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started += ElementalSkill_started;
         playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
-    protected virtual void UnsubscribeInputs()
+    public virtual void UnsubscribeInputs()
     {
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started -= ElementalSkill_started;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerElementalSkillState : PlayerCharacterState
+public class PlayerElementalSkillState : PlayerElementalState
 {
     public PlayerElementalSkillState(PlayableCharacterStateMachine pcs) : base(pcs)
     {

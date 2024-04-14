@@ -20,22 +20,16 @@ public abstract class POIRig : MonoBehaviour
     private Vector3 originalTargetPosition;
     private Vector3 closestTarget;
 
-    private const float OffsetLength = 0.35f;
-
     private void Awake()
     {
-        originalTargetPosition = MultiAimConstraint.data.constrainedObject.position + transform.forward * OffsetLength;
+        originalTargetPosition = MultiAimConstraint.data.constrainedObject.position + transform.forward * 0.35f;
     }
 
     // Update is called once per frame
     private void LateUpdate()
     {
-        MoveTarget();
-    }
-
-    private void Update()
-    {
         UpdateTarget();
+        MoveTarget();
     }
 
     protected virtual bool CanMoveHead()

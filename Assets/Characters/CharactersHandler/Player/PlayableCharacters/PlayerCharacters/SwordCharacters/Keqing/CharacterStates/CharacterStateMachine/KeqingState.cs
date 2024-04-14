@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class KeqingElementalStateHandler : PlayerElementalStateHandler
+public class KeqingState : SwordState
 {
-    public KeqingElementalStateHandler(PlayableCharacterStateMachine pcs) : base(pcs)
+    public KeqingState(PlayableCharacterStateMachine pcs) : base(pcs)
     {
     }
 
-    protected override void SubscribeInputs()
+    public override void SubscribeInputs()
     {
         base.SubscribeInputs();
         keqingStateMachine.player.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
-    protected override void UnsubscribeInputs()
+    public override void UnsubscribeInputs()
     {
         base.UnsubscribeInputs();
         keqingStateMachine.player.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;

@@ -21,7 +21,7 @@ public class KeqingAimState : KeqingElementalSkillState
             );
 
     }
-    protected override void SubscribeInputs()
+    public override void SubscribeInputs()
     {
         base.SubscribeInputs();
         keqingStateMachine.player.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
@@ -32,7 +32,7 @@ public class KeqingAimState : KeqingElementalSkillState
         keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }
 
-    protected override void UnsubscribeInputs()
+    public override void UnsubscribeInputs()
     {
         base.UnsubscribeInputs();
         playableCharacterStateMachine.player.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
