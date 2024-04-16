@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class DamageableCharacters : Characters, IDamageable
 {
+    public delegate void OnDamage(IDamageable source);
+    public OnDamage OnDamageHit;
+
     protected CharacterStateMachine characterStateMachine;
 
     protected override void Update()
@@ -45,6 +48,8 @@ public abstract class DamageableCharacters : Characters, IDamageable
 
     public virtual void TakeDamage(IDamageable source, float BaseDamageAmount)
     {
+        Animator.SetTrigger("Hit");
+        OnDamageHit?.Invoke(source);
         DamageManager.DamageChanged?.Invoke(this, new DamageManager.DamageInfo
         {
             DamageValue = BaseDamageAmount,
