@@ -86,8 +86,4 @@ public abstract class Characters : MonoBehaviour, IPointOfInterest
         if (CharacterManager.ContainsParam(animator, HashParameter))
             animator.SetBool(HashParameter, false);
     }
-
-    public virtual void TakeDamage(IDamageable source, float BaseDamageAmount)
-    {
-    }
 }

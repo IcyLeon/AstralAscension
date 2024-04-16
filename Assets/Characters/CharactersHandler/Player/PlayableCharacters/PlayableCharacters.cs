@@ -54,6 +54,15 @@ public abstract class PlayableCharacters : DamageableCharacters
     {
         base.Update();
 
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            TakeDamage(this, 1000f);
+        }
+    }
+
+    public override Vector3 GetMiddleBound()
+    {
+        return MainCollider.bounds.center;
     }
 
     protected override void OnEnable()
