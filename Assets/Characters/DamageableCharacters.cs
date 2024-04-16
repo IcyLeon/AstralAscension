@@ -43,4 +43,17 @@ public abstract class DamageableCharacters : Characters, IDamageable
         return false;
     }
 
+    public virtual void TakeDamage(IDamageable source, float BaseDamageAmount)
+    {
+        DamageManager.DamageChanged?.Invoke(this, new DamageManager.DamageInfo
+        {
+            DamageValue = BaseDamageAmount,
+            WorldPosition = GetMiddleBound()
+        });
+    }
+
+    public virtual Vector3 GetMiddleBound()
+    {
+        return transform.position;
+    }
 }
