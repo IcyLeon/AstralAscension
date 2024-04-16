@@ -66,7 +66,7 @@ public class DamageManager : MonoBehaviour
         if (damageText == null)
             return;
 
-        damageText.SetDamageValue(e.DamageValue, e.WorldPosition);
+        damageText.SetDamageTextValue(e.DamageValue.ToString(), e.WorldPosition);
     }
 
     private void OnDestroy()
