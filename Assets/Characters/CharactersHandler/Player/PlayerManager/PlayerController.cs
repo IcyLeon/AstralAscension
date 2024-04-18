@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         ToggleCursor(true);
     }
 
-    private void ToggleCursor(bool val)
+    public void ToggleCursor(bool val)
     {
         Cursor.visible = val;
         if (!val)
