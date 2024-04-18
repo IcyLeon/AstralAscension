@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class KeqingTeleportState : KeqingElementalSkillState
 {
-    private float TimeToReached = 0.1f;
     private Transform activeTeleporterTransform;
 
     public delegate void OnKeqingTeleport(bool enter);
@@ -18,7 +17,6 @@ public class KeqingTeleportState : KeqingElementalSkillState
     public override void Enter()
     {
         activeTeleporterTransform = keqing.activehairpinTeleporter.transform;
-        playableCharacterStateMachine.playerStateMachine.playerData.rotationTime = 0.02f;
         keqing.player.Rb.useGravity = false;
         OnKeqingTeleportState?.Invoke(true);
     }
@@ -27,7 +25,13 @@ public class KeqingTeleportState : KeqingElementalSkillState
     {
         base.FixedUpdate();
 
+        UpdateTeleportMovement();
         SmoothRotateToTargetRotation();
+    }
+
+    private void ResetVelocity()
+    {
+        keqing.player.Rb.velocity = Vector3.zero;
     }
 
     public override void Update()
@@ -36,19 +40,24 @@ public class KeqingTeleportState : KeqingElementalSkillState
 
         Vector3 dir = activeTeleporterTransform.position - keqing.player.Rb.position;
 
-        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        UpdateTargetRotationData(angle);
-
         if (dir.magnitude <= 1.5f)
         {
             TransitToSlash();
             return;
         }
 
-        float speed = dir.magnitude / TimeToReached;
-        keqing.player.Rb.position = Vector3.MoveTowards(keqing.player.Rb.position, activeTeleporterTransform.position, Time.deltaTime * speed);
         keqing.activehairpinTeleporter.ResetTime();
 
+    }
+
+    private void UpdateTeleportMovement()
+    {
+        Vector3 dir = activeTeleporterTransform.position - keqing.player.Rb.position;
+
+        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        UpdateTargetRotationData(angle);
+
+        keqing.player.Rb.MovePosition(keqing.player.Rb.position + 25f * Time.deltaTime * dir.normalized);
     }
 
     public override void OnCollisionStay(Collision collision)
@@ -59,6 +68,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
 
     private void TransitToSlash()
     {
+        ResetVelocity();
         keqingStateMachine.ChangeState(keqingStateMachine.keqingESlashState);
     }
 

@@ -628,6 +628,8 @@ MonoBehaviour:
   <Character>k__BackingField: {fileID: 5412789336601351339}
   hitColliders: {fileID: 4669812151405004131}
   EmitterPivot: {fileID: 7220014462091844022}
+  Mesh: {fileID: 7076072229689240021}
+  Armature: {fileID: 5159546102436732214}
 --- !u!114 &3684485128322895435
 MonoBehaviour:
   m_ObjectHideFlags: 0

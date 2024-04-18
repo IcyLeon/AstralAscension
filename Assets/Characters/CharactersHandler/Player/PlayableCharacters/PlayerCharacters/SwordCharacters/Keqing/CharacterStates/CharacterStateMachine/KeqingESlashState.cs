@@ -21,6 +21,12 @@ public class KeqingESlashState : KeqingElementalSkillState
         keqingStateMachine.ChangeState(keqingStateMachine.swordState);
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        SmoothRotateToTargetRotation();
+    }
+
     public override void Exit()
     {
         base.Exit();
