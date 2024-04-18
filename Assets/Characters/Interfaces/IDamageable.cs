@@ -4,5 +4,5 @@ public interface IDamageable
 {
     bool IsDead();
     Vector3 GetMiddleBound();
-    void TakeDamage(IDamageable source, float BaseDamageAmount);
+    void TakeDamage(object source, float BaseDamageAmount);
 }

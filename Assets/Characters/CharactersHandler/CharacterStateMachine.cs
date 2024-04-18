@@ -58,6 +58,10 @@ public abstract class CharacterStateMachine
     {
         StateMachineManager.ChangeState(newState);
     }
+    public IState GetCurrentState()
+    {
+        return StateMachineManager.currentStates;
+    }
 
     public CharacterStateMachine(Characters characters)
     {

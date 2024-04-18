@@ -11,7 +11,7 @@ public class PlayerAirborneState : PlayerMovementState
     public override void SubscribeInputs()
     {
         base.SubscribeInputs();
-        playerStateMachine.player.playerInputAction.Attack.performed += Attack_performed;
+        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
     }
 
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -25,7 +25,7 @@ public class PlayerAirborneState : PlayerMovementState
     public override void UnsubscribeInputs()
     {
         base.UnsubscribeInputs();
-        playerStateMachine.player.playerInputAction.Attack.performed -= Attack_performed;
+        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
     protected void LimitFallVelocity()

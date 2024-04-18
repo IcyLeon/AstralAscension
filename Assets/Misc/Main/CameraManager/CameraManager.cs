@@ -88,8 +88,8 @@ public class CameraManager : MonoBehaviour
         transform.SetParent(null);
         CameraMain = Camera.main;
 
-        player.playerInputAction.Look.performed += Look_performed;
-        player.playerInputAction.Zoom.performed += Zoom_performed;
+        player.PlayerController.playerInputAction.Look.performed += Look_performed;
+        player.PlayerController.playerInputAction.Zoom.performed += Zoom_performed;
     }
 
     private void Update3rdPersonCam()
@@ -113,20 +113,20 @@ public class CameraManager : MonoBehaviour
         if (!IsAimCameraActive())
             return;
 
-        Vector2 look = player.playerInputAction.Look.ReadValue<Vector2>();
+        Vector2 look = player.PlayerController.playerInputAction.Look.ReadValue<Vector2>();
         aimTargetPitch += (look.y * -1f) * Time.deltaTime * CameraSO.CameraAimData.RotationSpeed;
         aimTargetYaw += look.x * Time.deltaTime * CameraSO.CameraAimData.RotationSpeed;
     }
 
     private void OnDestroy()
     {
-        player.playerInputAction.Look.performed -= Look_performed;
-        player.playerInputAction.Zoom.performed -= Zoom_performed;
+        player.PlayerController.playerInputAction.Look.performed -= Look_performed;
+        player.PlayerController.playerInputAction.Zoom.performed -= Zoom_performed;
     }
 
     private void ReadScroll()
     {
-        m_TargetZoom += player.playerInputAction.Zoom.ReadValue<Vector2>().y;
+        m_TargetZoom += player.PlayerController.playerInputAction.Zoom.ReadValue<Vector2>().y;
     }
 
     private void UpdateZoomCamera()

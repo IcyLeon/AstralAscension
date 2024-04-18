@@ -78,15 +78,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Review Cursor",
-                    "type": "Button",
-                    "id": "e0973f33-2272-4f71-b417-8b129062eadc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Attack",
                     "type": "Button",
                     "id": "a8acbb14-6a1b-4729-8cba-d13b8e8d6987",
@@ -229,7 +220,7 @@
                     "name": "",
                     "id": "1805fdec-32c8-4158-8a1e-678636e8352c",
                     "path": "<Mouse>/press",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
                     "action": "Bow Aim",
@@ -304,17 +295,6 @@
                 },
                 {
                     "name": "",
-                    "id": "99f78f38-4aaa-4528-864b-73e80cf3a397",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Review Cursor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4e30b535-08d7-4c26-9f57-79219e8f1c29",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -343,6 +323,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "Elemental Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "edbc20e3-a076-4b23-ac75-7b0e4a74372f",
+            "actions": [
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "6d05c624-695b-452b-9d45-34333ec906d6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Review Cursor",
+                    "type": "Button",
+                    "id": "d94c0389-9f77-4bd6-93c3-bc2f0cb15694",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "efeb918a-b9c4-4176-8708-bf6841f0fd40",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7780ea10-c535-4895-844f-c6758538ccbd",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Review Cursor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -19,6 +19,7 @@ public class PlayerStateMachine
     public PlayerPlungeLandingState playerPlungeLandingState { get; }
     public PlayerPlungeState playerPlungeState { get; }
     public PlayerAimState playerAimState { get; }
+    public PlayerAttackState playerAttackState { get; }
 
     public Player player
     {
@@ -26,6 +27,26 @@ public class PlayerStateMachine
         {
             return playableCharacter.player;
         }
+    }
+
+    public void SmoothRotateToTargetRotation()
+    {
+        float currentAngleY = player.Rb.transform.eulerAngles.y;
+        if (currentAngleY == playerData.targetYawRotation)
+        {
+            return;
+        }
+
+        float angle = Mathf.SmoothDampAngle(currentAngleY, playerData.targetYawRotation, ref playerData.dampedTargetRotationCurrentVelocity, playerData.rotationTime - playerData.dampedTargetRotationPassedTime);
+        playerData.dampedTargetRotationPassedTime += Time.deltaTime;
+        player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+
+    }
+
+    public void UpdateTargetRotationData(float angle)
+    {
+        playerData.targetYawRotation = angle;
+        playerData.dampedTargetRotationPassedTime = 0f;
     }
 
     public PlayerData playerData
@@ -90,6 +111,11 @@ public class PlayerStateMachine
         StateMachineManager.ChangeState(newState);
     }
 
+    public IState GetCurrentState()
+    {
+        return StateMachineManager.currentStates;
+    }
+
     public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
         StateMachineManager = new StateMachineManager();
@@ -107,6 +133,7 @@ public class PlayerStateMachine
         playerPlungeLandingState = new PlayerPlungeLandingState(this);
         playerSprintState = new PlayerSprintState(this);
         playerPlungeState = new PlayerPlungeState(this);
+        playerAttackState = new PlayerAttackState(this);
         ChangeState(playerIdleState);
     }
 }

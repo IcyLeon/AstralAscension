@@ -15587,6 +15587,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   POITargetTransform: {fileID: 2046080863}
   <Animator>k__BackingField: {fileID: 1732213758}
+  <CharacterDataSO>k__BackingField: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e,
+    type: 2}
   VoiceSource: {fileID: 1787081015}
 --- !u!82 &1787081015
 AudioSource:

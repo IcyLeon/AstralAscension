@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterAnimationEvents : MonoBehaviour
+public abstract class CharacterAnimationEvents : MonoBehaviour
 {
     [field: SerializeField] public DamageableCharacters Character { get; private set; }
 

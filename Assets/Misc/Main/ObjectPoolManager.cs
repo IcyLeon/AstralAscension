@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class ObjectPoolManager : MonoBehaviour
 {
@@ -18,19 +19,14 @@ public class ObjectPoolManager : MonoBehaviour
         return go;
     }
 
-    internal IEnumerator InvokeCreationCoroutine<T>(ObjectPool<T> ObjectPool, GameObject createdObj) where T : MonoBehaviour
+    internal IEnumerator InvokeCreationCoroutine<T>(ObjectPool<T> ObjectPool, T createdObj) where T : MonoBehaviour
     {
         yield return null;
-        CallCreationObjectEvent(ObjectPool, createdObj);
+        ObjectPool.ObjectCreated?.Invoke(createdObj);
+        createdObj.gameObject.SetActive(false);
     }
 
-    internal void CallCreationObjectEvent<T>(ObjectPool<T> ObjectPool, GameObject tmp) where T : MonoBehaviour
-    {
-        ObjectPool.ObjectCreated?.Invoke(tmp);
-        tmp.SetActive(false);
-    }
-
-    internal void CallInvokeCreation<T>(ObjectPool<T> objectPool, GameObject createdObj) where T : MonoBehaviour
+    internal void CallInvokeCreation<T>(ObjectPool<T> objectPool, T createdObj) where T : MonoBehaviour
     {
         StartCoroutine(InvokeCreationCoroutine(objectPool, createdObj));
     }

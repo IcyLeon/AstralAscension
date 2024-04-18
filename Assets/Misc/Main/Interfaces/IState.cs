@@ -9,6 +9,8 @@ public interface IState
     void LateUpdate();
     void SubscribeInputs();
     void UnsubscribeInputs();
+    void UpdateTargetRotationData(float angle);
+    void SmoothRotateToTargetRotation();
     void OnCollisionEnter(Collision collision);
     void OnCollisionExit(Collision collision);
     void OnCollisionStay(Collision collision);

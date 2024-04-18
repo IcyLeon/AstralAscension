@@ -32,6 +32,7 @@ public class PlayerDashState : PlayerGroundedState
         playableCharacters.player.PlayPlayerSoundEffect(GetRandomDashClip());
 
         playerStateMachine.playerData.SpeedModifier = 0f;
+        playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.groundedData.PlayerDashData.RotationTime;
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
         canRotate = playerStateMachine.playerData.movementInput != Vector2.zero;
         Dash();
@@ -44,7 +45,7 @@ public class PlayerDashState : PlayerGroundedState
 
         if (canRotate)
         {
-            SmoothRotateToTargetRotation();
+            playerStateMachine.SmoothRotateToTargetRotation();
         }
     }
 
@@ -61,7 +62,7 @@ public class PlayerDashState : PlayerGroundedState
         {
             playerStateMachine.playerData.consecutiveDashesUsed = 0;
 
-            playerStateMachine.player.DisableInput(playerStateMachine.player.playerInputAction.Dash, 
+            playerStateMachine.player.DisableInput(playerStateMachine.player.PlayerController.playerInputAction.Dash, 
                 playerStateMachine.playerData.groundedData.PlayerDashData.DashLimitReachedCooldown);
         }
 
@@ -72,7 +73,7 @@ public class PlayerDashState : PlayerGroundedState
         Vector3 dir = playerStateMachine.player.transform.forward;
         if (canRotate)
         {
-            dir = GetDirection(playerStateMachine.playerData.targetYawRotation);
+            dir = GetDirectionXZ(playerStateMachine.playerData.targetYawRotation);
         }
 
         playerStateMachine.player.Rb.velocity = dir * playerStateMachine.playerData.groundedData.PlayerDashData.BaseDashSpeed;
@@ -100,6 +101,7 @@ public class PlayerDashState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
+        InitBaseRotation();
         StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
     }
 }

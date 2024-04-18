@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class KeqingElementalSkillState : PlayerElementalSkillState
+public class KeqingElementalSkillState : SwordElementalSkillState
 {
     public KeqingElementalSkillState(PlayableCharacterStateMachine pcs) : base(pcs)
     {
@@ -14,6 +14,15 @@ public class KeqingElementalSkillState : PlayerElementalSkillState
         get
         {
             return (KeqingStateMachine)playableCharacterStateMachine;
+        }
+    }
+
+
+    protected Keqing keqing
+    {
+        get
+        {
+            return keqingStateMachine.keqing;
         }
     }
 }

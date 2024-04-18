@@ -12,6 +12,16 @@ public class PlayerMovementState : IState
         InitBaseRotation();
     }
 
+    public void SmoothRotateToTargetRotation()
+    {
+        playerStateMachine.SmoothRotateToTargetRotation();
+    }
+
+    public void UpdateTargetRotationData(float angle)
+    {
+        playerStateMachine.UpdateTargetRotationData(angle);
+    }
+
     public PlayableCharacters playableCharacters
     {
         get
@@ -112,10 +122,16 @@ public class PlayerMovementState : IState
         return playableCharacters.PlayableCharacterStateMachine.IsSkillCasting();
     }
 
+    protected bool IsAttacking()
+    {
+        return this is PlayerAttackState;
+    }
+
     private void UpdatePhysicsMovement()
     {
         Vector2 inputdir = playerStateMachine.playerData.movementInput;
-        if (inputdir == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f || IsSkillCasting())
+        if (inputdir == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f 
+            || IsSkillCasting() || IsAttacking())
         {
             return;
         }
@@ -127,10 +143,10 @@ public class PlayerMovementState : IState
             SmoothRotateToTargetRotation();
         }
 
-        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirection(playerStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirectionXZ(playerStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
-    protected Vector3 GetDirection(float angleInDeg)
+    protected Vector3 GetDirectionXZ(float angleInDeg)
     {
         return new Vector3(Mathf.Sin(angleInDeg * Mathf.Deg2Rad), 0f, Mathf.Cos(angleInDeg * Mathf.Deg2Rad));
     }
@@ -143,26 +159,6 @@ public class PlayerMovementState : IState
     {
         float movementSpeed = playerStateMachine.playerData.groundedData.BaseSpeed * playerStateMachine.playerData.SpeedModifier;
         return movementSpeed;
-    }
-
-    protected void SmoothRotateToTargetRotation()
-    {
-        float currentAngleY = playerStateMachine.player.Rb.transform.eulerAngles.y;
-        if (currentAngleY == playerStateMachine.playerData.targetYawRotation)
-        {
-            return;
-        }
-
-        float angle = Mathf.SmoothDampAngle(currentAngleY, playerStateMachine.playerData.targetYawRotation, ref playerStateMachine.playerData.dampedTargetRotationCurrentVelocity, playerStateMachine.playerData.rotationTime - playerStateMachine.playerData.dampedTargetRotationPassedTime);
-        playerStateMachine.playerData.dampedTargetRotationPassedTime += Time.deltaTime;
-        playerStateMachine.player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
-
-    }
-
-    protected void UpdateTargetRotationData(float angle)
-    {
-        playerStateMachine.playerData.targetYawRotation = angle;
-        playerStateMachine.playerData.dampedTargetRotationPassedTime = 0f;
     }
 
     protected Vector3 GetHorizontalVelocity()
@@ -191,7 +187,7 @@ public class PlayerMovementState : IState
     }
     private void ReadMovement()
     {
-        playerStateMachine.playerData.movementInput = playerStateMachine.player.playerInputAction.Movement.ReadValue<Vector2>();
+        playerStateMachine.playerData.movementInput = playerStateMachine.player.PlayerController.playerInputAction.Movement.ReadValue<Vector2>();
         
         if (playerStateMachine.playerData.movementInput.magnitude > 0)
             Movement_performed(playerStateMachine.playerData.movementInput);

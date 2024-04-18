@@ -5,15 +5,30 @@ using UnityEngine;
 public class POIRig_PlayableCharacters : POIRig
 {
     [SerializeField] private PlayableCharacters PlayableCharacters;
+    private Coroutine headDisableCoroutine;
+    private bool HeadMoveDisabled;
 
     private void Awake()
     {
+        HeadMoveDisabled = false;
         PlayableCharacters.OnDamageHit += OnDamageHit;
     }
-    private void OnDamageHit(IDamageable damageable)
+    private void OnDamageHit(object source)
     {
-        Debug.Log("Hit");
+        //if (headDisableCoroutine != null)
+        //    StopCoroutine(headDisableCoroutine);
+
+        //headDisableCoroutine = StartCoroutine(Disable(1f));
     }
+
+    private IEnumerator Disable(float sec)
+    {
+        HeadMoveDisabled = true;
+        yield return new WaitForSeconds(sec);
+        HeadMoveDisabled = false;
+        headDisableCoroutine = null;
+    }
+
     private void OnDestroy()
     {
         PlayableCharacters.OnDamageHit -= OnDamageHit;
@@ -26,6 +41,6 @@ public class POIRig_PlayableCharacters : POIRig
 
     protected override bool CanMoveHead()
     {
-        return !PlayableCharacters.PlayableCharacterStateMachine.IsSkillCasting();
+        return !PlayableCharacters.PlayableCharacterStateMachine.IsSkillCasting() && !HeadMoveDisabled;
     }
 }

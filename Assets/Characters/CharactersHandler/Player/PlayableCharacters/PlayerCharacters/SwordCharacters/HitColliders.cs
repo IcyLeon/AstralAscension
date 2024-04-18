@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class HitColliders : MonoBehaviour
 {
+    [SerializeField] private Characters character;
     [SerializeField] private Collider HitCollider;
 
     private void Start()
@@ -22,13 +23,19 @@ public class HitColliders : MonoBehaviour
         HitCollider.enabled = false;
     }
 
-    public void Hit()
+    public void EnableCollider()
     {
         StartCoroutine(HitCoroutine());
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
+        if (other.gameObject == character.gameObject)
+            return;
+
+        if (other.TryGetComponent(out IDamageable damageable))
+        {
+            damageable.TakeDamage(character.GetComponent<IDamageable>(), 1f);
+        }
     }
 }

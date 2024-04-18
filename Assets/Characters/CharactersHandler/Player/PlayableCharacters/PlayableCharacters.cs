@@ -4,8 +4,6 @@ using UnityEngine;
 
 public abstract class PlayableCharacters : DamageableCharacters
 {
-    [field: SerializeField] public PlayerCharactersSO PlayerCharactersSO { get; private set; }
-
     [field: SerializeField] public CapsuleCollider MainCollider { get; private set; }
 
     [field: SerializeField] public Collider BasicAttackCollider { get; private set; }
@@ -17,6 +15,14 @@ public abstract class PlayableCharacters : DamageableCharacters
         get
         {
             return PlayerCharactersSO.PlayableCharacterAnimationSO;
+        }
+    }
+
+    public PlayerCharactersSO PlayerCharactersSO
+    {
+        get
+        {
+            return CharacterDataSO as PlayerCharactersSO;
         }
     }
 
