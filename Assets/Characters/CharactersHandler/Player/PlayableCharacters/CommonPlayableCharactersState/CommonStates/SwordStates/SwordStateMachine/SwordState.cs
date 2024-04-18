@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class SwordState : PlayerCharacterState
 {
-    public SwordState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public SwordState(CharacterStateMachine CharacterStateMachine) : base(CharacterStateMachine)
     {
     }
 }

@@ -3,37 +3,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class PlayerCharacterState : IState
+public abstract class PlayerCharacterState : DamageableEntityState
 {
-    protected PlayableCharacterStateMachine playableCharacterStateMachine { get; }
-
-    public PlayerCharacterState(PlayableCharacterStateMachine pcs)
+    public PlayerCharacterState(CharacterStateMachine CharacterStateMachine) : base(CharacterStateMachine)
     {
-        playableCharacterStateMachine = pcs;
     }
 
-    public virtual void Enter()
+    protected PlayableCharacterStateMachine playableCharacterStateMachine
     {
+        get
+        {
+            return characterStateMachine as PlayableCharacterStateMachine;
+        }
+    }
+
+    protected override void OnDamageHit(object source)
+    {
+        if (playableCharacterStateMachine.playerStateMachine.GetCurrentState() is PlayerAirborneState)
+            return;
+
+        base.OnDamageHit(source);
+    }
+
+    public override void UpdateTargetRotationData(float angle)
+    {
+        playableCharacterStateMachine.playerStateMachine.UpdateTargetRotationData(angle);
+    }
+    public override void SmoothRotateToTargetRotation()
+    {
+        playableCharacterStateMachine.playerStateMachine.SmoothRotateToTargetRotation();
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
         SubscribeInputs();
     }
 
-    public virtual void Exit()
+    public override void Exit()
     {
+        base.Exit();
         UnsubscribeInputs();
     }
 
-    public virtual void SubscribeInputs()
+    public override void SubscribeInputs()
     {
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started += ElementalSkill_started;
-        playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
-    public virtual void UnsubscribeInputs()
+    public override void UnsubscribeInputs()
     {
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
-        playableCharacterStateMachine.player.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
     }
 
     protected virtual void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -49,57 +73,52 @@ public abstract class PlayerCharacterState : IState
     {
     }
 
-    public virtual void FixedUpdate()
+    public override void FixedUpdate()
     {
+        base.FixedUpdate();
     }
-    public virtual void LateUpdate()
+
+    public override void LateUpdate()
+    {
+        base.LateUpdate();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+
+    public override void OnAnimationTransition()
     {
     }
 
-    public virtual void Update()
+    public override void OnCollisionEnter(Collision collision)
     {
+        base.OnCollisionEnter(collision);
     }
 
-
-    public virtual void OnAnimationTransition()
+    public override void OnCollisionExit(Collision collision)
     {
+        base.OnCollisionExit(collision);
     }
 
-    public virtual void OnCollisionEnter(Collision collision)
+    public override void OnCollisionStay(Collision collision)
     {
+        base.OnCollisionStay(collision);
     }
 
-    public virtual void OnCollisionExit(Collision collision)
+    public override void OnTriggerEnter(Collider Collider)
     {
+        base.OnTriggerEnter(Collider);
     }
 
-    public virtual void OnCollisionStay(Collision collision)
+    public override void OnTriggerExit(Collider Collider)
     {
+        base.OnTriggerExit(Collider);
     }
 
-    public virtual void OnTriggerEnter(Collider Collider)
+    public override void OnTriggerStay(Collider Collider)
     {
-    }
-
-    public virtual void OnTriggerExit(Collider Collider)
-    {
-    }
-
-    public virtual void OnTriggerStay(Collider Collider)
-    {
-    }
-
-    protected void StartAnimation(string parameter)
-    {
-        Characters.StartAnimation(playableCharacterStateMachine.characters.Animator, parameter);
-    }
-
-    protected void SetAnimationTrigger(string parameter)
-    {
-        Characters.SetAnimationTrigger(playableCharacterStateMachine.characters.Animator, parameter);
-    }
-    protected void StopAnimation(string parameter)
-    {
-        Characters.StopAnimation(playableCharacterStateMachine.characters.Animator, parameter);
+        base.OnTriggerStay(Collider);
     }
 }

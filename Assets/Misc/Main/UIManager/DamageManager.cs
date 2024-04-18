@@ -12,7 +12,7 @@ public class DamageManager : MonoBehaviour
 
     public class DamageInfo : EventArgs
     {
-        public float DamageValue;
+        public string DamageText;
         public Vector3 WorldPosition;
     }
     public static EventHandler<DamageInfo> DamageChanged;
@@ -66,7 +66,7 @@ public class DamageManager : MonoBehaviour
         if (damageText == null)
             return;
 
-        damageText.SetDamageTextValue(e.DamageValue.ToString(), e.WorldPosition);
+        damageText.SetDamageTextValue(e.DamageText, e.WorldPosition);
     }
 
     private void OnDestroy()

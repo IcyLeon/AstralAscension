@@ -5,24 +5,41 @@ using UnityEngine.InputSystem;
 
 public class KeqingState : SwordState
 {
-    public KeqingState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public KeqingState(CharacterStateMachine CharacterStateMachine) : base(CharacterStateMachine)
     {
     }
 
     public override void SubscribeInputs()
     {
         base.SubscribeInputs();
-        keqingStateMachine.player.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+        keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
     public override void UnsubscribeInputs()
     {
         base.UnsubscribeInputs();
-        keqingStateMachine.player.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+        keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+    }
+
+    protected override void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (keqingStateMachine.keqing.activehairpinTeleporter == null ||
+            !keqingStateMachine.keqing.activehairpinTeleporter.CanTeleport())
+            return;
+
+        keqingStateMachine.ChangeState(keqingStateMachine.keqingTeleportState);
     }
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (keqingStateMachine.keqing.activehairpinTeleporter != null)
+            return;
+
+        float Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
+        Vector3 origin = keqingStateMachine.playableCharacters.GetMiddleBound();
+        keqingStateMachine.keqingReuseableData.targetPosition = Player.GetRayPosition(origin,
+                                                    keqingStateMachine.playableCharacters.transform.forward,
+                                                    Range);
         keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }
 
@@ -33,6 +50,9 @@ public class KeqingState : SwordState
 
     protected override void ElementalSkill_performed(InputAction.CallbackContext obj)
     {
+        if (keqingStateMachine.keqing.activehairpinTeleporter != null)
+            return;
+
         keqingStateMachine.ChangeState(keqingStateMachine.keqingAimState);
     }
 

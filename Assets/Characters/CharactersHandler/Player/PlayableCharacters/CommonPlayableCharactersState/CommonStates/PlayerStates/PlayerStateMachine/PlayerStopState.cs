@@ -18,7 +18,7 @@ public class PlayerStopState : PlayerGroundedState
     {
         base.FixedUpdate();
 
-        SmoothRotateToTargetRotation();
+        playerStateMachine.SmoothRotateToTargetRotation();
 
         if (IsMovingHorizontal())
         {

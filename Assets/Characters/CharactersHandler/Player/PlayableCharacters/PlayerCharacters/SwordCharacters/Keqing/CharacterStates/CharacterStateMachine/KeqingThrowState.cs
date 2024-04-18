@@ -12,6 +12,7 @@ public class KeqingThrowState : KeqingElementalSkillState
     {
         base.Enter();
         SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.throwParameter);
+
     }
 
     public override void OnAnimationTransition()

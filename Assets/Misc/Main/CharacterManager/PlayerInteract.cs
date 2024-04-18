@@ -10,12 +10,12 @@ public class PlayerInteract : Interact
     protected override void Start()
     {
         base.Start();
-        player.playerInputAction.Interact.started += Interact_started;
+        player.PlayerController.playerInputAction.Interact.started += Interact_started;
     }
 
     private void OnDestroy()
     {
-        player.playerInputAction.Interact.started -= Interact_started;
+        player.PlayerController.playerInputAction.Interact.started -= Interact_started;
     }
 
 

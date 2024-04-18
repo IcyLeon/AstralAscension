@@ -16,17 +16,14 @@ public class Player : MonoBehaviour
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
     [field: SerializeField] public PlayerInteract PlayerInteract { get; private set; }
+    [field: SerializeField] public PlayerController PlayerController { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
-
     public PlayerData playerData { get; private set; }
-
-    private PlayerInput playerInput;
 
     // Start is called before the first frame update
     private void Awake()
     {
         playerData = new PlayerData(this);
-        playerInput = GetComponent<PlayerInput>();
     }
 
     public void PlayPlayerSoundEffect(AudioClip clip)
@@ -76,13 +73,5 @@ public class Player : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         OnCollisionExitEvent?.Invoke(collision);
-    }
-
-    public PlayerInputSystem.PlayerActions playerInputAction
-    {
-        get
-        {
-            return playerInput.playerInputSystem.Player;
-        }
     }
 }

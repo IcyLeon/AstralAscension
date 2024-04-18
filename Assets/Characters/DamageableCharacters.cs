@@ -2,12 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class DamageableStats
+{
+    public float HP;
+    public float ATK;
+    public float DEF;
+
+    public DamageableStats()
+    {
+        HP = 0f;
+        ATK = 0f;
+        DEF = 0f;
+    }
+}
+
 public abstract class DamageableCharacters : Characters, IDamageable
 {
-    public delegate void OnDamage(IDamageable source);
+    protected DamageableStats DamageableStats;
+    public delegate void OnDamage(object source);
     public OnDamage OnDamageHit;
 
     protected CharacterStateMachine characterStateMachine;
+
+    public CharacterReuseableData characterReuseableData
+    {
+        get
+        {
+            return characterStateMachine.characterReuseableData;
+        }
+    }
 
     protected override void Update()
     {
@@ -46,13 +69,12 @@ public abstract class DamageableCharacters : Characters, IDamageable
         return false;
     }
 
-    public virtual void TakeDamage(IDamageable source, float BaseDamageAmount)
+    public virtual void TakeDamage(object source, float BaseDamageAmount)
     {
-        Animator.SetTrigger("Hit");
         OnDamageHit?.Invoke(source);
         DamageManager.DamageChanged?.Invoke(this, new DamageManager.DamageInfo
         {
-            DamageValue = BaseDamageAmount,
+            DamageText = BaseDamageAmount.ToString(),
             WorldPosition = GetMiddleBound()
         });
     }

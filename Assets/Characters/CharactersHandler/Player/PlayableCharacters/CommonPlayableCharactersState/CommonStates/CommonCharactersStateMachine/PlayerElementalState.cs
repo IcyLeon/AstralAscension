@@ -23,14 +23,14 @@ public abstract class PlayerElementalState : IState
 
     public virtual void SubscribeInputs()
     {
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started += ElementalSkill_started;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
     }
 
     public virtual void UnsubscribeInputs()
     {
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
-        playableCharacterStateMachine.player.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
     }
 
     protected virtual void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -94,5 +94,15 @@ public abstract class PlayerElementalState : IState
     protected void StopAnimation(string parameter)
     {
         Characters.StopAnimation(playableCharacterStateMachine.characters.Animator, parameter);
+    }
+
+    public void UpdateTargetRotationData(float data)
+    {
+        playableCharacterStateMachine.playerStateMachine.UpdateTargetRotationData(data);
+    }
+
+    public void SmoothRotateToTargetRotation()
+    {
+        playableCharacterStateMachine.playerStateMachine.SmoothRotateToTargetRotation();
     }
 }

@@ -21,4 +21,9 @@ public class KeqingESlashState : KeqingElementalSkillState
         keqingStateMachine.ChangeState(keqingStateMachine.swordState);
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        keqing.player.Rb.useGravity = true;
+    }
 }

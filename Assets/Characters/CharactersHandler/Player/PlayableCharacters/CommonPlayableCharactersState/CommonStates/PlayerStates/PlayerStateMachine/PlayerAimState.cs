@@ -16,13 +16,13 @@ public class PlayerAimState : PlayerGroundedState
         playerStateMachine.playerData.SpeedModifier = playerStateMachine.playerData.groundedData.PlayerAimData.SpeedModifier;
         playerStateMachine.playerData.rotationTime = 0f;
         cameraManager.ToggleAimCamera(true);
-        playerStateMachine.player.playerInputAction.Jump.Disable();
+        playerStateMachine.player.PlayerController.playerInputAction.Jump.Disable();
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        SmoothRotateToTargetRotation();
+        playerStateMachine.SmoothRotateToTargetRotation();
     }
 
     public override void Update()
@@ -57,6 +57,6 @@ public class PlayerAimState : PlayerGroundedState
         base.Exit();
         cameraManager.ToggleAimCamera(false);
         InitBaseRotation();
-        playerStateMachine.player.playerInputAction.Jump.Enable();
+        playerStateMachine.player.PlayerController.playerInputAction.Jump.Enable();
     }
 }

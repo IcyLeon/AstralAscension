@@ -20,9 +20,8 @@ public class PlayerJumpState : PlayerAirborneState
 
         playerStateMachine.playerData.SpeedModifier = 0f; 
 
-        PlayerJumpData playerJumpData = playerStateMachine.playerData.airborneData.PlayerJumpData;
-        playerStateMachine.playerData.DecelerateForce = playerJumpData.JumpDecelerationForce;
-        playerStateMachine.playerData.rotationTime = playerJumpData.RotationTime;
+        playerStateMachine.playerData.DecelerateForce = playerStateMachine.playerData.airborneData.PlayerJumpData.JumpDecelerationForce;
+        playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.airborneData.PlayerJumpData.RotationTime;
         canRotate = playerStateMachine.playerData.movementInput != Vector2.zero;
 
         Jump();
@@ -34,7 +33,7 @@ public class PlayerJumpState : PlayerAirborneState
 
         if (canRotate)
         {
-            SmoothRotateToTargetRotation();
+            playerStateMachine.SmoothRotateToTargetRotation();
         }
 
         if (IsMovingUp())
@@ -48,7 +47,7 @@ public class PlayerJumpState : PlayerAirborneState
         Vector3 forcedir = playerStateMachine.player.transform.forward;
         if (canRotate)
         {
-            forcedir = GetDirection(playerStateMachine.playerData.targetYawRotation);
+            forcedir = GetDirectionXZ(playerStateMachine.playerData.targetYawRotation);
         }
         ResetVelocity();
 

@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeqingAnimationEvents : PlayableCharacterAnimationEvents
+public class KeqingAnimationEvents : SwordCharacterAnimationEvents
 {
-    [SerializeField] private GameObject HairpinTeleporterPrefab;
-    private ObjectPool<HairpinTeleporter> objectPool;
+    [SerializeField] private Transform EmitterPivot;
+    [SerializeField] private Transform Mesh;
+    [SerializeField] private Transform Armature;
 
     public Keqing keqing { 
         get 
@@ -14,32 +15,32 @@ public class KeqingAnimationEvents : PlayableCharacterAnimationEvents
         }
     }
 
-    private void Start()
+    private void Awake()
     {
-        objectPool = new ObjectPool<HairpinTeleporter>(HairpinTeleporterPrefab, playableCharacters.transform);
-        objectPool.ObjectCreated += OnHairPinObjectCreated;
-    }
-
-    private void Update()
-    {
-        keqing.hairpinTeleporter = objectPool.GetPooledObject();
-    }
-
-    private void OnHairPinObjectCreated(GameObject existGO)
-    {
-        HairpinTeleporter HT = existGO.GetComponent<HairpinTeleporter>();
-        if (HT == null)
-            return;
-
-        HT.SetPlayableCharacter(playableCharacters);
+        KeqingTeleportState.OnKeqingTeleportState += OnKeqingTeleportState;
     }
 
     private void OnDestroy()
     {
-        objectPool.ObjectCreated -= OnHairPinObjectCreated;
+        KeqingTeleportState.OnKeqingTeleportState -= OnKeqingTeleportState;
+    }
+
+    private void OnKeqingTeleportState(bool enter)
+    {
+        Mesh.gameObject.SetActive(!enter);
+        Armature.gameObject.SetActive(!enter);
     }
 
     private void ShootTeleporter()
     {
+        HairpinTeleporter HT = keqing.hairpinTeleporter;
+
+        if (HT == null)
+            return;
+
+        KeqingReuseableData keqingReuseableData = playableCharacters.characterReuseableData as KeqingReuseableData;
+        HT.transform.SetParent(EmitterPivot);
+        HT.transform.localPosition = Vector3.zero;
+        HT.SetTargetLocation(keqingReuseableData.targetPosition);
     }
 }
