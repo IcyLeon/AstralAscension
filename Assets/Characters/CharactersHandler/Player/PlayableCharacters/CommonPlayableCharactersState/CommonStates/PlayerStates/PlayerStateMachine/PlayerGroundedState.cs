@@ -41,7 +41,7 @@ public class PlayerGroundedState : PlayerMovementState
 
     private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (this is PlayerDashState || IsSkillCasting())
+        if (playerStateMachine.IsInState<PlayerDashState>() || IsSkillCasting())
             return;
 
         playerStateMachine.ChangeState(playerStateMachine.playerDashState);

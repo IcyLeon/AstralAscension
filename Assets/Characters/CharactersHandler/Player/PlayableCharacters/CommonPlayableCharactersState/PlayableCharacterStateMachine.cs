@@ -51,8 +51,6 @@ public abstract class PlayableCharacterStateMachine : CharacterStateMachine
 
     public bool IsSkillCasting()
     {
-        IState currentState = StateMachineManager.currentStates;
-        return currentState is PlayerElementalSkillState ||
-            currentState is PlayerElementalBurstState;
+        return IsInState<PlayerElementalState>();
     }
 }

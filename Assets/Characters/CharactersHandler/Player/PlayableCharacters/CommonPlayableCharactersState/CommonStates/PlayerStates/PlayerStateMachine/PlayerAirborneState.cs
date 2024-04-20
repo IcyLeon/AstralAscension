@@ -16,7 +16,10 @@ public class PlayerAirborneState : PlayerMovementState
 
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!CheckGroundDistance(playerStateMachine.playerData.airborneData.PlayerPlungeData.GroundCheckDistance) || !playerStateMachine.playerData.allowPlunge)
+        if (!CheckGroundDistance(playerStateMachine.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
+            return;
+
+        if (playerStateMachine.IsInState<PlayerPlungeState>())
             return;
 
         playerStateMachine.ChangeState(playerStateMachine.playerPlungeState);

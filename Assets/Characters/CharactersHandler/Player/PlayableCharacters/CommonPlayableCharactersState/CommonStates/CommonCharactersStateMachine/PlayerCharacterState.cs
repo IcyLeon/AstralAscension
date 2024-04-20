@@ -46,6 +46,11 @@ public abstract class PlayerCharacterState : DamageableEntityState
         UnsubscribeInputs();
     }
 
+    protected virtual bool CanTransitToElementalState()
+    {
+        return playableCharacterStateMachine.playerStateMachine.IsInState<PlayerGroundedState>();
+    }
+
     public override void SubscribeInputs()
     {
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;

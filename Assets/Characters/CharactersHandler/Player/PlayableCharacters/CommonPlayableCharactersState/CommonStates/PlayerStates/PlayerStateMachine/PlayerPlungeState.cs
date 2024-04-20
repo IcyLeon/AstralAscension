@@ -15,11 +15,10 @@ public class PlayerPlungeState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
+        ResetVelocity();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.player.Rb.useGravity = false;
-        playerStateMachine.playerData.allowPlunge = false;
-        ResetVelocity();
     }
 
     public override void FixedUpdate()
@@ -58,6 +57,5 @@ public class PlayerPlungeState : PlayerAirborneState
     {
         base.Exit();
         StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
-        playerStateMachine.playerData.allowPlunge = true;
     }
 }

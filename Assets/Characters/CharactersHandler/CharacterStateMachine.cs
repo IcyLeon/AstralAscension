@@ -10,6 +10,10 @@ public abstract class CharacterStateMachine
         StateMachineManager.Update();
     }
 
+    public bool IsInState<T>()
+    {
+        return StateMachineManager.IsInState<T>();
+    }
     public virtual void FixedUpdate()
     {
         StateMachineManager.FixedUpdate();
