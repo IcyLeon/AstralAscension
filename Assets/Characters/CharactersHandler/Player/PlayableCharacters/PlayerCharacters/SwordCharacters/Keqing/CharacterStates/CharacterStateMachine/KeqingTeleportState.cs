@@ -5,22 +5,33 @@ using UnityEngine;
 
 public class KeqingTeleportState : KeqingElementalSkillState
 {
-    private Transform activeTeleporterTransform;
-
+    private float TimeToReachElapsed;
+    private float TimeToReach;
+    private const float Speed = 25f;
+    private float Range;
     public delegate void OnKeqingTeleport(bool enter);
     public static OnKeqingTeleport OnKeqingTeleportState;
 
+    private Vector3 originPosition;
+
     public KeqingTeleportState(PlayableCharacterStateMachine pcs) : base(pcs)
     {
+        Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
     }
 
     public override void Enter()
     {
-        activeTeleporterTransform = keqing.activehairpinTeleporter.transform;
+        TimeToReachElapsed = 0;
+        TimeToReach = GetDirectionToTeleporter().magnitude / Speed;
+        originPosition = keqing.player.Rb.position;
         keqing.player.Rb.useGravity = false;
         OnKeqingTeleportState?.Invoke(true);
     }
 
+    private Vector3 GetDirectionToTeleporter()
+    {
+        return keqing.activehairpinTeleporter.transform.position - keqing.player.Rb.position;
+    }
     public override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -38,26 +49,26 @@ public class KeqingTeleportState : KeqingElementalSkillState
     {
         base.Update();
 
-        Vector3 dir = activeTeleporterTransform.position - keqing.player.Rb.position;
+        Vector3 dir = originPosition - keqing.player.Rb.position;
 
-        if (dir.magnitude <= 1.5f)
+        if (dir.magnitude >= Range || TimeToReachElapsed >= TimeToReach)
         {
             TransitToSlash();
             return;
         }
 
         keqing.activehairpinTeleporter.ResetTime();
-
+        TimeToReachElapsed += Time.deltaTime;
     }
 
     private void UpdateTeleportMovement()
     {
-        Vector3 dir = activeTeleporterTransform.position - keqing.player.Rb.position;
+        Vector3 dir = GetDirectionToTeleporter();
 
         float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         UpdateTargetRotationData(angle);
 
-        keqing.player.Rb.MovePosition(keqing.player.Rb.position + 25f * Time.deltaTime * dir.normalized);
+        keqing.player.Rb.MovePosition(keqing.player.Rb.position + Speed * Time.deltaTime * dir.normalized);
     }
 
     public override void OnCollisionStay(Collision collision)

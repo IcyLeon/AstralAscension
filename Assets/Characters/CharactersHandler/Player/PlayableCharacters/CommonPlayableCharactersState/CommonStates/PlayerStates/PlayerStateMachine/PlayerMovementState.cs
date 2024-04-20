@@ -42,11 +42,6 @@ public class PlayerMovementState : IState
         return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore);
     }
 
-    protected bool IsAiming()
-    {
-        return this is PlayerAimState;
-    }
-
     public virtual void SubscribeInputs()
     {
     }
@@ -122,21 +117,16 @@ public class PlayerMovementState : IState
         return playableCharacters.PlayableCharacterStateMachine.IsSkillCasting();
     }
 
-    protected bool IsAttacking()
-    {
-        return this is PlayerAttackState;
-    }
-
     private void UpdatePhysicsMovement()
     {
         Vector2 inputdir = playerStateMachine.playerData.movementInput;
         if (inputdir == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f 
-            || IsSkillCasting() || IsAttacking())
+            || IsSkillCasting() || playerStateMachine.IsInState<PlayerAttackState>())
         {
             return;
         }
 
-        if (!IsAiming())
+        if (!playerStateMachine.IsInState<PlayerAimState>())
         {
             float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
             UpdateTargetRotationData(angle);
@@ -222,6 +212,7 @@ public class PlayerMovementState : IState
 
     public virtual void Update()
     {
+        Debug.Log(IsSkillCasting());
         ReadMovement();
         BlendMovementAnimation();
     }

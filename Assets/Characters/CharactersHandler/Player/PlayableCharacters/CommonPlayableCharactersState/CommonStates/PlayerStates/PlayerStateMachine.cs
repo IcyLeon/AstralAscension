@@ -57,6 +57,10 @@ public class PlayerStateMachine
         }
     }
 
+    public bool IsInState<T>()
+    {
+        return StateMachineManager.IsInState<T>();
+    }
     public void Update()
     {
         StateMachineManager.Update();

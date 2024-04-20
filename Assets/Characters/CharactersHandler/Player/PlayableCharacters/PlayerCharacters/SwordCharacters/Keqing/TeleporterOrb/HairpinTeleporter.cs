@@ -21,7 +21,7 @@ public class HairpinTeleporter : MonoBehaviour
 
     private IEnumerator MoveToTarget(Vector3 TargetPosition)
     {
-        while ((rb.position - TargetPosition).magnitude > 0.1f)
+        while ((rb.position - TargetPosition).magnitude >= 0.1f)
         {
             rb.position = Vector3.MoveTowards(rb.position, TargetPosition, Speed * Time.deltaTime);
             yield return null;

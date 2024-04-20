@@ -8,7 +8,6 @@ public class StateMachineManager
 
     public void Update()
     {
-        //Debug.Log(currentStates);
         if (currentStates != null)
             currentStates.Update();
     }
@@ -65,6 +64,10 @@ public class StateMachineManager
             currentStates.OnTriggerStay(Collider);
     }
 
+    public bool IsInState<T>()
+    {
+        return currentStates is T;
+    }
     public void ChangeState(IState newState)
     {
         if (currentStates != null)

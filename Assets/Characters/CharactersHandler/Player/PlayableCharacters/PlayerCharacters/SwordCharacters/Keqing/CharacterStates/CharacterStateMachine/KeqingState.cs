@@ -23,6 +23,9 @@ public class KeqingState : SwordState
 
     protected override void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (!CanTransitToElementalState())
+            return;
+
         if (keqingStateMachine.keqing.activehairpinTeleporter == null ||
             !keqingStateMachine.keqing.activehairpinTeleporter.CanTeleport())
             return;
@@ -32,14 +35,15 @@ public class KeqingState : SwordState
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (!CanTransitToElementalState())
+            return;
+
         if (keqingStateMachine.keqing.activehairpinTeleporter != null)
             return;
 
         float Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
         Vector3 origin = keqingStateMachine.playableCharacters.GetMiddleBound();
-        keqingStateMachine.keqingReuseableData.targetPosition = Player.GetRayPosition(origin,
-                                                    keqingStateMachine.playableCharacters.transform.forward,
-                                                    Range);
+        keqingStateMachine.keqingReuseableData.targetPosition = origin + keqingStateMachine.playableCharacters.transform.forward * Range;
         keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }
 
@@ -50,6 +54,9 @@ public class KeqingState : SwordState
 
     protected override void ElementalSkill_performed(InputAction.CallbackContext obj)
     {
+        if (!CanTransitToElementalState())
+            return;
+
         if (keqingStateMachine.keqing.activehairpinTeleporter != null)
             return;
 
