@@ -8,28 +8,27 @@ public class PlayerAirborneState : PlayerMovementState
     {
     }
 
-    public override void SubscribeInputs()
+    public override void Enter()
     {
-        base.SubscribeInputs();
+        base.Enter();
         playerStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
     }
 
-    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public override void Exit()
+    {
+        base.Exit();
+        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
+    }
+
+    protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (!CheckGroundDistance(playerStateMachine.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
-            return;
-
-        if (playerStateMachine.IsInState<PlayerPlungeState>())
             return;
 
         playerStateMachine.ChangeState(playerStateMachine.playerPlungeState);
     }
 
-    public override void UnsubscribeInputs()
-    {
-        base.UnsubscribeInputs();
-        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
-    }
 
     protected void LimitFallVelocity()
     {
@@ -51,12 +50,6 @@ public class PlayerAirborneState : PlayerMovementState
             playerStateMachine.ChangeState(playerStateMachine.playerHardLandingState);
             return;
         }
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        StopAnimation("isGrounded");
     }
 
     protected bool CheckGroundDistance(float distance)

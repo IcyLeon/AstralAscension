@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5293048569112713632}
   - component: {fileID: 6358234528828272531}
   - component: {fileID: 9203155782185956832}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: HairpinTeleporter
   m_TagString: Untagged
   m_Icon: {fileID: 0}

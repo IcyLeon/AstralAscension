@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerPlungeState : PlayerAirborneState
 {
+    public static Action<Vector3> OnPlungeAction = delegate { };
+
     public PlayerPlungeState(PlayerStateMachine PS) : base(PS)
     {
     }
-
-    public static Action<Vector3> OnPlungeAction = delegate { };
 
     public override void Enter()
     {
@@ -20,17 +20,19 @@ public class PlayerPlungeState : PlayerAirborneState
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.player.Rb.useGravity = false;
     }
-
     public override void FixedUpdate()
     {
         base.FixedUpdate();
         LimitFallVelocity();
     }
 
+    protected override void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+    }
+
     public override void Update()
     {
         base.Update();
-
         if (playerStateMachine.player.Rb.useGravity)
         {
             playerStateMachine.player.Rb.AddForce(
@@ -40,8 +42,6 @@ public class PlayerPlungeState : PlayerAirborneState
 
         if (IsGrounded())
         {
-            OnPlungeAction?.Invoke(playableCharacters.player.Rb.transform.position);
-
             playerStateMachine.ChangeState(playerStateMachine.playerPlungeLandingState);
             return;
         }
@@ -57,5 +57,6 @@ public class PlayerPlungeState : PlayerAirborneState
     {
         base.Exit();
         StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
+        OnPlungeAction?.Invoke(playableCharacters.player.Rb.transform.position);
     }
 }

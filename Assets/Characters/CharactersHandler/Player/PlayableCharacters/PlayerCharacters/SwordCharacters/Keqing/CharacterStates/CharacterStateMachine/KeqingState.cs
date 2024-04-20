@@ -9,15 +9,25 @@ public class KeqingState : SwordState
     {
     }
 
-    public override void SubscribeInputs()
+    public override void Enter()
     {
-        base.SubscribeInputs();
+        base.Enter();
         keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
-    public override void UnsubscribeInputs()
+    protected override void Attack_performed(InputAction.CallbackContext obj)
     {
-        base.UnsubscribeInputs();
+        base.Attack_performed(obj);
+
+        if (keqingStateMachine.playerStateMachine.IsInState<PlayerAirborneState>())
+            return;
+
+        keqingStateMachine.ChangeState(keqingStateMachine.keqingAttackState);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
         keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
     }
 

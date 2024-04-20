@@ -8,6 +8,7 @@ public class KeqingStateMachine : SwordCharacterStateMachine
     public KeqingThrowState keqingThrowState { get; }
     public KeqingTeleportState keqingTeleportState { get; }
     public KeqingESlashState keqingESlashState { get; }
+    public KeqingAttackState keqingAttackState { get; }
     public KeqingAnimationSO keqingAnimationSO
     {
         get
@@ -44,5 +45,6 @@ public class KeqingStateMachine : SwordCharacterStateMachine
         keqingThrowState = new KeqingThrowState(this);
         keqingTeleportState = new KeqingTeleportState(this);
         keqingESlashState = new KeqingESlashState(this);
+        keqingAttackState = new KeqingAttackState(this);
     }
 }

@@ -46,5 +46,5 @@ MonoBehaviour:
     <PlayerFallData>k__BackingField:
       <FallLimitVelocity>k__BackingField: 20
     <PlayerPlungeData>k__BackingField:
-      <PlungeSpeed>k__BackingField: 10
-      <GroundCheckDistance>k__BackingField: 10
+      <PlungeSpeed>k__BackingField: 25
+      <GroundCheckDistance>k__BackingField: 2.5
