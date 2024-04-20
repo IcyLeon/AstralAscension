@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerGroundedState : PlayerMovementState
+public abstract class PlayerGroundedState : PlayerMovementState
 {
     public PlayerGroundedState(PlayerStateMachine PS) : base(PS)
     {
@@ -12,24 +11,18 @@ public class PlayerGroundedState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation("isGrounded");
-    }
-
-    public override void SubscribeInputs()
-    {
-        base.SubscribeInputs();
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
         playerStateMachine.player.PlayerController.playerInputAction.Jump.started += Jump_started;
-        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
         playerStateMachine.player.PlayerController.playerInputAction.Dash.started += Dash_started;
     }
 
-    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public override void Exit()
     {
-        if (this is PlayerAttackState)
-            return;
-
-        playerStateMachine.ChangeState(playerStateMachine.playerAttackState);
+        base.Exit();
+        playerStateMachine.player.PlayerController.playerInputAction.Jump.started -= Jump_started;
+        playerStateMachine.player.PlayerController.playerInputAction.Dash.started -= Dash_started;
     }
+
 
     protected void OnSkillCast()
     {
@@ -64,14 +57,6 @@ public class PlayerGroundedState : PlayerMovementState
             OnFall();
             return;
         }
-    }
-
-    public override void UnsubscribeInputs()
-    {
-        base.UnsubscribeInputs();
-        playerStateMachine.player.PlayerController.playerInputAction.Jump.started -= Jump_started;
-        playerStateMachine.player.PlayerController.playerInputAction.Dash.started -= Dash_started;
-        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
     protected void OnMove()

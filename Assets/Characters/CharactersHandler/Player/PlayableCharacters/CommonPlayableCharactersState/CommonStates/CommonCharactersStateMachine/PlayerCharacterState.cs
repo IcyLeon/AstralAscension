@@ -37,13 +37,19 @@ public abstract class PlayerCharacterState : DamageableEntityState
     public override void Enter()
     {
         base.Enter();
-        SubscribeInputs();
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
     public override void Exit()
     {
         base.Exit();
-        UnsubscribeInputs();
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
     }
 
     protected virtual bool CanTransitToElementalState()
@@ -51,18 +57,9 @@ public abstract class PlayerCharacterState : DamageableEntityState
         return playableCharacterStateMachine.playerStateMachine.IsInState<PlayerGroundedState>();
     }
 
-    public override void SubscribeInputs()
-    {
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
-    }
 
-    public override void UnsubscribeInputs()
+    protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
     }
 
     protected virtual void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)

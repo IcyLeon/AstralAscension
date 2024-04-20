@@ -70,16 +70,6 @@ public abstract class EntityState : IState
 
     }
 
-    public virtual void SubscribeInputs()
-    {
-
-    }
-
-    public virtual void UnsubscribeInputs()
-    {
-
-    }
-
     public virtual void Update()
     {
 

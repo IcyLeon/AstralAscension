@@ -10,6 +10,7 @@ public class PlayableCharacterVoicelinesSO : ScriptableObject
     [SerializeField] private AudioClip[] DashVOClips;
     [SerializeField] private AudioClip[] BasicAttackVOClips;
     [SerializeField] private AudioClip[] ElementalSkillVOClips;
+    [SerializeField] private AudioClip[] ElementalSkill_RecastVOClips;
     [SerializeField] private AudioClip[] ElementalBurstVOClips;
     [SerializeField] private AudioClip[] LightInjuredVOClips;
 
@@ -45,5 +46,13 @@ public class PlayableCharacterVoicelinesSO : ScriptableObject
     {
         return GetRandomAudioClip(BasicAttackVOClips);
     }
+    public AudioClip GetRandomElementalSkillVOClip()
+    {
+        return GetRandomAudioClip(ElementalSkillVOClips);
+    }
 
+    public AudioClip GetRandomElementalSkill_RecastVOClip()
+    {
+        return GetRandomAudioClip(ElementalSkill_RecastVOClips);
+    }
 }

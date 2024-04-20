@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerGroundedState
 {
+    private string AttackParameter;
+    public delegate void onAttackStateChange();
+    public event onAttackStateChange OnAttackStateChange;
+
     public PlayerAttackState(PlayerStateMachine PS) : base(PS)
     {
     }
@@ -11,14 +15,16 @@ public class PlayerAttackState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation("isAttacking");
+        AttackParameter = playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackingParameter;
+        StartAnimation(AttackParameter);
+        ResetVelocity();
     }
 
     public override void Update()
     {
         base.Update();
         
-        if (!playableCharacters.Animator.GetBool("isAttacking"))
+        if (!playableCharacters.Animator.GetBool(AttackParameter))
         {
             if (playerStateMachine.playerData.movementInput == Vector2.zero)
             {
@@ -33,6 +39,7 @@ public class PlayerAttackState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation("isAttacking");
+        StopAnimation(AttackParameter);
+        OnAttackStateChange?.Invoke();
     }
 }

@@ -12,6 +12,10 @@ public class PlayableCharacterAnimationSO : ScriptableObject
         [Header("Blending Movement")]
         public string movementParameters;
 
+        [Header("Entering State")]
+        public string groundParameter;
+        public string elementalStateParameter;
+
         [Header("Animations")]
         [Header("Bool")]
         public string dashParameter;
@@ -19,6 +23,7 @@ public class PlayableCharacterAnimationSO : ScriptableObject
         public string jumpParameter;
         public string plungeParameter;
         public string plungeLandingParameter;
+        public string attackingParameter;
 
         [Header("Triggers")]
         public string deadParameter;        

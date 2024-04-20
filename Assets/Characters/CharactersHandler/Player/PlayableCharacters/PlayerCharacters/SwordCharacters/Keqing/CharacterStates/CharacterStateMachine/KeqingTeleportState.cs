@@ -22,8 +22,14 @@ public class KeqingTeleportState : KeqingElementalSkillState
     public override void Enter()
     {
         TimeToReachElapsed = 0;
-        TimeToReach = GetDirectionToTeleporter().magnitude / Speed;
+
+        Vector3 dir = GetDirectionToTeleporter();
+        TimeToReach = dir.magnitude / Speed;
         originPosition = keqing.player.Rb.position;
+
+        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        UpdateTargetRotationData(angle);
+
         keqing.player.Rb.useGravity = false;
         OnKeqingTeleportState?.Invoke(true);
     }
@@ -63,12 +69,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
 
     private void UpdateTeleportMovement()
     {
-        Vector3 dir = GetDirectionToTeleporter();
-
-        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        UpdateTargetRotationData(angle);
-
-        keqing.player.Rb.MovePosition(keqing.player.Rb.position + Speed * Time.deltaTime * dir.normalized);
+        keqing.player.Rb.MovePosition(keqing.player.Rb.position + Speed * Time.deltaTime * GetDirectionToTeleporter().normalized);
     }
 
     public override void OnCollisionStay(Collision collision)

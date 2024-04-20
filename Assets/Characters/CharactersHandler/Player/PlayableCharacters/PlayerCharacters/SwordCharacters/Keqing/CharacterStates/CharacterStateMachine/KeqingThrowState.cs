@@ -11,10 +11,21 @@ public class KeqingThrowState : KeqingElementalSkillState
     public override void Enter()
     {
         base.Enter();
+        HairpinTeleporter.OnHairPinThrow += ActivehairpinTeleporter_OnHairPinThrow;
         SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.throwParameter);
 
     }
 
+    private void ActivehairpinTeleporter_OnHairPinThrow()
+    {
+        keqing.PlayVOAudio(keqing.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkillVOClip());
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        HairpinTeleporter.OnHairPinThrow -= ActivehairpinTeleporter_OnHairPinThrow;
+    }
     public override void OnAnimationTransition()
     {
         base.OnAnimationTransition();

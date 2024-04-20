@@ -39,30 +39,19 @@ public class PlayerMovementState : IState
         Vector3 position = playerStateMachine.player.Rb.position;
         position.y += playerStateMachine.playableCharacter.MainCollider.radius / 2f;
 
-        return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore);
-    }
-
-    public virtual void SubscribeInputs()
-    {
+        return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
     }
 
     protected virtual void Movement_performed(Vector2 movementInput)
     {
     }
 
-
-    public virtual void UnsubscribeInputs()
-    {
-    }
-
     public virtual void Enter()
     {
-        SubscribeInputs();
     }
 
     public virtual void Exit()
     {
-        UnsubscribeInputs();
     }
 
     public virtual void LateUpdate()
@@ -212,7 +201,6 @@ public class PlayerMovementState : IState
 
     public virtual void Update()
     {
-        Debug.Log(IsSkillCasting());
         ReadMovement();
         BlendMovementAnimation();
     }

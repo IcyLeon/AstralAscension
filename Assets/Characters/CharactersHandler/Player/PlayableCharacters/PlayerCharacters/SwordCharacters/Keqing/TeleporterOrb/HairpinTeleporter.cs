@@ -12,11 +12,15 @@ public class HairpinTeleporter : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     private Coroutine MoveTarget;
 
+    public delegate void onHairPinThrow();
+    public static event onHairPinThrow OnHairPinThrow;
+
     public void SetTargetLocation(Vector3 Position)
     {
         gameObject.SetActive(true);
         if (MoveTarget == null)
             MoveTarget = StartCoroutine(MoveToTarget(Position));
+        OnHairPinThrow?.Invoke();
     }
 
     private IEnumerator MoveToTarget(Vector3 TargetPosition)
