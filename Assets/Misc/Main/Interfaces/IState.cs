@@ -7,6 +7,9 @@ public interface IState
     void Exit();
     void FixedUpdate();
     void LateUpdate();
+    void StartAnimation(string parameter);
+    void StopAnimation(string parameter);
+    void SetAnimationTrigger(string parameter);
     void UpdateTargetRotationData(float angle);
     void SmoothRotateToTargetRotation();
     void OnCollisionEnter(Collision collision);

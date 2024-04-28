@@ -6,6 +6,9 @@ public class PlayerMovementState : IState
 {
     protected PlayerStateMachine playerStateMachine;
 
+    public delegate void OnInterruptStateChange(IState IState);
+    public static OnInterruptStateChange OnInterruptState;
+
     public PlayerMovementState(PlayerStateMachine PS)
     {
         playerStateMachine = PS;
@@ -69,7 +72,7 @@ public class PlayerMovementState : IState
         Vector3 vel = GetHorizontalVelocity();
         playerStateMachine.player.Rb.AddForce(-vel * playerStateMachine.playerData.DecelerateForce, ForceMode.Acceleration);
     }
-     
+
     protected bool IsMovingHorizontal(float val = 0.1f)
     {
         return GetHorizontalVelocity().magnitude >= val;
@@ -87,18 +90,18 @@ public class PlayerMovementState : IState
         playerStateMachine.player.Rb.AddForce(-vel * playerStateMachine.playerData.DecelerateForce, ForceMode.Acceleration);
     }
 
-    protected void StartAnimation(string parameter)
+    public void StartAnimation(string parameter)
     {
-        Characters.StartAnimation(playerStateMachine.playableCharacter.Animator, parameter);
+        playerStateMachine.PlayableCharacterStateMachine.StartAnimation(parameter);
     }
 
-    protected void StopAnimation(string parameter)
+    public void StopAnimation(string parameter)
     {
-        Characters.StopAnimation(playerStateMachine.playableCharacter.Animator, parameter);
+        playerStateMachine.PlayableCharacterStateMachine.StopAnimation(parameter);
     }
-    protected void SetAnimationTrigger(string parameter)
+    public void SetAnimationTrigger(string parameter)
     {
-        Characters.SetAnimationTrigger(playerStateMachine.playableCharacter.Animator, parameter);
+        playerStateMachine.PlayableCharacterStateMachine.SetAnimationTrigger(parameter);
     }
 
     protected bool IsSkillCasting()
@@ -109,8 +112,9 @@ public class PlayerMovementState : IState
     private void UpdatePhysicsMovement()
     {
         Vector2 inputdir = playerStateMachine.playerData.movementInput;
-        if (inputdir == Vector2.zero || playerStateMachine.playerData.SpeedModifier == 0f 
-            || IsSkillCasting() || playerStateMachine.IsInState<PlayerAttackState>())
+        if (inputdir == Vector2.zero 
+            || playerStateMachine.playerData.SpeedModifier == 0f 
+            || IsSkillCasting() || playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
         {
             return;
         }

@@ -11,19 +11,19 @@ public class PlayerElementalSkillState : PlayerElementalState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation("isESkill");
+        StartAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
         playableCharacterStateMachine.playableCharacters.OnDamageHit += OnDamageHit;
     }
 
     protected virtual void OnDamageHit(object source)
     {
-
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation("isESkill");
+        StopAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
         playableCharacterStateMachine.playableCharacters.OnDamageHit -= OnDamageHit;
     }
 }

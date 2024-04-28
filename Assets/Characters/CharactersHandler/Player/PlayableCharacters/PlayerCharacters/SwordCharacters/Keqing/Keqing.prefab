@@ -378,6 +378,7 @@ GameObject:
   - component: {fileID: 7590412378920680290}
   - component: {fileID: 3684485128322895435}
   - component: {fileID: 1009559586969540493}
+  - component: {fileID: 2411130348219496771}
   m_Layer: 0
   m_Name: CharacterModel
   m_TagString: Untagged
@@ -1031,6 +1032,20 @@ MonoBehaviour:
   - m_Rig: {fileID: 5337478303780764139}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &2411130348219496771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303882851474343399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82f4091f8899a40a1dfbf9cea8167a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters: {fileID: 5412789336601351339}
+  EyeBlinkHash: EyeBlink
 --- !u!1 &326006702902921306
 GameObject:
   m_ObjectHideFlags: 0
@@ -8236,7 +8251,68 @@ SkinnedMeshRenderer:
   - {fileID: 7091711469555541160}
   - {fileID: 2903709742639987612}
   - {fileID: 3677267704888273490}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 6609922459210394851}
   m_AABB:
     m_Center: {x: 4.656613e-10, y: 0.00765577, z: -0.001058457}
@@ -14337,7 +14413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f4b4db05c3e2e4bb8c91389be217a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FOVAngle: 180
+  FOVAngleXZ: 180
+  FOVAngleY: 45
   MultiAimConstraint: {fileID: 856034220876977985}
   AimRig: {fileID: 1472157248246880502}
   MoveTowardsSoothingTime: 10

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a9390851f2e70c49b373ebfed4733dc
+guid: 0ab369f57b3ef894e97748a719f817cd
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: mixamo.com
+      name: Throw
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 5.5
-      lastFrame: 32
+      firstFrame: 15
+      lastFrame: 61
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -57,7 +57,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.6201015
+      - time: 0.23385775
+        functionName: ShootTeleporter
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5304317
         functionName: OnCharacterAnimationTransition
         data: 
         objectReferenceParameter: {instanceID: 0}

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build;
 using UnityEngine;
 
 public class HairpinTeleporter : MonoBehaviour
@@ -9,6 +8,7 @@ public class HairpinTeleporter : MonoBehaviour
     private float TimeToDisappearElapsed;
     private PlayableCharacters playableCharacters;
     [SerializeField] private float Speed;
+    [SerializeField] private AudioSource ThrowAudioSource;
     [SerializeField] private Rigidbody rb;
     private Coroutine MoveTarget;
 
@@ -31,7 +31,7 @@ public class HairpinTeleporter : MonoBehaviour
             yield return null;
         }
 
-        ResetMovement();
+        Explode();
     }
     public void ResetTime()
     {
@@ -84,6 +84,12 @@ public class HairpinTeleporter : MonoBehaviour
         if (other.TryGetComponent(out PlayableCharacters pc))
             return;
 
+        Explode();
+    }
+
+    private void Explode()
+    {
+        ThrowAudioSource.Play();
         ResetMovement();
     }
 

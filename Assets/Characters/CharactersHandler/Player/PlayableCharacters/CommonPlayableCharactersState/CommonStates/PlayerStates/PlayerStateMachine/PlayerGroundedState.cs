@@ -23,18 +23,17 @@ public abstract class PlayerGroundedState : PlayerMovementState
         playerStateMachine.player.PlayerController.playerInputAction.Dash.started -= Dash_started;
     }
 
-
-    protected void OnSkillCast()
+    protected virtual void OnSkillCast()
     {
-        if (!playableCharacters.PlayableCharacterStateMachine.IsSkillCasting())
+        if (!IsSkillCasting())
             return;
 
         playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
     }
 
-    private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    protected virtual void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (playerStateMachine.IsInState<PlayerDashState>() || IsSkillCasting())
+        if (IsSkillCasting())
             return;
 
         playerStateMachine.ChangeState(playerStateMachine.playerDashState);
@@ -52,11 +51,22 @@ public abstract class PlayerGroundedState : PlayerMovementState
     {
         base.Update();
 
+        OnSkillCast();
+        OnAttackUpdate();
+
         if (!IsGrounded())
         {
             OnFall();
             return;
         }
+    }
+
+    protected virtual void OnAttackUpdate()
+    {
+        if (!playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
+            return;
+
+        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
     }
 
     protected void OnMove()

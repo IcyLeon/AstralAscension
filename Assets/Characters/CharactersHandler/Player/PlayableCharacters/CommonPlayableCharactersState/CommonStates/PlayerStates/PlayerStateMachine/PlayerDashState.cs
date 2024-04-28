@@ -26,6 +26,7 @@ public class PlayerDashState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        OnInterruptState?.Invoke(this);
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
         
         playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
@@ -37,6 +38,10 @@ public class PlayerDashState : PlayerGroundedState
         canRotate = playerStateMachine.playerData.movementInput != Vector2.zero;
         Dash();
         StartTime = Time.time;
+    }
+
+    protected override void Dash_started(InputAction.CallbackContext obj)
+    {
     }
 
     public override void FixedUpdate()

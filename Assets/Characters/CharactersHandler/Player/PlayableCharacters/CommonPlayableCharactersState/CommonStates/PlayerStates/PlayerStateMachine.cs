@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStateMachine
 {
     private StateMachineManager StateMachineManager;
-    public PlayableCharacters playableCharacter { get; }
+    public PlayableCharacterStateMachine PlayableCharacterStateMachine { get; }
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
     public PlayerWeakStopState playerWeakStopState { get; }
@@ -19,7 +19,6 @@ public class PlayerStateMachine
     public PlayerPlungeLandingState playerPlungeLandingState { get; }
     public PlayerPlungeState playerPlungeState { get; }
     public PlayerAimState playerAimState { get; }
-    public PlayerAttackState playerAttackState { get; }
 
     public Player player
     {
@@ -28,7 +27,13 @@ public class PlayerStateMachine
             return playableCharacter.player;
         }
     }
-
+    public PlayableCharacters playableCharacter
+    {
+        get
+        {
+            return PlayableCharacterStateMachine.playableCharacters;
+        }
+    }
     public void SmoothRotateToTargetRotation()
     {
         float currentAngleY = player.Rb.transform.eulerAngles.y;
@@ -115,15 +120,10 @@ public class PlayerStateMachine
         StateMachineManager.ChangeState(newState);
     }
 
-    public IState GetCurrentState()
-    {
-        return StateMachineManager.currentStates;
-    }
-
     public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
+        PlayableCharacterStateMachine = PCS;
         StateMachineManager = new StateMachineManager();
-        playableCharacter = PCS.playableCharacters;
         playerAimState = new PlayerAimState(this);
         playerIdleState = new PlayerIdleState(this);
         playerRunState = new PlayerRunState(this);
@@ -137,7 +137,6 @@ public class PlayerStateMachine
         playerPlungeLandingState = new PlayerPlungeLandingState(this);
         playerSprintState = new PlayerSprintState(this);
         playerPlungeState = new PlayerPlungeState(this);
-        playerAttackState = new PlayerAttackState(this);
         ChangeState(playerIdleState);
     }
 }

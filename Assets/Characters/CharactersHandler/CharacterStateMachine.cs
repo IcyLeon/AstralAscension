@@ -4,10 +4,15 @@ public abstract class CharacterStateMachine
 {
     protected StateMachineManager StateMachineManager;
     public Characters characters { get; }
+    public EntityState EntityState { get; protected set; }
     public CharacterReuseableData characterReuseableData { get; protected set; }
     public virtual void Update()
     {
         StateMachineManager.Update();
+    }
+
+    protected virtual void InitState()
+    {
     }
 
     public bool IsInState<T>()
@@ -71,12 +76,23 @@ public abstract class CharacterStateMachine
     {
         StateMachineManager = new StateMachineManager();
         this.characters = characters;
+        InitState();
+        ChangeState(EntityState);
+    }
 
+    public virtual bool IsAttacking()
+    {
+        return false;
     }
 
     public void StartAnimation(string parameter)
     {
         Characters.StartAnimation(characters.Animator, parameter);
+    }
+
+    public void SetAnimationTrigger(string parameter)
+    {
+        Characters.SetAnimationTrigger(characters.Animator, parameter);
     }
 
     public void StopAnimation(string parameter)

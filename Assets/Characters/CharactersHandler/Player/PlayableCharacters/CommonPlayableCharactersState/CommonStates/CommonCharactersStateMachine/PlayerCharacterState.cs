@@ -19,10 +19,22 @@ public abstract class PlayerCharacterState : DamageableEntityState
 
     protected override void OnDamageHit(object source)
     {
-        if (playableCharacterStateMachine.playerStateMachine.GetCurrentState() is PlayerAirborneState)
+        if (playableCharacterStateMachine.playerStateMachine.IsInState<PlayerAirborneState>())
             return;
 
         base.OnDamageHit(source);
+    }
+
+    protected override void Attack()
+    {
+        if (playableCharacterStateMachine.IsAttacking())
+            return;
+
+        if (!playableCharacterStateMachine.playerStateMachine.IsInState<PlayerGroundedState>() ||
+            playableCharacterStateMachine.playerStateMachine.IsInState<PlayerDashState>())
+            return;
+
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerCharacterAttackState);
     }
 
     public override void UpdateTargetRotationData(float angle)
@@ -37,16 +49,17 @@ public abstract class PlayerCharacterState : DamageableEntityState
     public override void Enter()
     {
         base.Enter();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started += Attack_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
+
     public override void Exit()
     {
         base.Exit();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started -= Attack_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
@@ -60,6 +73,7 @@ public abstract class PlayerCharacterState : DamageableEntityState
 
     protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        Attack();
     }
 
     protected virtual void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)

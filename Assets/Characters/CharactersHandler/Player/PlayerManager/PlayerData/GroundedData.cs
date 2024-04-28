@@ -13,4 +13,5 @@ public class GroundedData
     [field: SerializeField] public PlayerRunData PlayerRunData { get; private set; }
     [field: SerializeField] public PlayerSprintData PlayerSprintData { get; private set; }
     [field: SerializeField] public PlayerAimData PlayerAimData { get; private set; }
+    [field: SerializeField] public PlayerAttackData PlayerAttackData { get; private set; }
 }

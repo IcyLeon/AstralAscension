@@ -21,7 +21,7 @@ MonoBehaviour:
     <BaseSpeed>k__BackingField: 5
     <BaseRotationTime>k__BackingField: 0.14
     <PlayerDashData>k__BackingField:
-      <BaseDashSpeed>k__BackingField: 12
+      <BaseDashSpeed>k__BackingField: 10
       <RotationTime>k__BackingField: 0.02
       <ConsecutiveDashesLimitAmount>k__BackingField: 2
       <TimeToBeConsideredConsecutive>k__BackingField: 1
@@ -35,6 +35,8 @@ MonoBehaviour:
       <SpeedModifier>k__BackingField: 1.5
     <PlayerAimData>k__BackingField:
       <SpeedModifier>k__BackingField: 0.65
+    <PlayerAttackData>k__BackingField:
+      <AttackCooldown>k__BackingField: 1
   <AirborneData>k__BackingField:
     <PlayerJumpData>k__BackingField:
       <JumpDecelerationForce>k__BackingField: 3.5
@@ -47,4 +49,4 @@ MonoBehaviour:
       <FallLimitVelocity>k__BackingField: 20
     <PlayerPlungeData>k__BackingField:
       <PlungeSpeed>k__BackingField: 25
-      <GroundCheckDistance>k__BackingField: 2.5
+      <GroundCheckDistance>k__BackingField: 2

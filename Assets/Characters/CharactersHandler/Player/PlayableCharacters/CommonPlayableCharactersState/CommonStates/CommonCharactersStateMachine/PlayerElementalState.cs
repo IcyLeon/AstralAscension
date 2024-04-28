@@ -80,20 +80,21 @@ public abstract class PlayerElementalState : IState
 
     public virtual void Update()
     {
+        playableCharacterStateMachine.characterReuseableData.Update();
     }
 
-    protected void StartAnimation(string parameter)
+    public void StartAnimation(string parameter)
     {
-        Characters.StartAnimation(playableCharacterStateMachine.characters.Animator, parameter);
+        playableCharacterStateMachine.StartAnimation(parameter);
     }
 
-    protected void SetAnimationTrigger(string parameter)
+    public void SetAnimationTrigger(string parameter)
     {
-        Characters.SetAnimationTrigger(playableCharacterStateMachine.characters.Animator, parameter);
+        playableCharacterStateMachine.SetAnimationTrigger(parameter);
     }
-    protected void StopAnimation(string parameter)
+    public void StopAnimation(string parameter)
     {
-        Characters.StopAnimation(playableCharacterStateMachine.characters.Animator, parameter);
+        playableCharacterStateMachine.StopAnimation(parameter);
     }
 
     public void UpdateTargetRotationData(float data)

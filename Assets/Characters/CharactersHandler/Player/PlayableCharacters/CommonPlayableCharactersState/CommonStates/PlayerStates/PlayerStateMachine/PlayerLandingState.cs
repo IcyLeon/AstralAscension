@@ -20,7 +20,6 @@ public class PlayerLandingState : PlayerGroundedState
     {
         base.Update();
 
-        OnSkillCast();
         if (playerStateMachine.playerData.movementInput == Vector2.zero)
         {
             return;

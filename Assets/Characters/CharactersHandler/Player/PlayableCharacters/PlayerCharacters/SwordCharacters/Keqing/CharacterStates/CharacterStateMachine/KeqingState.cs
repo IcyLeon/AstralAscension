@@ -15,21 +15,13 @@ public class KeqingState : SwordState
         keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
-    protected override void Attack_performed(InputAction.CallbackContext obj)
-    {
-        base.Attack_performed(obj);
-
-        if (keqingStateMachine.playerStateMachine.IsInState<PlayerAirborneState>())
-            return;
-
-        keqingStateMachine.ChangeState(keqingStateMachine.keqingAttackState);
-    }
 
     public override void Exit()
     {
         base.Exit();
         keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
     }
+
 
     protected override void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
@@ -77,7 +69,7 @@ public class KeqingState : SwordState
     {
         get
         {
-            return (KeqingStateMachine)playableCharacterStateMachine;
+            return (KeqingStateMachine)swordCharacterStateMachine;
         }
     }
 }
