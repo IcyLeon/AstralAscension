@@ -15,11 +15,4 @@ public class SwordElementalSkillState : PlayerElementalSkillState
             return (SwordCharacterStateMachine)playableCharacterStateMachine;
         }
     }
-
-
-    protected override void OnDamageHit(object source)
-    {
-        base.OnDamageHit(source);
-        swordCharacterStateMachine.ChangeState(swordCharacterStateMachine.swordState);
-    }
 }

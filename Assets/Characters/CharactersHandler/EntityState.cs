@@ -72,20 +72,20 @@ public abstract class EntityState : IState
 
     public virtual void Update()
     {
-
+        characterStateMachine.characterReuseableData.Update();
     }
 
-    protected void StartAnimation(string parameter)
+    public void StartAnimation(string parameter)
     {
-        Characters.StartAnimation(characterStateMachine.characters.Animator, parameter);
+        characterStateMachine.StartAnimation(parameter);
     }
 
-    protected void SetAnimationTrigger(string parameter)
+    public void SetAnimationTrigger(string parameter)
     {
-        Characters.SetAnimationTrigger(characterStateMachine.characters.Animator, parameter);
+        characterStateMachine.SetAnimationTrigger(parameter);
     }
-    protected void StopAnimation(string parameter)
+    public void StopAnimation(string parameter)
     {
-        Characters.StopAnimation(characterStateMachine.characters.Animator, parameter);
+        characterStateMachine.StopAnimation(parameter);
     }
 }

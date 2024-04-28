@@ -1,6 +1,12 @@
-public class CharacterReuseableData
+public abstract class CharacterReuseableData
 {
-    public CharacterReuseableData()
+    protected CharacterStateMachine characterStateMachine;
+    public CharacterReuseableData(CharacterStateMachine characterStateMachine)
+    {
+        this.characterStateMachine = characterStateMachine;
+    }
+
+    public virtual void Update()
     {
 
     }

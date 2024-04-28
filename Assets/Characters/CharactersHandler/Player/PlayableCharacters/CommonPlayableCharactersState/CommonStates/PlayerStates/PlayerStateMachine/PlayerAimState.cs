@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAimState : PlayerGroundedState
 {
     private CameraManager cameraManager;
+    private float currentAngle;
     public PlayerAimState(PlayerStateMachine PS) : base(PS)
     {
         cameraManager = playerStateMachine.player.CameraManager;
@@ -25,6 +26,16 @@ public class PlayerAimState : PlayerGroundedState
         playerStateMachine.SmoothRotateToTargetRotation();
     }
 
+    protected override void OnAttackUpdate()
+    {
+
+    }
+
+    protected override void OnSkillCast()
+    {
+
+    }
+
     public override void Update()
     {
         base.Update();
@@ -32,7 +43,11 @@ public class PlayerAimState : PlayerGroundedState
         float angle = Mathf.Atan2(cameraManager.CameraMain.transform.forward.x,
             cameraManager.CameraMain.transform.forward.z) * Mathf.Rad2Deg;
 
-        UpdateTargetRotationData(angle);
+        if (angle != currentAngle)
+        {
+            UpdateTargetRotationData(angle);
+            currentAngle = angle;
+        }
 
         if (!cameraManager.IsAimCameraActive())
         {

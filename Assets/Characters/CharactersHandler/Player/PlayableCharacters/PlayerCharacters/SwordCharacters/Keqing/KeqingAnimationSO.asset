@@ -14,14 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CommonPlayableCharacterHashParameters>k__BackingField:
     movementParameters: Velocity
+    groundParameter: isGrounded
+    elementalStateParameter: isESkill
     dashParameter: isDashing
     fallParameter: isFalling
     jumpParameter: isJumping
     plungeParameter: isPlunging
-    plungeLandingParameter: isPlungeLanding
+    attackingParameter: isAttacking
     deadParameter: Dead
     weakLandParameter: WeakLand
     hardLandParameter: HardLand
+    plungeLandingParameter: PlungeLand
     weakStopParameter: WeakStop
     strongStopParameter: StrongStop
   <aimParameter>k__BackingField: isAiming

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class PlayableCharacterStateMachine : CharacterStateMachine
 {
     public PlayerStateMachine playerStateMachine { get; }
+    public PlayerCharacterAttackState playerCharacterAttackState { get; protected set; }
     public PlayableCharacters playableCharacters
     {
         get
@@ -17,6 +18,18 @@ public abstract class PlayableCharacterStateMachine : CharacterStateMachine
         {
             return playableCharacters.player;
         }
+    }
+    public PlayableCharacterReuseableData playableCharacterReuseableData
+    {
+        get
+        {
+            return (PlayableCharacterReuseableData)characterReuseableData;
+        }
+    }
+
+    public override bool IsAttacking()
+    {
+        return StateMachineManager.IsInState<PlayerCharacterAttackState>();
     }
 
     public override void Update()
@@ -46,7 +59,6 @@ public abstract class PlayableCharacterStateMachine : CharacterStateMachine
     public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {
         playerStateMachine = new PlayerStateMachine(this);
-
     }
 
     public bool IsSkillCasting()

@@ -8,7 +8,6 @@ public class KeqingStateMachine : SwordCharacterStateMachine
     public KeqingThrowState keqingThrowState { get; }
     public KeqingTeleportState keqingTeleportState { get; }
     public KeqingESlashState keqingESlashState { get; }
-    public KeqingAttackState keqingAttackState { get; }
     public KeqingAnimationSO keqingAnimationSO
     {
         get
@@ -21,7 +20,7 @@ public class KeqingStateMachine : SwordCharacterStateMachine
     {
         get
         {
-            return (KeqingReuseableData)characterReuseableData;
+            return (KeqingReuseableData)playableCharacterReuseableData;
         }
     }
 
@@ -35,16 +34,16 @@ public class KeqingStateMachine : SwordCharacterStateMachine
 
     protected override void InitState()
     {
-        swordState = new KeqingState(this);
+        EntityState = new KeqingState(this);
     }
 
     public KeqingStateMachine(Characters characters) : base(characters)
     {
-        characterReuseableData = new KeqingReuseableData();
+        characterReuseableData = new KeqingReuseableData(2, this);
         keqingAimState = new KeqingAimState(this);
         keqingThrowState = new KeqingThrowState(this);
         keqingTeleportState = new KeqingTeleportState(this);
         keqingESlashState = new KeqingESlashState(this);
-        keqingAttackState = new KeqingAttackState(this);
+        playerCharacterAttackState = new KeqingAttackState(this);
     }
 }

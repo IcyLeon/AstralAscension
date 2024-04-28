@@ -9,7 +9,9 @@ public abstract class POIRig : MonoBehaviour
 
     [Header("Rig Data")]
     [Range(0f, 180f)]
-    [SerializeField] private float FOVAngle = 90f;
+    [SerializeField] private float FOVAngleXZ = 90f;
+    [Range(0f, 90f)]
+    [SerializeField] private float FOVAngleY = 65f;
     [SerializeField] private MultiAimConstraint MultiAimConstraint;
     [SerializeField] private AimRig AimRig;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
@@ -59,12 +61,20 @@ public abstract class POIRig : MonoBehaviour
         }
 
         Vector3 dir = LookAtPosition - MultiAimConstraint.data.constrainedObject.position;
-        if (Vector3.Angle(interactReference.transform.forward, dir.normalized) <= FOVAngle / 2f)
+        if (IsInFOV(dir.normalized))
         {
             return LookAtPosition;
         }
 
         return originalTargetPosition;
+    }
+
+    private bool IsInFOV(Vector3 dir)
+    {
+        Vector3 direction = dir;
+        dir.y = 0;
+        return Vector3.Angle(interactReference.transform.forward, dir) <= FOVAngleXZ / 2f &&
+            Mathf.Abs(Mathf.Asin(direction.y) * Mathf.Rad2Deg) <= FOVAngleY;
     }
 
     private void MoveTarget()

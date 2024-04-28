@@ -124,11 +124,6 @@ public class CameraManager : MonoBehaviour
         player.PlayerController.playerInputAction.Zoom.performed -= Zoom_performed;
     }
 
-    private void ReadScroll()
-    {
-        m_TargetZoom += player.PlayerController.playerInputAction.Zoom.ReadValue<Vector2>().y;
-    }
-
     private void UpdateZoomCamera()
     {
         m_TargetZoom = Mathf.Clamp(m_TargetZoom, CameraSO.minZoom, CameraSO.maxZoom);
@@ -137,11 +132,11 @@ public class CameraManager : MonoBehaviour
 
     private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        ReadScroll();
+        m_TargetZoom += player.PlayerController.playerInputAction.Zoom.ReadValue<Vector2>().y;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         Update3rdPersonCam();
         UpdateZoomCamera();

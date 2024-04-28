@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum LockMovement
+{
+    Enable,
+    Disable
+}
 public class Player : MonoBehaviour
 {
     #region Collision Events

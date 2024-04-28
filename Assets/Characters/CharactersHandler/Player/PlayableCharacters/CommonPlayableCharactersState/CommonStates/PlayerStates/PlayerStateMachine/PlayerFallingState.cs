@@ -23,7 +23,6 @@ public class PlayerFallingState : PlayerAirborneState
         LimitFallVelocity();
     }
 
-
     public override void Update()
     {
         base.Update();

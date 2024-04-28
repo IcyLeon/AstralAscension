@@ -27,6 +27,11 @@ public abstract class DamageableEntityState : EntityState
         SetAnimationTrigger("Hit");
     }
 
+    protected virtual void Attack()
+    {
+
+    }
+
     public override void Exit()
     {
         base.Exit();
