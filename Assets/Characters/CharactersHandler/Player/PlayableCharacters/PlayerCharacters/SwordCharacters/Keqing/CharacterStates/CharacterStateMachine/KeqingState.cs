@@ -28,8 +28,8 @@ public class KeqingState : SwordState
         if (!CanTransitToElementalState())
             return;
 
-        if (keqingStateMachine.keqing.activehairpinTeleporter == null ||
-            !keqingStateMachine.keqing.activehairpinTeleporter.CanTeleport())
+        if (keqingStateMachine.keqingReuseableData.activehairpinTeleporter == null ||
+            !keqingStateMachine.keqingReuseableData.activehairpinTeleporter.CanTeleport())
             return;
 
         keqingStateMachine.ChangeState(keqingStateMachine.keqingTeleportState);
@@ -40,7 +40,7 @@ public class KeqingState : SwordState
         if (!CanTransitToElementalState())
             return;
 
-        if (keqingStateMachine.keqing.activehairpinTeleporter != null)
+        if (keqingStateMachine.keqingReuseableData.activehairpinTeleporter != null)
             return;
 
         float Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
@@ -59,7 +59,7 @@ public class KeqingState : SwordState
         if (!CanTransitToElementalState())
             return;
 
-        if (keqingStateMachine.keqing.activehairpinTeleporter != null)
+        if (keqingStateMachine.keqingReuseableData.activehairpinTeleporter != null)
             return;
 
         keqingStateMachine.ChangeState(keqingStateMachine.keqingAimState);

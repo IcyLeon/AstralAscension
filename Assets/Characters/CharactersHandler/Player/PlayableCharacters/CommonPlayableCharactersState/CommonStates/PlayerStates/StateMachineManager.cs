@@ -8,6 +8,7 @@ public class StateMachineManager
 
     public void Update()
     {
+        //Debug.Log(currentStates);
         if (currentStates != null)
             currentStates.Update();
     }

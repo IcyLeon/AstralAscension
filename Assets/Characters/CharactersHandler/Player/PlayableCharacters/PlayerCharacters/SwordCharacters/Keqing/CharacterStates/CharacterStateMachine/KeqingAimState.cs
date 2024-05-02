@@ -13,8 +13,7 @@ public class KeqingAimState : KeqingElementalSkillState
     public override void Enter()
     {
         base.Enter();
-        keqing.TargetOrb.SetActive(true);
-        keqing.AimRig.SetTargetWeight(1f);
+        keqing.AimLookRig.SetTargetWeight(1f);
         StartAnimation(keqingStateMachine.keqingAnimationSO.aimParameter);
         playableCharacterStateMachine.playerStateMachine.ChangeState(
             playableCharacterStateMachine.playerStateMachine.playerAimState
@@ -48,7 +47,7 @@ public class KeqingAimState : KeqingElementalSkillState
         keqingStateMachine.keqingReuseableData.targetPosition = Player.GetRayPosition(origin,
                                                             originalTargetPos - origin, 
                                                             Range);
-        keqing.TargetOrb.transform.position = keqingStateMachine.keqingReuseableData.targetPosition;
+        keqing.AimLookRig.SetTargetPosition(keqingStateMachine.keqingReuseableData.targetPosition);
     }
 
     private float GetOffSet(Vector3 EmitterPos)
@@ -59,8 +58,7 @@ public class KeqingAimState : KeqingElementalSkillState
     public override void Exit()
     {
         base.Exit();
-        keqing.TargetOrb.SetActive(false);
-        keqing.AimRig.SetTargetWeight(0f);
+        keqing.AimLookRig.SetTargetWeight(0f);
         StopAnimation(keqingStateMachine.keqingAnimationSO.aimParameter);
     }
 }

@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 1178275662}
   soothingSpeed: 15
+  MultiAimConstraint: {fileID: 49734731}
 --- !u!114 &4423181161413248044
 MonoBehaviour:
   m_ObjectHideFlags: 0

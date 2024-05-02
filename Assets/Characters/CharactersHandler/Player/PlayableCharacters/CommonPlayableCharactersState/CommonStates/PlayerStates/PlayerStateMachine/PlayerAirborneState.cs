@@ -11,7 +11,6 @@ public class PlayerAirborneState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
-        OnInterruptState?.Invoke(this);
         playerStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
         StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
     }

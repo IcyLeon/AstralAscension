@@ -51,8 +51,8 @@ public abstract class PlayerGroundedState : PlayerMovementState
     {
         base.Update();
 
-        OnSkillCast();
         OnAttackUpdate();
+        OnSkillCast();
 
         if (!IsGrounded())
         {
@@ -66,7 +66,7 @@ public abstract class PlayerGroundedState : PlayerMovementState
         if (!playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
             return;
 
-        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+        playerStateMachine.ChangeState(playerStateMachine.playerAttackState);
     }
 
     protected void OnMove()

@@ -6,6 +6,7 @@ public abstract class CharacterStateMachine
     public Characters characters { get; }
     public EntityState EntityState { get; protected set; }
     public CharacterReuseableData characterReuseableData { get; protected set; }
+
     public virtual void Update()
     {
         StateMachineManager.Update();
@@ -78,6 +79,11 @@ public abstract class CharacterStateMachine
         this.characters = characters;
         InitState();
         ChangeState(EntityState);
+    }
+    public virtual void OnDestroy()
+    {
+        if (characterReuseableData != null)
+            characterReuseableData.OnDestroy();
     }
 
     public virtual bool IsAttacking()

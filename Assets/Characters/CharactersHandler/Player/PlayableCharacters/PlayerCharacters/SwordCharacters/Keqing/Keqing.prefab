@@ -4350,10 +4350,9 @@ MonoBehaviour:
   VoiceSource: {fileID: 3216654781972711093}
   <MainCollider>k__BackingField: {fileID: 2951356107405484920}
   <BasicAttackCollider>k__BackingField: {fileID: 2621724480662290340}
-  HairpinTeleporterPrefab: {fileID: 2170554996015132487, guid: 0472f434693734a4c9bfae87755d1a84,
+  <HairpinTeleporterPrefab>k__BackingField: {fileID: 2170554996015132487, guid: 0472f434693734a4c9bfae87755d1a84,
     type: 3}
-  <AimRig>k__BackingField: {fileID: 9177261536529458908}
-  <TargetOrb>k__BackingField: {fileID: 4214112610100515410}
+  <AimLookRig>k__BackingField: {fileID: 9177261536529458908}
 --- !u!136 &2951356107405484920
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8525,6 +8524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 8167832789662625276}
   soothingSpeed: 15
+  MultiAimConstraint: {fileID: 8866552851954086999}
 --- !u!1 &4372954766636869300
 GameObject:
   m_ObjectHideFlags: 0
@@ -14401,6 +14401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 5337478303780764139}
   soothingSpeed: 15
+  MultiAimConstraint: {fileID: 856034220876977985}
 --- !u!114 &8635614414826847995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17772,12 +17773,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae2ac306fe6cb9944ba3e7cef9d30cfb, type: 3}
---- !u!1 &4214112610100515410 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 189812590835395739, guid: ae2ac306fe6cb9944ba3e7cef9d30cfb,
-    type: 3}
-  m_PrefabInstance: {fileID: 4096534707761249993}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8169382718560550354 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5298109823524455195, guid: ae2ac306fe6cb9944ba3e7cef9d30cfb,

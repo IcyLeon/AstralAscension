@@ -69,6 +69,15 @@ public abstract class DamageableCharacters : Characters, IDamageable
         return false;
     }
 
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        if (characterStateMachine != null)
+        {
+            characterStateMachine.OnDestroy();
+        }
+    }
+
     public virtual void TakeDamage(object source, float BaseDamageAmount)
     {
         OnDamageHit?.Invoke(source);

@@ -6,9 +6,6 @@ public class PlayerMovementState : IState
 {
     protected PlayerStateMachine playerStateMachine;
 
-    public delegate void OnInterruptStateChange(IState IState);
-    public static OnInterruptStateChange OnInterruptState;
-
     public PlayerMovementState(PlayerStateMachine PS)
     {
         playerStateMachine = PS;
