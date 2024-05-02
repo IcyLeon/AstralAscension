@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCharacterAttackState : IState
 {
     protected PlayableCharacterStateMachine playableCharacterStateMachine;
+    private bool canTransit = false;
 
     public PlayerCharacterAttackState(PlayableCharacterStateMachine CharacterStateMachine)
     {
@@ -14,8 +15,7 @@ public class PlayerCharacterAttackState : IState
     public virtual void Enter()
     {
         playableCharacterStateMachine.playableCharacterReuseableData.UpdateAttackIdleState();
-        PlayerMovementState.OnInterruptState += OnInterruptStateChange;
-        StartAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackingParameter);
+        PlayerAttackState.OnAttackInterruptState += OnAttackInterruptState;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
         playableCharacterStateMachine.EntityState.Enter();
     }
@@ -25,16 +25,16 @@ public class PlayerCharacterAttackState : IState
         playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }
 
-    private void OnInterruptStateChange(IState IState)
+    private void OnAttackInterruptState()
     {
         Reset();
     }
 
     public virtual void Exit()
     {
-        PlayerMovementState.OnInterruptState -= OnInterruptStateChange;
-        StopAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackingParameter);
+        PlayerAttackState.OnAttackInterruptState -= OnAttackInterruptState;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
+        canTransit = false;
         playableCharacterStateMachine.EntityState.Exit();
     }
 
@@ -48,9 +48,9 @@ public class PlayerCharacterAttackState : IState
         playableCharacterStateMachine.playableCharacterReuseableData.DoBasicAttack();
     }
 
-    private bool IsAttacking()
+    private bool IsTag(string name)
     {
-        return !playableCharacterStateMachine.playableCharacters.Animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK_IDLE");
+        return playableCharacterStateMachine.playableCharacters.Animator.GetCurrentAnimatorStateInfo(0).IsTag(name);
     }
 
     public virtual void FixedUpdate()
@@ -120,14 +120,21 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void Update()
     {
-        if (!IsAttacking())
+        if (!IsTag("ATK"))
         {
+            if (!canTransit)
+                return;
+
             if (playableCharacterStateMachine.playableCharacterReuseableData.CanTransitBackToIdleState() 
-                || playableCharacterStateMachine.playerStateMachine.IsInState<PlayerMovingState>())
+                || playableCharacterStateMachine.playerStateMachine.playerData.movementInput != Vector2.zero)
             {
                 Reset();
             }
             return;
+        }
+        else
+        {
+            canTransit = true;
         }
 
         playableCharacterStateMachine.playableCharacterReuseableData.UpdateAttackIdleState();

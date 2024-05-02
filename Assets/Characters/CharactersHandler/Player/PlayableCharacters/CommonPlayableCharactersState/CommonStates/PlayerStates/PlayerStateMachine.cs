@@ -19,6 +19,7 @@ public class PlayerStateMachine
     public PlayerPlungeLandingState playerPlungeLandingState { get; }
     public PlayerPlungeState playerPlungeState { get; }
     public PlayerAimState playerAimState { get; }
+    public PlayerAttackState playerAttackState { get; }
 
     public Player player
     {
@@ -137,6 +138,7 @@ public class PlayerStateMachine
         playerPlungeLandingState = new PlayerPlungeLandingState(this);
         playerSprintState = new PlayerSprintState(this);
         playerPlungeState = new PlayerPlungeState(this);
+        playerAttackState = new PlayerAttackState(this);
         ChangeState(playerIdleState);
     }
 }

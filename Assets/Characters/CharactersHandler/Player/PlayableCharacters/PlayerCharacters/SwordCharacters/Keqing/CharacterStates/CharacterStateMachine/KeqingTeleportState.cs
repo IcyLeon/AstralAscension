@@ -25,18 +25,18 @@ public class KeqingTeleportState : KeqingElementalSkillState
 
         Vector3 dir = GetDirectionToTeleporter();
         TimeToReach = dir.magnitude / Speed;
-        originPosition = keqing.player.Rb.position;
+        originPosition = playableCharacterStateMachine.player.Rb.position;
 
         float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         UpdateTargetRotationData(angle);
 
-        keqing.player.Rb.useGravity = false;
+        playableCharacterStateMachine.player.Rb.useGravity = false;
         OnKeqingTeleportState?.Invoke(true);
     }
 
     private Vector3 GetDirectionToTeleporter()
     {
-        return keqing.activehairpinTeleporter.transform.position - keqing.player.Rb.position;
+        return keqingStateMachine.keqingReuseableData.activehairpinTeleporter.transform.position - playableCharacterStateMachine.player.Rb.position;
     }
     public override void FixedUpdate()
     {
@@ -48,14 +48,14 @@ public class KeqingTeleportState : KeqingElementalSkillState
 
     private void ResetVelocity()
     {
-        keqing.player.Rb.velocity = Vector3.zero;
+        playableCharacterStateMachine.player.Rb.velocity = Vector3.zero;
     }
 
     public override void Update()
     {
         base.Update();
 
-        Vector3 dir = originPosition - keqing.player.Rb.position;
+        Vector3 dir = originPosition - playableCharacterStateMachine.player.Rb.position;
 
         if (dir.magnitude >= Range || TimeToReachElapsed >= TimeToReach)
         {
@@ -63,13 +63,13 @@ public class KeqingTeleportState : KeqingElementalSkillState
             return;
         }
 
-        keqing.activehairpinTeleporter.ResetTime();
+        keqingStateMachine.keqingReuseableData.activehairpinTeleporter.ResetTime();
         TimeToReachElapsed += Time.deltaTime;
     }
 
     private void UpdateTeleportMovement()
     {
-        keqing.player.Rb.MovePosition(keqing.player.Rb.position + Speed * Time.deltaTime * GetDirectionToTeleporter().normalized);
+        playableCharacterStateMachine.player.Rb.MovePosition(playableCharacterStateMachine.player.Rb.position + Speed * Time.deltaTime * GetDirectionToTeleporter().normalized);
     }
 
     public override void OnCollisionStay(Collision collision)
@@ -87,7 +87,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
     public override void Exit()
     {
         base.Exit();
-        keqing.activehairpinTeleporter.Hide();
+        keqingStateMachine.keqingReuseableData.activehairpinTeleporter.Hide();
         OnKeqingTeleportState?.Invoke(false);
     }
 }

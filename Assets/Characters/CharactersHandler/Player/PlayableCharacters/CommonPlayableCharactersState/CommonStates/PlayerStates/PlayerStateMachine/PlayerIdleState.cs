@@ -16,11 +16,6 @@ public class PlayerIdleState : PlayerGroundedState
         ResetVelocity();
     }
 
-    protected override void OnAttackUpdate()
-    {
-
-    }
-
     protected override void OnSkillCast()
     {
 

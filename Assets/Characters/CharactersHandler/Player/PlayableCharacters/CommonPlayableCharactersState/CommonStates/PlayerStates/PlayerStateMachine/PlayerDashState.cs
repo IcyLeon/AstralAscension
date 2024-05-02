@@ -26,7 +26,6 @@ public class PlayerDashState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        OnInterruptState?.Invoke(this);
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
         
         playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());

@@ -12,14 +12,14 @@ public class KeqingESlashState : KeqingElementalSkillState
     {
         base.Enter();
         SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.elementalSkillSlashParameter);
-        keqing.PlayVOAudio(keqing.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkill_RecastVOClip());
+        playableCharacterStateMachine.playableCharacters.PlayVOAudio(keqing.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkill_RecastVOClip());
     }
 
     public override void OnAnimationTransition()
     {
         base.OnAnimationTransition();
 
-        keqingStateMachine.ChangeState(keqingStateMachine.EntityState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }
 
     public override void FixedUpdate()
@@ -31,6 +31,6 @@ public class KeqingESlashState : KeqingElementalSkillState
     public override void Exit()
     {
         base.Exit();
-        keqing.player.Rb.useGravity = true;
+        playableCharacterStateMachine.player.Rb.useGravity = true;
     }
 }

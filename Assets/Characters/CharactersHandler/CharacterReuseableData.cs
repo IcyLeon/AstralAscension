@@ -10,4 +10,9 @@ public abstract class CharacterReuseableData
     {
 
     }
+
+    public virtual void OnDestroy()
+    {
+
+    }
 }

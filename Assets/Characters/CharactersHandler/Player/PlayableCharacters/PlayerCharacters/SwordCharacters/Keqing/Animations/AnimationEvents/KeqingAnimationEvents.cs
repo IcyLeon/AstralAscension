@@ -8,10 +8,18 @@ public class KeqingAnimationEvents : SwordCharacterAnimationEvents
     [SerializeField] private Transform Mesh;
     [SerializeField] private Transform Armature;
 
-    public Keqing keqing { 
+    private Keqing keqing { 
         get 
         {
             return (Keqing)playableCharacters;
+        }
+    }
+
+    private KeqingReuseableData KeqingReuseableData
+    {
+        get
+        {
+            return keqing.characterReuseableData as KeqingReuseableData;
         }
     }
 
@@ -33,7 +41,7 @@ public class KeqingAnimationEvents : SwordCharacterAnimationEvents
 
     private void ShootTeleporter()
     {
-        HairpinTeleporter HT = keqing.hairpinTeleporter;
+        HairpinTeleporter HT = KeqingReuseableData.hairpinTeleporter;
 
         if (HT == null)
             return;

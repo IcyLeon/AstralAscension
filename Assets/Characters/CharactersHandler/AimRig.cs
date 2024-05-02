@@ -7,6 +7,7 @@ public class AimRig : MonoBehaviour
 {
     [SerializeField] private Rig rig;
     [SerializeField] private float soothingSpeed = 1f;
+    [SerializeField] private MultiAimConstraint MultiAimConstraint;
     private float targetRigWeight;
 
 
@@ -22,8 +23,30 @@ public class AimRig : MonoBehaviour
         rig.weight = Mathf.Lerp(rig.weight, targetRigWeight, Time.deltaTime * soothingSpeed);
     }
 
+    private bool isValidObject()
+    {
+        return MultiAimConstraint.data.sourceObjects.Count != 0;
+    }
+
+    private void ToggleTarget()
+    {
+        if (MultiAimConstraint == null || !isValidObject())
+            return;
+
+        MultiAimConstraint.data.sourceObjects[0].transform.gameObject.SetActive(targetRigWeight != 0);
+    }
+
+    public void SetTargetPosition(Vector3 Position)
+    {
+        if (!isValidObject())
+            return;
+
+        MultiAimConstraint.data.sourceObjects[0].transform.position = Position;
+    }
+
     public void SetTargetWeight(float target)
     {
         targetRigWeight = target;
+        ToggleTarget();
     }
 }

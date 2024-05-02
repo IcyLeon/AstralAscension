@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class PlayableCharacterAnimationEvents : CharacterAnimationEvents
 {
-    public PlayableCharacters playableCharacters
+    protected PlayableCharacters playableCharacters
     {
         get
         {
