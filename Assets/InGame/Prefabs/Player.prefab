@@ -540,6 +540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8489295494498299185}
   - component: {fileID: 8489295494498299186}
+  - component: {fileID: 272870862419356319}
   m_Layer: 0
   m_Name: AimCamera
   m_TagString: Untagged
@@ -601,6 +602,19 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 8489295495137831419}
+--- !u!114 &272870862419356319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8489295494498299184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc7d4f36d04acea469c1b1df12fe23ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraManager: {fileID: 8489295495052446741}
 --- !u!1 &8489295495052446747
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,8 +661,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ca73fbe44ab164d8998da48a242f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraTarget: {fileID: 8489295494311766348}
-  CameraSO: {fileID: 11400000, guid: 4e6ad64a5557e5f4d82a9dd2efa91ee9, type: 2}
+  <CameraTarget>k__BackingField: {fileID: 8489295494311766348}
+  <CameraSO>k__BackingField: {fileID: 11400000, guid: 4e6ad64a5557e5f4d82a9dd2efa91ee9,
+    type: 2}
+  <Player>k__BackingField: {fileID: 8489295494363605632}
   PlayerCamera: {fileID: 8489295493921739722}
   AimCamera: {fileID: 8489295494498299186}
 --- !u!1 &8489295495137831418

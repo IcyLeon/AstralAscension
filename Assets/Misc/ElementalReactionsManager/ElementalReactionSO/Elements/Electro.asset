@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3db5169cf20bcb4da9d037c0af813c1, type: 3}
   m_Name: Electro
   m_EditorClassIdentifier: 
-  <ElementsEnums>k__BackingField: 3
   <ElementSprite>k__BackingField: {fileID: 0}
-  <Color>k__BackingField:
-    serializedVersion: 2
-    rgba: 0
+  <ColorText>k__BackingField: {r: 0.88235295, g: 0.60784316, b: 0.99607843, a: 1}

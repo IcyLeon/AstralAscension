@@ -6,6 +6,7 @@ using UnityEngine.Animations.Rigging;
 public abstract class POIRig : MonoBehaviour
 {
     protected Interact interactReference;
+    private const float offsetDistance = 0.35f;
 
     [Header("Rig Data")]
     [Range(0f, 180f)]
@@ -13,19 +14,13 @@ public abstract class POIRig : MonoBehaviour
     [Range(0f, 90f)]
     [SerializeField] private float FOVAngleY = 65f;
     [SerializeField] private MultiAimConstraint MultiAimConstraint;
-    [SerializeField] private AimRig AimRig;
+    [SerializeField] private SmoothRigTransition SmoothRigTransition;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
 
     private IPointOfInterest closestPointOfInterest;
     private Transform currentTransform;
 
-    private Vector3 originalTargetPosition;
     private Vector3 closestTarget;
-
-    private void Awake()
-    {
-        originalTargetPosition = MultiAimConstraint.data.constrainedObject.position + transform.forward * 0.35f;
-    }
 
     // Update is called once per frame
     private void LateUpdate()
@@ -39,13 +34,15 @@ public abstract class POIRig : MonoBehaviour
         return true;
     }
 
+    private Vector3 GetOriginalTargetPosition()
+    {
+        return MultiAimConstraint.data.constrainedObject.position + transform.forward * offsetDistance;
+    }
+
     private Vector3 GetClosestTransformPosition()
     {
-        if (interactReference == null)
-            return originalTargetPosition;
-
-        if (interactReference.closestInteractionTransform == null)
-            return originalTargetPosition;
+        if (interactReference == null || interactReference.closestInteractionTransform == null)
+            return GetOriginalTargetPosition();
 
         Vector3 LookAtPosition = interactReference.closestInteractionTransform.position;
 
@@ -63,10 +60,10 @@ public abstract class POIRig : MonoBehaviour
         Vector3 dir = LookAtPosition - MultiAimConstraint.data.constrainedObject.position;
         if (IsInFOV(dir.normalized))
         {
-            return LookAtPosition;
+            return LookAtPosition + offsetDistance * dir.normalized;
         }
 
-        return originalTargetPosition;
+        return GetOriginalTargetPosition();
     }
 
     private bool IsInFOV(Vector3 dir)
@@ -87,19 +84,13 @@ public abstract class POIRig : MonoBehaviour
     {
         closestTarget = GetClosestTransformPosition();
 
-        if (!CanMoveHead())
+        if (!CanMoveHead() || closestTarget == GetOriginalTargetPosition())
         {
-            AimRig.SetTargetWeight(0f);
+            SmoothRigTransition.SetTargetWeight(0f);
             return;
         }
 
-        if (closestTarget == originalTargetPosition)
-        {
-            AimRig.SetTargetWeight(0f);
-            return;
-        }
-
-        AimRig.SetTargetWeight(1f);
+        SmoothRigTransition.SetTargetWeight(1f);
     }
 
     public void SetTargetPosition(Vector3 WorldPosition)

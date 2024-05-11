@@ -6,24 +6,30 @@ public class PlayerAimState : PlayerGroundedState
 {
     private CameraManager cameraManager;
     private float currentAngle;
+
+    public delegate void OnPlayerAim(PlayableCharacterStateMachine PCS);
+    public static event OnPlayerAim OnPlayerAimEnter;
+    public static event OnPlayerAim OnPlayerAimExit;
+
     public PlayerAimState(PlayerStateMachine PS) : base(PS)
     {
-        cameraManager = playerStateMachine.player.CameraManager;
+        cameraManager = PS.player.CameraManager;
     }
 
     public override void Enter()
     {
         base.Enter();
+        cameraManager.ToggleAimCamera(true);
         playerStateMachine.playerData.SpeedModifier = playerStateMachine.playerData.groundedData.PlayerAimData.SpeedModifier;
         playerStateMachine.playerData.rotationTime = 0f;
-        cameraManager.ToggleAimCamera(true);
+        OnPlayerAimEnter?.Invoke(playerStateMachine.PlayableCharacterStateMachine);
         playerStateMachine.player.PlayerController.playerInputAction.Jump.Disable();
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        playerStateMachine.SmoothRotateToTargetRotation();
+        SmoothRotateToTargetRotation();
     }
 
     protected override void OnAttackUpdate()
@@ -40,8 +46,7 @@ public class PlayerAimState : PlayerGroundedState
     {
         base.Update();
 
-        float angle = Mathf.Atan2(cameraManager.CameraMain.transform.forward.x,
-            cameraManager.CameraMain.transform.forward.z) * Mathf.Rad2Deg;
+        float angle = cameraManager.CameraMain.transform.eulerAngles.y;
 
         if (angle != currentAngle)
         {
@@ -52,6 +57,7 @@ public class PlayerAimState : PlayerGroundedState
         if (!cameraManager.IsAimCameraActive())
         {
             ExitAimState();
+            return;
         }
     }
 
@@ -70,6 +76,7 @@ public class PlayerAimState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
+        OnPlayerAimExit?.Invoke(playerStateMachine.PlayableCharacterStateMachine);
         cameraManager.ToggleAimCamera(false);
         InitBaseRotation();
         playerStateMachine.player.PlayerController.playerInputAction.Jump.Enable();

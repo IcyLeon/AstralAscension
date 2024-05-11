@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rig: {fileID: 1178275662}
-  soothingSpeed: 15
+  soothingSpeed: 10
   MultiAimConstraint: {fileID: 49734731}
 --- !u!114 &4423181161413248044
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
   FOVAngleXZ: 180
   FOVAngleY: 45
   MultiAimConstraint: {fileID: 49734731}
-  AimRig: {fileID: 1178275665}
+  SmoothRigTransition: {fileID: 1178275665}
   MoveTowardsSoothingTime: 10
   interact: {fileID: 2696887656187803932}
 --- !u!1 &1701620137
@@ -5266,7 +5266,7 @@ GameObject:
   - component: {fileID: 537253565}
   - component: {fileID: 628674655512938579}
   m_Layer: 0
-  m_Name: Character Model
+  m_Name: CharacterModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6883,8 +6883,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   POITargetTransform: {fileID: 9115663086645749072}
   <Animator>k__BackingField: {fileID: 6208309243586181026}
-  <CharacterDataSO>k__BackingField: {fileID: 11400000, guid: fe054ffa3c0236b4bab5fbb1df399c87,
-    type: 2}
+  <CharacterSO>k__BackingField: {fileID: 0}
   VoiceSource: {fileID: 537253559}
 --- !u!1 &4667954535138776434
 GameObject:

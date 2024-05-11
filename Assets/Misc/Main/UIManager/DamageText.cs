@@ -16,8 +16,8 @@ public class DamageText : MonoBehaviour
 
     private void Awake()
     {
-        originlocalScale = Vector3.one * 2.8f;
-        spawnOffsetPosition = 0.35f;
+        originlocalScale = Vector3.one * 3.5f;
+        spawnOffsetPosition = 0.3f;
         vel = Vector2.up * 20f;
         rt = GetComponent<RectTransform>();
         canvasGroup.alpha = 0f;
@@ -42,9 +42,10 @@ public class DamageText : MonoBehaviour
         originPosition = WorldPosition;
     }
 
-    public void SetDamageTextValue(string txt, Vector3 WorldPosition)
+    public void SetDamageTextValue(string txt, Vector3 WorldPosition, Color color)
     {
         ValueText.text = txt;
+        ValueText.color = color;
         UpdatePosition(WorldPosition + new Vector3(GetRandomPositionOffset(), GetRandomPositionOffset(), GetRandomPositionOffset()));
         gameObject.SetActive(true);
         StartCoroutine(ScaleAnimation());

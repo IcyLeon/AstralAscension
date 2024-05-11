@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DamageableStats
@@ -18,11 +19,13 @@ public class DamageableStats
 
 public abstract class DamageableCharacters : Characters, IDamageable
 {
+    protected Dictionary<ElementsSO, Elements> inflictElementList;
+
     protected DamageableStats DamageableStats;
-    public delegate void OnDamage(object source);
+    public delegate void OnDamage(IElement source);
     public OnDamage OnDamageHit;
 
-    protected CharacterStateMachine characterStateMachine;
+    public CharacterStateMachine characterStateMachine { get; protected set; }
 
     public CharacterReuseableData characterReuseableData
     {
@@ -32,20 +35,45 @@ public abstract class DamageableCharacters : Characters, IDamageable
         }
     }
 
+    protected DamageableEntitySO damageableCharacters
+    {
+        get
+        {
+            return CharacterSO as DamageableEntitySO;
+        }
+    }
+
+    protected override void Start()
+    {
+        inflictElementList = new();
+        base.Start();
+    }
+
+    public virtual ElementsSO GetElementsSO()
+    {
+        return damageableCharacters.ElementSO;
+    }
+
     protected override void Update()
     {
         if (characterStateMachine != null)
         {
             characterStateMachine.Update();
         }
+
+        UpdateElementList();
     }
 
-    public void OnCharacterAnimationTransition()
+    private void UpdateElementList()
     {
-        if (characterStateMachine != null)
+        if (GetSelfInflictElementLists() == null)
+            return;
+
+        for (int i = 0; i < GetSelfInflictElementLists().Count; i++)
         {
-            characterStateMachine.OnAnimationTransition();
+            GetSelfInflictElementLists().ElementAt(i).Value.Update();
         }
+
     }
 
     protected override void FixedUpdate()
@@ -78,18 +106,68 @@ public abstract class DamageableCharacters : Characters, IDamageable
         }
     }
 
-    public virtual void TakeDamage(object source, float BaseDamageAmount)
+    public virtual void TakeDamage(IElement source, ElementsSO elementsSO, float BaseDamageAmount, Vector3 HitPosition = default(Vector3))
     {
+        if (IsDead())
+            return;
+
         OnDamageHit?.Invoke(source);
-        DamageManager.DamageChanged?.Invoke(this, new DamageManager.DamageInfo
+
+        ElementalReactionsManager.CallDamageInvoke(this, new ElementalReactionsManager.ElementsInfo
         {
-            DamageText = BaseDamageAmount.ToString(),
-            WorldPosition = GetMiddleBound()
+            DamageText = new() 
+            { 
+                { BaseDamageAmount.ToString() } 
+            },
+            WorldPosition = GetMiddleBound(),
+            DamageAmount = BaseDamageAmount,
+            elementsSO = elementsSO,
+            source = source,
+            HitPosition = HitPosition
         });
     }
 
     public virtual Vector3 GetMiddleBound()
     {
         return transform.position;
+    }
+
+    public Dictionary<ElementsSO, Elements> GetSelfInflictElementLists()
+    {
+        return inflictElementList;
+    }
+
+    public virtual float GetMaxHealth()
+    {
+        return 0f;
+    }
+
+    public virtual float GetATK()
+    {
+        return 0f;
+    }
+
+    public virtual float GetDEF()
+    {
+        return 0f;
+    }
+
+    public virtual float GetCurrentHealth()
+    {
+        return 0f;
+    }
+
+    public virtual void SetCurrentHealth(float health)
+    {
+    }
+
+    public virtual float GetEM()
+    {
+        return 0f;
+    }
+
+    public virtual ElementsSO[] GetImmuneableElementsSO()
+    {
+        return null;
     }
 }

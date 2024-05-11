@@ -7,7 +7,7 @@ public abstract class Characters : MonoBehaviour, IPointOfInterest
 {
     [SerializeField] private Transform POITargetTransform;
     [field: SerializeField] public Animator Animator { get; private set; }
-    [field: SerializeField] public CharactersSO CharacterDataSO { get; private set; }
+    [field: SerializeField] public CharactersSO CharacterSO { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
 
     // Start is called before the first frame update

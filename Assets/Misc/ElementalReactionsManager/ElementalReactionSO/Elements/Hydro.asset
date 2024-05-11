@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3db5169cf20bcb4da9d037c0af813c1, type: 3}
   m_Name: Hydro
   m_EditorClassIdentifier: 
-  <ElementsEnums>k__BackingField: 4
   <ElementSprite>k__BackingField: {fileID: 0}
-  <Color>k__BackingField:
-    serializedVersion: 2
-    rgba: 0
+  <ColorText>k__BackingField: {r: 0.18039216, g: 0.8156863, b: 0.99215686, a: 1}

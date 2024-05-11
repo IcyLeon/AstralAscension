@@ -8,10 +8,10 @@ public abstract class CharacterAnimationEvents : MonoBehaviour
 
     private void OnCharacterAnimationTransition()
     {
-        if (Character == null)
+        if (Character == null || Character.characterStateMachine == null)
             return;
 
-        Character.OnCharacterAnimationTransition();
+        Character.characterStateMachine.OnAnimationTransition();
     }
 
     protected virtual void OnAnimatorMove()

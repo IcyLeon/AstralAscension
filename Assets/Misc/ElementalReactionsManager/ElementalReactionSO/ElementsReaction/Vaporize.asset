@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Vaporize
   m_EditorClassIdentifier: 
   <DisplayElementalReactionText>k__BackingField: Overloaded
-  <ElementalReaction>k__BackingField: 3
+  <ElementalReaction>k__BackingField: 5
   <Color>k__BackingField:
     serializedVersion: 2
     rgba: 0
