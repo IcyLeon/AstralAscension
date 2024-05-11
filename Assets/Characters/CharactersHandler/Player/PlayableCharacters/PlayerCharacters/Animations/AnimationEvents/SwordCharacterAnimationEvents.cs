@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SwordCharacterAnimationEvents : PlayableCharacterAnimationEvents
 {
-    [SerializeField] private HitColliders hitColliders;
+    [SerializeField] private PlayableCharacterSwordHitCollider playableCharacterSwordHitCollider;
     private void Hit()
     {
-        hitColliders.EnableCollider();
+        playableCharacterSwordHitCollider.EnableCollider();
     }
 }

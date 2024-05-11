@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class HitColliders : MonoBehaviour
+public class PlayableCharacterSwordHitCollider : MonoBehaviour
 {
-    [SerializeField] private Characters character;
-    [SerializeField] private Collider HitCollider;
+    [SerializeField] private PlayableCharacters playableCharacters;
+    [SerializeField] private Collider hitCollider;
 
     private void Start()
     {
-        HitCollider.enabled = false;
+        hitCollider.enabled = false;
     }
 
     /// <summary>
@@ -18,9 +18,9 @@ public class HitColliders : MonoBehaviour
     /// </summary>
     private IEnumerator HitCoroutine()
     {
-        HitCollider.enabled = true;
+        hitCollider.enabled = true;
         yield return null;
-        HitCollider.enabled = false;
+        hitCollider.enabled = false;
     }
 
     public void EnableCollider()
@@ -30,12 +30,17 @@ public class HitColliders : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == character.gameObject)
+        if (other.gameObject == playableCharacters.gameObject)
+            return;
+
+        PlayableCharacters pc = other.GetComponent<PlayableCharacters>();
+
+        if (pc != null)
             return;
 
         if (other.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(character.GetComponent<IDamageable>(), 1f);
+            damageable.TakeDamage(playableCharacters, playableCharacters.GetElementsSO(), 1f);
         }
     }
 }

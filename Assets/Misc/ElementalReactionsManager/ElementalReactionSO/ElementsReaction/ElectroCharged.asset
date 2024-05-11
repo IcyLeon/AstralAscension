@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d5d511b9f9ff124285a539f47d20a64, type: 3}
-  m_Name: Burn
+  m_Name: ElectroCharged
   m_EditorClassIdentifier: 
-  <DisplayElementalReactionText>k__BackingField: Overloaded
-  <ElementalReaction>k__BackingField: 0
+  <DisplayElementalReactionText>k__BackingField: Electro-Charged
+  <ElementalReaction>k__BackingField: 4
   <ColorText>k__BackingField:
     serializedVersion: 2
-    rgba: 4278190080
-  DamageMultiplier: 1
+    rgba: 4294941671
+  ElementalReactionBonus: 1

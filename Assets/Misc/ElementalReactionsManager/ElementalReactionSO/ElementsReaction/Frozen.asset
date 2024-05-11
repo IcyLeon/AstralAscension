@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DisplayElementalReactionText>k__BackingField: Frozen
   <ElementalReaction>k__BackingField: 3
-  <Color>k__BackingField:
+  <ColorText>k__BackingField:
     serializedVersion: 2
-    rgba: 0
-  DamageMultiplier: 1
+    rgba: 4294967295
+  ElementalReactionBonus: 1

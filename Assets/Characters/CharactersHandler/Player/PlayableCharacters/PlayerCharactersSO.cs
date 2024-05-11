@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerCharactersSO", menuName = "ScriptableObjects/PlayerCharactersSO")]
-public class PlayerCharactersSO : CharactersSO
+public class PlayerCharactersSO : DamageableEntitySO
 {
     [Serializable]
     public class AscensionInfo

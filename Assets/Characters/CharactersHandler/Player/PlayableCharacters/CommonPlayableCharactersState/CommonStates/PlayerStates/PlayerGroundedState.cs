@@ -11,7 +11,7 @@ public abstract class PlayerGroundedState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
+        StartAnimation(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
         playerStateMachine.player.PlayerController.playerInputAction.Jump.started += Jump_started;
         playerStateMachine.player.PlayerController.playerInputAction.Dash.started += Dash_started;
     }

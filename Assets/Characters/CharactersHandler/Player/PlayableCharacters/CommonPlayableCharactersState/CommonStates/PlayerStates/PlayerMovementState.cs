@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovementState : IState
+public abstract class PlayerMovementState : IState
 {
     protected PlayerStateMachine playerStateMachine;
 
@@ -37,9 +37,9 @@ public class PlayerMovementState : IState
     protected bool IsGrounded()
     {
         Vector3 position = playerStateMachine.player.Rb.position;
-        position.y += playerStateMachine.playableCharacter.MainCollider.radius / 2f;
+        position.y += playableCharacters.MainCollider.radius / 2f;
 
-        return Physics.CheckSphere(position, playerStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
+        return Physics.CheckSphere(position, playableCharacters.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
     }
 
     protected virtual void Movement_performed(Vector2 movementInput)
@@ -103,13 +103,12 @@ public class PlayerMovementState : IState
 
     protected bool IsSkillCasting()
     {
-        return playableCharacters.PlayableCharacterStateMachine.IsSkillCasting();
+        return playerStateMachine.PlayableCharacterStateMachine.IsSkillCasting();
     }
 
     private void UpdatePhysicsMovement()
     {
-        Vector2 inputdir = playerStateMachine.playerData.movementInput;
-        if (inputdir == Vector2.zero 
+        if (playerStateMachine.playerData.movementInput == Vector2.zero 
             || playerStateMachine.playerData.SpeedModifier == 0f 
             || IsSkillCasting() || playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
         {
@@ -118,7 +117,7 @@ public class PlayerMovementState : IState
 
         if (!playerStateMachine.IsInState<PlayerAimState>())
         {
-            float angle = Mathf.Atan2(inputdir.x, inputdir.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
+            float angle = Mathf.Atan2(playerStateMachine.playerData.movementInput.x, playerStateMachine.playerData.movementInput.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
             UpdateTargetRotationData(angle);
             SmoothRotateToTargetRotation();
         }
@@ -155,7 +154,7 @@ public class PlayerMovementState : IState
 
     private void BlendMovementAnimation()
     {
-        PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
+        PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
         float val = playerStateMachine.playerData.SpeedModifier / playerStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
         
         if (playerStateMachine.playerData.movementInput == Vector2.zero)
@@ -163,7 +162,7 @@ public class PlayerMovementState : IState
             val = 0f;
         }
 
-        playerStateMachine.playableCharacter.Animator.SetFloat(cpc.movementParameters, val, 0.1f, Time.deltaTime);
+        playableCharacters.Animator.SetFloat(cpc.movementParameters, val, 0.1f, Time.deltaTime);
     }
     private void ReadMovement()
     {
@@ -200,8 +199,17 @@ public class PlayerMovementState : IState
     {
     }
 
+    protected virtual void OnDeadUpdate()
+    {
+        if (!playableCharacters.IsDead())
+            return;
+
+        playerStateMachine.ChangeState(playerStateMachine.playerDeadState);
+    }
+
     public virtual void Update()
     {
+        OnDeadUpdate();
         ReadMovement();
         BlendMovementAnimation();
     }

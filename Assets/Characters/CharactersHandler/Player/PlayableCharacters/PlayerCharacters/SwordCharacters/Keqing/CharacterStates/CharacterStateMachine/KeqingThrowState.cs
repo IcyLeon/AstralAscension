@@ -12,6 +12,7 @@ public class KeqingThrowState : KeqingElementalSkillState
     {
         base.Enter();
         HairpinTeleporter.OnHairPinThrow += ActivehairpinTeleporter_OnHairPinThrow;
+        playableCharacterStateMachine.playerStateMachine.player.PlayerController.playerInputAction.Look.Disable();
         SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.throwParameter);
 
     }
@@ -25,6 +26,7 @@ public class KeqingThrowState : KeqingElementalSkillState
     {
         base.Exit();
         HairpinTeleporter.OnHairPinThrow -= ActivehairpinTeleporter_OnHairPinThrow;
+        playableCharacterStateMachine.playerStateMachine.player.PlayerController.playerInputAction.Look.Enable();
     }
     public override void OnAnimationTransition()
     {

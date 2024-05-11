@@ -6,8 +6,6 @@ public abstract class PlayableCharacters : DamageableCharacters
 {
     [field: SerializeField] public CapsuleCollider MainCollider { get; private set; }
 
-    [field: SerializeField] public Collider BasicAttackCollider { get; private set; }
-
     public Player player { get; private set; }
 
     public PlayableCharacterAnimationSO PlayableCharacterAnimationSO
@@ -22,7 +20,7 @@ public abstract class PlayableCharacters : DamageableCharacters
     {
         get
         {
-            return CharacterDataSO as PlayerCharactersSO;
+            return damageableCharacters as PlayerCharactersSO;
         }
     }
 
@@ -31,17 +29,6 @@ public abstract class PlayableCharacters : DamageableCharacters
         get
         {
             return characterStateMachine as PlayableCharacterStateMachine;
-        }
-    }
-
-    public void OnPlayerAnimationTransition()
-    {
-        if (PlayableCharacterStateMachine == null)
-            return;
-
-        if (PlayableCharacterStateMachine.playerStateMachine != null)
-        {
-            PlayableCharacterStateMachine.playerStateMachine.OnAnimationTransition();
         }
     }
 
@@ -59,11 +46,6 @@ public abstract class PlayableCharacters : DamageableCharacters
     protected override void Update()
     {
         base.Update();
-
-        if(Input.GetKeyDown(KeyCode.Backspace))
-        {
-            TakeDamage(this, 1000f);
-        }
     }
 
     public override Vector3 GetMiddleBound()

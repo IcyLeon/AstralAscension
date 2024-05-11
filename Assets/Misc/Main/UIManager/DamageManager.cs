@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static ElementalReactionsManager;
 
 public class DamageManager : MonoBehaviour
 {
@@ -10,16 +11,10 @@ public class DamageManager : MonoBehaviour
     [SerializeField] private GameObject DamageTextHandlerParentPrefab;
     private ObjectPool<DamageText> ObjectPool;
 
-    public class DamageInfo : EventArgs
-    {
-        public string DamageText;
-        public Vector3 WorldPosition;
-    }
-    public static EventHandler<DamageInfo> DamageChanged;
-
     private void Awake()
     {
-        DamageChanged += DamageManager_DamageChanged;
+        ElementalReactionsManager.DamageChanged += DamageManager_ElementsChanged;
+        ElementalReactionsManager.ElementalReactionChanged += DamageManager_ElementalReactionChanged;
     }
 
     private void OnEnable()
@@ -39,7 +34,7 @@ public class DamageManager : MonoBehaviour
     private void Init()
     {
         Canvas canvas = GetCanvasGO();
-        int AmountToPool = 15;
+        int AmountToPool = 25;
 
         if (canvas == null)
         {
@@ -52,25 +47,61 @@ public class DamageManager : MonoBehaviour
     }
     private Canvas GetCanvasGO()
     {
-        GameObject go = GameObject.Find("Canvas");
+        GameObject go = GameObject.FindGameObjectWithTag("MainCanvas");
         if (go == null)
             return null;
 
         return go.GetComponent<Canvas>();
     }
 
-    private void DamageManager_DamageChanged(object sender, DamageInfo e)
+    private void DamageManager_ElementsChanged(object sender, ElementsInfo e)
     {
-        DamageText damageText = ObjectPool.GetPooledObject();
+        IDamageable target = sender as IDamageable;
 
-        if (damageText == null)
+        if (instance.isImmune(target, e.elementsSO))
+        {
+            DamageText damageText = ObjectPool.GetPooledObject();
+
+            if (damageText == null)
+                return;
+
+            damageText.SetDamageTextValue("Immune", e.WorldPosition, instance.ImmuneColorText);
             return;
+        }
 
-        damageText.SetDamageTextValue(e.DamageText, e.WorldPosition);
+        for (int i = 0; i < e.DamageText.Count; i++)
+        {
+            DamageText damageText = ObjectPool.GetPooledObject();
+
+            if (damageText == null)
+                return;
+
+            Color color = Color.white;
+            if (e.elementsSO != null)
+            {
+                color = e.elementsSO.ColorText;
+            }
+
+            damageText.SetDamageTextValue(e.DamageText[i], e.WorldPosition, color);
+        }
+    }
+
+    private void DamageManager_ElementalReactionChanged(object sender, ElementalReactionInfo e)
+    {
+        for (int i = 0; i < e.DamageText.Count; i++)
+        {
+            DamageText damageText = ObjectPool.GetPooledObject();
+
+            if (damageText == null)
+                return;
+
+            damageText.SetDamageTextValue(e.DamageText[i], e.WorldPosition, e.elementalReactionSO.ColorText);
+        }
     }
 
     private void OnDestroy()
     {
-        DamageChanged -= DamageManager_DamageChanged;
+        ElementalReactionsManager.DamageChanged -= DamageManager_ElementsChanged;
+        ElementalReactionsManager.ElementalReactionChanged -= DamageManager_ElementalReactionChanged;
     }
 }

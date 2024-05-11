@@ -7,12 +7,12 @@ public class ElementalReactionSO : ScriptableObject
 {
     [field: SerializeField] public string DisplayElementalReactionText { get; private set; }
     [field: SerializeField] public ElementalReactionEnums ElementalReaction { get; private set; }
-    [field: SerializeField] public Color32 Color { get; private set; }
-    [Range(1f, 2f)]
-    [SerializeField] private float DamageMultiplier = 1f;
+    [field: SerializeField] public Color32 ColorText { get; private set; }
+    [Range(1f, 5f)]
+    [SerializeField] private float ElementalReactionBonus = 1f;
 
-    public float GetDamageMultiplier()
+    public float GetElementalReactionBonus()
     {
-        return DamageMultiplier;
+        return ElementalReactionBonus;
     }
 }

@@ -20,7 +20,7 @@ public class PlayerStateMachine
     public PlayerPlungeState playerPlungeState { get; }
     public PlayerAimState playerAimState { get; }
     public PlayerAttackState playerAttackState { get; }
-
+    public PlayerDeadState playerDeadState { get; }
     public Player player
     {
         get
@@ -46,7 +46,6 @@ public class PlayerStateMachine
         float angle = Mathf.SmoothDampAngle(currentAngleY, playerData.targetYawRotation, ref playerData.dampedTargetRotationCurrentVelocity, playerData.rotationTime - playerData.dampedTargetRotationPassedTime);
         playerData.dampedTargetRotationPassedTime += Time.deltaTime;
         player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
-
     }
 
     public void UpdateTargetRotationData(float angle)
@@ -139,6 +138,7 @@ public class PlayerStateMachine
         playerSprintState = new PlayerSprintState(this);
         playerPlungeState = new PlayerPlungeState(this);
         playerAttackState = new PlayerAttackState(this);
+        playerDeadState = new PlayerDeadState(this);
         ChangeState(playerIdleState);
     }
 }

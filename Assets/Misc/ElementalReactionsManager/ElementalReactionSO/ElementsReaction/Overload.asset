@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DisplayElementalReactionText>k__BackingField: Overloaded
   <ElementalReaction>k__BackingField: 0
-  DamageMultiplier: 1
+  <ColorText>k__BackingField:
+    serializedVersion: 2
+    rgba: 4288577791
+  ElementalReactionBonus: 2

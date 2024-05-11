@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class AimRig : MonoBehaviour
+public class SmoothRigTransition : MonoBehaviour
 {
     [SerializeField] private Rig rig;
     [SerializeField] private float soothingSpeed = 1f;
@@ -28,12 +28,11 @@ public class AimRig : MonoBehaviour
         return MultiAimConstraint.data.sourceObjects.Count != 0;
     }
 
-    private void ToggleTarget()
+    public void ToggleTarget(bool active)
     {
         if (MultiAimConstraint == null || !isValidObject())
             return;
-
-        MultiAimConstraint.data.sourceObjects[0].transform.gameObject.SetActive(targetRigWeight != 0);
+        MultiAimConstraint.data.sourceObjects[0].transform.gameObject.SetActive(active);
     }
 
     public void SetTargetPosition(Vector3 Position)
@@ -47,6 +46,6 @@ public class AimRig : MonoBehaviour
     public void SetTargetWeight(float target)
     {
         targetRigWeight = target;
-        ToggleTarget();
+        ToggleTarget(targetRigWeight != 0);
     }
 }

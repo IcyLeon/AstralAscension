@@ -15,14 +15,6 @@ public class KeqingAnimationEvents : SwordCharacterAnimationEvents
         }
     }
 
-    private KeqingReuseableData KeqingReuseableData
-    {
-        get
-        {
-            return keqing.characterReuseableData as KeqingReuseableData;
-        }
-    }
-
     private void Awake()
     {
         KeqingTeleportState.OnKeqingTeleportState += OnKeqingTeleportState;
@@ -41,14 +33,13 @@ public class KeqingAnimationEvents : SwordCharacterAnimationEvents
 
     private void ShootTeleporter()
     {
-        HairpinTeleporter HT = KeqingReuseableData.hairpinTeleporter;
+        HairpinTeleporter HT = keqing.keqingReuseableData.hairpinTeleporter;
 
         if (HT == null)
             return;
 
-        KeqingReuseableData keqingReuseableData = playableCharacters.characterReuseableData as KeqingReuseableData;
         HT.transform.SetParent(EmitterPivot);
         HT.transform.localPosition = Vector3.zero;
-        HT.SetTargetLocation(keqingReuseableData.targetPosition);
+        HT.SetTargetLocation(keqing.keqingReuseableData.targetPosition);
     }
 }
