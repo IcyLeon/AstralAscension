@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Frozen
   m_EditorClassIdentifier: 
   <DisplayElementalReactionText>k__BackingField: Frozen
-  <ElementalReaction>k__BackingField: 3
+  <ElementalReaction>k__BackingField: 4
+  <ElementsMixture>k__BackingField:
+  - {fileID: 11400000, guid: 7718a221a93dd724db786d73ce26036c, type: 2}
+  - {fileID: 11400000, guid: e42886fd3bcac2d47994cad7e7b4f203, type: 2}
   <ColorText>k__BackingField:
     serializedVersion: 2
     rgba: 4294967295

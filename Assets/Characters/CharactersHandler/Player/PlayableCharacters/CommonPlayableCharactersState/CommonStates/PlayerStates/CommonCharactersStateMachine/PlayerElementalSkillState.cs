@@ -12,10 +12,10 @@ public class PlayerElementalSkillState : PlayerElementalState
     {
         base.Enter();
         StartAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
-        playableCharacterStateMachine.playableCharacters.OnDamageHit += OnDamageHit;
+        playableCharacterStateMachine.playableCharacters.OnTakeDamage += OnDamageHit;
     }
 
-    protected virtual void OnDamageHit(object source)
+    protected virtual void OnDamageHit(IAttacker source, float BaseDamageAmount)
     {
         playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }
@@ -24,6 +24,6 @@ public class PlayerElementalSkillState : PlayerElementalState
     {
         base.Exit();
         StopAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
-        playableCharacterStateMachine.playableCharacters.OnDamageHit -= OnDamageHit;
+        playableCharacterStateMachine.playableCharacters.OnTakeDamage -= OnDamageHit;
     }
 }

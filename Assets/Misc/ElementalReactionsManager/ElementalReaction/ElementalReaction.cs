@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using static ElementalReactionsManager;
 
@@ -9,28 +9,23 @@ public abstract class ElementalReaction
     public IDamageable target { get; private set; }
     public ElementalReactionSO elementalReactionSO { get; protected set; }
 
-    public delegate void OnER(ElementalReaction ER);
-    public OnER OnERDestroy;
+    public delegate void OnEREvent(ElementalReaction ER);
+    public event OnEREvent OnERDestroy;
 
     protected ElementsInfo ElementsInfo;
 
-    protected abstract float CalculateERDamage(float BaseDamageAmount, IElement source);
+    protected abstract float CalculateERDamage(float BaseDamageAmount, IAttacker source);
 
     protected float GetReactionMultiplier(float EMBonus)
     {
         return 1f + EMBonus + elementalReactionSO.GetElementalReactionBonus();
     }
 
-    public ElementalReaction(ElementalReactionSO e)
+    public ElementalReaction(ElementalReactionSO e, ElementsInfo ElementsInfo, IDamageable target)
     {
         elementalReactionSO = e;
-    }
-
-    public virtual void Init(ElementsInfo ElementsInfo, IDamageable target)
-    {
         this.target = target;
         this.ElementsInfo = ElementsInfo;
-
         float DamageAmount = CalculateERDamage(ElementsInfo.DamageAmount, ElementsInfo.source);
 
         CallElementalReactionDamageInvoke(target, new ElementalReactionInfo
@@ -41,32 +36,54 @@ public abstract class ElementalReaction
                 { elementalReactionSO.DisplayElementalReactionText.ToString() },
             },
             DamageAmount = DamageAmount,
-            WorldPosition = target.GetMiddleBound(),
+            WorldPosition = target.GetCenterBound(),
             elementalReactionSO = elementalReactionSO,
         });
+
+        RemoveElements();
+        Reset();
     }
 
+    public virtual void Reset()
+    {
+
+    }
     private void RemoveElements()
     {
         if (target == null)
             return;
 
-        ElementsSO[] elementsSOs = instance.GetElementsSOList(elementalReactionSO);
+        ElementsSO[] elementsSOs = elementalReactionSO.ElementsMixture;
 
         for (int i = 0; i < elementsSOs.Length; i++)
         {
-            target.GetSelfInflictElementLists().Remove(elementsSOs[i]);
+            target.GetInflictElementLists().Remove(elementsSOs[i]);
         }
-
     }
+
     public virtual void OnDestroy()
     {
-        RemoveElements();
         OnERDestroy?.Invoke(this);
+    }
+
+    public void DestroyEvents()
+    {
+        OnERDestroy = null;
+    }
+
+
+    protected virtual bool TimeOut()
+    {
+        return target == null || target.IsDead();
     }
 
     public virtual void Update()
     {
+        if (TimeOut())
+        {
+            OnDestroy();
+            return;
+        }
 
     }
 

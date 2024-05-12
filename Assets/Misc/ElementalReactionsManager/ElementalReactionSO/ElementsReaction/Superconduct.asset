@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Superconduct
   m_EditorClassIdentifier: 
   <DisplayElementalReactionText>k__BackingField: Superconduct
-  <ElementalReaction>k__BackingField: 6
-  <Color>k__BackingField:
+  <ElementalReaction>k__BackingField: 7
+  <ElementsMixture>k__BackingField:
+  - {fileID: 11400000, guid: e42886fd3bcac2d47994cad7e7b4f203, type: 2}
+  - {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab, type: 2}
+  <ColorText>k__BackingField:
     serializedVersion: 2
     rgba: 0
-  DamageMultiplier: 1
+  ElementalReactionBonus: 1

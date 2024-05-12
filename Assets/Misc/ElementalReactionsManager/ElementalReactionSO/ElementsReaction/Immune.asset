@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d5d511b9f9ff124285a539f47d20a64, type: 3}
-  m_Name: Melt
+  m_Name: Immune
   m_EditorClassIdentifier: 
-  <DisplayElementalReactionText>k__BackingField: Melt
-  <ElementalReaction>k__BackingField: 2
-  <ElementsMixture>k__BackingField:
-  - {fileID: 11400000, guid: bc08167fa5d1d664d97e6e683b702f22, type: 2}
-  - {fileID: 11400000, guid: e42886fd3bcac2d47994cad7e7b4f203, type: 2}
+  <DisplayElementalReactionText>k__BackingField: Immune
+  <ElementalReaction>k__BackingField: 0
+  <ElementsMixture>k__BackingField: []
   <ColorText>k__BackingField:
     serializedVersion: 2
-    rgba: 4285254143
+    rgba: 4290690750
   ElementalReactionBonus: 1

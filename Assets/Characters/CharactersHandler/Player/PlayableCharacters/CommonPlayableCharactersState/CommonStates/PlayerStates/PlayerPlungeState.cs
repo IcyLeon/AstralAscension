@@ -36,8 +36,8 @@ public class PlayerPlungeState : PlayerAirborneState
         if (playerStateMachine.player.Rb.useGravity)
         {
             playerStateMachine.player.Rb.AddForce(
-                playerStateMachine.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down,
-                ForceMode.Acceleration);
+                (playerStateMachine.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down) - GetVerticalVelocity(),
+                ForceMode.VelocityChange);
         }
 
         if (IsGrounded())

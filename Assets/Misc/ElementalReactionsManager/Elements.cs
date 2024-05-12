@@ -10,8 +10,8 @@ public class Elements
     public bool canBeDestroyed { get; private set; }
     public ElementsSO elementsSO { get; }
 
-    public delegate void OnElement(Elements e);
-    public OnElement OnElementDestroy;
+    public delegate void OnElementEvent(Elements e);
+    public event OnElementEvent OnElementDestroy;
 
     public Elements(ElementsSO e, IDamageable target, bool isFixed = false)
     {
@@ -31,8 +31,19 @@ public class Elements
         OnElementDestroy?.Invoke(this);
     }
 
+    public void DestroyEvents()
+    {
+        OnElementDestroy = null;
+    }
+
     public void Update()
     {
+        if (target == null || target.IsDead())
+        {
+            OnDestroy();
+            return;
+        }
+
         if (Time.time - activeTimer > TimeToDestroy && canBeDestroyed)
         {
             OnDestroy();

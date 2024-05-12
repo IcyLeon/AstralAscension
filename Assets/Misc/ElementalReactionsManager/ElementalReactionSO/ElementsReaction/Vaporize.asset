@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5d511b9f9ff124285a539f47d20a64, type: 3}
   m_Name: Vaporize
   m_EditorClassIdentifier: 
-  <DisplayElementalReactionText>k__BackingField: Overloaded
-  <ElementalReaction>k__BackingField: 5
-  <Color>k__BackingField:
+  <DisplayElementalReactionText>k__BackingField: Vaporize
+  <ElementalReaction>k__BackingField: 6
+  <ElementsMixture>k__BackingField:
+  - {fileID: 11400000, guid: 7718a221a93dd724db786d73ce26036c, type: 2}
+  - {fileID: 11400000, guid: bc08167fa5d1d664d97e6e683b702f22, type: 2}
+  <ColorText>k__BackingField:
     serializedVersion: 2
     rgba: 0
-  DamageMultiplier: 1
+  ElementalReactionBonus: 1

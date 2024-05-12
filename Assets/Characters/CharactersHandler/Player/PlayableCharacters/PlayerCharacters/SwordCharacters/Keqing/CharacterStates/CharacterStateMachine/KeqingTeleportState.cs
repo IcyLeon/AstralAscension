@@ -9,8 +9,6 @@ public class KeqingTeleportState : KeqingElementalSkillState
     private float TimeToReach;
     private const float Speed = 25f;
     private float Range;
-    public delegate void OnKeqingTeleport(bool enter);
-    public static OnKeqingTeleport OnKeqingTeleportState;
 
     private Vector3 originPosition;
 
@@ -31,7 +29,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
         UpdateTargetRotationData(angle);
 
         playableCharacterStateMachine.player.Rb.useGravity = false;
-        OnKeqingTeleportState?.Invoke(true);
+        keqingStateMachine.playableCharacters.CharacterModelTransform.gameObject.SetActive(false);
     }
 
     private Vector3 GetDirectionToTeleporter()
@@ -88,6 +86,6 @@ public class KeqingTeleportState : KeqingElementalSkillState
     {
         base.Exit();
         keqingStateMachine.keqingReuseableData.activehairpinTeleporter.Hide();
-        OnKeqingTeleportState?.Invoke(false);
+        keqingStateMachine.playableCharacters.CharacterModelTransform.gameObject.SetActive(true);
     }
 }

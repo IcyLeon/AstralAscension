@@ -8,6 +8,7 @@ public abstract class Characters : MonoBehaviour, IPointOfInterest
     [SerializeField] private Transform POITargetTransform;
     [field: SerializeField] public Animator Animator { get; private set; }
     [field: SerializeField] public CharactersSO CharacterSO { get; private set; }
+    [field: SerializeField] public Transform CharacterModelTransform { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
 
     // Start is called before the first frame update
@@ -17,6 +18,16 @@ public abstract class Characters : MonoBehaviour, IPointOfInterest
     }
 
     protected virtual void Start()
+    {
+
+    }
+
+    protected virtual void OnEnable()
+    {
+
+    }
+
+    protected virtual void OnDisable()
     {
 
     }
@@ -33,16 +44,6 @@ public abstract class Characters : MonoBehaviour, IPointOfInterest
 
         VoiceSource.PlayOneShot(clip);
     }
-
-    protected virtual void OnEnable()
-    {
-    }
-
-    protected virtual void OnDisable()
-    {
-
-    }
-
     protected virtual void OnDestroy()
     {
 
@@ -76,7 +77,10 @@ public abstract class Characters : MonoBehaviour, IPointOfInterest
             return;
 
         if (CharacterManager.ContainsParam(animator, HashParameter))
+        {
+            animator.ResetTrigger(HashParameter);
             animator.SetTrigger(HashParameter);
+        }
     }
 
     public static void StopAnimation(Animator animator, string HashParameter)

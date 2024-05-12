@@ -3,27 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class DamageableStats
-{
-    public float HP;
-    public float ATK;
-    public float DEF;
-
-    public DamageableStats()
-    {
-        HP = 0f;
-        ATK = 0f;
-        DEF = 0f;
-    }
-}
-
 public abstract class DamageableCharacters : Characters, IDamageable
 {
-    protected Dictionary<ElementsSO, Elements> inflictElementList;
-
-    protected DamageableStats DamageableStats;
-    public delegate void OnDamage(IElement source);
-    public OnDamage OnDamageHit;
+    public event IDamageable.TakeDamageEvent OnTakeDamage;
 
     public CharacterStateMachine characterStateMachine { get; protected set; }
 
@@ -45,7 +27,6 @@ public abstract class DamageableCharacters : Characters, IDamageable
 
     protected override void Start()
     {
-        inflictElementList = new();
         base.Start();
     }
 
@@ -66,12 +47,12 @@ public abstract class DamageableCharacters : Characters, IDamageable
 
     private void UpdateElementList()
     {
-        if (GetSelfInflictElementLists() == null)
+        if (GetInflictElementLists() == null)
             return;
 
-        for (int i = 0; i < GetSelfInflictElementLists().Count; i++)
+        for (int i = 0; i < GetInflictElementLists().Count; i++)
         {
-            GetSelfInflictElementLists().ElementAt(i).Value.Update();
+            GetInflictElementLists().ElementAt(i).Value.Update();
         }
 
     }
@@ -97,6 +78,22 @@ public abstract class DamageableCharacters : Characters, IDamageable
         return false;
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        if (characterReuseableData != null)
+        {
+            characterReuseableData.Reset();
+        }
+    }
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
@@ -106,12 +103,16 @@ public abstract class DamageableCharacters : Characters, IDamageable
         }
     }
 
-    public virtual void TakeDamage(IElement source, ElementsSO elementsSO, float BaseDamageAmount, Vector3 HitPosition = default(Vector3))
+    public virtual void TakeDamage(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount, Vector3 HitPosition = default(Vector3))
     {
         if (IsDead())
             return;
 
-        OnDamageHit?.Invoke(source);
+
+        if (BaseDamageAmount != 0)
+        {
+            OnTakeDamage?.Invoke(source, BaseDamageAmount);
+        }
 
         ElementalReactionsManager.CallDamageInvoke(this, new ElementalReactionsManager.ElementsInfo
         {
@@ -119,7 +120,7 @@ public abstract class DamageableCharacters : Characters, IDamageable
             { 
                 { BaseDamageAmount.ToString() } 
             },
-            WorldPosition = GetMiddleBound(),
+            WorldPosition = GetCenterBound(),
             DamageAmount = BaseDamageAmount,
             elementsSO = elementsSO,
             source = source,
@@ -127,14 +128,14 @@ public abstract class DamageableCharacters : Characters, IDamageable
         });
     }
 
-    public virtual Vector3 GetMiddleBound()
+    public virtual Vector3 GetCenterBound()
     {
         return transform.position;
     }
 
-    public Dictionary<ElementsSO, Elements> GetSelfInflictElementLists()
+    public Dictionary<ElementsSO, Elements> GetInflictElementLists()
     {
-        return inflictElementList;
+        return characterReuseableData.inflictElementList;
     }
 
     public virtual float GetMaxHealth()

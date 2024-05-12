@@ -11,9 +11,9 @@ public class POIRig_PlayableCharacters : POIRig
     private void Awake()
     {
         HeadMoveDisabled = false;
-        PlayableCharacters.OnDamageHit += OnDamageHit;
+        PlayableCharacters.OnTakeDamage += OnDamageHit;
     }
-    private void OnDamageHit(object source)
+    private void OnDamageHit(IAttacker source, float BaseDamageAmount)
     {
         //if (headDisableCoroutine != null)
         //    StopCoroutine(headDisableCoroutine);
@@ -31,7 +31,7 @@ public class POIRig_PlayableCharacters : POIRig
 
     private void OnDestroy()
     {
-        PlayableCharacters.OnDamageHit -= OnDamageHit;
+        PlayableCharacters.OnTakeDamage -= OnDamageHit;
     }
 
     private void Start()

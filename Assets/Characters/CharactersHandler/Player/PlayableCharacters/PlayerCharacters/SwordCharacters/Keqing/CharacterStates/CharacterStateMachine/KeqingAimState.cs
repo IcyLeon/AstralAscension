@@ -40,7 +40,7 @@ public class KeqingAimState : KeqingElementalSkillState
     {
         base.Update();
 
-        Vector3 origin = keqingStateMachine.playableCharacters.GetMiddleBound();
+        Vector3 origin = keqingStateMachine.playableCharacters.GetCenterBound();
         Vector3 originalTargetPos = Player.GetTargetCameraRayPosition(Range + GetOffSet(origin));
         keqingStateMachine.keqingReuseableData.targetPosition = Player.GetRayPosition(origin,
                                                             originalTargetPos - origin,

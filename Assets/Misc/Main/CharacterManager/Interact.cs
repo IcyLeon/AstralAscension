@@ -12,8 +12,8 @@ public abstract class Interact : MonoBehaviour
     [SerializeField] private SphereCollider InteractionsCollider;
 
     public delegate void OnInteractEvent(Collider Collider);
-    public OnInteractEvent OnInteractEnter;
-    public OnInteractEvent OnInteractExit;
+    public event OnInteractEvent OnInteractEnter;
+    public event OnInteractEvent OnInteractExit;
 
     public Transform closestInteractionTransform { get; private set; }
 

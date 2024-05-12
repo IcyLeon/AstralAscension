@@ -48,7 +48,7 @@ public abstract class PlayableCharacters : DamageableCharacters
         base.Update();
     }
 
-    public override Vector3 GetMiddleBound()
+    public override Vector3 GetCenterBound()
     {
         return MainCollider.bounds.center;
     }

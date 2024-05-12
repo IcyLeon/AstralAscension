@@ -17,12 +17,12 @@ public abstract class PlayerCharacterState : DamageableEntityState
         }
     }
 
-    protected override void OnDamageHit(object source)
+    protected override void OnDamageHit(IAttacker source, float BaseDamageAmount)
     {
         if (playableCharacterStateMachine.playerStateMachine.IsInState<PlayerAirborneState>())
             return;
 
-        base.OnDamageHit(source);
+        base.OnDamageHit(source, BaseDamageAmount);
     }
 
     protected override void Attack()

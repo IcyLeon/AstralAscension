@@ -55,7 +55,7 @@ public class CameraAim : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void LateUpdate()
+    private void Update()
     {
         Update3rdPersonCam();
     }

@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Overload
   m_EditorClassIdentifier: 
   <DisplayElementalReactionText>k__BackingField: Overloaded
-  <ElementalReaction>k__BackingField: 0
+  <ElementalReaction>k__BackingField: 1
+  <ElementsMixture>k__BackingField:
+  - {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab, type: 2}
+  - {fileID: 11400000, guid: bc08167fa5d1d664d97e6e683b702f22, type: 2}
   <ColorText>k__BackingField:
     serializedVersion: 2
     rgba: 4288577791
