@@ -38,6 +38,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a62a78fc57efd264f88c99696dadcd65, type: 3}
   - {fileID: 8300000, guid: 49dde1be7f13b4144a7d4fda969ba1de, type: 3}
   - {fileID: 8300000, guid: 47fd5716c2b102345a110196c2323df2, type: 3}
+  ElementalSkill_RecastVOClips:
   - {fileID: 8300000, guid: 1d7377f93ac2db042ad696c38c8a1e95, type: 3}
   - {fileID: 8300000, guid: 748ab294c7250d840b812e17057e5312, type: 3}
   - {fileID: 8300000, guid: d677374e67d375a44990974731c65e85, type: 3}
