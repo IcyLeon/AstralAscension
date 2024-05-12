@@ -13,8 +13,8 @@ public class DamageManager : MonoBehaviour
 
     private void Awake()
     {
-        ElementalReactionsManager.DamageChanged += DamageManager_ElementsChanged;
-        ElementalReactionsManager.ElementalReactionChanged += DamageManager_ElementalReactionChanged;
+        DamageChanged += DamageManager_ElementsChanged;
+        ElementalReactionChanged += DamageManager_ElementalReactionChanged;
     }
 
     private void OnEnable()
@@ -65,7 +65,7 @@ public class DamageManager : MonoBehaviour
             if (damageText == null)
                 return;
 
-            damageText.SetDamageTextValue("Immune", e.WorldPosition, instance.ImmuneColorText);
+            damageText.SetDamageTextValue(instance.ImmuneSO.DisplayElementalReactionText, e.WorldPosition, instance.ImmuneSO.ColorText);
             return;
         }
 
@@ -101,7 +101,7 @@ public class DamageManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        ElementalReactionsManager.DamageChanged -= DamageManager_ElementsChanged;
-        ElementalReactionsManager.ElementalReactionChanged -= DamageManager_ElementalReactionChanged;
+        DamageChanged -= DamageManager_ElementsChanged;
+        ElementalReactionChanged -= DamageManager_ElementalReactionChanged;
     }
 }

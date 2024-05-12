@@ -44,7 +44,7 @@ public class KeqingState : SwordState
             return;
 
         float Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
-        Vector3 origin = keqingStateMachine.playableCharacters.GetMiddleBound();
+        Vector3 origin = keqingStateMachine.playableCharacters.GetCenterBound();
         keqingStateMachine.keqingReuseableData.targetPosition = origin + keqingStateMachine.playableCharacters.transform.forward * Range;
         keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }

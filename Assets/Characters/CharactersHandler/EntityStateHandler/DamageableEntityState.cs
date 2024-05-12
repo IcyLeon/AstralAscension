@@ -19,10 +19,10 @@ public abstract class DamageableEntityState : EntityState
     public override void Enter()
     {
         base.Enter();
-        damageableCharacters.OnDamageHit += OnDamageHit;
+        damageableCharacters.OnTakeDamage += OnDamageHit;
     }
 
-    protected virtual void OnDamageHit(object source)
+    protected virtual void OnDamageHit(IAttacker source, float BaseDamageAmount)
     {
         SetAnimationTrigger("Hit");
     }
@@ -35,6 +35,6 @@ public abstract class DamageableEntityState : EntityState
     public override void Exit()
     {
         base.Exit();
-        damageableCharacters.OnDamageHit -= OnDamageHit;
+        damageableCharacters.OnTakeDamage -= OnDamageHit;
     }
 }

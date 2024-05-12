@@ -6,22 +6,25 @@ public interface IKnockBack
     void KnockBack(Vector3 force);
 }
 
-public interface IDamageable : IElement
+public interface IDamageable : IAttacker
 {
-    float GetATK();
     float GetDEF();
     float GetMaxHealth();
     float GetCurrentHealth();
     void SetCurrentHealth(float health);
-    Dictionary<ElementsSO, Elements> GetSelfInflictElementLists();
+    Dictionary<ElementsSO, Elements> GetInflictElementLists();
     ElementsSO GetElementsSO();
     ElementsSO[] GetImmuneableElementsSO();
     bool IsDead();
-    Vector3 GetMiddleBound();
-    void TakeDamage(IElement source, ElementsSO elementsSO, float BaseDamageAmount, Vector3 HitPosition = default(Vector3));
+    Vector3 GetCenterBound();
+    void TakeDamage(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount, Vector3 HitPosition = default(Vector3));
+
+    public delegate void TakeDamageEvent(IAttacker source, float DamageAmount);
+    public event TakeDamageEvent OnTakeDamage;
 }
 
-public interface IElement
+public interface IAttacker
 {
+    float GetATK();
     float GetEM();
 }

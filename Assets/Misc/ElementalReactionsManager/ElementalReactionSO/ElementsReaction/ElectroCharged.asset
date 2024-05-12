@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: ElectroCharged
   m_EditorClassIdentifier: 
   <DisplayElementalReactionText>k__BackingField: Electro-Charged
-  <ElementalReaction>k__BackingField: 4
+  <ElementalReaction>k__BackingField: 5
+  <ElementsMixture>k__BackingField:
+  - {fileID: 11400000, guid: 7718a221a93dd724db786d73ce26036c, type: 2}
+  - {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab, type: 2}
+  <ElementalDamageOverTimeSO>k__BackingField: {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab,
+    type: 2}
   <ColorText>k__BackingField:
     serializedVersion: 2
     rgba: 4294941671

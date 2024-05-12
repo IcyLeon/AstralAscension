@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5d511b9f9ff124285a539f47d20a64, type: 3}
   m_Name: Burn
   m_EditorClassIdentifier: 
-  <DisplayElementalReactionText>k__BackingField: Overloaded
-  <ElementalReaction>k__BackingField: 0
+  <DisplayElementalReactionText>k__BackingField: Burning
+  <ElementalReaction>k__BackingField: 3
+  <ElementsMixture>k__BackingField: []
   <ColorText>k__BackingField:
     serializedVersion: 2
     rgba: 4278190080
-  DamageMultiplier: 1
+  ElementalReactionBonus: 1

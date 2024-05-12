@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum ElementalReactionEnums
 {
+    NONE,
     OVERLOAD,
     MELT,
     BURN,
@@ -19,13 +21,6 @@ public class ElementalReactionsManager : MonoBehaviour
 {
     public static ElementalReactionsManager instance { get; private set; }
 
-    [Serializable]
-    public class ERInfo
-    {
-        public ElementsSO[] ERElementsRequirementsSOList;
-        public ElementalReactionSO result;
-    }
-
     public abstract class DamageInfo : EventArgs
     {
         public float DamageAmount;
@@ -34,7 +29,7 @@ public class ElementalReactionsManager : MonoBehaviour
     }
     public class ElementsInfo : DamageInfo
     {
-        public IElement source;
+        public IAttacker source;
         public ElementsSO elementsSO;
         public Vector3 HitPosition;
     }
@@ -46,29 +41,30 @@ public class ElementalReactionsManager : MonoBehaviour
     public static event EventHandler<ElementsInfo> DamageChanged;
     public static event EventHandler<ElementalReactionInfo> ElementalReactionChanged;
 
-    [field: SerializeField] public Color ImmuneColorText { get; private set; }
-    [SerializeField] private ERInfo[] ERInfoList;
+    [field: SerializeField] public ElementalReactionSO ImmuneSO { get; private set; }
+    [SerializeField] private ElementalReactionSO[] ERInfoList;
 
-    private List<ElementalReaction> ElementalReactionList;
+    private Dictionary<IDamageable, List<ElementalReaction>> ElementalReactionDictionary;
 
-    private static Dictionary<ElementalReactionEnums, System.Func<ElementalReactionSO, ElementalReaction>> ER_Dict = new()
+    private static Dictionary<ElementalReactionEnums, System.Func<ElementalReactionFactory>> ER_Dict = new()
     {
-        { ElementalReactionEnums.OVERLOAD, (ElementalReactionSO ERSO) => new Overloaded(ERSO) },
-        { ElementalReactionEnums.FROZEN, (ElementalReactionSO ERSO) => new Frozen(ERSO)}
+        { ElementalReactionEnums.OVERLOAD, () => new OverloadFactory() },
+        { ElementalReactionEnums.FROZEN, () => new FrozenFactory() },
+        { ElementalReactionEnums.ELECTRO_CHARGED, () => new ElectricChargedFactory() }
     };
 
-    public ElementsSO[] GetElementsSOList(ElementalReactionSO elementalReactionSO)
+    private void OnEnable()
     {
-        for (int i = 0; i < ERInfoList.Length; i++)
-        {
-            ERInfo ERInfo = ERInfoList[i];
-            if (ERInfo.result == elementalReactionSO)
-            {
-                return ERInfo.ERElementsRequirementsSOList;
-            }
-        }
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+    }
 
-        return null;
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        ElementalReactionDictionary.Clear();
     }
 
     public bool isImmune(IDamageable target, ElementsSO incomingElementSO)
@@ -94,12 +90,12 @@ public class ElementalReactionsManager : MonoBehaviour
         for (int i = 0; i < ERInfoList.Length; i++)
         {
             Dictionary<ElementsSO, Elements> ElementsListCopy = new(ElementsList);
-            ERInfo ERInfo = ERInfoList[i];
+            ElementalReactionSO ERInfo = ERInfoList[i];
             int Counter = 0;
 
-            for (int x = 0; x < ERInfo.ERElementsRequirementsSOList.Length; x++)
+            for (int x = 0; x < ERInfo.ElementsMixture.Length; x++)
             {
-                ElementsSO ElementsSO = ERInfo.ERElementsRequirementsSOList[x];
+                ElementsSO ElementsSO = ERInfo.ElementsMixture[x];
 
                 if (ElementsListCopy.ContainsKey(ElementsSO)) 
                 {
@@ -108,26 +104,46 @@ public class ElementalReactionsManager : MonoBehaviour
                 }
             }
 
-            if (Counter >= ERInfo.ERElementsRequirementsSOList.Length && Counter != 0)
-                return ERInfo.result;
+            if (Counter >= ERInfo.ElementsMixture.Length && Counter != 0)
+                return ERInfo;
         }
 
         return null;
     }
 
 
+    //private ElementalReaction GetExistingER(IDamageable target, ElementalReactionSO ERSO)
+    //{
+    //    if (target == null)
+    //        return null;
+
+    //    if (ElementalReactionDictionary.TryGetValue(target, out List<ElementalReaction> ER))
+    //    {
+    //        for (int i = 0; i < ER.Count; i++)
+    //        {
+    //            ElementalReaction e = ER.ElementAt(i);
+    //            if (e.elementalReactionSO == ERSO)
+    //                return e;
+    //        }
+    //    }
+
+    //    return null;
+    //}
+
     private ElementalReaction CreateElementalReaction(IDamageable target, ElementsInfo ElementsInfo)
     {
-        if (target.GetSelfInflictElementLists() == null)
+        if (target.GetInflictElementLists() == null || target == null)
             return null;
 
-        ElementalReactionSO ERSO = GetERSO(target.GetSelfInflictElementLists());
+        ElementalReactionSO ERSO = GetERSO(target.GetInflictElementLists());
 
         if (ERSO == null)
             return null;
 
-        ElementalReaction ER = ER_Dict[ERSO.ElementalReaction](ERSO);
-        ER.Init(ElementsInfo, target);
+        ElementalReactionFactory factory = ER_Dict[ERSO.ElementalReaction]();
+        ElementalReaction ER = factory.CreateER(ERSO, ElementsInfo, target);
+
+        ER.OnERDestroy += OnDestroyER;
 
         return ER;
     }
@@ -146,7 +162,7 @@ public class ElementalReactionsManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        ElementalReactionList = new();
+        ElementalReactionDictionary = new();
         DamageChanged += ElementalReactionsManager_DamageChanged;
         ElementalReactionChanged += ElementalReactionsManager_ElementalReactionChanged;
     }
@@ -159,26 +175,27 @@ public class ElementalReactionsManager : MonoBehaviour
 
     private void OnDestroyElement(Elements elements)
     {
-        elements.OnElementDestroy -= OnDestroyElement;
+        elements.DestroyEvents();
 
         if (elements.target == null)
             return;
 
-        elements.target.GetSelfInflictElementLists().Remove(elements.elementsSO);
+        elements.target.GetInflictElementLists().Remove(elements.elementsSO);
     }
 
     private void OnDestroyER(ElementalReaction ER)
     {
-        ER.OnERDestroy -= OnDestroyER;
-        ElementalReactionList.Remove(ER);
+        ER.DestroyEvents();
+
+        ElementalReactionDictionary[ER.target].Remove(ER);
     }
 
     private Elements GetElements(IDamageable target, ElementsSO ElementsSO)
     {
-        if (target == null || target.GetSelfInflictElementLists() == null)
+        if (target == null || target.GetInflictElementLists() == null)
             return null;
 
-        if (target.GetSelfInflictElementLists().TryGetValue(ElementsSO, out Elements e))
+        if (target.GetInflictElementLists().TryGetValue(ElementsSO, out Elements e))
         {
             return e;
         }
@@ -193,7 +210,6 @@ public class ElementalReactionsManager : MonoBehaviour
         if (!isImmune(target, e.elementsSO))
         {
             target.SetCurrentHealth(target.GetCurrentHealth() - e.DamageAmount);
-            Debug.Log(e.elementsSO);
         }
 
         if (e.elementsSO == null)
@@ -209,7 +225,7 @@ public class ElementalReactionsManager : MonoBehaviour
         {
             Elements NewElement = e.elementsSO.CreateElements(target);
             NewElement.OnElementDestroy += OnDestroyElement;
-            target.GetSelfInflictElementLists().Add(e.elementsSO, NewElement);
+            target.GetInflictElementLists().Add(e.elementsSO, NewElement);
         }
 
 
@@ -218,8 +234,18 @@ public class ElementalReactionsManager : MonoBehaviour
         if (ER == null)
             return;
 
-        ER.OnERDestroy += OnDestroyER;
-        ElementalReactionList.Add(ER);
+        if (!ElementalReactionDictionary.ContainsKey(target))
+        {
+            List<ElementalReaction> reactions = new();
+            reactions.Add(ER);
+            ElementalReactionDictionary.Add(target, reactions);
+        }
+        else
+        {
+            if (!ElementalReactionDictionary[target].Contains(ER))
+                ElementalReactionDictionary[target].Add(ER);
+        }
+
     }
 
     private void Update()
@@ -229,9 +255,13 @@ public class ElementalReactionsManager : MonoBehaviour
 
     private void UpdateList()
     {
-        for (int i = 0; i < ElementalReactionList.Count; i++)
+        for (int i = 0; i < ElementalReactionDictionary.Count; i++)
         {
-            ElementalReactionList[i].Update();
+            for (int j = 0; j < ElementalReactionDictionary.ElementAt(i).Value.Count; j++)
+            {
+                ElementalReaction ER = ElementalReactionDictionary.ElementAt(i).Value.ElementAt(j);
+                ER.Update();
+            }
         }
     }
     private void OnDestroy()

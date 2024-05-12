@@ -5,8 +5,6 @@ using UnityEngine;
 public class KeqingAnimationEvents : SwordCharacterAnimationEvents
 {
     [SerializeField] private Transform EmitterPivot;
-    [SerializeField] private Transform Mesh;
-    [SerializeField] private Transform Armature;
 
     private Keqing keqing { 
         get 
@@ -15,21 +13,6 @@ public class KeqingAnimationEvents : SwordCharacterAnimationEvents
         }
     }
 
-    private void Awake()
-    {
-        KeqingTeleportState.OnKeqingTeleportState += OnKeqingTeleportState;
-    }
-
-    private void OnDestroy()
-    {
-        KeqingTeleportState.OnKeqingTeleportState -= OnKeqingTeleportState;
-    }
-
-    private void OnKeqingTeleportState(bool enter)
-    {
-        Mesh.gameObject.SetActive(!enter);
-        Armature.gameObject.SetActive(!enter);
-    }
 
     private void ShootTeleporter()
     {

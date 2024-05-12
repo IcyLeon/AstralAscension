@@ -5,17 +5,12 @@ using static ElementalReactionsManager;
 
 public class Frozen : ElementalReaction
 {
-    public Frozen(ElementalReactionSO e) : base(e)
+    public Frozen(ElementalReactionSO e, ElementsInfo ElementsInfo, IDamageable target) : base(e, ElementsInfo, target)
     {
-    }
-
-    public override void Init(ElementsInfo ElementsInfo, IDamageable target)
-    {
-        base.Init(ElementsInfo, target);
         OnDestroy();
     }
 
-    protected override float CalculateERDamage(float DamageAmount, IElement source)
+    protected override float CalculateERDamage(float DamageAmount, IAttacker source)
     {
         if (source == null)
             return 0f;
