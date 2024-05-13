@@ -5,10 +5,10 @@ using UnityEngine;
 public class POIRig_Others : POIRig
 {
     [Header("Interact FOV Reference")]
-    [SerializeField] private Interact interact;
+    [SerializeField] private InteractSensor InteractSensor;
 
     private void Start()
     {
-        interactReference = interact;
+        interactSensorReference = InteractSensor;
     }
 }

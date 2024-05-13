@@ -17,6 +17,7 @@ public enum ElementalReactionEnums
     SUPERCONDUCT,
 }
 
+[DisallowMultipleComponent]
 public class ElementalReactionsManager : MonoBehaviour
 {
     public static ElementalReactionsManager instance { get; private set; }
@@ -161,7 +162,18 @@ public class ElementalReactionsManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
         ElementalReactionDictionary = new();
         DamageChanged += ElementalReactionsManager_DamageChanged;
         ElementalReactionChanged += ElementalReactionsManager_ElementalReactionChanged;

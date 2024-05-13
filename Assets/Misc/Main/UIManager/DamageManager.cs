@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static ElementalReactionsManager;
 
+[DisallowMultipleComponent]
 public class DamageManager : MonoBehaviour
 {
     [SerializeField] private GameObject DamageTextPrefab;
@@ -33,25 +34,19 @@ public class DamageManager : MonoBehaviour
 
     private void Init()
     {
-        Canvas canvas = GetCanvasGO();
+        Transform canvasTransform = GetCanvasGO();
         int AmountToPool = 25;
 
-        if (canvas == null)
-        {
-            ObjectPool = new ObjectPool<DamageText>(DamageTextPrefab, null, AmountToPool);
-            return;
-        }
-
-        GameObject Parent = Instantiate(DamageTextHandlerParentPrefab, canvas.transform);
+        GameObject Parent = Instantiate(DamageTextHandlerParentPrefab, canvasTransform);
         ObjectPool = new ObjectPool<DamageText>(DamageTextPrefab, Parent.transform, AmountToPool);
     }
-    private Canvas GetCanvasGO()
+    private Transform GetCanvasGO()
     {
         GameObject go = GameObject.FindGameObjectWithTag("MainCanvas");
         if (go == null)
             return null;
 
-        return go.GetComponent<Canvas>();
+        return go.transform;
     }
 
     private void DamageManager_ElementsChanged(object sender, ElementsInfo e)

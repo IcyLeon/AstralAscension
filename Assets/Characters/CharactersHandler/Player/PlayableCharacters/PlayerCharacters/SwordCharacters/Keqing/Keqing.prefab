@@ -4407,12 +4407,12 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 787839521136189350}
   <CharacterSO>k__BackingField: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e,
     type: 2}
-  <CharacterModelTransform>k__BackingField: {fileID: 8983109292517536815}
   VoiceSource: {fileID: 3216654781972711093}
   <MainCollider>k__BackingField: {fileID: 2951356107405484920}
   <HairpinTeleporterPrefab>k__BackingField: {fileID: 2170554996015132487, guid: 0472f434693734a4c9bfae87755d1a84,
     type: 3}
   <AimRigController>k__BackingField: {fileID: 6412634606002599921}
+  <CharacterModelTransform>k__BackingField: {fileID: 8983109292517536815}
   test: {fileID: 11400000, guid: bc08167fa5d1d664d97e6e683b702f22, type: 2}
 --- !u!136 &2951356107405484920
 CapsuleCollider:

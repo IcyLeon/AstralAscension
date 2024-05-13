@@ -431,7 +431,7 @@ MonoBehaviour:
     type: 2}
   <Rb>k__BackingField: {fileID: 8489295494363605638}
   <CameraManager>k__BackingField: {fileID: 8489295495052446741}
-  <PlayerInteract>k__BackingField: {fileID: 8489295495762639488}
+  <PlayerInteractSensor>k__BackingField: {fileID: 8489295495762639488}
   <PlayerController>k__BackingField: {fileID: 4448606260044562912}
   PlayerSoundSource: {fileID: 8489295494363605639}
 --- !u!82 &8489295494363605639

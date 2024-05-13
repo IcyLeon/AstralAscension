@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Interact : MonoBehaviour
+public abstract class InteractSensor : MonoBehaviour
 {
     [Header("Interactions Data")]
     private Dictionary<Transform, Collider> Interact_List;
