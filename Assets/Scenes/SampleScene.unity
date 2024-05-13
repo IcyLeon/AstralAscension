@@ -11005,7 +11005,7 @@ MonoBehaviour:
   MultiAimConstraint: {fileID: 278095464}
   SmoothRigTransition: {fileID: 1295557908}
   MoveTowardsSoothingTime: 10
-  interact: {fileID: 1837807154}
+  InteractSensor: {fileID: 1837807154}
 --- !u!1 &1299612883
 GameObject:
   m_ObjectHideFlags: 0
@@ -15574,7 +15574,6 @@ MonoBehaviour:
   POITargetTransform: {fileID: 2046080863}
   <Animator>k__BackingField: {fileID: 1732213758}
   <CharacterSO>k__BackingField: {fileID: 0}
-  <CharacterModelTransform>k__BackingField: {fileID: 0}
   VoiceSource: {fileID: 1787081015}
 --- !u!82 &1787081015
 AudioSource:
