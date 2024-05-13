@@ -45,7 +45,7 @@ public class ElementalReactionsManager : MonoBehaviour
     [field: SerializeField] public ElementalReactionSO ImmuneSO { get; private set; }
     [SerializeField] private ElementalReactionSO[] ERInfoList;
 
-    private Dictionary<IDamageable, List<ElementalReaction>> ElementalReactionDictionary;
+    private Dictionary<IDamageable, List<ElementalReaction>> ElementalReactionDictionary = new();
 
     private static Dictionary<ElementalReactionEnums, System.Func<ElementalReactionFactory>> ER_Dict = new()
     {
@@ -174,7 +174,6 @@ public class ElementalReactionsManager : MonoBehaviour
 
     private void Start()
     {
-        ElementalReactionDictionary = new();
         DamageChanged += ElementalReactionsManager_DamageChanged;
         ElementalReactionChanged += ElementalReactionsManager_ElementalReactionChanged;
     }
