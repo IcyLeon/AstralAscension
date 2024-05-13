@@ -5,7 +5,7 @@ using UnityEngine.Animations.Rigging;
 
 public abstract class POIRig : MonoBehaviour
 {
-    protected Interact interactReference;
+    protected InteractSensor interactSensorReference;
     private const float offsetDistance = 0.35f;
 
     [Header("Rig Data")]
@@ -41,14 +41,14 @@ public abstract class POIRig : MonoBehaviour
 
     private Vector3 GetClosestTransformPosition()
     {
-        if (interactReference == null || interactReference.closestInteractionTransform == null)
+        if (interactSensorReference == null || interactSensorReference.closestInteractionTransform == null)
             return GetOriginalTargetPosition();
 
-        Vector3 LookAtPosition = interactReference.closestInteractionTransform.position;
+        Vector3 LookAtPosition = interactSensorReference.closestInteractionTransform.position;
 
-        if (currentTransform != interactReference.closestInteractionTransform)
+        if (currentTransform != interactSensorReference.closestInteractionTransform)
         {
-            currentTransform = interactReference.closestInteractionTransform;
+            currentTransform = interactSensorReference.closestInteractionTransform;
             closestPointOfInterest = currentTransform.GetComponent<IPointOfInterest>();
         }
 
@@ -70,7 +70,7 @@ public abstract class POIRig : MonoBehaviour
     {
         Vector3 direction = dir;
         dir.y = 0;
-        return Vector3.Angle(interactReference.transform.forward, dir) <= FOVAngleXZ / 2f &&
+        return Vector3.Angle(interactSensorReference.transform.forward, dir) <= FOVAngleXZ / 2f &&
             Mathf.Abs(Mathf.Asin(direction.y) * Mathf.Rad2Deg) <= FOVAngleY;
     }
 

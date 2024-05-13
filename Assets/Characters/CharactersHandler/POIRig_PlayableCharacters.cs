@@ -36,7 +36,7 @@ public class POIRig_PlayableCharacters : POIRig
 
     private void Start()
     {
-        interactReference = PlayableCharacters.player.PlayerInteract;
+        interactSensorReference = PlayableCharacters.player.PlayerInteractSensor;
     }
 
     protected override bool CanMoveHead()

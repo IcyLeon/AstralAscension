@@ -6,7 +6,7 @@ public class Keqing : PlayableCharacters
 {
     [field: SerializeField] public GameObject HairpinTeleporterPrefab { get; private set; }
     [field: SerializeField] public AimRigController AimRigController { get; private set; }
-
+    [field: SerializeField] public Transform CharacterModelTransform { get; private set; }
     [SerializeField] ElementsSO test;
     public KeqingReuseableData keqingReuseableData
     {

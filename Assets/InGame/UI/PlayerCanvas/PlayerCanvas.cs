@@ -8,14 +8,14 @@ public class PlayerCanvas : MonoBehaviour
 
     private void Awake()
     {
-        Player.PlayerInteract.OnInteractEnter += OnInteractEnter;
-        Player.PlayerInteract.OnInteractExit += OnInteractExit;
+        Player.PlayerInteractSensor.OnInteractEnter += OnInteractEnter;
+        Player.PlayerInteractSensor.OnInteractExit += OnInteractExit;
     }
 
     private void OnDestroy()
     {
-        Player.PlayerInteract.OnInteractEnter -= OnInteractEnter;
-        Player.PlayerInteract.OnInteractExit -= OnInteractExit;
+        Player.PlayerInteractSensor.OnInteractEnter -= OnInteractEnter;
+        Player.PlayerInteractSensor.OnInteractExit -= OnInteractExit;
     }
 
     private void OnInteractEnter(Collider collider)

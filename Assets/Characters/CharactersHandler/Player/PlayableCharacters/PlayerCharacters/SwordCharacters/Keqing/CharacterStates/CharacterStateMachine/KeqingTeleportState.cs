@@ -29,7 +29,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
         UpdateTargetRotationData(angle);
 
         playableCharacterStateMachine.player.Rb.useGravity = false;
-        keqingStateMachine.playableCharacters.CharacterModelTransform.gameObject.SetActive(false);
+        keqingStateMachine.keqing.CharacterModelTransform.gameObject.SetActive(false);
     }
 
     private Vector3 GetDirectionToTeleporter()
@@ -86,6 +86,6 @@ public class KeqingTeleportState : KeqingElementalSkillState
     {
         base.Exit();
         keqingStateMachine.keqingReuseableData.activehairpinTeleporter.Hide();
-        keqingStateMachine.playableCharacters.CharacterModelTransform.gameObject.SetActive(true);
+        keqingStateMachine.keqing.CharacterModelTransform.gameObject.SetActive(true);
     }
 }

@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
-    [field: SerializeField] public PlayerInteract PlayerInteract { get; private set; }
+    [field: SerializeField] public PlayerInteractSensor PlayerInteractSensor { get; private set; }
     [field: SerializeField] public PlayerController PlayerController { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
     public PlayerData playerData { get; private set; }

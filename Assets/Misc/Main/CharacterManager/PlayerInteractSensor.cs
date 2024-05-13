@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteract : Interact
+public class PlayerInteractSensor : InteractSensor
 {
     [field: SerializeField] public Player player { get; private set; }
  
