@@ -22,9 +22,12 @@ public abstract class DamageableEntityState : EntityState
         damageableCharacters.OnTakeDamage += OnDamageHit;
     }
 
-    protected virtual void OnDamageHit(IAttacker source, float BaseDamageAmount)
+    protected virtual void OnDamageHit(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount)
     {
-        SetAnimationTrigger("Hit");
+        if (BaseDamageAmount != 0)
+        {
+            SetAnimationTrigger("Hit");
+        }
     }
 
     protected virtual void Attack()

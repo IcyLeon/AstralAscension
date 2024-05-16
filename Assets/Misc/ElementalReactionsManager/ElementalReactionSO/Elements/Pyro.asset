@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3db5169cf20bcb4da9d037c0af813c1, type: 3}
   m_Name: Pyro
   m_EditorClassIdentifier: 
-  <ElementSprite>k__BackingField: {fileID: 0}
+  <ElementSprite>k__BackingField: {fileID: 21300000, guid: 12bedf61b6c87e74b95fd574deb6b7ad,
+    type: 3}
   <ColorText>k__BackingField: {r: 1, g: 0.60784316, b: 0.003921569, a: 1}
+  GlowIconColor: {r: 2.6082377, g: 0.5189164, b: 0, a: 1}

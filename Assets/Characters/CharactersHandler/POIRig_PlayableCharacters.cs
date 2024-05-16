@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class POIRig_PlayableCharacters : POIRig
 {
-    [SerializeField] private PlayableCharacters PlayableCharacters;
+    private PlayableCharacters PlayableCharacters;
     private Coroutine headDisableCoroutine;
     private bool HeadMoveDisabled;
 
     private void Awake()
     {
         HeadMoveDisabled = false;
+        PlayableCharacters = GetComponentInParent<PlayableCharacters>();
         PlayableCharacters.OnTakeDamage += OnDamageHit;
     }
-    private void OnDamageHit(IAttacker source, float BaseDamageAmount)
+    private void OnDamageHit(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount)
     {
         //if (headDisableCoroutine != null)
         //    StopCoroutine(headDisableCoroutine);

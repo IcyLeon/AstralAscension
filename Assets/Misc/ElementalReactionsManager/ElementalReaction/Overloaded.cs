@@ -5,7 +5,7 @@ using static ElementalReactionsManager;
 
 public class Overloaded : ElementalReaction
 {
-    public Overloaded(ElementalReactionSO e, ElementsInfo ElementsInfo, IDamageable target) : base(e, ElementsInfo, target)
+    public Overloaded(ElementalReactionSO e, ElementDamageInfoEvent ElementDamageInfoEvent, IDamageable target) : base(e, ElementDamageInfoEvent, target)
     {
         KnockbackEffect(target);
         OnDestroy();
@@ -13,10 +13,10 @@ public class Overloaded : ElementalReaction
 
     private Vector3 GetKnockBackForce()
     {
-        Vector3 hitPosition = ElementsInfo.HitPosition;
+        Vector3 hitPosition = ElementDamageInfoEvent.hitPosition;
         if (hitPosition == default(Vector3))
         {
-            hitPosition = ((MonoBehaviour)(ElementsInfo.source)).transform.position;
+            hitPosition = ((MonoBehaviour)(ElementDamageInfoEvent.source)).transform.position;
         }
 
         return Vector3.zero;

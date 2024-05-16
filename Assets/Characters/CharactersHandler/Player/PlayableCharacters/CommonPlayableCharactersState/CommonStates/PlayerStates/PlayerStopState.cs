@@ -11,7 +11,7 @@ public class PlayerStopState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation("isStopping");
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.stopParameter);
     }
 
     public override void FixedUpdate()
@@ -47,6 +47,6 @@ public class PlayerStopState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation("isStopping");
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.stopParameter);
     }
 }

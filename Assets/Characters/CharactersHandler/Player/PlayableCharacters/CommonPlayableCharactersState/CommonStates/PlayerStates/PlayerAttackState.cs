@@ -14,7 +14,7 @@ public class PlayerAttackState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackingParameter);
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
         ResetVelocity();
     }
 
@@ -34,7 +34,7 @@ public class PlayerAttackState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackingParameter);
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
         OnAttackInterruptState?.Invoke();
     }
 }

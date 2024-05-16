@@ -5,7 +5,7 @@ using static ElementalReactionsManager;
 
 public class Frozen : ElementalReaction
 {
-    public Frozen(ElementalReactionSO e, ElementsInfo ElementsInfo, IDamageable target) : base(e, ElementsInfo, target)
+    public Frozen(ElementalReactionSO e, ElementDamageInfoEvent ElementDamageInfoEvent, IDamageable target) : base(e, ElementDamageInfoEvent, target)
     {
         OnDestroy();
     }

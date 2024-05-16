@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class PlayerInteractSensor : InteractSensor
 {
-    [field: SerializeField] public Player player { get; private set; }
- 
+    private Player player;
+
     protected override void Start()
     {
         base.Start();
+        player = GetComponentInParent<Player>();
         player.PlayerController.playerInputAction.Interact.started += Interact_started;
     }
 
