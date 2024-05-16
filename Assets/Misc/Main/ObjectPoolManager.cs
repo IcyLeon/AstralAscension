@@ -13,7 +13,7 @@ public class ObjectPoolManager : MonoBehaviour
         instance = this;
     }
 
-    public GameObject CreateGameObject(GameObject prefab, Transform transform)
+    public static GameObject CreateGameObject(GameObject prefab, Transform transform)
     {
         GameObject go = Instantiate(prefab, transform);
         return go;
@@ -22,11 +22,11 @@ public class ObjectPoolManager : MonoBehaviour
     internal IEnumerator InvokeCreationCoroutine<T>(ObjectPool<T> ObjectPool, T createdObj) where T : MonoBehaviour
     {
         yield return null;
-        ObjectPool.ObjectCreated?.Invoke(createdObj);
+        ObjectPool.CallObjectCreated(createdObj);
         createdObj.gameObject.SetActive(false);
     }
 
-    internal void CallInvokeCreation<T>(ObjectPool<T> objectPool, T createdObj) where T : MonoBehaviour
+    internal void CallInvokeCreationDelay<T>(ObjectPool<T> objectPool, T createdObj) where T : MonoBehaviour
     {
         StartCoroutine(InvokeCreationCoroutine(objectPool, createdObj));
     }

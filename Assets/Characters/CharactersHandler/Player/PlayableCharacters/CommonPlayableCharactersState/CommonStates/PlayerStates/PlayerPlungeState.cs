@@ -33,6 +33,7 @@ public class PlayerPlungeState : PlayerAirborneState
     public override void Update()
     {
         base.Update();
+
         if (playerStateMachine.player.Rb.useGravity)
         {
             playerStateMachine.player.Rb.AddForce(

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static DamageManager;
 
 public enum ElementalReactionEnums
 {
@@ -22,25 +23,25 @@ public class ElementalReactionsManager : MonoBehaviour
 {
     public static ElementalReactionsManager instance { get; private set; }
 
-    public abstract class DamageInfo : EventArgs
+    public abstract class DamageEvent
     {
-        public float DamageAmount;
-        public List<string> DamageText;
-        public Vector3 WorldPosition;
+        public float damageAmount;
     }
-    public class ElementsInfo : DamageInfo
+
+    public class ElementDamageInfoEvent : DamageEvent
     {
-        public IAttacker source;
         public ElementsSO elementsSO;
-        public Vector3 HitPosition;
+        public IAttacker source;
+        public Vector3 hitPosition;
     }
-    public class ElementalReactionInfo : DamageInfo
+
+    public class ElementalReactionDamageInfoEvent : DamageEvent
     {
         public ElementalReactionSO elementalReactionSO;
     }
 
-    public static event EventHandler<ElementsInfo> DamageChanged;
-    public static event EventHandler<ElementalReactionInfo> ElementalReactionChanged;
+    public static event EventHandler<ElementDamageInfoEvent> OnEDamageHit;
+    public static event EventHandler<ElementalReactionDamageInfoEvent> OnERDamageHit;
 
     [field: SerializeField] public ElementalReactionSO ImmuneSO { get; private set; }
     [SerializeField] private ElementalReactionSO[] ERInfoList;
@@ -94,9 +95,9 @@ public class ElementalReactionsManager : MonoBehaviour
             ElementalReactionSO ERInfo = ERInfoList[i];
             int Counter = 0;
 
-            for (int x = 0; x < ERInfo.ElementsMixture.Length; x++)
+            for (int j = 0; j < ERInfo.ElementsMixture.Length; j++)
             {
-                ElementsSO ElementsSO = ERInfo.ElementsMixture[x];
+                ElementsSO ElementsSO = ERInfo.ElementsMixture[j];
 
                 if (ElementsListCopy.ContainsKey(ElementsSO)) 
                 {
@@ -112,26 +113,7 @@ public class ElementalReactionsManager : MonoBehaviour
         return null;
     }
 
-
-    //private ElementalReaction GetExistingER(IDamageable target, ElementalReactionSO ERSO)
-    //{
-    //    if (target == null)
-    //        return null;
-
-    //    if (ElementalReactionDictionary.TryGetValue(target, out List<ElementalReaction> ER))
-    //    {
-    //        for (int i = 0; i < ER.Count; i++)
-    //        {
-    //            ElementalReaction e = ER.ElementAt(i);
-    //            if (e.elementalReactionSO == ERSO)
-    //                return e;
-    //        }
-    //    }
-
-    //    return null;
-    //}
-
-    private ElementalReaction CreateElementalReaction(IDamageable target, ElementsInfo ElementsInfo)
+    private ElementalReaction CreateElementalReaction(IDamageable target, ElementDamageInfoEvent ElementsInfo)
     {
         if (target.GetInflictElementLists() == null || target == null)
             return null;
@@ -149,39 +131,56 @@ public class ElementalReactionsManager : MonoBehaviour
         return ER;
     }
 
-    public static void CallDamageInvoke(object sender, ElementsInfo e)
+    public static void CallDamageInvoke(object sender, ElementDamageInfoEvent e)
     {
-        DamageChanged?.Invoke(sender, e);
+        OnEDamageHit?.Invoke(sender, e);
     }
-    public static void CallElementalReactionDamageInvoke(object sender, ElementalReactionInfo e)
+
+    public static void CallElementalReactionDamageInvoke(object sender, ElementalReactionDamageInfoEvent e)
     {
-        ElementalReactionChanged?.Invoke(sender, e);
+        OnERDamageHit?.Invoke(sender, e);
     }
 
 
     // Start is called before the first frame update
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        instance = this;
+
+        OnEDamageHit += OnElementDamageHit;
+        OnEDamageHit += OnElementDamageTextSpawn;
+        OnERDamageHit += OnElementalReactionDamageHit;
     }
 
-    private void Start()
-    {
-        DamageChanged += ElementalReactionsManager_DamageChanged;
-        ElementalReactionChanged += ElementalReactionsManager_ElementalReactionChanged;
-    }
-
-    private void ElementalReactionsManager_ElementalReactionChanged(object sender, ElementalReactionInfo e)
+    private void OnElementalReactionDamageHit(object sender, ElementalReactionDamageInfoEvent e)
     {
         IDamageable target = sender as IDamageable;
-        target.SetCurrentHealth(target.GetCurrentHealth() - e.DamageAmount);
+
+        target.SetCurrentHealth(target.GetCurrentHealth() - e.damageAmount);
+    }
+
+    private void OnElementDamageTextSpawn(object sender, ElementDamageInfoEvent e)
+    {
+        IDamageable target = sender as IDamageable;
+
+        if (target == null)
+            return;
+
+        string DamageTxt = e.damageAmount.ToString();
+        ElementsInfoSO ElementsInfoSO = e.elementsSO;
+
+        if (isImmune(target, e.elementsSO))
+        {
+            DamageTxt = ImmuneSO.DisplayElementalReactionText;
+            ElementsInfoSO = ImmuneSO;
+        }
+
+        CallOnDamageTextInvoke(sender, new DamageInfo
+        {
+            DamageText = DamageTxt,
+            ElementsInfoSO = ElementsInfoSO,
+            WorldPosition = target.GetCenterBound()
+        });
     }
 
     private void OnDestroyElement(Elements elements)
@@ -191,7 +190,7 @@ public class ElementalReactionsManager : MonoBehaviour
         if (elements.target == null)
             return;
 
-        elements.target.GetInflictElementLists().Remove(elements.elementsSO);
+        elements.target.RemoveElement(elements.elementsSO, elements);
     }
 
     private void OnDestroyER(ElementalReaction ER)
@@ -201,7 +200,7 @@ public class ElementalReactionsManager : MonoBehaviour
         ElementalReactionDictionary[ER.target].Remove(ER);
     }
 
-    private Elements GetElements(IDamageable target, ElementsSO ElementsSO)
+    public static Elements GetElements(IDamageable target, ElementsSO ElementsSO)
     {
         if (target == null || target.GetInflictElementLists() == null)
             return null;
@@ -214,14 +213,16 @@ public class ElementalReactionsManager : MonoBehaviour
     } 
 
     // create elemental reaction
-    private void ElementalReactionsManager_DamageChanged(object sender, ElementsInfo e)
+    private void OnElementDamageHit(object sender, ElementDamageInfoEvent e)
     {
         IDamageable target = sender as IDamageable;
 
-        if (!isImmune(target, e.elementsSO))
+        if (isImmune(target, e.elementsSO))
         {
-            target.SetCurrentHealth(target.GetCurrentHealth() - e.DamageAmount);
+            return;
         }
+
+        target.SetCurrentHealth(target.GetCurrentHealth() - e.damageAmount);
 
         if (e.elementsSO == null)
             return;
@@ -234,9 +235,10 @@ public class ElementalReactionsManager : MonoBehaviour
         }
         else
         {
-            Elements NewElement = e.elementsSO.CreateElements(target);
-            NewElement.OnElementDestroy += OnDestroyElement;
-            target.GetInflictElementLists().Add(e.elementsSO, NewElement);
+            ExistElement = e.elementsSO.CreateElements(target);
+            ExistElement.OnElementDestroy += OnDestroyElement;
+            target.AddElement(e.elementsSO, ExistElement);
+
         }
 
 
@@ -247,14 +249,12 @@ public class ElementalReactionsManager : MonoBehaviour
 
         if (!ElementalReactionDictionary.ContainsKey(target))
         {
-            List<ElementalReaction> reactions = new();
-            reactions.Add(ER);
+            List<ElementalReaction> reactions = new() { ER };
             ElementalReactionDictionary.Add(target, reactions);
         }
         else
         {
-            if (!ElementalReactionDictionary[target].Contains(ER))
-                ElementalReactionDictionary[target].Add(ER);
+            ElementalReactionDictionary[target].Add(ER);
         }
 
     }
@@ -277,7 +277,8 @@ public class ElementalReactionsManager : MonoBehaviour
     }
     private void OnDestroy()
     {
-        DamageChanged -= ElementalReactionsManager_DamageChanged;
-        ElementalReactionChanged -= ElementalReactionsManager_ElementalReactionChanged;
+        OnEDamageHit -= OnElementDamageHit;
+        OnEDamageHit -= OnElementDamageTextSpawn;
+        OnERDamageHit -= OnElementalReactionDamageHit;
     }
 }

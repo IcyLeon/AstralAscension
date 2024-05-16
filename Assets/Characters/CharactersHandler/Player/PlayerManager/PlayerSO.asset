@@ -27,7 +27,7 @@ MonoBehaviour:
       <TimeToBeConsideredConsecutive>k__BackingField: 1
       <DashLimitReachedCooldown>k__BackingField: 1.75
     <PlayerStopData>k__BackingField:
-      <WeakDecelerationForce>k__BackingField: 4.5
+      <WeakDecelerationForce>k__BackingField: 3.5
       <StrongDecelerationForce>k__BackingField: 6.5
     <PlayerRunData>k__BackingField:
       <SpeedModifier>k__BackingField: 1

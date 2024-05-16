@@ -10,7 +10,7 @@ public class ElectroCharged : ElementalReaction
     private float TickElapsed;
     private float activeElasped;
 
-    public ElectroCharged(ElementalReactionSO e, ElementsInfo ElementsInfo, IDamageable target) : base(e, ElementsInfo, target)
+    public ElectroCharged(ElementalReactionSO e, ElementDamageInfoEvent ElementDamageInfoEvent, IDamageable target) : base(e, ElementDamageInfoEvent, target)
     {
     }
 
@@ -29,19 +29,13 @@ public class ElectroCharged : ElementalReaction
         return base.TimeOut() || Time.time - activeElasped > ActiveTimer;
     }
 
-    public override void Reset()
-    {
-        TickElapsed = Time.time;
-        activeElasped = Time.time;
-    }
-
     public override void Update()
     {
         base.Update();
 
         if (Time.time - TickElapsed > TickTime)
         {
-            target.TakeDamage(ElementsInfo.source, elementalReactionSO.ElementalDamageOverTimeSO, 100f);
+            target.TakeDamage(ElementDamageInfoEvent.source, elementalReactionSO.ElementalDamageOverTimeSO, 100f);
             TickElapsed = Time.time;
         }
     }

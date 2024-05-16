@@ -19,7 +19,9 @@ public class PlayableCharacterAnimationSO : ScriptableObject
         public string fallParameter;
         public string jumpParameter;
         public string plungeParameter;
-        public string attackingParameter;
+        public string attackParameter;
+        public string stopParameter;
+        public string landParameter;
 
         [Header("Triggers")]
         public string deadParameter;        

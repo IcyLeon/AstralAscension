@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ObjectPoolManager;
 
 public class ObjectPool<T> where T : MonoBehaviour
 {
@@ -8,20 +9,26 @@ public class ObjectPool<T> where T : MonoBehaviour
     private List<T> pooledObjects = new();
 
     public delegate void CreateEvent(T go);
-    public CreateEvent ObjectCreated;
+    public event CreateEvent ObjectCreated;
 
+    /// <summary>
+    /// Call this in Start(), DO NOT PUT IT UNDER Awake()
+    /// </summary>
     public ObjectPool(GameObject objectPool, Transform ParentTransform = null, int amountToPool = 1)
     {
         this.amountToPool = amountToPool;
-        ObjectPoolManager opm = ObjectPoolManager.instance;
 
         for (int i = 0; i < this.amountToPool; i++)
         {
-            GameObject tmp = opm.CreateGameObject(objectPool, ParentTransform);
+            GameObject tmp = CreateGameObject(objectPool, ParentTransform);
             T createdObjComponent = tmp.GetComponent<T>();
-            opm.CallInvokeCreation(this, createdObjComponent);
+            instance.CallInvokeCreationDelay(this, createdObjComponent);
             pooledObjects.Add(createdObjComponent);
         }
+    }
+    internal void CallObjectCreated(T objectType)
+    {
+        ObjectCreated?.Invoke(objectType);
     }
 
     public T GetPooledObject()

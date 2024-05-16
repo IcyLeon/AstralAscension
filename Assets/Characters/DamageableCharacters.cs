@@ -6,6 +6,8 @@ using UnityEngine;
 public abstract class DamageableCharacters : Characters, IDamageable
 {
     public event IDamageable.TakeDamageEvent OnTakeDamage;
+    public event IDamageable.OnElementChange OnElementEnter;
+    public event IDamageable.OnElementChange OnElementExit;
 
     public CharacterStateMachine characterStateMachine { get; protected set; }
 
@@ -109,22 +111,14 @@ public abstract class DamageableCharacters : Characters, IDamageable
             return;
 
 
-        if (BaseDamageAmount != 0)
-        {
-            OnTakeDamage?.Invoke(source, BaseDamageAmount);
-        }
+        OnTakeDamage?.Invoke(source, elementsSO, BaseDamageAmount);
 
-        ElementalReactionsManager.CallDamageInvoke(this, new ElementalReactionsManager.ElementsInfo
+        ElementalReactionsManager.CallDamageInvoke(this, new ElementalReactionsManager.ElementDamageInfoEvent
         {
-            DamageText = new() 
-            { 
-                { BaseDamageAmount.ToString() } 
-            },
-            WorldPosition = GetCenterBound(),
-            DamageAmount = BaseDamageAmount,
+            damageAmount = BaseDamageAmount,
             elementsSO = elementsSO,
             source = source,
-            HitPosition = HitPosition
+            hitPosition = HitPosition
         });
     }
 
@@ -170,5 +164,17 @@ public abstract class DamageableCharacters : Characters, IDamageable
     public virtual ElementsSO[] GetImmuneableElementsSO()
     {
         return null;
+    }
+
+    public void AddElement(ElementsSO elementSO, Elements elements)
+    {
+        GetInflictElementLists().Add(elementSO, elements);
+        OnElementEnter?.Invoke(elements);
+    }
+
+    public void RemoveElement(ElementsSO elementSO, Elements elements)
+    {
+        GetInflictElementLists().Remove(elementSO);
+        OnElementExit?.Invoke(elements);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static DamageManager;
 using static ElementalReactionsManager;
 
 public abstract class ElementalReaction
@@ -12,7 +13,7 @@ public abstract class ElementalReaction
     public delegate void OnEREvent(ElementalReaction ER);
     public event OnEREvent OnERDestroy;
 
-    protected ElementsInfo ElementsInfo;
+    protected ElementDamageInfoEvent ElementDamageInfoEvent;
 
     protected abstract float CalculateERDamage(float BaseDamageAmount, IAttacker source);
 
@@ -21,33 +22,35 @@ public abstract class ElementalReaction
         return 1f + EMBonus + elementalReactionSO.GetElementalReactionBonus();
     }
 
-    public ElementalReaction(ElementalReactionSO e, ElementsInfo ElementsInfo, IDamageable target)
+    public ElementalReaction(ElementalReactionSO e, ElementDamageInfoEvent ElementDamageInfoEvent, IDamageable target)
     {
         elementalReactionSO = e;
         this.target = target;
-        this.ElementsInfo = ElementsInfo;
-        float DamageAmount = CalculateERDamage(ElementsInfo.DamageAmount, ElementsInfo.source);
+        this.ElementDamageInfoEvent = ElementDamageInfoEvent;
 
-        CallElementalReactionDamageInvoke(target, new ElementalReactionInfo
+        CallOnDamageTextInvoke(target, new DamageInfo
         {
-            DamageText = new()
-            {
-                { DamageAmount.ToString() },
-                { elementalReactionSO.DisplayElementalReactionText.ToString() },
-            },
-            DamageAmount = DamageAmount,
-            WorldPosition = target.GetCenterBound(),
+            DamageText = e.DisplayElementalReactionText,
+            ElementsInfoSO = e,
+            WorldPosition = target.GetCenterBound()
+        });
+
+        SpawnDamageReaction();
+        RemoveElements();
+    }
+
+    protected virtual void SpawnDamageReaction()
+    {
+        float DamageAmount = CalculateERDamage(ElementDamageInfoEvent.damageAmount, ElementDamageInfoEvent.source);
+
+        CallElementalReactionDamageInvoke(target, new ElementalReactionDamageInfoEvent
+        {
+            damageAmount = DamageAmount,
             elementalReactionSO = elementalReactionSO,
         });
 
-        RemoveElements();
-        Reset();
     }
 
-    public virtual void Reset()
-    {
-
-    }
     private void RemoveElements()
     {
         if (target == null)
@@ -57,7 +60,10 @@ public abstract class ElementalReaction
 
         for (int i = 0; i < elementsSOs.Length; i++)
         {
-            target.GetInflictElementLists().Remove(elementsSOs[i]);
+            Elements e = GetElements(target, elementsSOs[i]);
+            if (e != null) {
+                target.RemoveElement(e.elementsSO, e);
+            }
         }
     }
 

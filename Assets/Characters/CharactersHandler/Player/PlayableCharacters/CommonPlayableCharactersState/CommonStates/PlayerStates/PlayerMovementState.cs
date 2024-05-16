@@ -162,7 +162,7 @@ public abstract class PlayerMovementState : IState
             val = 0f;
         }
 
-        playableCharacters.Animator.SetFloat(cpc.movementParameters, val, 0.1f, Time.deltaTime);
+        playableCharacters.Animator.SetFloat(cpc.movementParameters, val, 0.15f, Time.deltaTime);
     }
     private void ReadMovement()
     {

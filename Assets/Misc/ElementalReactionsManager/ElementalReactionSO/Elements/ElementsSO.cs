@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ElementSO", menuName = "ScriptableObjects/ElementManager/ElementSO")]
-public class ElementsSO : ScriptableObject
+public class ElementsSO : ElementsInfoSO
 {
     [field: SerializeField] public Sprite ElementSprite { get; private set; }
-    [field: SerializeField] public Color ColorText { get; private set; }
+
+    [ColorUsage(true, true)]
+    [SerializeField] private Color GlowIconColor;
+
+    public Color GetGlowIconColor()
+    {
+        return GlowIconColor;
+    }
 
     public Elements CreateElements(IDamageable target)
     {

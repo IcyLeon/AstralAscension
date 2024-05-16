@@ -20,7 +20,9 @@ MonoBehaviour:
     fallParameter: isFalling
     jumpParameter: isJumping
     plungeParameter: isPlunging
-    attackingParameter: isAttacking
+    attackParameter: isAttacking
+    stopParameter: isStopping
+    landParameter: isLanding
     deadParameter: Dead
     weakLandParameter: WeakLand
     hardLandParameter: HardLand

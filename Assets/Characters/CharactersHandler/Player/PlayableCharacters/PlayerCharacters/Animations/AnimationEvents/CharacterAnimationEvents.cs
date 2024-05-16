@@ -4,8 +4,12 @@ using UnityEngine;
 
 public abstract class CharacterAnimationEvents : MonoBehaviour
 {
-    [field: SerializeField] public DamageableCharacters Character { get; private set; }
+    protected DamageableCharacters Character;
 
+    private void Awake()
+    {
+        Character = GetComponentInParent<DamageableCharacters>();
+    }
     private void OnCharacterAnimationTransition()
     {
         if (Character == null || Character.characterStateMachine == null)

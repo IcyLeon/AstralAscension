@@ -8,6 +8,8 @@ public enum LockMovement
     Enable,
     Disable
 }
+
+[DisallowMultipleComponent]
 public class Player : MonoBehaviour
 {
     #region Collision Events

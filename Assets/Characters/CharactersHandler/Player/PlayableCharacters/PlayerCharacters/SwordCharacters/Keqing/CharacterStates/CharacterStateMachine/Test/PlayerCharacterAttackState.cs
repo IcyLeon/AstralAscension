@@ -48,9 +48,9 @@ public class PlayerCharacterAttackState : IState
         playableCharacterStateMachine.playableCharacterReuseableData.DoBasicAttack();
     }
 
-    private bool IsTag(string name)
+    private bool IsInAttackingAnimation()
     {
-        return playableCharacterStateMachine.playableCharacters.Animator.GetCurrentAnimatorStateInfo(0).IsTag(name);
+        return playableCharacterStateMachine.playableCharacters.Animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK");
     }
 
     public virtual void FixedUpdate()
@@ -120,7 +120,7 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void Update()
     {
-        if (!IsTag("ATK"))
+        if (!IsInAttackingAnimation())
         {
             if (!canTransit)
                 return;

@@ -11,7 +11,7 @@ public class PlayerLandingState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation("isLanding");
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.landParameter);
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
         ResetVelocity();
     }
@@ -38,6 +38,6 @@ public class PlayerLandingState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation("isLanding");
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.landParameter);
     }
 }

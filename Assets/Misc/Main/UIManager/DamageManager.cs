@@ -12,10 +12,34 @@ public class DamageManager : MonoBehaviour
     [SerializeField] private GameObject DamageTextHandlerParentPrefab;
     private ObjectPool<DamageText> ObjectPool;
 
+    public class DamageInfo : EventArgs
+    {
+        public string DamageText;
+        public ElementsInfoSO ElementsInfoSO;
+        public Vector3 WorldPosition;
+    }
+
+    public static event EventHandler<DamageInfo> OnDamageTextSend;
+
     private void Awake()
     {
-        DamageChanged += DamageManager_ElementsChanged;
-        ElementalReactionChanged += DamageManager_ElementalReactionChanged;
+        OnDamageTextSend += DamageManager_OnDamageHit;
+    }
+
+    private void DamageManager_OnDamageHit(object sender, DamageInfo e)
+    {
+        DamageText damageText = ObjectPool.GetPooledObject();
+
+        if (damageText == null)
+            return;
+
+        Color color = Color.white;
+        if (e.ElementsInfoSO != null)
+        {
+            color = e.ElementsInfoSO.ColorText;
+        }
+
+        damageText.SetDamageTextValue(e.DamageText, e.WorldPosition, color);
     }
 
     private void OnEnable()
@@ -49,54 +73,13 @@ public class DamageManager : MonoBehaviour
         return go.transform;
     }
 
-    private void DamageManager_ElementsChanged(object sender, ElementsInfo e)
+    public static void CallOnDamageTextInvoke(object sender, DamageInfo DamageInfo)
     {
-        IDamageable target = sender as IDamageable;
-
-        if (instance.isImmune(target, e.elementsSO))
-        {
-            DamageText damageText = ObjectPool.GetPooledObject();
-
-            if (damageText == null)
-                return;
-
-            damageText.SetDamageTextValue(instance.ImmuneSO.DisplayElementalReactionText, e.WorldPosition, instance.ImmuneSO.ColorText);
-            return;
-        }
-
-        for (int i = 0; i < e.DamageText.Count; i++)
-        {
-            DamageText damageText = ObjectPool.GetPooledObject();
-
-            if (damageText == null)
-                return;
-
-            Color color = Color.white;
-            if (e.elementsSO != null)
-            {
-                color = e.elementsSO.ColorText;
-            }
-
-            damageText.SetDamageTextValue(e.DamageText[i], e.WorldPosition, color);
-        }
-    }
-
-    private void DamageManager_ElementalReactionChanged(object sender, ElementalReactionInfo e)
-    {
-        for (int i = 0; i < e.DamageText.Count; i++)
-        {
-            DamageText damageText = ObjectPool.GetPooledObject();
-
-            if (damageText == null)
-                return;
-
-            damageText.SetDamageTextValue(e.DamageText[i], e.WorldPosition, e.elementalReactionSO.ColorText);
-        }
+        OnDamageTextSend?.Invoke(sender, DamageInfo);
     }
 
     private void OnDestroy()
     {
-        DamageChanged -= DamageManager_ElementsChanged;
-        ElementalReactionChanged -= DamageManager_ElementalReactionChanged;
+        OnDamageTextSend -= DamageManager_OnDamageHit;
     }
 }
