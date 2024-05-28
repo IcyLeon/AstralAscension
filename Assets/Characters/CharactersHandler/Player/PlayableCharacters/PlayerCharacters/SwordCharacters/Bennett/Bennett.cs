@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Bennett : PlayableCharacters
 {
-
+    protected override CharacterStateMachine CreateCharacterStateMachine()
+    {
+        return new KeqingStateMachine(this);
+    }
 }

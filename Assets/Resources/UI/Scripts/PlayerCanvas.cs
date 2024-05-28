@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class PlayerCanvas : MonoBehaviour
 {
-    [SerializeField] private Player Player;
+    private Player Player;
 
     private void Awake()
     {
+        InitCamera();
+
+        Player = GetComponentInParent<Player>();
+
         Player.PlayerInteractSensor.OnInteractEnter += OnInteractEnter;
         Player.PlayerInteractSensor.OnInteractExit += OnInteractExit;
+    }
+
+    private void InitCamera()
+    {
+        Canvas canvas = GetComponent<Canvas>();
+        if (canvas != null)
+            canvas.worldCamera = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
     }
 
     private void OnDestroy()

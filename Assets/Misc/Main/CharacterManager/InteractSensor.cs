@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -41,12 +42,18 @@ public abstract class InteractSensor : MonoBehaviour
         float nearestDistance = Mathf.Infinity;
         Transform targetTransform = null;
 
-        foreach (var Collider in Interact_List.Keys)
+        for (int i = 0; i < Interact_List.Keys.Count; i++)
         {
-            float distance = (Collider.transform.position - position).sqrMagnitude;
+            Transform currentTransform = Interact_List.ElementAt(i).Key;
+            if (currentTransform == null)
+            {
+                Interact_List.Remove(currentTransform);
+                continue;
+            }
+            float distance = (currentTransform.transform.position - position).sqrMagnitude;
             if (distance < nearestDistance)
             {
-                targetTransform = Collider.transform;
+                targetTransform = currentTransform.transform;
                 nearestDistance = distance;
             }
         }
@@ -63,8 +70,11 @@ public abstract class InteractSensor : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & InteractLayers) != 0)
         {
-            Interact_List.Add(other.transform, other);
-            OnInteractEnter?.Invoke(other);
+            if (!Interact_List.ContainsKey(other.transform))
+            {
+                Interact_List.Add(other.transform, other);
+                OnInteractEnter?.Invoke(other);
+            }
         }
     }
 

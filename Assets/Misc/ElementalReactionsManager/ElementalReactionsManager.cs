@@ -6,44 +6,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static DamageManager;
 
-public enum ElementalReactionEnums
-{
-    NONE,
-    OVERLOAD,
-    MELT,
-    BURN,
-    FROZEN,
-    ELECTRO_CHARGED,
-    VAPORIZED,
-    SUPERCONDUCT,
-}
 
 [DisallowMultipleComponent]
 public class ElementalReactionsManager : MonoBehaviour
 {
-    public static ElementalReactionsManager instance { get; private set; }
-
-    public abstract class DamageEvent
+    public abstract class DamageEvent : EventArgs
     {
+        public ElementsInfoSO elementsInfoSO;
         public float damageAmount;
+        public Vector3 hitPosition;
     }
 
     public class ElementDamageInfoEvent : DamageEvent
     {
-        public ElementsSO elementsSO;
         public IAttacker source;
-        public Vector3 hitPosition;
     }
 
-    public class ElementalReactionDamageInfoEvent : DamageEvent
-    {
-        public ElementalReactionSO elementalReactionSO;
-    }
+    public static ElementalReactionsManager instance { get; private set; } 
 
     public static event EventHandler<ElementDamageInfoEvent> OnEDamageHit;
-    public static event EventHandler<ElementalReactionDamageInfoEvent> OnERDamageHit;
+    public static event EventHandler<ElementDamageInfoEvent> OnAddElementEvent;
 
-    [field: SerializeField] public ElementalReactionSO ImmuneSO { get; private set; }
+    [SerializeField] private ElementalReactionSO ImmuneSO;
     [SerializeField] private ElementalReactionSO[] ERInfoList;
 
     private Dictionary<IDamageable, List<ElementalReaction>> ElementalReactionDictionary = new();
@@ -52,6 +36,7 @@ public class ElementalReactionsManager : MonoBehaviour
     {
         { ElementalReactionEnums.OVERLOAD, () => new OverloadFactory() },
         { ElementalReactionEnums.FROZEN, () => new FrozenFactory() },
+        { ElementalReactionEnums.SUPERCONDUCT, () => new SuperconductFactory() },
         { ElementalReactionEnums.ELECTRO_CHARGED, () => new ElectricChargedFactory() }
     };
 
@@ -64,20 +49,31 @@ public class ElementalReactionsManager : MonoBehaviour
         SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
     }
 
+    // Start is called before the first frame update
+    private void Awake()
+    {
+        instance = this;
+
+        OnEDamageHit += OnElementDamageHit;
+        OnEDamageHit += OnElementDamageTextSpawn;
+
+        OnAddElementEvent += OnAddElements;
+    }
+
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         ElementalReactionDictionary.Clear();
     }
 
-    public bool isImmune(IDamageable target, ElementsSO incomingElementSO)
+    public bool isImmune(IDamageable target, ElementsInfoSO incomingElementIsnfoSO)
     {
-        if (target == null || target.GetImmuneableElementsSO() == null)
+        if (target == null || target.GetImmuneableElementsInfoSO() == null)
             return false;
 
-        for (int i = 0; i < target.GetImmuneableElementsSO().Length; i++)
+        for (int i = 0; i < target.GetImmuneableElementsInfoSO().Length; i++)
         {
-            ElementsSO e = target.GetImmuneableElementsSO()[i];
-            if (e == incomingElementSO)
+            ElementsInfoSO e = target.GetImmuneableElementsInfoSO()[i];
+            if (e == incomingElementIsnfoSO)
                 return true;
         }
 
@@ -99,7 +95,7 @@ public class ElementalReactionsManager : MonoBehaviour
             {
                 ElementsSO ElementsSO = ERInfo.ElementsMixture[j];
 
-                if (ElementsListCopy.ContainsKey(ElementsSO)) 
+                if (ElementsListCopy.ContainsKey(ElementsSO))
                 {
                     ElementsListCopy.Remove(ElementsSO);
                     Counter++;
@@ -131,32 +127,14 @@ public class ElementalReactionsManager : MonoBehaviour
         return ER;
     }
 
+    public static void CallAddElementInvoke(object sender, ElementDamageInfoEvent e)
+    {
+        OnAddElementEvent?.Invoke(sender, e);
+    }
+
     public static void CallDamageInvoke(object sender, ElementDamageInfoEvent e)
     {
         OnEDamageHit?.Invoke(sender, e);
-    }
-
-    public static void CallElementalReactionDamageInvoke(object sender, ElementalReactionDamageInfoEvent e)
-    {
-        OnERDamageHit?.Invoke(sender, e);
-    }
-
-
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        instance = this;
-
-        OnEDamageHit += OnElementDamageHit;
-        OnEDamageHit += OnElementDamageTextSpawn;
-        OnERDamageHit += OnElementalReactionDamageHit;
-    }
-
-    private void OnElementalReactionDamageHit(object sender, ElementalReactionDamageInfoEvent e)
-    {
-        IDamageable target = sender as IDamageable;
-
-        target.SetCurrentHealth(target.GetCurrentHealth() - e.damageAmount);
     }
 
     private void OnElementDamageTextSpawn(object sender, ElementDamageInfoEvent e)
@@ -167,19 +145,37 @@ public class ElementalReactionsManager : MonoBehaviour
             return;
 
         string DamageTxt = e.damageAmount.ToString();
-        ElementsInfoSO ElementsInfoSO = e.elementsSO;
+        ElementsInfoSO currentElementsInfoSO = e.elementsInfoSO;
 
-        if (isImmune(target, e.elementsSO))
+        if (isImmune(target, currentElementsInfoSO))
         {
             DamageTxt = ImmuneSO.DisplayElementalReactionText;
-            ElementsInfoSO = ImmuneSO;
+            currentElementsInfoSO = ImmuneSO;
+        }
+        else
+        {
+            if (e.damageAmount == 0)
+                return;
+        }
+
+        Vector3 WorldPosition = e.hitPosition;
+        if (WorldPosition == default(Vector3))
+        {
+            WorldPosition = target.GetCenterBound();
+        }
+
+        MonoBehaviour transform = target as MonoBehaviour;
+        if (transform != null)
+        {
+            if (!transform.gameObject.activeSelf)
+                return;
         }
 
         CallOnDamageTextInvoke(sender, new DamageInfo
         {
             DamageText = DamageTxt,
-            ElementsInfoSO = ElementsInfoSO,
-            WorldPosition = target.GetCenterBound()
+            ElementsInfoSO = currentElementsInfoSO,
+            WorldPosition = WorldPosition
         });
     }
 
@@ -210,24 +206,18 @@ public class ElementalReactionsManager : MonoBehaviour
             return e;
         }
         return null;
-    } 
+    }
 
-    // create elemental reaction
-    private void OnElementDamageHit(object sender, ElementDamageInfoEvent e)
+    private void OnAddElements(object sender, ElementDamageInfoEvent e)
     {
         IDamageable target = sender as IDamageable;
 
-        if (isImmune(target, e.elementsSO))
-        {
-            return;
-        }
+        ElementsSO elementSO = e.elementsInfoSO as ElementsSO;
 
-        target.SetCurrentHealth(target.GetCurrentHealth() - e.damageAmount);
-
-        if (e.elementsSO == null)
+        if (elementSO == null ||  target == null || isImmune(target, elementSO))
             return;
 
-        Elements ExistElement = GetElements(target, e.elementsSO);
+        Elements ExistElement = GetElements(target, elementSO);
 
         if (ExistElement != null)
         {
@@ -235,12 +225,10 @@ public class ElementalReactionsManager : MonoBehaviour
         }
         else
         {
-            ExistElement = e.elementsSO.CreateElements(target);
+            ExistElement = elementSO.CreateElements(target.GetCharacterDataStat());
             ExistElement.OnElementDestroy += OnDestroyElement;
-            target.AddElement(e.elementsSO, ExistElement);
 
         }
-
 
         ElementalReaction ER = CreateElementalReaction(target, e);
 
@@ -257,6 +245,19 @@ public class ElementalReactionsManager : MonoBehaviour
             ElementalReactionDictionary[target].Add(ER);
         }
 
+    }
+
+    // create elemental reaction
+    private void OnElementDamageHit(object sender, ElementDamageInfoEvent e)
+    {
+        IDamageable target = sender as IDamageable;
+
+        if (target == null || isImmune(target, e.elementsInfoSO))
+            return;
+
+        target.SetCurrentHealth(target.GetCurrentHealth() - e.damageAmount);
+
+        CallAddElementInvoke(target, e);
     }
 
     private void Update()
@@ -279,6 +280,6 @@ public class ElementalReactionsManager : MonoBehaviour
     {
         OnEDamageHit -= OnElementDamageHit;
         OnEDamageHit -= OnElementDamageTextSpawn;
-        OnERDamageHit -= OnElementalReactionDamageHit;
+        OnAddElementEvent -= OnAddElements;
     }
 }

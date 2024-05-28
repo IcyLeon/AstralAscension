@@ -12,6 +12,8 @@ public class ElectroCharged : ElementalReaction
 
     public ElectroCharged(ElementalReactionSO e, ElementDamageInfoEvent ElementDamageInfoEvent, IDamageable target) : base(e, ElementDamageInfoEvent, target)
     {
+        TickElapsed = Time.time;
+        activeElasped = Time.time;
     }
 
     protected override float CalculateERDamage(float DamageAmount, IAttacker source)

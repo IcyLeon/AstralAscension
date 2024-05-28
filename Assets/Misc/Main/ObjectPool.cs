@@ -26,6 +26,19 @@ public class ObjectPool<T> where T : MonoBehaviour
             pooledObjects.Add(createdObjComponent);
         }
     }
+    public ObjectPool(string objectPoolPrefabName, Transform ParentTransform = null, int amountToPool = 1)
+    {
+        this.amountToPool = amountToPool;
+
+        for (int i = 0; i < this.amountToPool; i++)
+        {
+            GameObject tmp = CreateGameObject(objectPoolPrefabName, ParentTransform);
+            T createdObjComponent = tmp.GetComponent<T>();
+            instance.CallInvokeCreationDelay(this, createdObjComponent);
+            pooledObjects.Add(createdObjComponent);
+        }
+    }
+
     internal void CallObjectCreated(T objectType)
     {
         ObjectCreated?.Invoke(objectType);
@@ -43,15 +56,11 @@ public class ObjectPool<T> where T : MonoBehaviour
         return null;
     }
 
-    public T GetActivePooledObject()
+    public void ResetAll()
     {
         for (int i = 0; i < pooledObjects.Count; i++)
         {
-            if (pooledObjects[i].gameObject.activeInHierarchy)
-            {
-                return pooledObjects[i];
-            }
+            pooledObjects[i].gameObject.SetActive(false);
         }
-        return null;
     }
 }

@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5d511b9f9ff124285a539f47d20a64, type: 3}
   m_Name: Superconduct
   m_EditorClassIdentifier: 
+  <ColorText>k__BackingField: {r: 0.7137255, g: 0.7019608, b: 0.99607843, a: 1}
   <DisplayElementalReactionText>k__BackingField: Superconduct
   <ElementalReaction>k__BackingField: 7
   <ElementsMixture>k__BackingField:
   - {fileID: 11400000, guid: e42886fd3bcac2d47994cad7e7b4f203, type: 2}
   - {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab, type: 2}
-  <ColorText>k__BackingField:
-    serializedVersion: 2
-    rgba: 0
+  <ElementalDamageOverTimeSO>k__BackingField: {fileID: 0}
   ElementalReactionBonus: 1

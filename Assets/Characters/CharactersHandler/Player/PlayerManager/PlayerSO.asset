@@ -17,6 +17,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7208576d446cba34f9774e5185c5c601, type: 3}
     - {fileID: 8300000, guid: 408ad4e0680d1ee468cff80ba932f05a, type: 3}
     - {fileID: 8300000, guid: b74ee074bbb6a8d469a9b2d363edb0d5, type: 3}
+    <SwitchClip>k__BackingField: {fileID: 8300000, guid: 2b529ff640693b549a21cce2b88b0b02,
+      type: 3}
   <GroundedData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
     <BaseRotationTime>k__BackingField: 0.14
@@ -39,14 +41,14 @@ MonoBehaviour:
       <AttackCooldown>k__BackingField: 1
   <AirborneData>k__BackingField:
     <PlayerJumpData>k__BackingField:
-      <JumpDecelerationForce>k__BackingField: 3.5
+      <JumpDecelerationForce>k__BackingField: 8.5
       <RotationTime>k__BackingField: 0.02
-      <JumpForceY>k__BackingField: 8
+      <JumpForceY>k__BackingField: 13.5
       <IdleJumpForceMagnitudeXZ>k__BackingField: 0
       <WeakJumpForceMagnitudeXZ>k__BackingField: 5
       <StrongJumpForceMagnitudeXZ>k__BackingField: 8
     <PlayerFallData>k__BackingField:
       <FallLimitVelocity>k__BackingField: 20
     <PlayerPlungeData>k__BackingField:
-      <PlungeSpeed>k__BackingField: 8
+      <PlungeSpeed>k__BackingField: 10
       <GroundCheckDistance>k__BackingField: 2

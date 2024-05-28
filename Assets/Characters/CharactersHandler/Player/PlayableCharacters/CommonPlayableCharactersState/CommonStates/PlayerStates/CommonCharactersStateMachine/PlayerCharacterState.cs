@@ -17,12 +17,12 @@ public abstract class PlayerCharacterState : DamageableEntityState
         }
     }
 
-    protected override void OnDamageHit(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount)
+    protected override void OnDamageHit(float BaseDamageAmount)
     {
         if (playableCharacterStateMachine.playerStateMachine.IsInState<PlayerAirborneState>())
             return;
 
-        base.OnDamageHit(source, elementsSO, BaseDamageAmount);
+        base.OnDamageHit(BaseDamageAmount);
     }
 
     protected override void Attack()
@@ -49,16 +49,27 @@ public abstract class PlayerCharacterState : DamageableEntityState
     public override void Enter()
     {
         base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started += Attack_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
-
-    public override void Exit()
+    public override void OnDisable()
     {
-        base.Exit();
+        base.OnDisable();
+
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started -= Attack_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;

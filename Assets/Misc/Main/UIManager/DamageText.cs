@@ -9,7 +9,7 @@ public class DamageText : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     private Vector3 originPosition;
     private Vector3 originlocalScale;
-    private float spawnOffsetPosition;
+    private const float spawnOffsetDistance = 0.25f;
     private Vector2 offsetPosition;
     private Vector2 vel;
     private RectTransform rt;
@@ -17,7 +17,6 @@ public class DamageText : MonoBehaviour
     private void Awake()
     {
         originlocalScale = Vector3.one * 3.5f;
-        spawnOffsetPosition = 0.3f;
         vel = Vector2.up * 20f;
         rt = GetComponent<RectTransform>();
         canvasGroup.alpha = 0f;
@@ -28,6 +27,12 @@ public class DamageText : MonoBehaviour
     }
 
     private void OnEnable()
+    {
+        StartCoroutine(ScaleAnimation());
+        StartCoroutine(FadeAnimation(true));
+    }
+
+    private void OnDisable()
     {
         ResetOffset();
     }
@@ -48,13 +53,11 @@ public class DamageText : MonoBehaviour
         ValueText.color = color;
         UpdatePosition(WorldPosition + new Vector3(GetRandomPositionOffset(), GetRandomPositionOffset(), GetRandomPositionOffset()));
         gameObject.SetActive(true);
-        StartCoroutine(ScaleAnimation());
-        StartCoroutine(FadeAnimation(true));
     }
 
     private float GetRandomPositionOffset()
     {
-        return Random.Range(-spawnOffsetPosition, spawnOffsetPosition);
+        return Random.Range(-spawnOffsetDistance, spawnOffsetDistance);
     }
 
     private IEnumerator ScaleAnimation()

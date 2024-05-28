@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,12 @@ using UnityEngine.UI;
 public class ElementIconDisplay : MonoBehaviour
 {
     private ElementsSO elementsSO;
-    private ElementUI ElementUIRef;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private Material materialInstance;
     [SerializeField] private Image ElementImage;
     private Coroutine ToggleCoroutine;
+
+    public event Action<ElementsSO> OnElementDestroyed;
 
     private void OnEnable()
     {
@@ -21,16 +23,11 @@ public class ElementIconDisplay : MonoBehaviour
     {
         ToggleCoroutine = null;
 
-        if (elementsSO != null)
-            ElementUIRef.EID_Dict.Remove(elementsSO);
+        OnElementDestroyed?.Invoke(elementsSO);
+        OnElementDestroyed = null;
 
         canvasGroup.alpha = 0f;
         elementsSO = null;
-    }
-
-    public void SetElementUI(ElementUI e)
-    {
-        ElementUIRef = e;
     }
 
     public void SetElementsSO(ElementsSO e)

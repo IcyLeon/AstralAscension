@@ -12,7 +12,7 @@ public class KeqingESlashState : KeqingElementalSkillState
     {
         base.Enter();
         SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.elementalSkillSlashParameter);
-        playableCharacterStateMachine.playableCharacters.PlayVOAudio(keqing.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkill_RecastVOClip());
+        playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkill_RecastVOClip());
     }
 
     public override void OnAnimationTransition()

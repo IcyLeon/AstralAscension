@@ -18,6 +18,17 @@ public class StateMachineManager
             currentStates.FixedUpdate();
     }
 
+    public void OnEnable()
+    {
+        if (currentStates != null)
+            currentStates.OnEnable();
+    }
+    public void OnDisable()
+    {
+        if (currentStates != null)
+            currentStates.OnDisable();
+    }
+
     public void LateUpdate()
     {
         if (currentStates != null)

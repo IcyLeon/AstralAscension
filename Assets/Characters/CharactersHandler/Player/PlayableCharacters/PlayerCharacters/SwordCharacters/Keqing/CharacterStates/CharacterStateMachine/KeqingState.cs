@@ -12,27 +12,34 @@ public class KeqingState : SwordState
     public override void Enter()
     {
         base.Enter();
-        keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
-
 
     public override void Exit()
     {
         base.Exit();
-        keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
     }
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+    }
 
     protected override void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (!CanTransitToElementalState())
             return;
 
-        if (keqingStateMachine.keqingReuseableData.activehairpinTeleporter == null ||
-            !keqingStateMachine.keqingReuseableData.activehairpinTeleporter.CanTeleport())
+        if (keqingStateMachine.keqingReuseableData.CanThrow())
             return;
 
-        keqingStateMachine.ChangeState(keqingStateMachine.keqingTeleportState);
+        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingTeleportState);
     }
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -40,13 +47,12 @@ public class KeqingState : SwordState
         if (!CanTransitToElementalState())
             return;
 
-        if (keqingStateMachine.keqingReuseableData.activehairpinTeleporter != null)
+        if (!keqingStateMachine.keqingReuseableData.CanThrow())
             return;
 
-        float Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
-        Vector3 origin = keqingStateMachine.playableCharacters.GetCenterBound();
-        keqingStateMachine.keqingReuseableData.targetPosition = origin + keqingStateMachine.playableCharacters.transform.forward * Range;
-        keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
+        Vector3 origin = playableCharacterStateMachine.playableCharacters.GetCenterBound();
+        keqingStateMachine.keqingReuseableData.targetPosition = origin + playableCharacterStateMachine.playableCharacters.transform.forward * keqingStateMachine.keqingReuseableData.Range;
+        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }
 
 
@@ -59,10 +65,10 @@ public class KeqingState : SwordState
         if (!CanTransitToElementalState())
             return;
 
-        if (keqingStateMachine.keqingReuseableData.activehairpinTeleporter != null)
+        if (!keqingStateMachine.keqingReuseableData.CanThrow())
             return;
 
-        keqingStateMachine.ChangeState(keqingStateMachine.keqingAimState);
+        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingAimState);
     }
 
     protected KeqingStateMachine keqingStateMachine

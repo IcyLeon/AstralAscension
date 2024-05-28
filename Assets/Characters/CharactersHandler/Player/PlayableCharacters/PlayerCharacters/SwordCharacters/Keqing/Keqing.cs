@@ -4,17 +4,7 @@ using UnityEngine;
 
 public class Keqing : PlayableCharacters
 {
-    [field: SerializeField] public GameObject HairpinTeleporterPrefab { get; private set; }
-    [field: SerializeField] public AimRigController AimRigController { get; private set; }
-    [field: SerializeField] public Transform CharacterModelTransform { get; private set; }
     [SerializeField] ElementsSO test;
-    public KeqingReuseableData keqingReuseableData
-    {
-        get
-        {
-            return characterReuseableData as KeqingReuseableData;
-        }
-    }
 
     protected override void Awake()
     {
@@ -26,13 +16,13 @@ public class Keqing : PlayableCharacters
 
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            TakeDamage(this, GetElementsSO(), 1000f);
-            TakeDamage(this, test, 1000f);
+            TakeDamage(this, GetElementsSO(), 100f);
+            TakeDamage(this, test, 100f);
         }
     }
-    protected override void Start()
+
+    protected override CharacterStateMachine CreateCharacterStateMachine()
     {
-        base.Start();
-        characterStateMachine = new KeqingStateMachine(this);
+        return new KeqingStateMachine(this);
     }
 }

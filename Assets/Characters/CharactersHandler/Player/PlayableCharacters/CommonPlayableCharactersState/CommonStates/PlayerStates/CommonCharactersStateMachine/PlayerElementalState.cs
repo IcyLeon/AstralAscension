@@ -13,21 +13,21 @@ public abstract class PlayerElementalState : IState
 
     public virtual void Enter()
     {
-        SubscribeInputs();
+        OnEnable();
     }
 
     public virtual void Exit()
     {
-        UnsubscribeInputs();
+        OnDisable();
     }
 
-    public virtual void SubscribeInputs()
+    public virtual void OnEnable()
     {
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
     }
 
-    public virtual void UnsubscribeInputs()
+    public virtual void OnDisable()
     {
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
@@ -42,6 +42,13 @@ public abstract class PlayerElementalState : IState
 
     }
 
+    protected PlayableCharacters playableCharacters
+    {
+        get
+        {
+            return playableCharacterStateMachine.playableCharacters;
+        }
+    }
     public virtual void FixedUpdate()
     {
     }

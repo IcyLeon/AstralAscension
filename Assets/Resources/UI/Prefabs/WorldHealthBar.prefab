@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6590475901930069733}
   - component: {fileID: 1482339535018190032}
   - component: {fileID: 7407373350039886746}
-  - component: {fileID: 7446906622175701083}
+  - component: {fileID: 494611584448800874}
   m_Layer: 0
   m_Name: Element_Display_World
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &7446906622175701083
+--- !u!114 &494611584448800874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 240246713247275102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22c94263111d7e24992c9035928d22ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 82e83b47675c9d242840dfb9e609bf8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ElementIconDisplayPrefab: {fileID: 5879296329104924093, guid: 889e0ce1b0931fa49b2e286f018f77c7,

@@ -5,11 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class PlayableCharacterSwordHitCollider : MonoBehaviour
 {
-    [SerializeField] private PlayableCharacters playableCharacters;
+    private IDamageable Damageable;
     [SerializeField] private Collider hitCollider;
 
     private void Start()
     {
+        Damageable = GetComponentInParent<IDamageable>();
         hitCollider.enabled = false;
     }
 
@@ -30,17 +31,12 @@ public class PlayableCharacterSwordHitCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == playableCharacters.gameObject)
-            return;
-
-        PlayableCharacters pc = other.GetComponent<PlayableCharacters>();
-
-        if (pc != null)
+        if (other.GetType() == Damageable.GetType())
             return;
 
         if (other.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(playableCharacters, playableCharacters.GetElementsSO(), 1f);
+            damageable.TakeDamage(Damageable, Damageable.GetElementsSO(), 1f, other.ClosestPoint(transform.position));
         }
     }
 }

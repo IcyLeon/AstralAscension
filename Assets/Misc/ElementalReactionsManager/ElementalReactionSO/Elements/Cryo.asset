@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3db5169cf20bcb4da9d037c0af813c1, type: 3}
   m_Name: Cryo
   m_EditorClassIdentifier: 
+  <ColorText>k__BackingField: {r: 0.6039216, g: 0.9647059, b: 0.99215686, a: 1}
   <ElementSprite>k__BackingField: {fileID: 21300000, guid: 53dbb57116a9f2942985ff239a814d80,
     type: 3}
-  <ColorText>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  GlowIconColor: {r: 1.1298251, g: 2.0098393, b: 2.7594807, a: 1}

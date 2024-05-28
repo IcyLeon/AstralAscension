@@ -21,22 +21,24 @@ public interface IDamageable : IAttacker
     void AddElement(ElementsSO elementSO, Elements elements);
     void RemoveElement(ElementsSO elementSO, Elements elements);
 
-    ElementsSO GetElementsSO();
-    ElementsSO[] GetImmuneableElementsSO();
+    /// <summary>
+    /// Can it be immune to any Element or Elemental Reaction?
+    /// </summary>
+    /// <returns></returns>
+    ElementsInfoSO[] GetImmuneableElementsInfoSO();
     bool IsDead();
     Vector3 GetCenterBound();
-    void TakeDamage(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount, Vector3 HitPosition = default(Vector3));
+    void TakeDamage(IAttacker source, ElementsInfoSO e, float BaseDamageAmount, Vector3 HitPosition = default(Vector3));
 
-    public delegate void TakeDamageEvent(IAttacker source, ElementsSO elementsSO, float DamageAmount);
+    public delegate void TakeDamageEvent(float DamageAmount);
     public event TakeDamageEvent OnTakeDamage;
 
-    public delegate void OnElementChange(Elements element);
-    public event OnElementChange OnElementEnter;
-    public event OnElementChange OnElementExit;
+    public CharacterDataStat GetCharacterDataStat();
 }
 
 public interface IAttacker
 {
+    ElementsSO GetElementsSO();
     float GetATK();
     float GetEM();
 }

@@ -10,11 +10,13 @@ public class Billboard : MonoBehaviour
     void Start()
     {
         MainCamera = Camera.main;
+        ObjectPoolManager.SetGlobalScale(transform, transform.localScale);
 
         Canvas canvas = GetComponent<Canvas>();
         if (canvas != null)
             canvas.worldCamera = MainCamera;
     }
+
 
     // Update is called once per frame
     void Update()

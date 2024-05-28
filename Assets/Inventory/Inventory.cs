@@ -6,7 +6,6 @@ public class Inventory
 {
     public int mora { get; private set; }
     private List<Item> itemList;
-    private Dictionary<PlayerCharactersSO, CharacterData> playableCharacterList;
 
     public void AddMora(int Amt)
     {
@@ -23,6 +22,7 @@ public class Inventory
 
     }
 
+
     private Item isItemExisted(ItemSO itemSO)
     {
         foreach(var item in itemList)
@@ -38,6 +38,5 @@ public class Inventory
     {
         mora = StartingMora;
         itemList = new();
-        playableCharacterList = new();
     }
 }

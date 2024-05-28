@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3db5169cf20bcb4da9d037c0af813c1, type: 3}
   m_Name: Electro
   m_EditorClassIdentifier: 
+  <ColorText>k__BackingField: {r: 0.88235295, g: 0.60784316, b: 0.99607843, a: 1}
   <ElementSprite>k__BackingField: {fileID: 21300000, guid: 9cbbd45e1f9b9f542ae587c63b13a9f4,
     type: 3}
-  <ColorText>k__BackingField: {r: 0.88235295, g: 0.60784316, b: 0.99607843, a: 1}
-  GlowIconColor: {r: 3.1536925, g: 0, b: 2.4271867, a: 1}
+  GlowIconColor: {r: 2.6082377, g: 0, b: 2.0073872, a: 1}

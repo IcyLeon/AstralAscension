@@ -31,19 +31,20 @@ public class CameraManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         EnableAimCamera(enable);
-        toggleAimCameraCoroutine = null;
     }
 
     public void ToggleAimCamera(bool enable, float time = 0f)
     {
+        if (toggleAimCameraCoroutine != null)
+        {
+            StopCoroutine(toggleAimCameraCoroutine);
+        }
+
         if (time == 0f)
         {
             EnableAimCamera(enable);
             return;
         }
-
-        if (toggleAimCameraCoroutine != null)
-            StopCoroutine(toggleAimCameraCoroutine);
 
         toggleAimCameraCoroutine = StartCoroutine(ToggleAimCameraDelayCoroutine(enable, time));
     }

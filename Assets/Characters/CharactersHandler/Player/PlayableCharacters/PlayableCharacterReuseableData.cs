@@ -19,9 +19,7 @@ public abstract class PlayableCharacterReuseableData : CharacterReuseableData
 
     public PlayableCharacterReuseableData(int TotalAttackPhase, CharacterStateMachine characterStateMachine) : base(characterStateMachine)
     {
-        canAttack = true;
-        ResetAttack();
-        inputCounterElapsed = Time.time;
+        ResetData();
         totalAttackPhase = TotalAttackPhase;
         basicAttackCooldown = playableCharacterStateMachine.player.PlayerSO.GroundedData.PlayerAttackData.AttackCooldown;
     }
@@ -83,6 +81,15 @@ public abstract class PlayableCharacterReuseableData : CharacterReuseableData
     public bool CanTransitBackToIdleState()
     {
         return Time.time - basicAttackIdleElapsed > basicAttackIdleTime;
+    }
+
+    public override void ResetData()
+    {
+        base.ResetData();
+
+        canAttack = true;
+        ResetAttack();
+        inputCounterElapsed = Time.time;
     }
 
     public override void Update()

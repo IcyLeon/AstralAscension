@@ -6,35 +6,41 @@ using UnityEngine;
 public class KeqingTeleportState : KeqingElementalSkillState
 {
     private float TimeToReachElapsed;
-    private float TimeToReach;
+    private float TimeToReach, MaxTimeToReach;
     private const float Speed = 25f;
-    private float Range;
-
-    private Vector3 originPosition;
+    private const float OffsetTime = 0.5f;
+    private Vector3 dir;
 
     public KeqingTeleportState(PlayableCharacterStateMachine pcs) : base(pcs)
     {
-        Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
     }
 
     public override void Enter()
     {
         TimeToReachElapsed = 0;
 
-        Vector3 dir = GetDirectionToTeleporter();
+        dir = GetDirectionToTeleporter();
         TimeToReach = dir.magnitude / Speed;
-        originPosition = playableCharacterStateMachine.player.Rb.position;
+        MaxTimeToReach = (Range + Range * OffsetTime) / Speed;
 
         float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         UpdateTargetRotationData(angle);
 
         playableCharacterStateMachine.player.Rb.useGravity = false;
-        keqingStateMachine.keqing.CharacterModelTransform.gameObject.SetActive(false);
+        playableCharacterStateMachine.playableCharacters.Animator.gameObject.SetActive(false);
+    }
+
+    public override void OnEnable()
+    {
+    }
+
+    public override void OnDisable()
+    {
     }
 
     private Vector3 GetDirectionToTeleporter()
     {
-        return keqingStateMachine.keqingReuseableData.activehairpinTeleporter.transform.position - playableCharacterStateMachine.player.Rb.position;
+        return keqingStateMachine.keqingReuseableData.hairpinTeleporter.transform.position - playableCharacterStateMachine.player.Rb.position;
     }
     public override void FixedUpdate()
     {
@@ -53,21 +59,19 @@ public class KeqingTeleportState : KeqingElementalSkillState
     {
         base.Update();
 
-        Vector3 dir = originPosition - playableCharacterStateMachine.player.Rb.position;
-
-        if (dir.magnitude >= Range || TimeToReachElapsed >= TimeToReach)
+        if (TimeToReachElapsed >= TimeToReach || TimeToReachElapsed >= MaxTimeToReach)
         {
             TransitToSlash();
             return;
         }
 
-        keqingStateMachine.keqingReuseableData.activehairpinTeleporter.ResetTime();
+        keqingStateMachine.keqingReuseableData.hairpinTeleporter.ResetTime();
         TimeToReachElapsed += Time.deltaTime;
     }
 
     private void UpdateTeleportMovement()
     {
-        playableCharacterStateMachine.player.Rb.MovePosition(playableCharacterStateMachine.player.Rb.position + Speed * Time.deltaTime * GetDirectionToTeleporter().normalized);
+        playableCharacterStateMachine.player.Rb.MovePosition(playableCharacterStateMachine.player.Rb.position + Speed * Time.fixedDeltaTime * dir.normalized);
     }
 
     public override void OnCollisionStay(Collision collision)
@@ -79,13 +83,14 @@ public class KeqingTeleportState : KeqingElementalSkillState
     private void TransitToSlash()
     {
         ResetVelocity();
-        keqingStateMachine.ChangeState(keqingStateMachine.keqingESlashState);
+
+        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingESlashState);
     }
 
     public override void Exit()
     {
         base.Exit();
-        keqingStateMachine.keqingReuseableData.activehairpinTeleporter.Hide();
-        keqingStateMachine.keqing.CharacterModelTransform.gameObject.SetActive(true);
+        keqingStateMachine.keqingReuseableData.hairpinTeleporter.Hide();
+        playableCharacterStateMachine.playableCharacters.Animator.gameObject.SetActive(true);
     }
 }

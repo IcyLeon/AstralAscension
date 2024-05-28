@@ -40,6 +40,7 @@ public abstract class PlayableCharacterStateMachine : CharacterStateMachine
         base.Update();
     }
 
+
     public override void FixedUpdate()
     {
         if (playerStateMachine != null)
@@ -59,6 +60,42 @@ public abstract class PlayableCharacterStateMachine : CharacterStateMachine
     public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {
         playerStateMachine = new PlayerStateMachine(this);
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        if (playerStateMachine != null)
+        {
+            playerStateMachine.OnEnable();
+        }
+        ActiveCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        if (playerStateMachine != null)
+        {
+            playerStateMachine.OnDisable();
+        }
+        ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        if (playerStateMachine != null)
+        {
+            playerStateMachine.OnDestroy();
+        }
+        OnDisable();
+    }
+
+    private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
+    {
+        ChangeState(EntityState);
+        OnDisable();
     }
 
     public bool IsSkillCasting()
