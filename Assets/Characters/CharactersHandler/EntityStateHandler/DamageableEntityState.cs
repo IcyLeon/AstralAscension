@@ -22,7 +22,7 @@ public abstract class DamageableEntityState : EntityState
         damageableCharacters.OnTakeDamage += OnDamageHit;
     }
 
-    protected virtual void OnDamageHit(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount)
+    protected virtual void OnDamageHit(float BaseDamageAmount)
     {
         if (BaseDamageAmount != 0)
         {

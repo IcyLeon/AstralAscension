@@ -28,27 +28,32 @@ public abstract class ElementalReaction
         this.target = target;
         this.ElementDamageInfoEvent = ElementDamageInfoEvent;
 
-        CallOnDamageTextInvoke(target, new DamageInfo
-        {
-            DamageText = e.DisplayElementalReactionText,
-            ElementsInfoSO = e,
-            WorldPosition = target.GetCenterBound()
-        });
-
+        SpawnDamageText(ElementDamageInfoEvent);
         SpawnDamageReaction();
         RemoveElements();
+    }
+
+    private void SpawnDamageText(ElementDamageInfoEvent ElementDamageInfoEvent)
+    {
+        Vector3 Position = ElementDamageInfoEvent.hitPosition;
+        if (Position == default(Vector3))
+        {
+            Position = target.GetCenterBound();
+        }
+
+        CallOnDamageTextInvoke(target, new DamageInfo
+        {
+            DamageText = elementalReactionSO.DisplayElementalReactionText,
+            ElementsInfoSO = elementalReactionSO,
+            WorldPosition = Position
+        });
     }
 
     protected virtual void SpawnDamageReaction()
     {
         float DamageAmount = CalculateERDamage(ElementDamageInfoEvent.damageAmount, ElementDamageInfoEvent.source);
 
-        CallElementalReactionDamageInvoke(target, new ElementalReactionDamageInfoEvent
-        {
-            damageAmount = DamageAmount,
-            elementalReactionSO = elementalReactionSO,
-        });
-
+        target.TakeDamage(ElementDamageInfoEvent.source, elementalReactionSO, DamageAmount);
     }
 
     private void RemoveElements()
@@ -76,7 +81,6 @@ public abstract class ElementalReaction
     {
         OnERDestroy = null;
     }
-
 
     protected virtual bool TimeOut()
     {

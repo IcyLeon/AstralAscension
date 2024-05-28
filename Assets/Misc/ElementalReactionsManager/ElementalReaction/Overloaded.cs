@@ -13,13 +13,7 @@ public class Overloaded : ElementalReaction
 
     private Vector3 GetKnockBackForce()
     {
-        Vector3 hitPosition = ElementDamageInfoEvent.hitPosition;
-        if (hitPosition == default(Vector3))
-        {
-            hitPosition = ((MonoBehaviour)(ElementDamageInfoEvent.source)).transform.position;
-        }
-
-        return Vector3.zero;
+        return Vector3.up * 200f;
     }
 
     private void KnockbackEffect(IDamageable target)
@@ -27,7 +21,6 @@ public class Overloaded : ElementalReaction
         IKnockBack knockBackEntity = target as IKnockBack;
         if (knockBackEntity == null)
             return;
-
         knockBackEntity.KnockBack(GetKnockBackForce());
     }
 

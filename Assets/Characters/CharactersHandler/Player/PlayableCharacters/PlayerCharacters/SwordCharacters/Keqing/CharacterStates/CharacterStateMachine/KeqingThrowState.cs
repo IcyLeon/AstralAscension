@@ -11,29 +11,29 @@ public class KeqingThrowState : KeqingElementalSkillState
     public override void Enter()
     {
         base.Enter();
-        HairpinTeleporter.OnHairPinThrow += ActivehairpinTeleporter_OnHairPinThrow;
+        KeqingAnimationEvents.OnHairPinShoot += KeqingAnimationEvents_OnHairPinShoot;
         playableCharacterStateMachine.playerStateMachine.player.PlayerController.playerInputAction.Look.Disable();
         SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.throwParameter);
 
     }
 
-    private void ActivehairpinTeleporter_OnHairPinThrow()
+    private void KeqingAnimationEvents_OnHairPinShoot(HairpinTeleporter HairpinTeleporter)
     {
-        keqing.PlayVOAudio(keqing.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkillVOClip());
+        playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkillVOClip());
     }
 
     public override void Exit()
     {
         base.Exit();
-        HairpinTeleporter.OnHairPinThrow -= ActivehairpinTeleporter_OnHairPinThrow;
-        playableCharacterStateMachine.playerStateMachine.player.PlayerController.playerInputAction.Look.Enable();
+        playableCharacters.player.PlayerController.playerInputAction.Look.Enable();
+        KeqingAnimationEvents.OnHairPinShoot -= KeqingAnimationEvents_OnHairPinShoot;
     }
     public override void OnAnimationTransition()
     {
         base.OnAnimationTransition();
 
-        keqingStateMachine.player.CameraManager.ToggleAimCamera(false, 0.08f);
+        playableCharacterStateMachine.player.CameraManager.ToggleAimCamera(false, 0.08f);
 
-        keqingStateMachine.ChangeState(keqingStateMachine.EntityState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }
 }

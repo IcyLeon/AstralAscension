@@ -5,30 +5,22 @@ using UnityEngine;
 public class KeqingReuseableData : SwordReuseableData
 {
     private ObjectPool<HairpinTeleporter> objectPool;
+    public float Range {
+        get {
+            return 5f;
+        }
+    }
     public Vector3 targetPosition;
+    public HairpinTeleporter hairpinTeleporter;
 
-    public HairpinTeleporter activehairpinTeleporter
+    public HairpinTeleporter CreateHairpinTeleporter()
     {
-        get
-        {
-            return objectPool.GetActivePooledObject();
-        }
+        return objectPool.GetPooledObject();
     }
 
-    public HairpinTeleporter hairpinTeleporter
+    public bool CanThrow()
     {
-        get
-        {
-            return objectPool.GetPooledObject();
-        }
-    }
-
-    private KeqingStateMachine keqingStateMachine
-    {
-        get
-        {
-            return characterStateMachine as KeqingStateMachine;
-        }
+        return hairpinTeleporter == null || !hairpinTeleporter.CanTeleport();
     }
 
     private void OnHairPinObjectCreated(HairpinTeleporter HT)
@@ -36,7 +28,7 @@ public class KeqingReuseableData : SwordReuseableData
         if (HT == null)
             return;
 
-        HT.SetPlayableCharacter(keqingStateMachine.keqing);
+        HT.Init(playableCharacterStateMachine.playableCharacters, playableCharacterStateMachine.playableCharacters.transform);
     }
 
     public override void OnDestroy()
@@ -48,7 +40,7 @@ public class KeqingReuseableData : SwordReuseableData
     public KeqingReuseableData(int TotalAttackPhase, CharacterStateMachine characterStateMachine) : base(TotalAttackPhase, characterStateMachine)
     {
         targetPosition = Vector3.zero;
-        objectPool = new ObjectPool<HairpinTeleporter>(keqingStateMachine.keqing.HairpinTeleporterPrefab, characterStateMachine.characters.transform);
+        objectPool = new ObjectPool<HairpinTeleporter>("Prefabs/Characters/PlayableCharacters/Keqing/HairpinTeleporter", characterStateMachine.characters.transform);
         objectPool.ObjectCreated += OnHairPinObjectCreated;
     }
 }

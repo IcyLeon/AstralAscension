@@ -13,9 +13,32 @@ public class ObjectPoolManager : MonoBehaviour
         instance = this;
     }
 
+    public static void SetGlobalScale(Transform transform, Vector3 globalScale)
+    {
+        if (transform.parent == null)
+        {
+            transform.localScale = globalScale;
+        }
+        else
+        {
+            Vector3 parentGlobalScale = transform.parent.lossyScale;
+            transform.localScale = new Vector3(
+                globalScale.x / parentGlobalScale.x,
+                globalScale.y / parentGlobalScale.y,
+                globalScale.z / parentGlobalScale.z
+            );
+        }
+    }
+
     public static GameObject CreateGameObject(GameObject prefab, Transform transform)
     {
         GameObject go = Instantiate(prefab, transform);
+        return go;
+    }
+
+    public static GameObject CreateGameObject(string prefabName, Transform transform)
+    {
+        GameObject go = Instantiate(Resources.Load<GameObject>(prefabName), transform);
         return go;
     }
 

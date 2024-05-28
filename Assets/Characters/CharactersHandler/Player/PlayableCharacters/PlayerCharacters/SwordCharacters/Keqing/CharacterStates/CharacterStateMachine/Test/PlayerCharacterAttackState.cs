@@ -14,10 +14,19 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void Enter()
     {
+        OnEnable();
         playableCharacterStateMachine.playableCharacterReuseableData.UpdateAttackIdleState();
         PlayerAttackState.OnAttackInterruptState += OnAttackInterruptState;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
         playableCharacterStateMachine.EntityState.Enter();
+    }
+
+    public virtual void OnEnable()
+    {
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
+    }
+    public virtual void OnDisable()
+    {
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
     private void Reset()
@@ -32,8 +41,8 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void Exit()
     {
+        OnDisable();
         PlayerAttackState.OnAttackInterruptState -= OnAttackInterruptState;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
         canTransit = false;
         playableCharacterStateMachine.EntityState.Exit();
     }

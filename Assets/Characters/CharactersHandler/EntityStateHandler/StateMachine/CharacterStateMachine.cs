@@ -30,6 +30,19 @@ public abstract class CharacterStateMachine
         StateMachineManager.LateUpdate();
     }
 
+    public virtual void OnEnable()
+    {
+        StateMachineManager.OnEnable();
+    }
+
+    public virtual void OnDisable()
+    {
+        StateMachineManager.OnDisable();
+
+        if (characterReuseableData != null)
+            characterReuseableData.ResetData();
+    }
+
     public virtual void OnAnimationTransition()
     {
         StateMachineManager.OnAnimationTransition();

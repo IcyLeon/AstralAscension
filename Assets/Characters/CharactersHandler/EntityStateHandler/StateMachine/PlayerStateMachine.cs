@@ -139,6 +139,31 @@ public class PlayerStateMachine
         playerPlungeState = new PlayerPlungeState(this);
         playerAttackState = new PlayerAttackState(this);
         playerDeadState = new PlayerDeadState(this);
+
+
         ChangeState(playerIdleState);
+    }
+
+    public void OnEnable()
+    {
+        StateMachineManager.OnEnable();
+        ActiveCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    public void OnDisable()
+    {
+        StateMachineManager.OnDisable();
+        ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    public void OnDestroy()
+    {
+        OnDisable();
+    }
+
+    private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
+    {
+        ChangeState(playerIdleState);
+        OnDisable();
     }
 }

@@ -29,6 +29,15 @@ public abstract class PlayerMovementState : IState
             return playerStateMachine.playableCharacter;
         }
     }
+
+    public virtual void OnEnable()
+    {
+    }
+
+    public virtual void OnDisable()
+    {
+    }
+
     protected void InitBaseRotation()
     {
         playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.groundedData.BaseRotationTime;
@@ -48,10 +57,12 @@ public abstract class PlayerMovementState : IState
 
     public virtual void Enter()
     {
+        OnEnable();
     }
 
     public virtual void Exit()
     {
+        OnDisable();
     }
 
     public virtual void LateUpdate()

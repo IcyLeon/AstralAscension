@@ -5,24 +5,27 @@ using UnityEngine;
 public class KeqingAnimationEvents : SwordCharacterAnimationEvents
 {
     [SerializeField] private Transform EmitterPivot;
-
-    private Keqing keqing { 
-        get 
-        {
-            return (Keqing)playableCharacters;
-        }
-    }
-
+    public delegate void OnHairPinThrow(HairpinTeleporter HairpinTeleporter);
+    public static event OnHairPinThrow OnHairPinShoot;
 
     private void ShootTeleporter()
     {
-        HairpinTeleporter HT = keqing.keqingReuseableData.hairpinTeleporter;
-
-        if (HT == null)
+        if (playableCharacters == null || playableCharacters.PlayableCharacterStateMachine == null)
             return;
 
-        HT.transform.SetParent(EmitterPivot);
-        HT.transform.localPosition = Vector3.zero;
-        HT.SetTargetLocation(keqing.keqingReuseableData.targetPosition);
+        KeqingReuseableData keqingReuseableData = playableCharacters.PlayableCharacterStateMachine.characterReuseableData as KeqingReuseableData;
+
+        if (keqingReuseableData == null)
+            return;
+
+        keqingReuseableData.hairpinTeleporter = keqingReuseableData.CreateHairpinTeleporter();
+
+        if (keqingReuseableData.hairpinTeleporter == null)
+            return;
+
+        keqingReuseableData.hairpinTeleporter.transform.SetParent(EmitterPivot);
+        keqingReuseableData.hairpinTeleporter.transform.localPosition = Vector3.zero;
+        keqingReuseableData.hairpinTeleporter.SetTargetLocation(keqingReuseableData.targetPosition);
+        OnHairPinShoot?.Invoke(keqingReuseableData.hairpinTeleporter);
     }
 }

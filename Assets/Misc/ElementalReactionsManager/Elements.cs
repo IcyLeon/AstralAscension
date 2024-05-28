@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Elements
 {
-    public IDamageable target { get; }
+    public CharacterDataStat target { get; }
     private const float TimeToDestroy = 8f;
     private float activeTimer;
     public bool canBeDestroyed { get; private set; }
@@ -13,11 +13,17 @@ public class Elements
     public delegate void OnElementEvent(Elements e);
     public event OnElementEvent OnElementDestroy;
 
-    public Elements(ElementsSO e, IDamageable target, bool isFixed = false)
+    public Elements(ElementsSO e, CharacterDataStat characterDataStat, bool isFixed = false)
     {
         elementsSO = e;
         canBeDestroyed = !isFixed;
-        this.target = target;
+        target = characterDataStat;
+
+        if (target != null)
+        {
+            target.AddElement(elementsSO, this);
+        }
+
         Reset();
     }
 

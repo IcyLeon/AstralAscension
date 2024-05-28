@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraAim : MonoBehaviour
 {
-    [SerializeField] private CameraManager CameraManager;
+    private CameraManager cameraManager;
 
     private float aimTargetYaw;
     private float aimTargetPitch;
@@ -12,30 +12,30 @@ public class CameraAim : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        cameraManager = GetComponentInParent<CameraManager>();
         aimTargetYaw = aimTargetPitch = 0f;
     }
 
     private void OnEnable()
     {
-        aimTargetYaw = GetAngle(CameraManager.CameraMain.transform.eulerAngles.y);
-        aimTargetPitch = GetAngle(CameraManager.CameraMain.transform.eulerAngles.x);
+        aimTargetYaw = GetAngle(cameraManager.CameraMain.transform.eulerAngles.y);
+        aimTargetPitch = GetAngle(cameraManager.CameraMain.transform.eulerAngles.x);
 
-        CameraManager.Player.PlayerController.playerInputAction.Look.performed += Look_performed;
+        cameraManager.Player.PlayerController.playerInputAction.Look.performed += Look_performed;
     }
     private void OnDisable()
     {
-        CameraManager.Player.PlayerController.playerInputAction.Look.performed -= Look_performed;
+        cameraManager.Player.PlayerController.playerInputAction.Look.performed -= Look_performed;
     }
 
     private void Look_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         Vector2 look = obj.ReadValue<Vector2>();
-        aimTargetPitch += (look.y * -1f) * Time.deltaTime * CameraManager.CameraSO.CameraAimData.RotationSpeed;
-        aimTargetYaw += look.x * Time.deltaTime * CameraManager.CameraSO.CameraAimData.RotationSpeed;
+        aimTargetPitch += (look.y * -1f) * Time.deltaTime * cameraManager.CameraSO.CameraAimData.RotationSpeed;
+        aimTargetYaw += look.x * Time.deltaTime * cameraManager.CameraSO.CameraAimData.RotationSpeed;
 
         aimTargetYaw = GetAngle(aimTargetYaw);
-
-        aimTargetPitch = Mathf.Clamp(aimTargetPitch, CameraManager.playerPOV.m_VerticalAxis.m_MinValue, CameraManager.playerPOV.m_VerticalAxis.m_MaxValue);
+        aimTargetPitch = Mathf.Clamp(aimTargetPitch, cameraManager.playerPOV.m_VerticalAxis.m_MinValue, cameraManager.playerPOV.m_VerticalAxis.m_MaxValue);
     }
 
     private float GetAngle(float angle)
@@ -51,7 +51,7 @@ public class CameraAim : MonoBehaviour
 
     private void Update3rdPersonCam()
     {
-        CameraManager.CameraTarget.transform.rotation = Quaternion.Euler(aimTargetPitch, aimTargetYaw, 0f);
+        cameraManager.CameraTarget.transform.rotation = Quaternion.Euler(aimTargetPitch, aimTargetYaw, 0f);
     }
 
     // Update is called once per frame

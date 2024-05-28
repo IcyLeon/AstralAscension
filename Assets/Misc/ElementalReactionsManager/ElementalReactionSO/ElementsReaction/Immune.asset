@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5d511b9f9ff124285a539f47d20a64, type: 3}
   m_Name: Immune
   m_EditorClassIdentifier: 
+  <ColorText>k__BackingField: {r: 0.654902, g: 0.654902, b: 0.6392157, a: 1}
   <DisplayElementalReactionText>k__BackingField: Immune
   <ElementalReaction>k__BackingField: 0
   <ElementsMixture>k__BackingField: []
-  <ColorText>k__BackingField:
-    serializedVersion: 2
-    rgba: 4290690750
+  <ElementalDamageOverTimeSO>k__BackingField: {fileID: 0}
   ElementalReactionBonus: 1

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayableCharacterData : CharacterData
+public class PlayableCharacterDataStat : CharacterDataStat
 {
     private int currentAscension;
 
@@ -13,7 +13,7 @@ public class PlayableCharacterData : CharacterData
         } 
     }
 
-    public PlayableCharacterData(CharactersSO charactersSO, int currentAscension = 0) : base(charactersSO)
+    public PlayableCharacterDataStat(CharactersSO charactersSO, int currentAscension = 0) : base(charactersSO)
     {
         this.currentAscension = currentAscension;
     }

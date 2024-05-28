@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class DamageableCharacters : Characters, IDamageable
+public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 {
     public event IDamageable.TakeDamageEvent OnTakeDamage;
-    public event IDamageable.OnElementChange OnElementEnter;
-    public event IDamageable.OnElementChange OnElementExit;
 
-    public CharacterStateMachine characterStateMachine { get; protected set; }
+    public CharacterDataStat characterDataStat { get; private set; }
 
-    public CharacterReuseableData characterReuseableData
-    {
-        get
-        {
-            return characterStateMachine.characterReuseableData;
-        }
-    }
+    protected CharacterStateMachine characterStateMachine;
 
     protected DamageableEntitySO damageableCharacters
     {
@@ -27,9 +19,29 @@ public abstract class DamageableCharacters : Characters, IDamageable
         }
     }
 
+    public CharacterDataStat GetCharacterDataStat()
+    {
+        if (characterDataStat == null)
+        {
+            characterDataStat = new CharacterDataStat(CharacterSO);
+        }
+
+        return characterDataStat;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+    }
+
     protected override void Start()
     {
         base.Start();
+        if (characterStateMachine == null)
+        {
+            characterStateMachine = CreateCharacterStateMachine();
+        }
     }
 
     public virtual ElementsSO GetElementsSO()
@@ -44,19 +56,14 @@ public abstract class DamageableCharacters : Characters, IDamageable
             characterStateMachine.Update();
         }
 
-        UpdateElementList();
+        GetCharacterDataStat().Update();
     }
-
-    private void UpdateElementList()
+    public void OnAnimationTransition()
     {
-        if (GetInflictElementLists() == null)
-            return;
-
-        for (int i = 0; i < GetInflictElementLists().Count; i++)
+        if (characterStateMachine != null)
         {
-            GetInflictElementLists().ElementAt(i).Value.Update();
+            characterStateMachine.OnAnimationTransition();
         }
-
     }
 
     protected override void FixedUpdate()
@@ -84,17 +91,23 @@ public abstract class DamageableCharacters : Characters, IDamageable
     {
         base.OnEnable();
 
+        if (characterStateMachine != null)
+        {
+            characterStateMachine.OnEnable();
+        }
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
 
-        if (characterReuseableData != null)
+        if (characterStateMachine != null)
         {
-            characterReuseableData.Reset();
+            characterStateMachine.OnDisable();
         }
     }
+
+    protected abstract CharacterStateMachine CreateCharacterStateMachine();
 
     protected override void OnDestroy()
     {
@@ -105,18 +118,17 @@ public abstract class DamageableCharacters : Characters, IDamageable
         }
     }
 
-    public virtual void TakeDamage(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount, Vector3 HitPosition = default(Vector3))
+    public virtual void TakeDamage(IAttacker source, ElementsInfoSO e, float BaseDamageAmount, Vector3 HitPosition = default(Vector3))
     {
         if (IsDead())
             return;
 
-
-        OnTakeDamage?.Invoke(source, elementsSO, BaseDamageAmount);
+        OnTakeDamage?.Invoke(BaseDamageAmount);
 
         ElementalReactionsManager.CallDamageInvoke(this, new ElementalReactionsManager.ElementDamageInfoEvent
         {
             damageAmount = BaseDamageAmount,
-            elementsSO = elementsSO,
+            elementsInfoSO = e,
             source = source,
             hitPosition = HitPosition
         });
@@ -129,12 +141,15 @@ public abstract class DamageableCharacters : Characters, IDamageable
 
     public Dictionary<ElementsSO, Elements> GetInflictElementLists()
     {
-        return characterReuseableData.inflictElementList;
+        if (characterDataStat == null)
+            return null;
+
+        return characterDataStat.inflictElementList;
     }
 
     public virtual float GetMaxHealth()
     {
-        return 0f;
+        return characterDataStat.maxHealth;
     }
 
     public virtual float GetATK()
@@ -149,11 +164,12 @@ public abstract class DamageableCharacters : Characters, IDamageable
 
     public virtual float GetCurrentHealth()
     {
-        return 0f;
+        return characterDataStat.currentHealth;
     }
 
     public virtual void SetCurrentHealth(float health)
     {
+        characterDataStat.SetCurrentHealth(health);
     }
 
     public virtual float GetEM()
@@ -161,20 +177,22 @@ public abstract class DamageableCharacters : Characters, IDamageable
         return 0f;
     }
 
-    public virtual ElementsSO[] GetImmuneableElementsSO()
+    public virtual ElementsInfoSO[] GetImmuneableElementsInfoSO()
     {
         return null;
     }
 
     public void AddElement(ElementsSO elementSO, Elements elements)
     {
-        GetInflictElementLists().Add(elementSO, elements);
-        OnElementEnter?.Invoke(elements);
+        GetCharacterDataStat().AddElement(elementSO, elements);
     }
 
     public void RemoveElement(ElementsSO elementSO, Elements elements)
     {
-        GetInflictElementLists().Remove(elementSO);
-        OnElementExit?.Invoke(elements);
+        GetCharacterDataStat().RemoveElement(elementSO, elements);
+    }
+
+    public virtual void KnockBack(Vector3 force)
+    {
     }
 }

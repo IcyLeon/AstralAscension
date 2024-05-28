@@ -14,7 +14,7 @@ public class POIRig_PlayableCharacters : POIRig
         PlayableCharacters = GetComponentInParent<PlayableCharacters>();
         PlayableCharacters.OnTakeDamage += OnDamageHit;
     }
-    private void OnDamageHit(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount)
+    private void OnDamageHit(float BaseDamageAmount)
     {
         //if (headDisableCoroutine != null)
         //    StopCoroutine(headDisableCoroutine);

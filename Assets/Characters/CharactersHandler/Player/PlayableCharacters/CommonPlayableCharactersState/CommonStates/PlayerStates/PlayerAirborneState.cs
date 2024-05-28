@@ -11,15 +11,20 @@ public class PlayerAirborneState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
         StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
     }
 
-    public override void Exit()
+    public override void OnEnable()
     {
-        base.Exit();
+        base.OnEnable();
+        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
+    }
+    public override void OnDisable()
+    {
+        base.OnDisable();
         playerStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
     }
+
 
     protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,28 +7,30 @@ public class HairpinTeleporter : MonoBehaviour
 {
     private float TimeToDisappear = 5f;
     private float TimeToDisappearElapsed;
-    private PlayableCharacters playableCharacters;
+
+    private Transform ParentTransform;
+    public IAttacker source { get; private set; }
     [SerializeField] private float Speed;
     [SerializeField] private AudioSource ThrowAudioSource;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private Collider PinCollider;
     private Coroutine MoveTarget;
 
-    public delegate void onHairPinThrow();
-    public static event onHairPinThrow OnHairPinThrow;
+    public event Action OnHairPinExplode;
 
     public void SetTargetLocation(Vector3 Position)
     {
         gameObject.SetActive(true);
-        if (MoveTarget == null)
-            MoveTarget = StartCoroutine(MoveToTarget(Position));
-        OnHairPinThrow?.Invoke();
+        ResetMovement();
+        MoveTarget = StartCoroutine(MoveToTarget(Position));
     }
 
     private IEnumerator MoveToTarget(Vector3 TargetPosition)
     {
         while ((rb.position - TargetPosition).magnitude >= 0.1f)
         {
-            rb.position = Vector3.MoveTowards(rb.position, TargetPosition, Speed * Time.deltaTime);
+            Vector3 pos = Vector3.MoveTowards(rb.position, TargetPosition, Speed * Time.deltaTime);
+            rb.MovePosition(pos);
             yield return null;
         }
 
@@ -49,19 +52,21 @@ public class HairpinTeleporter : MonoBehaviour
     }
     public bool CanTeleport()
     {
-        return MoveTarget == null && gameObject.activeInHierarchy;
+        return MoveTarget == null && gameObject.activeSelf;
     }
 
     public void Hide()
     {
-        transform.SetParent(playableCharacters.transform);
+        transform.SetParent(ParentTransform);
         gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        if (playableCharacters)
+        if (source != null)
             transform.SetParent(null);
+
+        PinCollider.enabled = true;
         ResetTime();
     }
 
@@ -71,9 +76,10 @@ public class HairpinTeleporter : MonoBehaviour
         ResetTime();
     }
 
-    public void SetPlayableCharacter(PlayableCharacters pc)
+    public void Init(IAttacker source, Transform transform)
     {
-        playableCharacters = pc;
+        this.source = source;
+        ParentTransform = transform;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -81,7 +87,9 @@ public class HairpinTeleporter : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
             return;
 
-        if (other.TryGetComponent(out PlayableCharacters pc))
+        PlayableCharacters pc = other.GetComponent<PlayableCharacters>();
+
+        if (pc != null)
             return;
 
         Explode();
@@ -89,7 +97,9 @@ public class HairpinTeleporter : MonoBehaviour
 
     private void Explode()
     {
+        PinCollider.enabled = false;
         ThrowAudioSource.Play();
+        OnHairPinExplode?.Invoke();
         ResetMovement();
     }
 
@@ -98,7 +108,7 @@ public class HairpinTeleporter : MonoBehaviour
         if (MoveTarget != null)
         {
             StopCoroutine(MoveTarget);
-            MoveTarget = null;
         }
+        MoveTarget = null;
     }
 }

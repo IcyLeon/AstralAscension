@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
         uiInputAction.ReviewCursor.performed += ReviewCursor_performed;
         uiInputAction.ReviewCursor.canceled += ReviewCursor_canceled;
         ToggleCursor(false);
@@ -56,15 +55,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    private void SwitchCharacters_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        int numKeyValue;
-        int.TryParse(obj.control.name, out numKeyValue);
-    }
-
     private void OnDestroy()
     {
-        playerInputAction.SwitchCharacters.performed -= SwitchCharacters_performed;
         uiInputAction.ReviewCursor.performed -= ReviewCursor_performed;
         uiInputAction.ReviewCursor.canceled -= ReviewCursor_canceled;
     }

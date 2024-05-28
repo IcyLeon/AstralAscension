@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class KeqingAimState : KeqingElementalSkillState
 {
-    private float Range;
     public KeqingAimState(PlayableCharacterStateMachine pcs) : base(pcs)
     {
-        Range = keqingStateMachine.playableCharacters.PlayerCharactersSO.ElementalSkillRange;
     }
 
     public override void Enter()
@@ -18,10 +16,10 @@ public class KeqingAimState : KeqingElementalSkillState
         playableCharacterStateMachine.playerStateMachine.ChangeState(playableCharacterStateMachine.
             playerStateMachine.playerAimState);
     }
-    public override void SubscribeInputs()
+    public override void OnEnable()
     {
-        base.SubscribeInputs();
-        keqingStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+        base.OnEnable();
+        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -29,11 +27,10 @@ public class KeqingAimState : KeqingElementalSkillState
         keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }
 
-    public override void UnsubscribeInputs()
+    public override void OnDisable()
     {
-        base.UnsubscribeInputs();
+        base.OnDisable();
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
-
     }
 
     public override void Update()
@@ -45,7 +42,7 @@ public class KeqingAimState : KeqingElementalSkillState
         keqingStateMachine.keqingReuseableData.targetPosition = Player.GetRayPosition(origin,
                                                             originalTargetPos - origin,
                                                             Range);
-        keqingStateMachine.keqing.AimRigController.SetTargetPosition(keqingStateMachine.keqingReuseableData.targetPosition);
+        aimRigController.SetTargetPosition(keqingStateMachine.keqingReuseableData.targetPosition);
     }
 
     private float GetOffSet(Vector3 EmitterPos)
@@ -57,6 +54,6 @@ public class KeqingAimState : KeqingElementalSkillState
     {
         base.Exit();
         StopAnimation(keqingStateMachine.keqingAnimationSO.aimParameter);
-        keqingStateMachine.keqing.AimRigController.SmoothRigTransition.ToggleTarget(false);
+        aimRigController.SmoothRigTransition.ToggleTarget(false);
     }
 }

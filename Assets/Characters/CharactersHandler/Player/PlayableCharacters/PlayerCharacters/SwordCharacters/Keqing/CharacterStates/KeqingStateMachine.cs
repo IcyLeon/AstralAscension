@@ -24,13 +24,6 @@ public class KeqingStateMachine : SwordCharacterStateMachine
         }
     }
 
-    public Keqing keqing
-    {
-        get
-        {
-            return (Keqing)playableCharacters;
-        }
-    }
 
     protected override void InitState()
     {

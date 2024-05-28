@@ -13,11 +13,12 @@ public abstract class EntityState : IState
 
     public virtual void Enter()
     {
-
+        OnEnable();
     }
 
     public virtual void Exit()
     {
+        OnDisable();
     }
 
     public virtual void FixedUpdate()
@@ -79,6 +80,15 @@ public abstract class EntityState : IState
     {
         characterStateMachine.StartAnimation(parameter);
     }
+
+    public virtual void OnEnable()
+    {
+    }
+
+    public virtual void OnDisable()
+    {
+    }
+
 
     public void SetAnimationTrigger(string parameter)
     {

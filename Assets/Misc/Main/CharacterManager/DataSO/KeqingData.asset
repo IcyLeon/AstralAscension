@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: KeqingData
   m_EditorClassIdentifier: 
   charactersSO: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e, type: 2}
-  CharacterPrefab: {fileID: 0}
+  CharacterPrefab: {fileID: 2373691865069137203, guid: 837339f5700e3cd42bc0d4e368fd84f8,
+    type: 3}

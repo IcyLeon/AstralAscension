@@ -7,6 +7,8 @@ public interface IState
     void Exit();
     void FixedUpdate();
     void LateUpdate();
+    void OnEnable();
+    void OnDisable();
     void StartAnimation(string parameter);
     void StopAnimation(string parameter);
     void SetAnimationTrigger(string parameter);

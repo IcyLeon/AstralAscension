@@ -2,12 +2,10 @@ using System.Collections.Generic;
 
 public abstract class CharacterReuseableData
 {
-    public Dictionary<ElementsSO, Elements> inflictElementList;
     protected CharacterStateMachine characterStateMachine;
     public CharacterReuseableData(CharacterStateMachine characterStateMachine)
     {
         this.characterStateMachine = characterStateMachine;
-        inflictElementList = new();
     }
 
     public virtual void Update()
@@ -15,9 +13,8 @@ public abstract class CharacterReuseableData
 
     }
 
-    public void Reset()
+    public virtual void ResetData()
     {
-        inflictElementList.Clear();
     }
 
     public virtual void OnDestroy()

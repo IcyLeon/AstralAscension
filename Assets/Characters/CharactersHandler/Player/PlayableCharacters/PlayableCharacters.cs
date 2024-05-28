@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public abstract class PlayableCharacters : DamageableCharacters
 {
@@ -35,7 +36,7 @@ public abstract class PlayableCharacters : DamageableCharacters
     protected override void Awake()
     {
         base.Awake();
-        player = transform.parent.GetComponent<Player>();
+        player = GetComponentInParent<Player>();
     }
 
     private void OnPlungeATK(Vector3 position)
@@ -101,6 +102,11 @@ public abstract class PlayableCharacters : DamageableCharacters
         {
             characterStateMachine.OnCollisionStay(collision);
         }
+    }
+
+    public override void KnockBack(Vector3 force)
+    {
+        player.Rb.AddForce(force, ForceMode.Impulse);
     }
 
     private void OnCollisionExitEvent(Collision collision)

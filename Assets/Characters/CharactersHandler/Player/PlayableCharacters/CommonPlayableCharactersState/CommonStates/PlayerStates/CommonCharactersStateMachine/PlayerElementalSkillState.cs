@@ -15,7 +15,7 @@ public class PlayerElementalSkillState : PlayerElementalState
         playableCharacterStateMachine.playableCharacters.OnTakeDamage += OnDamageHit;
     }
 
-    protected virtual void OnDamageHit(IAttacker source, ElementsSO elementsSO, float BaseDamageAmount)
+    protected virtual void OnDamageHit(float BaseDamageAmount)
     {
         playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }

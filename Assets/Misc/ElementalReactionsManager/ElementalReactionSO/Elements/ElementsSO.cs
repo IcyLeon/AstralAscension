@@ -15,7 +15,7 @@ public class ElementsSO : ElementsInfoSO
         return GlowIconColor;
     }
 
-    public Elements CreateElements(IDamageable target)
+    public Elements CreateElements(CharacterDataStat target)
     {
         return new Elements(this, target);
     }
