@@ -22,32 +22,35 @@ public class KeqingAimState : KeqingElementalSkillState
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
-    private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        keqingStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
-    }
-
     public override void OnDisable()
     {
         base.OnDisable();
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
     }
 
+    private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (!keqingStateMachine.keqingReuseableData.CanThrow())
+            return;
+
+        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
+    }
+
     public override void Update()
     {
         base.Update();
 
-        Vector3 origin = keqingStateMachine.playableCharacters.GetCenterBound();
+        Vector3 origin = playableCharacters.GetCenterBound();
         Vector3 originalTargetPos = Player.GetTargetCameraRayPosition(Range + GetOffSet(origin));
         keqingStateMachine.keqingReuseableData.targetPosition = Player.GetRayPosition(origin,
                                                             originalTargetPos - origin,
                                                             Range);
-        aimRigController.SetTargetPosition(keqingStateMachine.keqingReuseableData.targetPosition);
+        aimRigController.SmoothRigTransition.SetTargetPosition(keqingStateMachine.keqingReuseableData.targetPosition);
     }
 
     private float GetOffSet(Vector3 EmitterPos)
     {
-        return (keqingStateMachine.player.CameraManager.CameraMain.transform.position - EmitterPos).magnitude;
+        return (playableCharacterStateMachine.player.CameraManager.CameraMain.transform.position - EmitterPos).magnitude;
     }
 
     public override void Exit()

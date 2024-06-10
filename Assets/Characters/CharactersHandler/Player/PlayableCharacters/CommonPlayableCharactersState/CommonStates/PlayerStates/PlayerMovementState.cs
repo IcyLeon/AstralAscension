@@ -117,23 +117,27 @@ public abstract class PlayerMovementState : IState
         return playerStateMachine.PlayableCharacterStateMachine.IsSkillCasting();
     }
 
+    private bool CanUpdateMovement()
+    {
+        return playerStateMachine.playerData.movementInput == Vector2.zero
+            || playerStateMachine.playerData.SpeedModifier == 0f
+            || IsSkillCasting() || playerStateMachine.PlayableCharacterStateMachine.IsAttacking();
+    }
     private void UpdatePhysicsMovement()
     {
-        if (playerStateMachine.playerData.movementInput == Vector2.zero 
-            || playerStateMachine.playerData.SpeedModifier == 0f 
-            || IsSkillCasting() || playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
-        {
+        if (CanUpdateMovement())
             return;
-        }
-
-        if (!playerStateMachine.IsInState<PlayerAimState>())
-        {
-            float angle = Mathf.Atan2(playerStateMachine.playerData.movementInput.x, playerStateMachine.playerData.movementInput.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
-            UpdateTargetRotationData(angle);
-            SmoothRotateToTargetRotation();
-        }
 
         playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirectionXZ(playerStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+    }
+
+    protected virtual void UpdateRotation()
+    {
+        if (CanUpdateMovement())
+            return;
+
+        float angle = Mathf.Atan2(playerStateMachine.playerData.movementInput.x, playerStateMachine.playerData.movementInput.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
+        UpdateTargetRotationData(angle);
     }
 
     protected Vector3 GetDirectionXZ(float angleInDeg)
@@ -141,10 +145,6 @@ public abstract class PlayerMovementState : IState
         return new Vector3(Mathf.Sin(angleInDeg * Mathf.Deg2Rad), 0f, Mathf.Cos(angleInDeg * Mathf.Deg2Rad));
     }
 
-    protected void ResetVelocity()
-    {
-        playerStateMachine.player.Rb.velocity = Vector3.zero;
-    }
     protected float GetMovementSpeed()
     {
         float movementSpeed = playerStateMachine.playerData.groundedData.BaseSpeed * playerStateMachine.playerData.SpeedModifier;
@@ -221,6 +221,7 @@ public abstract class PlayerMovementState : IState
     public virtual void Update()
     {
         OnDeadUpdate();
+        UpdateRotation();
         ReadMovement();
         BlendMovementAnimation();
     }

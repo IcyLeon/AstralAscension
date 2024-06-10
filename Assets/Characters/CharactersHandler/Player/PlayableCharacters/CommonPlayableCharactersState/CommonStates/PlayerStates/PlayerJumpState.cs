@@ -16,7 +16,7 @@ public class PlayerJumpState : PlayerAirborneState
         base.Enter();
 
         StartAnimation(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
-        playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomJumpVOClip());
+        playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomJumpVOClip());
 
         playerStateMachine.playerData.SpeedModifier = 0f; 
 
@@ -49,7 +49,7 @@ public class PlayerJumpState : PlayerAirborneState
         {
             forcedir = GetDirectionXZ(playerStateMachine.playerData.targetYawRotation);
         }
-        ResetVelocity();
+        playerStateMachine.ResetVelocity();
 
         forcedir = forcedir.normalized * playerStateMachine.playerData.currentJumpForceMagnitudeXZ;
         forcedir.y = playerStateMachine.playerData.airborneData.PlayerJumpData.JumpForceY;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerElementalSkillState : PlayerElementalState
+public abstract class PlayerElementalSkillState : PlayerElementalState
 {
     public PlayerElementalSkillState(PlayableCharacterStateMachine pcs) : base(pcs)
     {
@@ -11,7 +11,7 @@ public class PlayerElementalSkillState : PlayerElementalState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
+        SetAnimationTrigger(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateHash.elementalSkillParameter);
         playableCharacterStateMachine.playableCharacters.OnTakeDamage += OnDamageHit;
     }
 
@@ -23,7 +23,6 @@ public class PlayerElementalSkillState : PlayerElementalState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
         playableCharacterStateMachine.playableCharacters.OnTakeDamage -= OnDamageHit;
     }
 }

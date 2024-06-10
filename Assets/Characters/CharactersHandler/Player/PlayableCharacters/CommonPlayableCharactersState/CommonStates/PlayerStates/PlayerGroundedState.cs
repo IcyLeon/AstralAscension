@@ -26,21 +26,12 @@ public abstract class PlayerGroundedState : PlayerMovementState
         playerStateMachine.player.PlayerController.playerInputAction.Jump.started -= Jump_started;
         playerStateMachine.player.PlayerController.playerInputAction.Dash.started -= Dash_started;
     }
-
-    protected virtual void OnSkillCast()
-    {
-        if (!IsSkillCasting())
-            return;
-
-        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
-    }
-
-    protected virtual void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (IsSkillCasting())
             return;
 
-        playerStateMachine.ChangeState(playerStateMachine.playerDashState);
+        Dash_started();
     }
 
     private void Jump_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -48,7 +39,25 @@ public abstract class PlayerGroundedState : PlayerMovementState
         if (IsSkillCasting())
             return;
 
-        OnJump();
+        Jump_started();
+    }
+
+    protected virtual void Dash_started()
+    {
+        playerStateMachine.ChangeState(playerStateMachine.playerDashState);
+    }
+
+    protected virtual void Jump_started()
+    {
+        playerStateMachine.ChangeState(playerStateMachine.playerJumpState);
+    }
+
+    protected virtual void OnSkillCastUpdate()
+    {
+        if (!IsSkillCasting())
+            return;
+
+        Exit();
     }
 
     public override void Update()
@@ -56,7 +65,7 @@ public abstract class PlayerGroundedState : PlayerMovementState
         base.Update();
 
         OnAttackUpdate();
-        OnSkillCast();
+        OnSkillCastUpdate();
 
         if (!IsGrounded())
         {
@@ -82,11 +91,6 @@ public abstract class PlayerGroundedState : PlayerMovementState
         }
 
         playerStateMachine.ChangeState(playerStateMachine.playerRunState);
-    }
-
-    private void OnJump()
-    {
-        playerStateMachine.ChangeState(playerStateMachine.playerJumpState);
     }
 
     private void OnFall()

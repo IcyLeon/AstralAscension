@@ -7,6 +7,13 @@ using UnityEngine;
 public class PlayableCharacterAnimationSO : ScriptableObject
 {
     [Serializable]
+    public class ElementalStateHash
+    {
+        public string elementalSkillParameter;
+        public string elementalBurstParameter;
+    }
+
+    [Serializable]
     public class CommonPlayableCharacterHash
     {
         [Header("Blending Movement")]
@@ -24,6 +31,7 @@ public class PlayableCharacterAnimationSO : ScriptableObject
         public string landParameter;
 
         [Header("Triggers")]
+        public ElementalStateHash elementalStateHash;
         public string deadParameter;        
         public string weakLandParameter;
         public string hardLandParameter; 

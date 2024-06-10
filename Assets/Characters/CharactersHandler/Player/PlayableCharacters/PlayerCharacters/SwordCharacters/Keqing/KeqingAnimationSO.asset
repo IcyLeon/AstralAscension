@@ -15,7 +15,7 @@ MonoBehaviour:
   <CommonPlayableCharacterHashParameters>k__BackingField:
     movementParameters: Velocity
     groundParameter: isGrounded
-    elementalStateParameter: isESkill
+    elementalStateParameter: isEState
     dashParameter: isDashing
     fallParameter: isFalling
     jumpParameter: isJumping
@@ -23,6 +23,9 @@ MonoBehaviour:
     attackParameter: isAttacking
     stopParameter: isStopping
     landParameter: isLanding
+    elementalStateHash:
+      elementalSkillParameter: ESkill
+      elementalBurstParameter: EBurst
     deadParameter: Dead
     weakLandParameter: WeakLand
     hardLandParameter: HardLand

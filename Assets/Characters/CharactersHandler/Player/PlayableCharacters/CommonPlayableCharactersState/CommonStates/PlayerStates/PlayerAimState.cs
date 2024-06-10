@@ -1,19 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAimState : PlayerGroundedState
 {
     private CameraManager cameraManager;
     private float currentAngle;
-
-    public delegate void OnPlayerAim(PlayableCharacterStateMachine PCS);
-    public static event OnPlayerAim OnPlayerAimEnter;
-    public static event OnPlayerAim OnPlayerAimExit;
+    private AimRigController aimRigController;
 
     public PlayerAimState(PlayerStateMachine PS) : base(PS)
     {
+        currentAngle = 0f;
         cameraManager = PS.player.CameraManager;
+        aimRigController = playableCharacters.GetComponentInChildren<AimRigController>();
     }
 
     public override void Enter()
@@ -22,8 +23,8 @@ public class PlayerAimState : PlayerGroundedState
         cameraManager.ToggleAimCamera(true);
         playerStateMachine.playerData.SpeedModifier = playerStateMachine.playerData.groundedData.PlayerAimData.SpeedModifier;
         playerStateMachine.playerData.rotationTime = 0f;
-        OnPlayerAimEnter?.Invoke(playerStateMachine.PlayableCharacterStateMachine);
-        playerStateMachine.player.PlayerController.playerInputAction.Jump.Disable();
+
+        UpdateTargetWeight(1f);
     }
 
     public override void FixedUpdate()
@@ -37,15 +38,12 @@ public class PlayerAimState : PlayerGroundedState
 
     }
 
-    protected override void OnSkillCast()
+    protected override void OnSkillCastUpdate()
     {
-
     }
 
-    public override void Update()
+    protected override void UpdateRotation()
     {
-        base.Update();
-
         float angle = cameraManager.CameraMain.transform.eulerAngles.y;
 
         if (angle != currentAngle)
@@ -53,6 +51,11 @@ public class PlayerAimState : PlayerGroundedState
             UpdateTargetRotationData(angle);
             currentAngle = angle;
         }
+    }
+
+    public override void Update()
+    {
+        base.Update();
 
         if (!cameraManager.IsAimCameraActive())
         {
@@ -72,13 +75,23 @@ public class PlayerAimState : PlayerGroundedState
         return;
     }
 
+    protected override void Jump_started()
+    {
+    }
 
     public override void Exit()
     {
         base.Exit();
-        OnPlayerAimExit?.Invoke(playerStateMachine.PlayableCharacterStateMachine);
+        UpdateTargetWeight(0f);
         cameraManager.ToggleAimCamera(false);
         InitBaseRotation();
-        playerStateMachine.player.PlayerController.playerInputAction.Jump.Enable();
+    }
+
+    private void UpdateTargetWeight(float amt)
+    {
+        if (aimRigController == null)
+            return;
+
+        aimRigController.SmoothRigTransition.SetTargetWeight(amt);
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public abstract class PlayableCharacters : DamageableCharacters
 {
@@ -13,15 +12,15 @@ public abstract class PlayableCharacters : DamageableCharacters
     {
         get
         {
-            return PlayerCharactersSO.PlayableCharacterAnimationSO;
+            return playerCharactersSO.PlayableCharacterAnimationSO;
         }
     }
 
-    public PlayerCharactersSO PlayerCharactersSO
+    public PlayerCharactersSO playerCharactersSO
     {
         get
         {
-            return damageableCharacters as PlayerCharactersSO;
+            return damageableCharactersSO as PlayerCharactersSO;
         }
     }
 
@@ -33,16 +32,25 @@ public abstract class PlayableCharacters : DamageableCharacters
         }
     }
 
+    public PlayableCharacterDataStat playableCharacterDataStat
+    {
+        get
+        {
+            return (PlayableCharacterDataStat)GetCharacterDataStat();
+        }
+    }
+
+    protected override CharacterDataStat CreateCharacterDataStat()
+    {
+        return new PlayableCharacterDataStat(CharacterSO);
+    }
+
     protected override void Awake()
     {
         base.Awake();
         player = GetComponentInParent<Player>();
     }
 
-    private void OnPlungeATK(Vector3 position)
-    {
-
-    }
 
     protected override void Update()
     {
@@ -60,7 +68,6 @@ public abstract class PlayableCharacters : DamageableCharacters
         player.OnCollisionEnterEvent += OnCollisionEnterEvent;
         player.OnCollisionStayEvent += OnCollisionStayEvent;
         player.OnCollisionExitEvent += OnCollisionExitEvent;
-        PlayerPlungeState.OnPlungeAction += OnPlungeATK;
     }
 
     protected override void OnDisable()
@@ -80,7 +87,6 @@ public abstract class PlayableCharacters : DamageableCharacters
         player.OnCollisionEnterEvent -= OnCollisionEnterEvent;
         player.OnCollisionStayEvent -= OnCollisionStayEvent;
         player.OnCollisionExitEvent -= OnCollisionExitEvent;
-        PlayerPlungeState.OnPlungeAction -= OnPlungeATK;
     }
 
     protected override void Start()

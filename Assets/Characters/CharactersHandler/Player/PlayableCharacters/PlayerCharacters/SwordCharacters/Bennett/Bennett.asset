@@ -24,5 +24,5 @@ MonoBehaviour:
   <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 11400000, guid: c8acc20ec993bde45905780d7a777141,
     type: 2}
   partyCharacterIcon: {fileID: 0}
-  ElementalSkillIcons: []
-  ElementalBurstIcons: []
+  ElementalSkillInfo: {fileID: 11400000, guid: f4a85518a3e7ab242ba7c0e7a6f7fc06, type: 2}
+  ElementalBurstInfo: {fileID: 11400000, guid: 71a5f2b624b54d94382bb2041e136998, type: 2}

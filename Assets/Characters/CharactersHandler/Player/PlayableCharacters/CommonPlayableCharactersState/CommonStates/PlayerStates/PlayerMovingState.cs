@@ -13,6 +13,12 @@ public class PlayerMovingState : PlayerGroundedState
 
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        SmoothRotateToTargetRotation();
+    }
+
     public override void Update()
     {
         base.Update();

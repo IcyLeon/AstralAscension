@@ -22,12 +22,11 @@ public abstract class ElementalReaction
         return 1f + EMBonus + elementalReactionSO.GetElementalReactionBonus();
     }
 
-    public ElementalReaction(ElementalReactionSO e, ElementDamageInfoEvent ElementDamageInfoEvent, IDamageable target)
+    public ElementalReaction(ElementalReactionSO e, ElementDamageInfoEvent DamageInfoEvent, IDamageable target)
     {
         elementalReactionSO = e;
         this.target = target;
-        this.ElementDamageInfoEvent = ElementDamageInfoEvent;
-
+        ElementDamageInfoEvent = DamageInfoEvent;
         SpawnDamageText(ElementDamageInfoEvent);
         SpawnDamageReaction();
         RemoveElements();
@@ -67,7 +66,7 @@ public abstract class ElementalReaction
         {
             Elements e = GetElements(target, elementsSOs[i]);
             if (e != null) {
-                target.RemoveElement(e.elementsSO, e);
+                target.GetCharacterDataStat().RemoveElement(e.elementsSO, e);
             }
         }
     }

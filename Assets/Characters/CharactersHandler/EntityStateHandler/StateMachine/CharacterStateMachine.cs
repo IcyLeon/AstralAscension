@@ -99,11 +99,6 @@ public abstract class CharacterStateMachine
             characterReuseableData.OnDestroy();
     }
 
-    public virtual bool IsAttacking()
-    {
-        return false;
-    }
-
     public void StartAnimation(string parameter)
     {
         Characters.StartAnimation(characters.Animator, parameter);

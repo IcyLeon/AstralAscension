@@ -15,6 +15,25 @@ public enum ElementalReactionEnums
     SUPERCONDUCT,
 }
 
+public static class ElementalReactionFactoryManager
+{
+    private static Dictionary<ElementalReactionEnums, System.Func<ElementalReactionFactory>> ER_Dict = new()
+    {
+        { ElementalReactionEnums.OVERLOAD, () => new OverloadFactory() },
+        { ElementalReactionEnums.FROZEN, () => new FrozenFactory() },
+        { ElementalReactionEnums.SUPERCONDUCT, () => new SuperconductFactory() },
+        { ElementalReactionEnums.ELECTRO_CHARGED, () => new ElectricChargedFactory() }
+    };
+
+    public static ElementalReactionFactory CreateElementalReactionFactory(ElementalReactionEnums e)
+    {
+        if (!ER_Dict.ContainsKey(e))
+            return null;
+
+        return ER_Dict[e]();
+    }
+}
+
 public abstract class ElementalReactionFactory
 {
     public abstract ElementalReaction CreateER(ElementalReactionSO ERSO, ElementDamageInfoEvent ElementDamageInfoEvent, IDamageable target);

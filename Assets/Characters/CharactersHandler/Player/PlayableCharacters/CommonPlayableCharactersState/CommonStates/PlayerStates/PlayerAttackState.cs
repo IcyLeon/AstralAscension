@@ -15,7 +15,7 @@ public class PlayerAttackState : PlayerGroundedState
     {
         base.Enter();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
-        ResetVelocity();
+        playerStateMachine.ResetVelocity();
     }
 
     protected override void OnAttackUpdate()

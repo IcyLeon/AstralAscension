@@ -19,7 +19,7 @@ public class KeqingThrowState : KeqingElementalSkillState
 
     private void KeqingAnimationEvents_OnHairPinShoot(HairpinTeleporter HairpinTeleporter)
     {
-        playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkillVOClip());
+        playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkillVOClip());
     }
 
     public override void Exit()

@@ -10,14 +10,14 @@ public abstract class Healthbar : MonoBehaviour
 
     protected void UpdateHealth()
     {
-        healthBarSlider.value = damageable.GetCurrentHealth() / damageable.GetMaxHealth();
-    }
-
-    protected void Damageable_OnTakeDamage(float DamageAmount)
-    {
         if (damageable == null)
             return;
 
+        healthBarSlider.value = damageable.GetCurrentHealth() / damageable.GetMaxHealth();
+    }
+
+    private void Update()
+    {
         UpdateHealth();
     }
 }

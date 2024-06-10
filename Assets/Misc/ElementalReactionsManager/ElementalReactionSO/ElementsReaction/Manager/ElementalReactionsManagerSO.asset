@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee38f80db43bf7d4f80aaeedc1fc7479, type: 3}
+  m_Name: ElementalReactionsManagerSO
+  m_EditorClassIdentifier: 
+  ImmuneSO: {fileID: 11400000, guid: c4ac8e79a2bf6174ab2e94966f080b8c, type: 2}
+  ERInfoList:
+  - {fileID: 11400000, guid: 7959b8b3aa09dd9429a7636c8d0bcf4a, type: 2}
+  - {fileID: 11400000, guid: 72c2f3091b97f0b4d83e5dfd83f60188, type: 2}
+  - {fileID: 11400000, guid: c631ed14ee6fa2242ba818fca93b5e5d, type: 2}
+  - {fileID: 11400000, guid: b10b2eaaae21b8f41a5f6f62afdf7f80, type: 2}
+  - {fileID: 11400000, guid: 1e95fd6cc4c343e4a8ecb8230de390f3, type: 2}
+  - {fileID: 11400000, guid: 83c8b23f92a58544f8d3988c31d19ec4, type: 2}
+  - {fileID: 11400000, guid: 116b3559dd990ec418b1dcfc3e2de517, type: 2}

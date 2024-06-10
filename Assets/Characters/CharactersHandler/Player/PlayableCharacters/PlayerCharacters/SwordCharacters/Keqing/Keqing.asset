@@ -17,7 +17,6 @@ MonoBehaviour:
   characterIcon: {fileID: 21300000, guid: 99e7f15e899f7754fbb2a87530f1e3cd, type: 3}
   <ElementSO>k__BackingField: {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab,
     type: 2}
-  <ElementalSkillRange>k__BackingField: 5
   <Rarity>k__BackingField: 5
   <AscensionInformation>k__BackingField:
   - BaseHP:
@@ -43,7 +42,5 @@ MonoBehaviour:
   <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 11400000, guid: c8acc20ec993bde45905780d7a777141,
     type: 2}
   partyCharacterIcon: {fileID: 21300000, guid: 428cc95efa1f8694586cfb04152d80b6, type: 3}
-  ElementalSkillIcons:
-  - {fileID: 21300000, guid: a4bac38242c77b545b78ebffe324bea3, type: 3}
-  ElementalBurstIcons:
-  - {fileID: 21300000, guid: 779d50670ca48c442b66d10f50b95d34, type: 3}
+  ElementalSkillInfo: {fileID: 11400000, guid: 440e1b602b647ef4b8f7eae7de1fcd77, type: 2}
+  ElementalBurstInfo: {fileID: 11400000, guid: ef1e80de85dc70840927fc6298c45463, type: 2}

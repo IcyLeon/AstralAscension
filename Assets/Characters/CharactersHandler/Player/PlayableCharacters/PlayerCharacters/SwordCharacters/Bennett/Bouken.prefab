@@ -1675,6 +1675,7 @@ GameObject:
   - component: {fileID: 8185168439231808794}
   - component: {fileID: 369319169409699109}
   - component: {fileID: 1619546990052390938}
+  - component: {fileID: 8663103707665128652}
   m_Layer: 0
   m_Name: Character Model
   m_TagString: Untagged
@@ -2148,6 +2149,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playableCharacterSwordHitCollider: {fileID: 3377451102904767324}
   EmitterPivot: {fileID: 2048204350169825581}
+--- !u!114 &8663103707665128652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574953757427478429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82f4091f8899a40a1dfbf9cea8167a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EyeBlinkHash:
+  - "\u306A\u3054\u307F\u5DE6"
+  - "\u306A\u3054\u307F\u53F3"
 --- !u!1 &1601208561917716237
 GameObject:
   m_ObjectHideFlags: 0
@@ -8445,8 +8461,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5895767459212528216}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.0113968365, y: -0.9797802, z: 0.058270995, w: -0.19106406}
+  m_LocalPosition: {x: -0.04309082, y: 1.4356995, z: 0.2800293}
   m_LocalScale: {x: 1.1118437, y: 1.1118437, z: 1.1118437}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8744,7 +8760,53 @@ SkinnedMeshRenderer:
   - {fileID: 4461757565856963962}
   - {fileID: 458963444802946055}
   - {fileID: 5568473835798710281}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 3393964576072134749}
   m_AABB:
     m_Center: {x: -0.0000000027939677, y: 0.0066801524, z: -0.0007599724}

@@ -10,14 +10,4 @@ public class Healthbar_World : Healthbar
     {
         damageable = GetComponentInParent<IDamageable>();
     }
-
-    private void OnEnable()
-    {
-        damageable.OnTakeDamage += Damageable_OnTakeDamage;
-    }
-
-    private void OnDisable()
-    {
-        damageable.OnTakeDamage -= Damageable_OnTakeDamage;
-    }
 }

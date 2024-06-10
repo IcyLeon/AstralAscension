@@ -8,8 +8,9 @@ public class POIRig_PlayableCharacters : POIRig
     private Coroutine headDisableCoroutine;
     private bool HeadMoveDisabled;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         HeadMoveDisabled = false;
         PlayableCharacters = GetComponentInParent<PlayableCharacters>();
         PlayableCharacters.OnTakeDamage += OnDamageHit;

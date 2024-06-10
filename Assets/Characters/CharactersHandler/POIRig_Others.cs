@@ -7,8 +7,9 @@ public class POIRig_Others : POIRig
     [Header("Interact FOV Reference")]
     [SerializeField] private InteractSensor InteractSensor;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         interactSensorReference = InteractSensor;
     }
 }

@@ -12,19 +12,6 @@ public interface IDamageable : IAttacker
     float GetMaxHealth();
     float GetCurrentHealth();
     void SetCurrentHealth(float health);
-
-    /// <summary>
-    /// Do not use the dictionary Add or Remove, use AddElement() or RemoveElement() to do the adding or removing of element in the dictionary
-    /// </summary>
-    /// <returns></returns>
-    Dictionary<ElementsSO, Elements> GetInflictElementLists();
-    void AddElement(ElementsSO elementSO, Elements elements);
-    void RemoveElement(ElementsSO elementSO, Elements elements);
-
-    /// <summary>
-    /// Can it be immune to any Element or Elemental Reaction?
-    /// </summary>
-    /// <returns></returns>
     ElementsInfoSO[] GetImmuneableElementsInfoSO();
     bool IsDead();
     Vector3 GetCenterBound();
@@ -33,6 +20,9 @@ public interface IDamageable : IAttacker
     public delegate void TakeDamageEvent(float DamageAmount);
     public event TakeDamageEvent OnTakeDamage;
 
+    /// <summary>
+    /// VRY IMPORTANT FOR EVERY DAMAGEABLE OBJECTS
+    /// </summary>
     public CharacterDataStat GetCharacterDataStat();
 }
 

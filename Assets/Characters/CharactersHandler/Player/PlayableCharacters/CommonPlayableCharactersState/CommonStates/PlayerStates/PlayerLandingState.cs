@@ -13,7 +13,7 @@ public class PlayerLandingState : PlayerGroundedState
         base.Enter();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.landParameter);
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
-        ResetVelocity();
+        playerStateMachine.ResetVelocity();
     }
 
     public override void Update()

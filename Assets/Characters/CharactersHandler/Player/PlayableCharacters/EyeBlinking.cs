@@ -4,14 +4,41 @@ using UnityEngine;
 
 public class EyeBlinking : MonoBehaviour
 {
-    [SerializeField] private Characters characters;
-    [SerializeField] private string EyeBlinkHash;
+    private SkinnedMeshRenderer SkinnedMeshRenderer;
+    [SerializeField] private string[] BlendShapeName;
+    private int[] eyeblinkingidxList;
     private Coroutine EyeBlinkCoroutine;
     private WaitForSeconds TimeToBlink = new WaitForSeconds(3.5f);
+
+    private void Awake()
+    {
+        SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+
+        eyeblinkingidxList = GetMeshIdxByName(BlendShapeName);
+    }
     private void OnEnable()
     {
         if (EyeBlinkCoroutine == null)
             EyeBlinkCoroutine = StartCoroutine(BlinkCoroutine());
+
+    }
+
+    private int[] GetMeshIdxByName(string[] nameBlendShapeList)
+    {
+        List<int> Indexlist = new();
+
+        if (SkinnedMeshRenderer == null)
+            return Indexlist.ToArray();
+
+        foreach (string name in nameBlendShapeList)
+        {
+            int index = SkinnedMeshRenderer.sharedMesh.GetBlendShapeIndex(name);
+            if (index >= 0)
+            {
+                Indexlist.Add(index);
+            }
+        }
+        return Indexlist.ToArray();
     }
 
     private void OnDisable()
@@ -25,10 +52,27 @@ public class EyeBlinking : MonoBehaviour
 
     private IEnumerator BlinkCoroutine()
     {
-        while (true)
+        yield return TimeToBlink;
+
+        float elapsedTime = 0f;
+        float duration = 0.2f;
+        float maxValue = 100f;
+
+        while (elapsedTime <= duration)
         {
-            yield return TimeToBlink;
-            characters.Animator.SetTrigger(EyeBlinkHash);
+            foreach(var idx in eyeblinkingidxList)
+            {
+                SkinnedMeshRenderer.SetBlendShapeWeight(idx, Mathf.Sin(Mathf.PI * (elapsedTime / duration)) * maxValue);
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        foreach (var idx in eyeblinkingidxList)
+        {
+            SkinnedMeshRenderer.SetBlendShapeWeight(idx, 0f);
+        }
+
+        StartCoroutine(BlinkCoroutine());
     }
 }

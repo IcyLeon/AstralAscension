@@ -1040,8 +1040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a82f4091f8899a40a1dfbf9cea8167a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters: {fileID: 5412789336601351339}
-  EyeBlinkHash: EyeBlink
+  BlendShapeName:
+  - "\u307E\u3070\u305F\u304D"
 --- !u!1 &326006702902921306
 GameObject:
   m_ObjectHideFlags: 0
@@ -4408,10 +4408,6 @@ MonoBehaviour:
     type: 2}
   VoiceSource: {fileID: 3216654781972711093}
   <MainCollider>k__BackingField: {fileID: 2951356107405484920}
-  <HairpinTeleporterPrefab>k__BackingField: {fileID: 2170554996015132487, guid: 0472f434693734a4c9bfae87755d1a84,
-    type: 3}
-  <AimRigController>k__BackingField: {fileID: 6412634606002599921}
-  <CharacterModelTransform>k__BackingField: {fileID: 8983109292517536815}
   test: {fileID: 11400000, guid: 7718a221a93dd724db786d73ce26036c, type: 2}
 --- !u!136 &2951356107405484920
 CapsuleCollider:

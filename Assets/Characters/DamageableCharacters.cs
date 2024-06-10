@@ -7,11 +7,11 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 {
     public event IDamageable.TakeDamageEvent OnTakeDamage;
 
-    public CharacterDataStat characterDataStat { get; private set; }
+    private CharacterDataStat characterDataStat;
 
     protected CharacterStateMachine characterStateMachine;
 
-    protected DamageableEntitySO damageableCharacters
+    protected DamageableEntitySO damageableCharactersSO
     {
         get
         {
@@ -23,10 +23,15 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
     {
         if (characterDataStat == null)
         {
-            characterDataStat = new CharacterDataStat(CharacterSO);
+            characterDataStat = CreateCharacterDataStat();
         }
 
         return characterDataStat;
+    }
+
+    protected virtual CharacterDataStat CreateCharacterDataStat()
+    {
+        return new CharacterDataStat(CharacterSO);
     }
 
     protected override void Awake()
@@ -46,7 +51,7 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 
     public virtual ElementsSO GetElementsSO()
     {
-        return damageableCharacters.ElementSO;
+        return damageableCharactersSO.ElementSO;
     }
 
     protected override void Update()
@@ -125,7 +130,7 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 
         OnTakeDamage?.Invoke(BaseDamageAmount);
 
-        ElementalReactionsManager.CallDamageInvoke(this, new ElementalReactionsManager.ElementDamageInfoEvent
+        ElementalReactionsManager.CallElementDamageInvoke(this, new ElementalReactionsManager.ElementDamageInfoEvent
         {
             damageAmount = BaseDamageAmount,
             elementsInfoSO = e,
