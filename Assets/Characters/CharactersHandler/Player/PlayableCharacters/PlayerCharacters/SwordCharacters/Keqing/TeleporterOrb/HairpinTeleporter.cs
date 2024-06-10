@@ -17,6 +17,7 @@ public class HairpinTeleporter : MonoBehaviour
     private Coroutine MoveTarget;
 
     public event Action OnHairPinExplode;
+    public event Action OnHairPinHide;
 
     public void SetTargetLocation(Vector3 Position)
     {
@@ -55,9 +56,15 @@ public class HairpinTeleporter : MonoBehaviour
         return MoveTarget == null && gameObject.activeSelf;
     }
 
+    private void OnDestroy()
+    {
+        OnHairPinExplode = OnHairPinHide = null;
+    }
+
     public void Hide()
     {
         transform.SetParent(ParentTransform);
+        OnHairPinHide?.Invoke();
         gameObject.SetActive(false);
     }
 

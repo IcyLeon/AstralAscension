@@ -48,6 +48,10 @@ public class PlayerStateMachine
         player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
     }
 
+    public void ResetVelocity()
+    {
+        player.Rb.velocity = Vector3.zero;
+    }
     public void UpdateTargetRotationData(float angle)
     {
         playerData.targetYawRotation = angle;

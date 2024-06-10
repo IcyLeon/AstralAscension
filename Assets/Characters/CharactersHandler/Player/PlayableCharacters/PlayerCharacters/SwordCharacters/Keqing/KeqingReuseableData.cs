@@ -29,6 +29,12 @@ public class KeqingReuseableData : SwordReuseableData
             return;
 
         HT.Init(playableCharacterStateMachine.playableCharacters, playableCharacterStateMachine.playableCharacters.transform);
+        HT.OnHairPinHide += HT_OnHairPinHide;
+    }
+
+    private void HT_OnHairPinHide()
+    {
+        playableCharacterStateMachine.playableCharacters.playableCharacterDataStat.ResetElementalSkillCooldown();
     }
 
     public override void OnDestroy()

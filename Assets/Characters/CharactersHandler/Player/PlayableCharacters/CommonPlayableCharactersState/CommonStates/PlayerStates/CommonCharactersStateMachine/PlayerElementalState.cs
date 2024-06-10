@@ -14,11 +14,14 @@ public abstract class PlayerElementalState : IState
     public virtual void Enter()
     {
         OnEnable();
+        StartAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
+        playableCharacterStateMachine.playerStateMachine.ResetVelocity();
     }
 
     public virtual void Exit()
     {
         OnDisable();
+        StopAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
     }
 
     public virtual void OnEnable()

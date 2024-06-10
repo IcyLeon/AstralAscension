@@ -10,6 +10,8 @@ public enum LockMovement
 }
 
 [DisallowMultipleComponent]
+[RequireComponent(typeof(PlayerController))]
+
 public class Player : MonoBehaviour
 {
     #region Collision Events
@@ -23,13 +25,14 @@ public class Player : MonoBehaviour
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
     [field: SerializeField] public PlayerInteractSensor PlayerInteractSensor { get; private set; }
-    [field: SerializeField] public PlayerController PlayerController { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
     public PlayerData playerData { get; private set; }
+    public PlayerController PlayerController { get; private set; }
 
     // Start is called before the first frame update
     private void Awake()
     {
+        PlayerController = GetComponent<PlayerController>();
         playerData = new PlayerData(this);
     }
 

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerCharactersSO", menuName = "ScriptableObjects/PlayerCharactersSO")]
+[CreateAssetMenu(fileName = "PlayerCharactersSO", menuName = "ScriptableObjects/PlayerCharactersManager/PlayerCharactersSO")]
 public class PlayerCharactersSO : DamageableEntitySO
 {
     [Serializable]
@@ -17,10 +17,11 @@ public class PlayerCharactersSO : DamageableEntitySO
     [field: SerializeField] public PlayableCharacterAnimationSO PlayableCharacterAnimationSO { get; private set; }
     [field: SerializeField] public PlayableCharacterVoicelinesSO PlayableCharacterVoicelinesSO { get; private set; }
 
+
     [Header("Player Character Infomation")]
     public Sprite partyCharacterIcon;
 
     [Header("Skills")]
-    public Sprite[] ElementalSkillIcons;
-    public Sprite[] ElementalBurstIcons;
+    public PlayableCharacterSkillSO ElementalSkillInfo;
+    public PlayableCharacterSkillSO ElementalBurstInfo;
 }

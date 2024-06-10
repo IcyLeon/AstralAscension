@@ -13,12 +13,7 @@ public class PlayerIdleState : PlayerGroundedState
         base.Enter();
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
-        ResetVelocity();
-    }
-
-    protected override void OnSkillCast()
-    {
-
+        playerStateMachine.ResetVelocity();
     }
 
     public override void Update()

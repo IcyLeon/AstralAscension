@@ -19,34 +19,16 @@ public class KeqingState : SwordState
         base.Exit();
     }
 
-    public override void OnEnable()
+    protected override void ElementalSkill_started()
     {
-        base.OnEnable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
-    }
-
-    public override void OnDisable()
-    {
-        base.OnDisable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
-    }
-
-    protected override void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        if (!CanTransitToElementalState())
-            return;
-
         if (keqingStateMachine.keqingReuseableData.CanThrow())
             return;
 
         playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingTeleportState);
     }
 
-    private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    protected override void ElementalSkill_canceled()
     {
-        if (!CanTransitToElementalState())
-            return;
-
         if (!keqingStateMachine.keqingReuseableData.CanThrow())
             return;
 
@@ -55,16 +37,8 @@ public class KeqingState : SwordState
         playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
     }
 
-
-    protected override void ElementalBurst_performed(InputAction.CallbackContext obj)
+    protected override void ElementalSkill_performed()
     {
-    }
-
-    protected override void ElementalSkill_performed(InputAction.CallbackContext obj)
-    {
-        if (!CanTransitToElementalState())
-            return;
-
         if (!keqingStateMachine.keqingReuseableData.CanThrow())
             return;
 

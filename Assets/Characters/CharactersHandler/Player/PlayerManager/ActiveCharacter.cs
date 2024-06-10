@@ -71,7 +71,7 @@ public class ActiveCharacter : MonoBehaviour
 
         if (actualValue < list.Length)
         {
-            SwitchCharacter(list[actualValue].characterDataStat);
+            SwitchCharacter(list[actualValue].GetCharacterDataStat());
         }
     }
 

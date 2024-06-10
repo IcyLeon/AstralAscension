@@ -21,7 +21,7 @@ public class ObjectPoolManager : MonoBehaviour
         }
         else
         {
-            Vector3 parentGlobalScale = transform.parent.lossyScale;
+            Vector3 parentGlobalScale = transform.parent.localScale;
             transform.localScale = new Vector3(
                 globalScale.x / parentGlobalScale.x,
                 globalScale.y / parentGlobalScale.y,

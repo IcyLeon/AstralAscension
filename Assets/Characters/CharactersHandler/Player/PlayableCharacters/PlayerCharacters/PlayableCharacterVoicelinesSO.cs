@@ -14,13 +14,13 @@ public class PlayableCharacterVoicelinesSO : ScriptableObject
     [SerializeField] private AudioClip[] ElementalBurstVOClips;
     [SerializeField] private AudioClip[] LightInjuredVOClips;
 
-    private AudioClip GetRandomAudioClip(AudioClip[] clip)
+    private AudioClip GetRandomAudioClip(AudioClip[] clip, bool ignoreProbability = false)
     {
         CharacterManager characterManager = CharacterManager.instance;
         if (characterManager == null)
             return null;
 
-        if (!CharacterManager.isInProbabilityRange(characterManager.GetProbabilityPlayVO()))
+        if (!CharacterManager.isInProbabilityRange(characterManager.GetProbabilityPlayVO()) && !ignoreProbability)
             return null;
 
         int randomIdx = Random.Range(0, clip.Length);
@@ -49,6 +49,10 @@ public class PlayableCharacterVoicelinesSO : ScriptableObject
     public AudioClip GetRandomElementalSkillVOClip()
     {
         return GetRandomAudioClip(ElementalSkillVOClips);
+    }
+    public AudioClip GetRandomElementalBurstVOClip()
+    {
+        return GetRandomAudioClip(ElementalBurstVOClips, true);
     }
 
     public AudioClip GetRandomElementalSkill_RecastVOClip()

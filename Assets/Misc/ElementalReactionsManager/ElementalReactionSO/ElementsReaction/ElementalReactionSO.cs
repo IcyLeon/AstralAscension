@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ElementalReactionsManager;
 
 [CreateAssetMenu(fileName = "ElementalReactionSO", menuName = "ScriptableObjects/ElementManager/ElementalReactionSO")]
 public class ElementalReactionSO : ElementsInfoSO
@@ -15,5 +16,15 @@ public class ElementalReactionSO : ElementsInfoSO
     public float GetElementalReactionBonus()
     {
         return ElementalReactionBonus;
+    }
+
+    public ElementalReaction CreateElementalReaction(IDamageable target, ElementDamageInfoEvent ElementsInfo)
+    {
+        ElementalReactionFactory factory = ElementalReactionFactoryManager.CreateElementalReactionFactory(ElementalReaction);
+
+        if (factory == null)
+            return null;
+
+        return factory.CreateER(this, ElementsInfo, target);
     }
 }

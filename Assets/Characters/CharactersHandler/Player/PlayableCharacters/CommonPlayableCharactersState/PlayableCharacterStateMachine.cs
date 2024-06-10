@@ -6,6 +6,8 @@ public abstract class PlayableCharacterStateMachine : CharacterStateMachine
 {
     public PlayerStateMachine playerStateMachine { get; }
     public PlayerCharacterAttackState playerCharacterAttackState { get; protected set; }
+    public PlayableCharacterPlungeAttackState playableCharacterPlungeAttackState { get; protected set; }
+    public PlayerElementalBurstState playerElementalBurstState { get; protected set; }
     public PlayableCharacters playableCharacters
     {
         get
@@ -27,7 +29,7 @@ public abstract class PlayableCharacterStateMachine : CharacterStateMachine
         }
     }
 
-    public override bool IsAttacking()
+    public bool IsAttacking()
     {
         return StateMachineManager.IsInState<PlayerCharacterAttackState>();
     }

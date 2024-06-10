@@ -2,12 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerPlungeState : PlayerAirborneState
 {
-    public static Action<Vector3> OnPlungeAction = delegate { };
-
     public PlayerPlungeState(PlayerStateMachine PS) : base(PS)
     {
     }
@@ -15,7 +12,7 @@ public class PlayerPlungeState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
-        ResetVelocity();
+        playerStateMachine.ResetVelocity();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.player.Rb.useGravity = false;
@@ -58,6 +55,5 @@ public class PlayerPlungeState : PlayerAirborneState
     {
         base.Exit();
         StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
-        OnPlungeAction?.Invoke(playableCharacters.player.Rb.transform.position);
     }
 }

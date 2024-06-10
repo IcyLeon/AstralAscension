@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
+[RequireComponent(typeof(SmoothRigTransition))]
 public abstract class POIRig : MonoBehaviour
 {
     protected InteractSensor interactSensorReference;
@@ -14,13 +15,18 @@ public abstract class POIRig : MonoBehaviour
     [Range(0f, 90f)]
     [SerializeField] private float FOVAngleY = 65f;
     [SerializeField] private MultiAimConstraint MultiAimConstraint;
-    [SerializeField] private SmoothRigTransition SmoothRigTransition;
+    private SmoothRigTransition SmoothRigTransition;
     [SerializeField] private float MoveTowardsSoothingTime = 1f;
 
     private IPointOfInterest closestPointOfInterest;
     private Transform currentTransform;
 
     private Vector3 closestTarget;
+
+    protected virtual void Awake()
+    {
+        SmoothRigTransition = GetComponent<SmoothRigTransition>();
+    }
 
     // Update is called once per frame
     private void LateUpdate()

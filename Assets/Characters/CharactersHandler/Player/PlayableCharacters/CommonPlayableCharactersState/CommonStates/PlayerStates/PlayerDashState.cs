@@ -28,7 +28,7 @@ public class PlayerDashState : PlayerGroundedState
         base.Enter();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
         
-        playableCharacters.PlayVOAudio(playableCharacters.PlayerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
+        playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
         playableCharacters.player.PlayPlayerSoundEffect(GetRandomDashClip());
 
         playerStateMachine.playerData.SpeedModifier = 0f;
@@ -39,7 +39,7 @@ public class PlayerDashState : PlayerGroundedState
         StartTime = Time.time;
     }
 
-    protected override void Dash_started(InputAction.CallbackContext obj)
+    protected override void Dash_started()
     {
     }
 
