@@ -87,6 +87,7 @@ public class StateMachineManager
 
         currentStates = newState;
 
-        currentStates.Enter();
+        if (currentStates != null)
+            currentStates.Enter();
     }
 }

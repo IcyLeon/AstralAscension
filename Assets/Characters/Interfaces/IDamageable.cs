@@ -21,8 +21,9 @@ public interface IDamageable : IAttacker
     public event TakeDamageEvent OnTakeDamage;
 
     /// <summary>
-    /// VRY IMPORTANT FOR EVERY DAMAGEABLE OBJECTS
+    /// VERY IMPORTANT FOR EVERY DAMAGEABLE OBJECTS
     /// </summary>
+    public void SetCharacterDataStat(CharacterDataStat CharacterDataStat);
     public CharacterDataStat GetCharacterDataStat();
 }
 

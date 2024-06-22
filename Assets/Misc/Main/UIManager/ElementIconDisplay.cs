@@ -39,8 +39,6 @@ public class ElementIconDisplay : MonoBehaviour
             ElementImage.sprite = elementsSO.ElementSprite;
             ElementImage.material.SetColor("_GlowColor", elementsSO.GetGlowIconColor());
         }
-
-        gameObject.SetActive(true);
     }
 
     public void FadeIn()

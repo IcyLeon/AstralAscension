@@ -21,7 +21,7 @@ public class HairpinTeleporter : MonoBehaviour
 
     public void SetTargetLocation(Vector3 Position)
     {
-        gameObject.SetActive(true);
+        transform.SetParent(null);
         ResetMovement();
         MoveTarget = StartCoroutine(MoveToTarget(Position));
     }
@@ -70,9 +70,6 @@ public class HairpinTeleporter : MonoBehaviour
 
     private void OnEnable()
     {
-        if (source != null)
-            transform.SetParent(null);
-
         PinCollider.enabled = true;
         ResetTime();
     }

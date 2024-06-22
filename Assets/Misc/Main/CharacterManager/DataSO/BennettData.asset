@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: BennettData
   m_EditorClassIdentifier: 
   charactersSO: {fileID: 11400000, guid: fe054ffa3c0236b4bab5fbb1df399c87, type: 2}
-  CharacterPrefab: {fileID: 0}
+  CharacterPrefab: {fileID: 3545135287976817918, guid: d91ddd90c11a71a4cb8bcd2dcf08cf8a,
+    type: 3}

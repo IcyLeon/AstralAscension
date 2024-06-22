@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class KeqingAimState : KeqingElementalSkillState
 {
+    private AimRigController aimRigController;
+
     public KeqingAimState(PlayableCharacterStateMachine pcs) : base(pcs)
     {
+        aimRigController = keqingStateMachine.keqingReuseableData.aimRigController;
+        if (aimRigController == null)
+        {
+            Debug.LogError("Dont have AimRigController!");
+        }
     }
 
     public override void Enter()
@@ -33,7 +40,7 @@ public class KeqingAimState : KeqingElementalSkillState
         if (!keqingStateMachine.keqingReuseableData.CanThrow())
             return;
 
-        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerElementalSkillState);
     }
 
     public override void Update()

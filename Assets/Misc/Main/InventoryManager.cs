@@ -8,9 +8,8 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager instance { get; private set; }
     private Inventory inventory;
 
-    public delegate void OnItemChanged(Item item);
-    public static OnItemChanged OnItemAdd, OnItemRemove;
-    public static Action<int> OnMoraChanged;
+    public delegate void OnInventoryChanged(Inventory inventory);
+    public static event OnInventoryChanged OnInventoryOld, OnInventoryNew;
 
     private void Awake()
     {
@@ -19,30 +18,25 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        inventory = new Inventory(1000);
+        SetInventory(new Inventory(1000));
     }
 
-    public void AddMora(int Amt)
+    private void SetInventory(Inventory inv)
     {
-        inventory.AddMora(Amt);
-        OnMoraChanged?.Invoke(inventory.mora);
+        if (inventory != null)
+        {
+            OnInventoryOld?.Invoke(inventory);
+        }
+        inventory = inv;
+        OnInventoryNew?.Invoke(inventory);
     }
 
-    public void AddItem(Item item)
+    private void OnDestroy()
     {
-        if (item == null)
-            return;
-
-        inventory.AddItem(item);
-        OnItemAdd?.Invoke(item);
+        if (inventory != null)
+        {
+            OnInventoryOld?.Invoke(inventory);
+        }
     }
 
-    public void RemoveItem(Item item)
-    {
-        if (item == null)
-            return;
-
-        inventory.RemoveItem(item);
-        OnItemRemove?.Invoke(item);
-    }
 }

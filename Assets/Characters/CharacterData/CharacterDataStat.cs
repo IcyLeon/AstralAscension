@@ -10,15 +10,15 @@ public class CharacterDataStat
     public event OnElementChange OnElementEnter;
     public event OnElementChange OnElementExit;
 
-    public CharactersSO charactersSO { get; protected set; }
-    public float maxHealth { get; protected set; }
-    public float currentHealth { get; protected set; }
+    public DamageableEntitySO damageableEntitySO { get; protected set; }
+    private float maxHealth;
+    private float currentHealth;
 
     public CharacterDataStat(CharactersSO charactersSO)
     {
         inflictElementList = new();
 
-        this.charactersSO = charactersSO;
+        damageableEntitySO = charactersSO as DamageableEntitySO;
 
         currentHealth = maxHealth = 1000; // test
     }
@@ -26,6 +26,15 @@ public class CharacterDataStat
     public void SetCurrentHealth(float health)
     {
         currentHealth = health;
+    }
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 
     private void UpdateElementList()

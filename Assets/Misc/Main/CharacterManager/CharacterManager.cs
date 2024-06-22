@@ -1,20 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CharacterManager : MonoBehaviour
 {
+    public const int MAX_EQUIP_CHARACTERS = 4;
     public static CharacterManager instance { get; private set; }
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
     [SerializeField] private CharacterDataSO[] CharacterDataSO;
 
     private CharacterStorage characterStorage;
-    public delegate void OnCharacterStatChanged(CharacterDataStat c);
-    public static OnCharacterStatChanged OnCharacterAdd, OnCharacterRemove;
-    public static OnCharacterStatChanged OnEquippedCharacter, OnUnEquippedCharacter;
 
-    private GameObject SpawnCharacter(CharactersSO charactersSO)
+    public delegate void OnCharacterStorageChanged(CharacterStorage CharacterStorage);
+    public static event OnCharacterStorageChanged OnCharacterStorageOld, OnCharacterStorageNew;
+
+    public GameObject GetCharacterPrefab(CharactersSO charactersSO)
     {
         foreach(var characterDataSO in CharacterDataSO)
         {
@@ -24,37 +27,31 @@ public class CharacterManager : MonoBehaviour
         return null;
     }
 
-    public void AddCharacterData(CharacterDataStat c)
+    private void SetCharacterStorage(CharacterStorage CharacterStorage)
     {
-        if (characterStorage == null)
-            return;
-
-        PlayerCharactersSO pcSO = c.charactersSO as PlayerCharactersSO;
-        if (pcSO == null)
-            return;
-
-        if (!characterStorage.playableCharacterStatList.ContainsKey(pcSO))
+        if (characterStorage != null)
         {
-            characterStorage.playableCharacterStatList.Add(pcSO, c);
-            OnCharacterAdd?.Invoke(c);
+            OnCharacterStorageOld?.Invoke(characterStorage);
         }
+        characterStorage = CharacterStorage;
+        OnCharacterStorageNew?.Invoke(characterStorage);
     }
 
-    public void RemoveCharacterData(CharacterDataStat c)
-    {
-        if (characterStorage == null)
-            return;
+    //public void SpawnSavedCharacters(Transform parentTransform)
+    //{
+    //    if (characterStorage == null)
+    //        return;
 
-        PlayerCharactersSO pcSO = c.charactersSO as PlayerCharactersSO;
-        if (pcSO == null)
-            return;
-
-        if (characterStorage.playableCharacterStatList.ContainsKey(pcSO))
-        {
-            characterStorage.playableCharacterStatList.Remove(pcSO);
-            OnCharacterRemove?.Invoke(c);
-        }
-    }
+    //    foreach (var characterDataStat in characterStorage.playableCharacterStatList)
+    //    {
+    //        GameObject characterPrefab = GetCharacterPrefab(characterDataStat.Key);
+    //        if (characterPrefab != null)
+    //        {
+    //            IDamageable IDamageable = Instantiate(characterPrefab, parentTransform).GetComponent<IDamageable>();
+    //            IDamageable.SetCharacterDataStat(characterStorage.playableCharacterStatList[characterDataStat.Key]);
+    //        }
+    //    }
+    //}
 
     private void Awake()
     {
@@ -63,7 +60,7 @@ public class CharacterManager : MonoBehaviour
 
     private void Start()
     {
-        characterStorage = new CharacterStorage();
+        SetCharacterStorage(new CharacterStorage());
     }
 
     private void Update()

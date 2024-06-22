@@ -12,25 +12,25 @@ public class ElementUI_World : ElementUI
         IDamageable damageable = GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
-            characterDataStat = damageable.GetCharacterDataStat();
+            SetCharacterDataStat(damageable.GetCharacterDataStat());
         }
     }
 
     private void OnEnable()
     {
-        if (characterDataStat == null)
+        if (GetCharacterDataStat() == null)
             return;
 
-        characterDataStat.OnElementEnter += OnElementEnter;
-        characterDataStat.OnElementExit += OnElementExit;
+        GetCharacterDataStat().OnElementEnter += OnElementEnter;
+        GetCharacterDataStat().OnElementExit += OnElementExit;
     }
 
     private void OnDisable()
     {
-        if (characterDataStat == null)
+        if (GetCharacterDataStat() == null)
             return;
 
-        characterDataStat.OnElementEnter -= OnElementEnter;
-        characterDataStat.OnElementExit -= OnElementExit;
+        GetCharacterDataStat().OnElementEnter -= OnElementEnter;
+        GetCharacterDataStat().OnElementExit -= OnElementExit;
     }
 }

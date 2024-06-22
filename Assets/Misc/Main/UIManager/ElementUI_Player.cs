@@ -14,20 +14,20 @@ public class ElementUI_Player : ElementUI
 
     private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
     {
-        characterDataStat = playerData;
+        SetCharacterDataStat(playerData);
         Refresh();
 
-        if (characterDataStat != null)
+        if (GetCharacterDataStat() != null)
         {
-            characterDataStat.OnElementEnter += OnElementEnter;
-            characterDataStat.OnElementExit += OnElementExit;
+            GetCharacterDataStat().OnElementEnter += OnElementEnter;
+            GetCharacterDataStat().OnElementExit += OnElementExit;
         }
 
     }
 
     private void Refresh()
     {
-        if (characterDataStat == null)
+        if (GetCharacterDataStat() == null)
             return;
 
         EID_Dict.Clear();
@@ -35,7 +35,7 @@ public class ElementUI_Player : ElementUI
         if (ObjectPool != null)
             ObjectPool.ResetAll();
 
-        foreach (var elementinfo in characterDataStat.inflictElementList)
+        foreach (var elementinfo in GetCharacterDataStat().inflictElementList)
         {
             OnElementEnter(elementinfo.Value);
         }

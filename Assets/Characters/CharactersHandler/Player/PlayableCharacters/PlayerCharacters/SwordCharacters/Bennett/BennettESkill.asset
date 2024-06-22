@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: BennettESkill
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: 
-  <SkillCooldown>k__BackingField: 
-  <SkillSprite>k__BackingField: {fileID: 0}
+  <SkillCooldown>k__BackingField: 8
+  <SkillSprite>k__BackingField: {fileID: 21300000, guid: a4bac38242c77b545b78ebffe324bea3,
+    type: 3}

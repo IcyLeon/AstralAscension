@@ -5,6 +5,8 @@ using UnityEngine;
 public class KeqingReuseableData : SwordReuseableData
 {
     private ObjectPool<HairpinTeleporter> objectPool;
+    public AimRigController aimRigController { get; private set; }
+
     public float Range {
         get {
             return 5f;
@@ -23,15 +25,6 @@ public class KeqingReuseableData : SwordReuseableData
         return hairpinTeleporter == null || !hairpinTeleporter.CanTeleport();
     }
 
-    private void OnHairPinObjectCreated(HairpinTeleporter HT)
-    {
-        if (HT == null)
-            return;
-
-        HT.Init(playableCharacterStateMachine.playableCharacters, playableCharacterStateMachine.playableCharacters.transform);
-        HT.OnHairPinHide += HT_OnHairPinHide;
-    }
-
     private void HT_OnHairPinHide()
     {
         playableCharacterStateMachine.playableCharacters.playableCharacterDataStat.ResetElementalSkillCooldown();
@@ -40,13 +33,19 @@ public class KeqingReuseableData : SwordReuseableData
     public override void OnDestroy()
     {
         base.OnDestroy();
-        objectPool.ObjectCreated -= OnHairPinObjectCreated;
     }
 
     public KeqingReuseableData(int TotalAttackPhase, CharacterStateMachine characterStateMachine) : base(TotalAttackPhase, characterStateMachine)
     {
         targetPosition = Vector3.zero;
+
+        aimRigController = characterStateMachine.characters.GetComponentInChildren<AimRigController>();
+
         objectPool = new ObjectPool<HairpinTeleporter>("Prefabs/Characters/PlayableCharacters/Keqing/HairpinTeleporter", characterStateMachine.characters.transform);
-        objectPool.ObjectCreated += OnHairPinObjectCreated;
+        objectPool.CallbackPoolObject((HT, i) =>
+        {
+            HT.Init(playableCharacterStateMachine.playableCharacters, playableCharacterStateMachine.playableCharacters.transform);
+            HT.OnHairPinHide += HT_OnHairPinHide;
+        });
     }
 }

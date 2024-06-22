@@ -11,8 +11,7 @@ public enum Rarity
 
 public class ItemSO : ScriptableObject
 {
-    [Header("Base Item Description")]
-    public string ItemName;
-    public Sprite ItemSprite;
-    public Rarity Rarity;
+    [field: SerializeField] public string ItemName { get; private set; }
+    [field: SerializeField] public Sprite ItemSprite { get; private set; }
+    [field: SerializeField] public Rarity Rarity { get; private set; } = Rarity.ONE_STAR;
 }

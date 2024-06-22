@@ -8,7 +8,7 @@ public abstract class ElementUI : MonoBehaviour
     [SerializeField] private GameObject ElementIconDisplayPrefab;
     [SerializeField] private Transform Parent;
     protected ObjectPool<ElementIconDisplay> ObjectPool;
-    protected CharacterDataStat characterDataStat;
+    private CharacterDataStat characterDataStat;
 
     // Start is called before the first frame update
     protected virtual void Awake()
@@ -19,6 +19,16 @@ public abstract class ElementUI : MonoBehaviour
     private void Start()
     {
         ObjectPool = new ObjectPool<ElementIconDisplay>(ElementIconDisplayPrefab, Parent, 6);
+    }
+
+    public void SetCharacterDataStat(CharacterDataStat c)
+    {
+        characterDataStat = c;
+    }
+
+    public CharacterDataStat GetCharacterDataStat()
+    {
+        return characterDataStat;
     }
 
     protected virtual void OnDestroy()

@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum LockMovement
-{
-    Enable,
-    Disable
-}
-
 [DisallowMultipleComponent]
 [RequireComponent(typeof(PlayerController))]
 

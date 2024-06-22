@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,43 +7,31 @@ using static ObjectPoolManager;
 public class ObjectPool<T> where T : MonoBehaviour
 {
     private int amountToPool;
-    private List<T> pooledObjects = new();
+    private List<T> pooledObjects;
 
-    public delegate void CreateEvent(T go);
-    public event CreateEvent ObjectCreated;
-
-    /// <summary>
-    /// Call this in Start(), DO NOT PUT IT UNDER Awake()
-    /// </summary>
     public ObjectPool(GameObject objectPool, Transform ParentTransform = null, int amountToPool = 1)
     {
+        pooledObjects = new();
         this.amountToPool = amountToPool;
 
         for (int i = 0; i < this.amountToPool; i++)
         {
             GameObject tmp = CreateGameObject(objectPool, ParentTransform);
-            T createdObjComponent = tmp.GetComponent<T>();
-            instance.CallInvokeCreationDelay(this, createdObjComponent);
-            pooledObjects.Add(createdObjComponent);
+            pooledObjects.Add(tmp.GetComponent<T>());
         }
     }
     public ObjectPool(string objectPoolPrefabName, Transform ParentTransform = null, int amountToPool = 1)
     {
+        pooledObjects = new();
         this.amountToPool = amountToPool;
 
         for (int i = 0; i < this.amountToPool; i++)
         {
-            GameObject tmp = CreateGameObject(objectPoolPrefabName, ParentTransform);
-            T createdObjComponent = tmp.GetComponent<T>();
-            instance.CallInvokeCreationDelay(this, createdObjComponent);
-            pooledObjects.Add(createdObjComponent);
+            GameObject tmp = CreateGameObject(Resources.Load<GameObject>(objectPoolPrefabName), ParentTransform);
+            pooledObjects.Add(tmp.GetComponent<T>());
         }
     }
 
-    internal void CallObjectCreated(T objectType)
-    {
-        ObjectCreated?.Invoke(objectType);
-    }
 
     public T GetPooledObject()
     {
@@ -50,10 +39,19 @@ public class ObjectPool<T> where T : MonoBehaviour
         {
             if (!pooledObjects[i].gameObject.activeInHierarchy)
             {
+                pooledObjects[i].gameObject.SetActive(true);
                 return pooledObjects[i];
             }
         }
         return null;
+    }
+
+    public void CallbackPoolObject(Action<T, int> action)
+    {
+        for (int i = 0; i < pooledObjects.Count; i++)
+        {
+            action(pooledObjects[i], i);
+        }
     }
 
     public void ResetAll()
@@ -62,5 +60,10 @@ public class ObjectPool<T> where T : MonoBehaviour
         {
             pooledObjects[i].gameObject.SetActive(false);
         }
+    }
+
+    public void Reset(T objectType)
+    {
+        objectType.gameObject.SetActive(false);
     }
 }
