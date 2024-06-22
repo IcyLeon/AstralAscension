@@ -19,6 +19,9 @@ public class KeqingThrowState : KeqingElementalSkillState
 
     private void KeqingAnimationEvents_OnHairPinShoot(HairpinTeleporter HairpinTeleporter)
     {
+        if (playableCharacters.playerCharactersSO == null)
+            return;
+
         playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkillVOClip());
     }
 

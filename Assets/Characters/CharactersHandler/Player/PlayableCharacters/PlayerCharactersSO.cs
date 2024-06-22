@@ -17,11 +17,12 @@ public class PlayerCharactersSO : DamageableEntitySO
     [field: SerializeField] public PlayableCharacterAnimationSO PlayableCharacterAnimationSO { get; private set; }
     [field: SerializeField] public PlayableCharacterVoicelinesSO PlayableCharacterVoicelinesSO { get; private set; }
 
-
     [Header("Player Character Infomation")]
     public Sprite partyCharacterIcon;
 
     [Header("Skills")]
     public PlayableCharacterSkillSO ElementalSkillInfo;
     public PlayableCharacterSkillSO ElementalBurstInfo;
+
+    [field: SerializeField] public int BurstEnergyCost { get; private set; }
 }

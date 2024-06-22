@@ -4,6 +4,10 @@ public abstract class CharacterStateMachine
 {
     protected StateMachineManager StateMachineManager;
     public Characters characters { get; }
+
+    /// <summary>
+    /// Starting State for entities
+    /// </summary>
     public EntityState EntityState { get; protected set; }
     public CharacterReuseableData characterReuseableData { get; protected set; }
 

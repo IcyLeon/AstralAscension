@@ -8,6 +8,9 @@ public class Healthbar_World : Healthbar
     // Start is called before the first frame update
     void Awake()
     {
-        damageable = GetComponentInParent<IDamageable>();
+        IDamageable damageable = GetComponentInParent<IDamageable>();
+
+        if (damageable != null)
+            SetCharacterDataStat(damageable.GetCharacterDataStat());
     }
 }

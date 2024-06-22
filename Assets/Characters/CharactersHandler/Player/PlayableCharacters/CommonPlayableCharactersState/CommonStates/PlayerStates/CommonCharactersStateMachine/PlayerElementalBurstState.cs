@@ -18,6 +18,7 @@ public abstract class PlayerElementalBurstState : PlayerElementalState, IBurst
     {
         base.Enter();
         playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalBurstVOClip());
+        playableCharacters.playableCharacterDataStat.ResetElementalBurstCooldown();
         SetAnimationTrigger(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateHash.elementalBurstParameter);
     }
 

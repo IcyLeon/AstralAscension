@@ -23,7 +23,7 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
     {
         if (characterDataStat == null)
         {
-            characterDataStat = CreateCharacterDataStat();
+            SetCharacterDataStat(CreateCharacterDataStat());
         }
 
         return characterDataStat;
@@ -43,6 +43,7 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
     protected override void Start()
     {
         base.Start();
+
         if (characterStateMachine == null)
         {
             characterStateMachine = CreateCharacterStateMachine();
@@ -56,13 +57,20 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 
     protected override void Update()
     {
+        base.Update();
         if (characterStateMachine != null)
         {
             characterStateMachine.Update();
         }
 
-        GetCharacterDataStat().Update();
+        UpdateDataStat();
     }
+
+    protected virtual void UpdateDataStat()
+    {
+        GetCharacterDataStat().Update();
+    } 
+
     public void OnAnimationTransition()
     {
         if (characterStateMachine != null)
@@ -149,12 +157,12 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
         if (characterDataStat == null)
             return null;
 
-        return characterDataStat.inflictElementList;
+        return GetCharacterDataStat().inflictElementList;
     }
 
     public virtual float GetMaxHealth()
     {
-        return characterDataStat.maxHealth;
+        return GetCharacterDataStat().GetMaxHealth();
     }
 
     public virtual float GetATK()
@@ -169,12 +177,12 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 
     public virtual float GetCurrentHealth()
     {
-        return characterDataStat.currentHealth;
+        return GetCharacterDataStat().GetCurrentHealth();
     }
 
     public virtual void SetCurrentHealth(float health)
     {
-        characterDataStat.SetCurrentHealth(health);
+        GetCharacterDataStat().SetCurrentHealth(health);
     }
 
     public virtual float GetEM()
@@ -199,5 +207,10 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 
     public virtual void KnockBack(Vector3 force)
     {
+    }
+
+    public void SetCharacterDataStat(CharacterDataStat CharacterDataStat)
+    {
+        characterDataStat = CharacterDataStat;
     }
 }

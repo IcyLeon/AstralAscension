@@ -18,7 +18,7 @@ public class Healthbar_Player : Healthbar
 
     private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
     {
-        damageable = playableCharacters;
+        SetCharacterDataStat(playerData);
     }
 
     private void OnDestroy()

@@ -14,7 +14,6 @@ public class HairpinExplosion : MonoBehaviour
 
         if (m_Teleporter != null)
         {
-            Physics.IgnoreCollision(GetComponent<Collider>(), m_Teleporter.GetComponent<Collider>(), true);
             m_Teleporter.OnHairPinExplode += M_Teleporter_OnHairPinExplode;
         }
     }
@@ -58,7 +57,11 @@ public class HairpinExplosion : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_Teleporter.OnHairPinExplode -= M_Teleporter_OnHairPinExplode;
+
+        if (m_Teleporter != null)
+        {
+            m_Teleporter.OnHairPinExplode -= M_Teleporter_OnHairPinExplode;
+        }
     }
 
     // Update is called once per frame

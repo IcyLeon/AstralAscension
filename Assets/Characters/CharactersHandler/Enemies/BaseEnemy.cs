@@ -6,6 +6,6 @@ public class BaseEnemy : DamageableCharacters
 {
     protected override CharacterStateMachine CreateCharacterStateMachine()
     {
-        return null;
+        return new BaseEnemyStateMachine(this);
     }
 }

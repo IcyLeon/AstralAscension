@@ -51,6 +51,9 @@ public abstract class PlayableCharacters : DamageableCharacters
         player = GetComponentInParent<Player>();
     }
 
+    protected override void UpdateDataStat()
+    {
+    }
 
     protected override void Update()
     {

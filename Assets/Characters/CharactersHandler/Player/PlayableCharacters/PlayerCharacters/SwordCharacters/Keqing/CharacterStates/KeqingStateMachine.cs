@@ -5,7 +5,6 @@ using UnityEngine;
 public class KeqingStateMachine : SwordCharacterStateMachine
 {
     public KeqingAimState keqingAimState { get; }
-    public KeqingThrowState keqingThrowState { get; }
     public KeqingTeleportState keqingTeleportState { get; }
     public KeqingESlashState keqingESlashState { get; }
     public KeqingAnimationSO keqingAnimationSO
@@ -27,17 +26,17 @@ public class KeqingStateMachine : SwordCharacterStateMachine
 
     protected override void InitState()
     {
-        characterReuseableData = new KeqingReuseableData(2, this);
-        playerElementalBurstState = new KeqingElementalBurstState(this);
-        playerCharacterAttackState = new KeqingAttackState(this);
-        playableCharacterPlungeAttackState = new KeqingPlungeAttackState(this);
         EntityState = new KeqingState(this);
     }
 
     public KeqingStateMachine(Characters characters) : base(characters)
     {
+        characterReuseableData = new KeqingReuseableData(2, this);
+        playerElementalBurstState = new KeqingElementalBurstState(this);
+        playerElementalSkillState = new KeqingThrowState(this);
+        playerCharacterAttackState = new KeqingAttackState(this);
+        playableCharacterPlungeAttackState = new KeqingPlungeAttackState(this);
         keqingAimState = new KeqingAimState(this);
-        keqingThrowState = new KeqingThrowState(this);
         keqingTeleportState = new KeqingTeleportState(this);
         keqingESlashState = new KeqingESlashState(this);
     }

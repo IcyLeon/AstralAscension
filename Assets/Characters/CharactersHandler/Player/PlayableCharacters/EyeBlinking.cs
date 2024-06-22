@@ -6,7 +6,7 @@ public class EyeBlinking : MonoBehaviour
 {
     private SkinnedMeshRenderer SkinnedMeshRenderer;
     [SerializeField] private string[] BlendShapeName;
-    private int[] eyeblinkingidxList;
+    private List<int> eyeblinkingidxList;
     private Coroutine EyeBlinkCoroutine;
     private WaitForSeconds TimeToBlink = new WaitForSeconds(3.5f);
 
@@ -23,12 +23,12 @@ public class EyeBlinking : MonoBehaviour
 
     }
 
-    private int[] GetMeshIdxByName(string[] nameBlendShapeList)
+    private List<int> GetMeshIdxByName(string[] nameBlendShapeList)
     {
         List<int> Indexlist = new();
 
         if (SkinnedMeshRenderer == null)
-            return Indexlist.ToArray();
+            return Indexlist;
 
         foreach (string name in nameBlendShapeList)
         {
@@ -38,7 +38,7 @@ public class EyeBlinking : MonoBehaviour
                 Indexlist.Add(index);
             }
         }
-        return Indexlist.ToArray();
+        return Indexlist;
     }
 
     private void OnDisable()

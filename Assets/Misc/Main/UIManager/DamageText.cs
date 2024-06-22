@@ -52,7 +52,6 @@ public class DamageText : MonoBehaviour
         ValueText.text = txt;
         ValueText.color = color;
         UpdatePosition(WorldPosition + new Vector3(GetRandomPositionOffset(), GetRandomPositionOffset(), GetRandomPositionOffset()));
-        gameObject.SetActive(true);
     }
 
     private float GetRandomPositionOffset()

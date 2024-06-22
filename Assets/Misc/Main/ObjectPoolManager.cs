@@ -33,24 +33,7 @@ public class ObjectPoolManager : MonoBehaviour
     public static GameObject CreateGameObject(GameObject prefab, Transform transform)
     {
         GameObject go = Instantiate(prefab, transform);
+        go.SetActive(false);
         return go;
-    }
-
-    public static GameObject CreateGameObject(string prefabName, Transform transform)
-    {
-        GameObject go = Instantiate(Resources.Load<GameObject>(prefabName), transform);
-        return go;
-    }
-
-    internal IEnumerator InvokeCreationCoroutine<T>(ObjectPool<T> ObjectPool, T createdObj) where T : MonoBehaviour
-    {
-        yield return null;
-        ObjectPool.CallObjectCreated(createdObj);
-        createdObj.gameObject.SetActive(false);
-    }
-
-    internal void CallInvokeCreationDelay<T>(ObjectPool<T> objectPool, T createdObj) where T : MonoBehaviour
-    {
-        StartCoroutine(InvokeCreationCoroutine(objectPool, createdObj));
     }
 }

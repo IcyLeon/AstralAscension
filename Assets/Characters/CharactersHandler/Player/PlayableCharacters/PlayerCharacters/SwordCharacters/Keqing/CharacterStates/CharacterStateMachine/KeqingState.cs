@@ -34,7 +34,7 @@ public class KeqingState : SwordState
 
         Vector3 origin = playableCharacterStateMachine.playableCharacters.GetCenterBound();
         keqingStateMachine.keqingReuseableData.targetPosition = origin + playableCharacterStateMachine.playableCharacters.transform.forward * keqingStateMachine.keqingReuseableData.Range;
-        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingThrowState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerElementalSkillState);
     }
 
     protected override void ElementalSkill_performed()

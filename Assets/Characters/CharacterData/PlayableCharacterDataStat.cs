@@ -1,33 +1,57 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayableCharacterDataStat : CharacterDataStat
 {
-    private float currentElementalSkillCooldownElapsed;
-    private float currentElementalBurstCooldownElapsed;
+    public float currentElementalSkillCooldownElapsed { get; private set; }
+    public float currentElementalBurstCooldownElapsed { get; private set; }
+
+    private float currentEnergy;
     private int currentAscension;
+
+    public event EventHandler OnEnergyChanged;
 
     public PlayerCharactersSO playerCharactersSO { 
         get 
         { 
-            return (PlayerCharactersSO)charactersSO; 
+            return (PlayerCharactersSO)damageableEntitySO; 
         } 
     }
 
     public PlayableCharacterDataStat(CharactersSO charactersSO, int currentAscension = 0) : base(charactersSO)
     {
         this.currentAscension = currentAscension;
+        currentEnergy = 0;
         currentElementalSkillCooldownElapsed = currentElementalBurstCooldownElapsed = 0;
     }
 
     public override void Update()
     {
         base.Update();
-        UpdateElementalSkillCooldown();
+        UpdateElementalSkillsCooldown();
     }
 
-    private void UpdateElementalSkillCooldown()
+    public float GetEnergyCostRatio()
+    {
+        return currentEnergy / playerCharactersSO.BurstEnergyCost;
+    }
+
+    public void AddEnergy(float amount)
+    {
+        currentEnergy += amount;
+        currentEnergy = Mathf.Min(currentEnergy, playerCharactersSO.BurstEnergyCost);
+        OnEnergyChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void ResetEnergy()
+    {
+        currentEnergy = 0f;
+        OnEnergyChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void UpdateElementalSkillsCooldown()
     {
         currentElementalSkillCooldownElapsed -= Time.deltaTime;
         currentElementalSkillCooldownElapsed = Mathf.Clamp(currentElementalSkillCooldownElapsed, 0, playerCharactersSO.ElementalSkillInfo.SkillCooldown);
@@ -38,7 +62,12 @@ public class PlayableCharacterDataStat : CharacterDataStat
 
     public bool CanUseElementalSkill()
     {
-        return currentElementalSkillCooldownElapsed <= 0f;
+        return !IsInElementalSkillCooldown();
+    }
+
+    public bool IsInElementalSkillCooldown()
+    {
+        return currentElementalSkillCooldownElapsed > 0f;
     }
 
     public void ResetElementalSkillCooldown()
@@ -48,11 +77,23 @@ public class PlayableCharacterDataStat : CharacterDataStat
 
     public bool CanUseElementalBurst()
     {
-        return currentElementalBurstCooldownElapsed <= 0f;
+        return !IsInElementalBurstCooldown() && HasEnoughEnergy();
     }
+
+    public bool HasEnoughEnergy()
+    {
+        return currentEnergy >= playerCharactersSO.BurstEnergyCost;
+    }
+
+    public bool IsInElementalBurstCooldown()
+    {
+        return currentElementalBurstCooldownElapsed > 0f;
+    }
+
 
     public void ResetElementalBurstCooldown()
     {
+        ResetEnergy();
         currentElementalBurstCooldownElapsed = playerCharactersSO.ElementalBurstInfo.SkillCooldown;
     }
 

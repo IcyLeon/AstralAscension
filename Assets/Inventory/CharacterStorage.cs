@@ -2,11 +2,159 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
+using static CharacterManager;
+using static UnityEngine.ParticleSystem;
+
+public class CharacterEquippedManager
+{
+    public class CharacterEquipEvents : EventArgs
+    {
+        public CharacterDataStat CharacterDataStat;
+    }
+
+    private CharacterStorage characterStorage;
+    private CharacterDataStat[] equippedCharacterStat;
+
+    public event EventHandler<CharacterEquipEvents> OnEquipAdd, OnEquipRemove;
+    public event EventHandler OnEquipChanged;
+
+    public void AddEquipPlayableCharacterToList(CharacterDataStat c)
+    {
+        if (c == null && !characterStorage.HasObtainedCharacter(c))
+            return;
+
+        int index = GetUnknownSlot();
+        int ExistedCharacterSlot = GetCharacterInEquippedList(c);
+
+        if (ExistedCharacterSlot == -1 && index != -1)
+        {
+            equippedCharacterStat[index] = c;
+            OnEquipAdd?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = c });
+            OnEquipChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public CharacterDataStat GetEquipCharacterAt(int index)
+    {
+        return equippedCharacterStat[index];
+    }
+
+    public void RemoveEquipPlayableCharacterToList(int index)
+    {
+        if (GetEquipCharacterAt(index) == null)
+            return;
+
+        OnEquipRemove?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = equippedCharacterStat[index] });
+        equippedCharacterStat[index] = null;
+        OnEquipChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public List<CharacterDataStat> GetEquippedCharacterStat()
+    {
+        List<CharacterDataStat> list = new();
+        for (int i = 0; i < equippedCharacterStat.Length; i++)
+        {
+            CharacterDataStat CharacterDataStat = equippedCharacterStat[i];
+            if (CharacterDataStat != null)
+                list.Add(CharacterDataStat);
+        }
+        return list;
+    }
+
+    public void Swap(int first, int second)
+    {
+        if (first < 0 || first >= equippedCharacterStat.Length || second < 0 || second >= equippedCharacterStat.Length)
+        {
+            return;
+        }
+
+        CharacterDataStat temp = equippedCharacterStat[first];
+
+        OnEquipRemove?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = equippedCharacterStat[first] });
+        OnEquipRemove?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = equippedCharacterStat[second] });
+
+        equippedCharacterStat[first] = equippedCharacterStat[second];
+        equippedCharacterStat[second] = temp;
+
+        OnEquipAdd?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = equippedCharacterStat[first] });
+        OnEquipAdd?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = equippedCharacterStat[second] });
+
+        OnEquipChanged?.Invoke(this, EventArgs.Empty);
+
+    }
+
+    private int GetUnknownSlot()
+    {
+        for (int i = 0; i < equippedCharacterStat.Length; i++)
+        {
+            if (equippedCharacterStat[i] == null)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int GetCharacterInEquippedList(CharacterDataStat c)
+    {
+        for (int i = 0; i < equippedCharacterStat.Length; i++)
+        {
+            if (equippedCharacterStat[i] != null && equippedCharacterStat[i].damageableEntitySO == c.damageableEntitySO)
+                return i;
+        }
+        return -1;
+    }
+
+
+    public CharacterEquippedManager(CharacterStorage characterStorage)
+    {
+        equippedCharacterStat = new CharacterDataStat[MAX_EQUIP_CHARACTERS];
+        this.characterStorage = characterStorage;
+    }
+}
+
 
 public class CharacterStorage
 {
-    public Dictionary<PlayerCharactersSO, CharacterDataStat> playableCharacterStatList { get; }
-    public Dictionary<PlayerCharactersSO, CharacterDataStat> equippedPlayableCharacterStatList { get; }
+    private Dictionary<ArtifactsType, Artifacts> artifactsList; // equipped artifacts character
+    private Dictionary<CharactersSO, CharacterDataStat> playableCharacterStatList;
+
+    public CharacterEquippedManager characterEquippedManager { get; }
+    public delegate void OnCharacterStatChanged(CharacterDataStat c);
+    public event OnCharacterStatChanged OnCharacterAdd, OnCharacterRemove;
+
+    public void AddCharacterData(CharacterDataStat c)
+    {
+        if (c == null)
+            return;
+
+        if (!HasObtainedCharacter(c))
+        {
+            playableCharacterStatList.Add(c.damageableEntitySO, c);
+            OnCharacterAdd?.Invoke(c);
+        }
+    }
+
+    public void RemoveCharacterData(CharacterDataStat c)
+    {
+        if (c == null)
+            return;
+
+        if (HasObtainedCharacter(c))
+        {
+            playableCharacterStatList.Remove(c.damageableEntitySO);
+            OnCharacterRemove?.Invoke(c);
+        }
+    }
+
+    public bool HasObtainedCharacter(CharacterDataStat c)
+    {
+        if (playableCharacterStatList == null)
+            return false;
+
+        return playableCharacterStatList.ContainsKey(c.damageableEntitySO);
+    }
 
     public void Update()
     {
@@ -17,8 +165,20 @@ public class CharacterStorage
         }
     }
 
+    public void TryAddArtifacts(Artifacts artifacts)
+    {
+        if (artifacts == null || artifactsList.ContainsKey(artifacts.artifactsSO.ArtifactsType))
+            return;
+
+        artifactsList.Add(artifacts.artifactsSO.ArtifactsType, artifacts);
+
+    }
+
+
     public CharacterStorage()
     {
-        playableCharacterStatList = equippedPlayableCharacterStatList = new();
+        playableCharacterStatList = new();
+        artifactsList = new();
+        characterEquippedManager = new(this);
     }
 }
