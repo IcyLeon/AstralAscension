@@ -2,15 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static PlayableCharacterDataStat;
 
 public class ElementalBurstCombatUI : SkillCombatUI
 {
+    [SerializeField] private Material ElementalBurstMaterial;
     [SerializeField] private Image EnergyFillImage;
+    private Material burstMaterial;
+    private Image backgroundImage;
+    private Color defaultBackgroundColor;
 
     protected override void Awake()
     {
         base.Awake();
+        backgroundImage = BackgroundCanvasGroup.GetComponent<Image>();
+        defaultBackgroundColor = backgroundImage.color;
+
+        burstMaterial = Instantiate(ElementalBurstMaterial);
         ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
     }
 
@@ -38,6 +45,19 @@ public class ElementalBurstCombatUI : SkillCombatUI
     {
         EnergyFillImage.fillAmount = currentPlayableCharacterData.GetEnergyCostRatio();
         EnergyFillImage.gameObject.SetActive(!currentPlayableCharacterData.HasEnoughEnergy());
+
+
+        if (currentPlayableCharacterData.HasEnoughEnergy())
+        {
+            backgroundImage.color = Color.white;
+            backgroundImage.material = burstMaterial;
+            burstMaterial.SetColor("_Color", currentPlayableCharacterData.damageableEntitySO.ElementSO.ColorText);
+        }
+        else
+        {
+            backgroundImage.color = defaultBackgroundColor;
+            backgroundImage.material = null;
+        }
     }
 
     protected override void UpdateUsageAlpha()
@@ -48,7 +68,7 @@ public class ElementalBurstCombatUI : SkillCombatUI
         }
         else
         {
-            BackgroundCanvasGroup.alpha = 0.65f;
+            BackgroundCanvasGroup.alpha = 0.5f;
         }
     }
 
