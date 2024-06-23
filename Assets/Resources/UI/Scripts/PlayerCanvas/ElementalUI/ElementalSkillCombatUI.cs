@@ -32,11 +32,11 @@ public class ElementalSkillCombatUI : SkillCombatUI
     {
         if (CanUseSkill())
         {
-            BackgroundCanvasGroup.alpha = 0.65f;
+            BackgroundCanvasGroup.alpha = 0.5f;
         }
         else
         {
-            BackgroundCanvasGroup.alpha = 0.35f;
+            BackgroundCanvasGroup.alpha = 0.3f;
         }
     }
 
