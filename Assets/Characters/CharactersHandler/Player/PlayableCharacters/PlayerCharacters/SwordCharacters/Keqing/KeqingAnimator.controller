@@ -2631,7 +2631,7 @@ AnimatorStateMachine:
     m_Position: {x: -50, y: 330, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 6589314818984791934}
-    m_Position: {x: 200, y: 330, z: 0}
+    m_Position: {x: 160, y: 330, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:

@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class KeqingElementalBurstState : PlayerElementalBurstState
 {
-    public KeqingElementalBurstState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public KeqingElementalBurstState(Skill Skill) : base(Skill)
     {
     }
 
-    public override void OnAnimationTransition()
+    protected SkywardSword skywardSword
     {
-        base.OnAnimationTransition();
+        get
+        {
+            return elementalBurst as SkywardSword;
+        }
     }
+    protected override void TransitBurstState()
+    {
+        playableCharacterStateMachine.ChangeState(skywardSword.keqingLaserState);
+    }
+
 }

@@ -30,9 +30,8 @@ public class CharacterManager : MonoBehaviour
     private void SetCharacterStorage(CharacterStorage CharacterStorage)
     {
         if (characterStorage != null)
-        {
             OnCharacterStorageOld?.Invoke(characterStorage);
-        }
+
         characterStorage = CharacterStorage;
         OnCharacterStorageNew?.Invoke(characterStorage);
     }

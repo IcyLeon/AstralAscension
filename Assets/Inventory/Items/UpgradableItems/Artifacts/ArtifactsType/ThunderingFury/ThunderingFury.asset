@@ -12,5 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7226423a2c556488ce15688526c40b, type: 3}
   m_Name: ThunderingFury
   m_EditorClassIdentifier: 
-  <ArtifactsSOList>k__BackingField:
+  <ArtifactSetsList>k__BackingField:
+  - {fileID: 11400000, guid: 966490d848437ad4d84a969035b8d42e, type: 2}
   - {fileID: 11400000, guid: 877d66ca2e989cc49be37e2d7e809b7c, type: 2}
+  - {fileID: 11400000, guid: b0cfee783ab5ade4ba5d09e8d052ae8b, type: 2}
+  - {fileID: 11400000, guid: d15773c3778b28d45a0683960c9453e1, type: 2}
+  - {fileID: 11400000, guid: 915385dfc6e0cbb428a058d0cc203edc, type: 2}
+  <TwoPieceDescription>k__BackingField: Electro DMG Bonus +15%
+  <FourPieceDescription>k__BackingField: Increases DMG caused by Overloaded, Electro-Charged,
+    Superconduct, and Hyperbloom by 40%, and the DMG Bonus conferred by Aggravate
+    is increased by 20%. When Quicken or the aforementioned Elemental Reactions are
+    triggered, Elemental Skill CD is decreased by 1s. Can only occur once every 0.8s.

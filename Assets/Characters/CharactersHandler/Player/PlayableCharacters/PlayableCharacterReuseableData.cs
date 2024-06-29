@@ -5,9 +5,6 @@ using UnityEngine;
 
 public abstract class PlayableCharacterReuseableData : CharacterReuseableData
 {
-    private float currentElementalSkillTimeElapsed;
-
-
     private float inputCounterElapsed;
     private const float inputCounterTime = 0.45f;
 
@@ -23,7 +20,6 @@ public abstract class PlayableCharacterReuseableData : CharacterReuseableData
     public PlayableCharacterReuseableData(int TotalAttackPhase, CharacterStateMachine characterStateMachine) : base(characterStateMachine)
     {
         ResetData();
-        currentElementalSkillTimeElapsed = 0;
         totalAttackPhase = TotalAttackPhase;
         basicAttackCooldown = playableCharacterStateMachine.player.PlayerSO.GroundedData.PlayerAttackData.AttackCooldown;
     }
@@ -101,7 +97,6 @@ public abstract class PlayableCharacterReuseableData : CharacterReuseableData
     public override void Update()
     {
         base.Update();
-
         UpdateAttack();
     }
 }

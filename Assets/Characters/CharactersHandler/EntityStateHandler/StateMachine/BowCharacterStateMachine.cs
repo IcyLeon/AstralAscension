@@ -8,4 +8,8 @@ public class BowCharacterStateMachine : PlayableCharacterStateMachine
     public BowCharacterStateMachine(Characters characters) : base(characters)
     {
     }
+
+    protected override void InitSkills()
+    {
+    }
 }

@@ -49,11 +49,23 @@ public abstract class PlayerCharacterState : DamageableEntityState
     public override void Enter()
     {
         base.Enter();
+
+        if (playableCharacterStateMachine.playerElementalBurst != null)
+            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.Enter();
+
+        if (playableCharacterStateMachine.playerElementalSkill != null)
+            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.Enter();
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        if (playableCharacterStateMachine.playerElementalBurst != null)
+            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.Exit();
+
+        if (playableCharacterStateMachine.playerElementalSkill != null)
+            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.Exit();
     }
 
     public override void OnEnable()
@@ -61,10 +73,6 @@ public abstract class PlayerCharacterState : DamageableEntityState
         base.OnEnable();
 
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started += Attack_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
     public override void OnDisable()
@@ -72,26 +80,6 @@ public abstract class PlayerCharacterState : DamageableEntityState
         base.OnDisable();
 
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started -= Attack_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
-    }
-
-    protected virtual bool CanTransitToAnyElementalState()
-    {
-        return playableCharacterStateMachine.playerStateMachine.IsInState<PlayerGroundedState>();
-    }
-
-    private bool CanTransitToElementalSkillState()
-    {
-        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacters.playableCharacterDataStat.CanUseElementalSkill() &&
-            !playableCharacterStateMachine.IsSkillCasting();
-    }
-    private bool CanTransitToElementalBurstState()
-    {
-        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacters.playableCharacterDataStat.CanUseElementalBurst() &&
-            !playableCharacterStateMachine.IsSkillCasting();
     }
 
     protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -99,68 +87,40 @@ public abstract class PlayerCharacterState : DamageableEntityState
         Attack();
     }
 
-    private void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        if (!CanTransitToElementalSkillState())
-            return;
-
-        ElementalSkill_started();
-    }
-
-    private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        if (!CanTransitToElementalSkillState())
-            return;
-
-        ElementalSkill_canceled();
-    }
-
-    private void ElementalSkill_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        if (!CanTransitToElementalSkillState())
-            return;
-
-        ElementalSkill_performed();
-    }
-
-    private void ElementalBurst_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        if (!CanTransitToElementalBurstState())
-            return;
-
-        ElementalBurst_performed();
-    }
-
-    protected virtual void ElementalSkill_started()
-    {
-    }
-    protected virtual void ElementalSkill_canceled()
-    {
-    }
-
-    protected virtual void ElementalSkill_performed()
-    {
-
-    }
-
-    protected virtual void ElementalBurst_performed()
-    {
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerElementalBurstState);
-    }
-
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
+
+        if (playableCharacterStateMachine.playerElementalBurst != null)
+            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.FixedUpdate();
+
+        if (playableCharacterStateMachine.playerElementalSkill != null)
+            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.FixedUpdate();
     }
 
     public override void LateUpdate()
     {
         base.LateUpdate();
+
+
+        if (playableCharacterStateMachine.playerElementalBurst != null)
+            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.LateUpdate();
+
+        if (playableCharacterStateMachine.playerElementalSkill != null)
+            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.LateUpdate();
+
     }
 
     public override void Update()
     {
         base.Update();
+
+        if (playableCharacterStateMachine.playerElementalBurst != null)
+            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.Update();
+
+        if (playableCharacterStateMachine.playerElementalSkill != null)
+            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.Update();
 
         OnPlungeUpdate();
     }
@@ -199,11 +159,13 @@ public abstract class PlayerCharacterState : DamageableEntityState
     public override void OnTriggerEnter(Collider Collider)
     {
         base.OnTriggerEnter(Collider);
+
     }
 
     public override void OnTriggerExit(Collider Collider)
     {
         base.OnTriggerExit(Collider);
+
     }
 
     public override void OnTriggerStay(Collider Collider)

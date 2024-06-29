@@ -6,9 +6,9 @@ public class KeqingAimState : KeqingElementalSkillState
 {
     private AimRigController aimRigController;
 
-    public KeqingAimState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public KeqingAimState(Skill Skill) : base(Skill)
     {
-        aimRigController = keqingStateMachine.keqingReuseableData.aimRigController;
+        aimRigController = stellarRestoration.stellarRestorationReusableData.aimRigController;
         if (aimRigController == null)
         {
             Debug.LogError("Dont have AimRigController!");
@@ -18,7 +18,7 @@ public class KeqingAimState : KeqingElementalSkillState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(keqingStateMachine.keqingAnimationSO.aimParameter);
+        StartAnimation(stellarRestoration.keqingAnimationSO.aimParameter);
 
         playableCharacterStateMachine.playerStateMachine.ChangeState(playableCharacterStateMachine.
             playerStateMachine.playerAimState);
@@ -37,10 +37,10 @@ public class KeqingAimState : KeqingElementalSkillState
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!keqingStateMachine.keqingReuseableData.CanThrow())
+        if (!stellarRestoration.stellarRestorationReusableData.CanThrow())
             return;
 
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerElementalSkillState);
+        playableCharacterStateMachine.ChangeState(stellarRestoration.keqingThrowState);
     }
 
     public override void Update()
@@ -49,10 +49,10 @@ public class KeqingAimState : KeqingElementalSkillState
 
         Vector3 origin = playableCharacters.GetCenterBound();
         Vector3 originalTargetPos = Player.GetTargetCameraRayPosition(Range + GetOffSet(origin));
-        keqingStateMachine.keqingReuseableData.targetPosition = Player.GetRayPosition(origin,
+        stellarRestoration.stellarRestorationReusableData.targetPosition = Player.GetRayPosition(origin,
                                                             originalTargetPos - origin,
                                                             Range);
-        aimRigController.SmoothRigTransition.SetTargetPosition(keqingStateMachine.keqingReuseableData.targetPosition);
+        aimRigController.SmoothRigTransition.SetTargetPosition(stellarRestoration.stellarRestorationReusableData.targetPosition);
     }
 
     private float GetOffSet(Vector3 EmitterPos)
@@ -63,7 +63,7 @@ public class KeqingAimState : KeqingElementalSkillState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(keqingStateMachine.keqingAnimationSO.aimParameter);
+        StopAnimation(stellarRestoration.keqingAnimationSO.aimParameter);
         aimRigController.SmoothRigTransition.ToggleTarget(false);
     }
 }

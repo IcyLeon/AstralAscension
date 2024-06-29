@@ -13,6 +13,9 @@ public abstract class CharacterStateMachine
 
     public virtual void Update()
     {
+        if (characterReuseableData != null)
+            characterReuseableData.Update();
+
         StateMachineManager.Update();
     }
 
@@ -95,8 +98,15 @@ public abstract class CharacterStateMachine
         StateMachineManager = new StateMachineManager();
         this.characters = characters;
         InitState();
+        InitComponent();
         ChangeState(EntityState);
     }
+
+    protected virtual void InitComponent()
+    {
+
+    }
+
     public virtual void OnDestroy()
     {
         if (characterReuseableData != null)

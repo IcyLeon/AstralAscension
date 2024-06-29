@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using static Unity.VisualScripting.Member;
 
 [RequireComponent(typeof(Collider))]
 public class PlayableCharacterSwordHitCollider : MonoBehaviour
 {
-    private IDamageable Damageable;
+    public class PlayableCharacterHitEvents : EventArgs
+    {
+        public IDamageable damageable;
+        public IDamageable source;
+        public Vector3 hitPosition;
+    }
+
+    private IDamageable Source;
     [SerializeField] private Collider hitCollider;
+    public event EventHandler<PlayableCharacterHitEvents> EntitySwordHitEvent;
 
     private void Start()
     {
-        Damageable = GetComponentInParent<IDamageable>();
+        Source = GetComponentInParent<IDamageable>();
         hitCollider.enabled = false;
     }
 
@@ -31,12 +41,17 @@ public class PlayableCharacterSwordHitCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetType() == Damageable.GetType())
+        if (other.GetType() == Source.GetType())
             return;
 
         if (other.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(Damageable, Damageable.GetElementsSO(), 1f, other.ClosestPoint(transform.position));
+            EntitySwordHitEvent?.Invoke(this, new PlayableCharacterHitEvents
+            {
+                damageable = damageable,
+                source = Source,
+                hitPosition = other.ClosestPoint(transform.position)
+            });
         }
     }
 }

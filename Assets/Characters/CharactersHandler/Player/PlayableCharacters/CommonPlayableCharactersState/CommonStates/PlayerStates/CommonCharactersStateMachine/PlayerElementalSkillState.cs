@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerElementalSkillState : PlayerElementalState
 {
-    public PlayerElementalSkillState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public PlayerElementalSkillState(Skill Skill) : base(Skill)
     {
     }
 

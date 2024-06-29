@@ -4,21 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SwordState : PlayerCharacterState
+public abstract class SwordState : PlayerCharacterState
 {
     public SwordState(CharacterStateMachine CharacterStateMachine) : base(CharacterStateMachine)
     {
     }
 
-    public override void Enter()
+    public override void OnEnable()
     {
-        base.Enter();
+        base.OnEnable();
+        swordCharacterStateMachine.SwordHitCollider.EntitySwordHitEvent += EntitySwordHitEvent;
     }
 
-    public override void Exit()
+    public override void OnDisable()
     {
-        base.Exit();
+        base.OnDisable();
+        swordCharacterStateMachine.SwordHitCollider.EntitySwordHitEvent -= EntitySwordHitEvent;
     }
+
+    protected virtual void OnSwordHitDamage(PlayableCharacterSwordHitCollider.PlayableCharacterHitEvents e)
+    {
+        e.damageable.TakeDamage(e.source, null, 1f, e.hitPosition);
+    }
+
+    private void EntitySwordHitEvent(object sender, PlayableCharacterSwordHitCollider.PlayableCharacterHitEvents e)
+    {
+        OnSwordHitDamage(e);
+    }
+
 
     protected SwordCharacterStateMachine swordCharacterStateMachine
     {

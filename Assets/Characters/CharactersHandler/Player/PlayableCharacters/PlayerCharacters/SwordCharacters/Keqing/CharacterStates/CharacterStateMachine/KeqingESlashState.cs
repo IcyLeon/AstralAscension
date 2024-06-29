@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class KeqingESlashState : KeqingElementalSkillState
 {
-    public KeqingESlashState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public KeqingESlashState(Skill Skill) : base(Skill)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.elementalSkillSlashParameter);
+        SetAnimationTrigger(stellarRestoration.keqingAnimationSO.elementalSkillSlashParameter);
         playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkill_RecastVOClip());
     }
 
@@ -32,5 +32,7 @@ public class KeqingESlashState : KeqingElementalSkillState
     {
         base.Exit();
         playableCharacterStateMachine.player.Rb.useGravity = true;
+
+        SkillBurstManager.AddState(this);
     }
 }

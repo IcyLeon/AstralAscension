@@ -2,40 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBurst
+public abstract class PlayerElementalBurstState : PlayerElementalState
 {
-    bool isBurstEnded();
-    void UpdateBurst();
-}
-
-public abstract class PlayerElementalBurstState : PlayerElementalState, IBurst
-{
-    public PlayerElementalBurstState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public PlayerElementalBurstState(Skill Skill) : base(Skill)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
+        InitBaseBurstAction();
+    }
+
+    protected virtual void InitBaseBurstAction()
+    {
         playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalBurstVOClip());
         playableCharacters.playableCharacterDataStat.ResetElementalBurstCooldown();
         SetAnimationTrigger(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateHash.elementalBurstParameter);
-    }
-
-    public void UpdateBurst()
-    {
-
     }
 
     public override void OnAnimationTransition()
     {
         base.OnAnimationTransition();
 
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
+        TransitBurstState();
     }
 
-    public bool isBurstEnded()
+    public ElementalBurst elementalBurst
     {
-        return false;
+        get
+        {
+            return skill as ElementalBurst;
+        }
+    }
+
+    protected virtual void TransitBurstState()
+    {
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }
 }
