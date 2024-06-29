@@ -11,7 +11,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
     private const float OffsetTime = 0.5f;
     private Vector3 dir;
 
-    public KeqingTeleportState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public KeqingTeleportState(Skill Skill) : base(Skill)
     {
     }
 
@@ -40,7 +40,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
 
     private Vector3 GetDirectionToTeleporter()
     {
-        return keqingStateMachine.keqingReuseableData.hairpinTeleporter.transform.position - playableCharacterStateMachine.player.Rb.position;
+        return stellarRestoration.stellarRestorationReusableData.hairpinTeleporter.transform.position - playableCharacterStateMachine.player.Rb.position;
     }
     public override void FixedUpdate()
     {
@@ -65,7 +65,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
             return;
         }
 
-        keqingStateMachine.keqingReuseableData.hairpinTeleporter.ResetTime();
+        stellarRestoration.stellarRestorationReusableData.hairpinTeleporter.ResetTime();
         TimeToReachElapsed += Time.deltaTime;
     }
 
@@ -84,13 +84,13 @@ public class KeqingTeleportState : KeqingElementalSkillState
     {
         ResetVelocity();
 
-        playableCharacterStateMachine.ChangeState(keqingStateMachine.keqingESlashState);
+        playableCharacterStateMachine.ChangeState(stellarRestoration.keqingESlashState);
     }
 
     public override void Exit()
     {
         base.Exit();
-        keqingStateMachine.keqingReuseableData.hairpinTeleporter.Hide();
+        stellarRestoration.stellarRestorationReusableData.hairpinTeleporter.Hide();
         playableCharacterStateMachine.playableCharacters.Animator.gameObject.SetActive(true);
     }
 }

@@ -36,8 +36,8 @@ public class ElementIconDisplay : MonoBehaviour
 
         if (elementsSO != null)
         {
-            ElementImage.sprite = elementsSO.ElementSprite;
             ElementImage.material.SetColor("_GlowColor", elementsSO.GetGlowIconColor());
+            ElementImage.sprite = elementsSO.ElementSprite;
         }
     }
 
@@ -79,7 +79,7 @@ public class ElementIconDisplay : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         ElementImage.material = Instantiate(materialInstance);
     }

@@ -163,10 +163,7 @@ public class ElementalReactionsManager : MonoBehaviour
         if (target == null || target.GetCharacterDataStat() == null)
             return null;
 
-        if (target.GetCharacterDataStat().inflictElementList == null)
-            return null;
-
-        if (target.GetCharacterDataStat().inflictElementList.TryGetValue(ElementsSO, out Elements e))
+        if (target.GetCharacterDataStat().inflictElementList != null && target.GetCharacterDataStat().inflictElementList.TryGetValue(ElementsSO, out Elements e))
         {
             return e;
         }

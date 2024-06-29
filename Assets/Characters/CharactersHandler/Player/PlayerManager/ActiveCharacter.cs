@@ -42,6 +42,10 @@ public class ActiveCharacter : MonoBehaviour
         if (characterStorage != null)
         {
         }
+        else
+        {
+            Debug.LogError("Missing CharacterStorage reference!");
+        }
     }
 
     public PlayableCharacters GetPlayableCharacters(CharacterDataStat c)

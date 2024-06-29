@@ -2,18 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerElementalState : IState
+public abstract class PlayerElementalState : IState, IPlayableElementalState
 {
-    protected PlayableCharacterStateMachine playableCharacterStateMachine { get; }
+    protected Skill skill { get; }
 
-    public PlayerElementalState(PlayableCharacterStateMachine pcs)
+    public PlayerElementalState(Skill skill)
     {
-        playableCharacterStateMachine = pcs;
+        this.skill = skill;
+    }
+
+    protected PlayableCharacterStateMachine playableCharacterStateMachine
+    {
+        get
+        {
+            return skill.playableCharacterStateMachine;
+        }
     }
 
     public virtual void Enter()
     {
         OnEnable();
+        SkillBurstManager.AddState(this);
         StartAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
         playableCharacterStateMachine.playerStateMachine.ResetVelocity();
     }
@@ -24,6 +33,9 @@ public abstract class PlayerElementalState : IState
         StopAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
     }
 
+    /// <summary>
+    /// Useful if a second input during the skill casting is required
+    /// </summary>
     public virtual void OnEnable()
     {
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
@@ -112,7 +124,6 @@ public abstract class PlayerElementalState : IState
 
     public virtual void Update()
     {
-        playableCharacterStateMachine.characterReuseableData.Update();
     }
 
     public void StartAnimation(string parameter)
@@ -137,5 +148,23 @@ public abstract class PlayerElementalState : IState
     public void SmoothRotateToTargetRotation()
     {
         playableCharacterStateMachine.playerStateMachine.SmoothRotateToTargetRotation();
+    }
+
+    public virtual bool IsElementalStateEnded()
+    {
+        return playableCharacters.IsDead();
+    }
+
+    public virtual void OnElementalStateEnter()
+    {
+    }
+
+    public virtual void UpdateElementalState()
+    {
+    }
+
+    public virtual void OnElementalStateExit()
+    {
+
     }
 }

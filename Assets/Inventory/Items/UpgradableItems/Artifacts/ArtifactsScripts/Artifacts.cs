@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Artifacts : UpgradableItems
 {
+    public float statsValue { get; private set; }
     public ArtifactsSO artifactsSO
     {
         get

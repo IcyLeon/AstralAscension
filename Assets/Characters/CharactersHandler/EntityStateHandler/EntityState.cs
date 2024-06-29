@@ -73,7 +73,6 @@ public abstract class EntityState : IState
 
     public virtual void Update()
     {
-        characterStateMachine.characterReuseableData.Update();
     }
 
     public void StartAnimation(string parameter)

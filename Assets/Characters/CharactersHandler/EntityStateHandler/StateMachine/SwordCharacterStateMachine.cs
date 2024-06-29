@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SwordCharacterStateMachine : PlayableCharacterStateMachine
 {
-    protected override void InitState()
+    public PlayableCharacterSwordHitCollider SwordHitCollider { get; private set; }
+
+    protected override void InitComponent()
     {
-        EntityState = new SwordState(this);
+        base.InitComponent();
+        SwordHitCollider = characters.GetComponentInChildren<PlayableCharacterSwordHitCollider>();
+    }
+
+    protected override void InitSkills()
+    {
     }
 
     public SwordCharacterStateMachine(Characters characters) : base(characters)

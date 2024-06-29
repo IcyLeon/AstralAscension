@@ -35,6 +35,9 @@ public class PlayableCharacterDataStat : CharacterDataStat
 
     public float GetEnergyCostRatio()
     {
+        if (playerCharactersSO == null)
+            return 0f;
+
         return currentEnergy / playerCharactersSO.BurstEnergyCost;
     }
 
@@ -42,12 +45,6 @@ public class PlayableCharacterDataStat : CharacterDataStat
     {
         currentEnergy += amount;
         currentEnergy = Mathf.Min(currentEnergy, playerCharactersSO.BurstEnergyCost);
-        OnEnergyChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void ResetEnergy()
-    {
-        currentEnergy = 0f;
         OnEnergyChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -93,7 +90,7 @@ public class PlayableCharacterDataStat : CharacterDataStat
 
     public void ResetElementalBurstCooldown()
     {
-        ResetEnergy();
+        AddEnergy(-currentEnergy);
         currentElementalBurstCooldownElapsed = playerCharactersSO.ElementalBurstInfo.SkillCooldown;
     }
 

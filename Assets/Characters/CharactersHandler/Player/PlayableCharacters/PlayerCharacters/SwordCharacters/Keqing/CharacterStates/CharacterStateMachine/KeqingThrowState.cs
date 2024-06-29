@@ -1,23 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class KeqingThrowState : KeqingElementalSkillState
 {
-    public KeqingThrowState(PlayableCharacterStateMachine pcs) : base(pcs)
+    public KeqingThrowState(Skill Skill) : base(Skill)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        KeqingAnimationEvents.OnHairPinShoot += KeqingAnimationEvents_OnHairPinShoot;
+        stellarRestoration.stellarRestorationReusableData.OnHairPinShoot += KeqingAnimationEvents_OnHairPinShoot;
         playableCharacterStateMachine.playerStateMachine.player.PlayerController.playerInputAction.Look.Disable();
-        SetAnimationTrigger(keqingStateMachine.keqingAnimationSO.throwParameter);
+        SetAnimationTrigger(stellarRestoration.keqingAnimationSO.throwParameter);
 
     }
 
-    private void KeqingAnimationEvents_OnHairPinShoot(HairpinTeleporter HairpinTeleporter)
+    private void KeqingAnimationEvents_OnHairPinShoot(object sender, EventArgs e)
     {
         if (playableCharacters.playerCharactersSO == null)
             return;
@@ -29,8 +30,9 @@ public class KeqingThrowState : KeqingElementalSkillState
     {
         base.Exit();
         playableCharacters.player.PlayerController.playerInputAction.Look.Enable();
-        KeqingAnimationEvents.OnHairPinShoot -= KeqingAnimationEvents_OnHairPinShoot;
+        stellarRestoration.stellarRestorationReusableData.OnHairPinShoot -= KeqingAnimationEvents_OnHairPinShoot;
     }
+
     public override void OnAnimationTransition()
     {
         base.OnAnimationTransition();

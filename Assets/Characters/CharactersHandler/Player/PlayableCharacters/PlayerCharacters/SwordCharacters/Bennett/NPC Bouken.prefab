@@ -75,8 +75,8 @@ MonoBehaviour:
         transform: {fileID: 0}
         weight: 0
     m_Offset: {x: 0, y: 0, z: 0}
-    m_MinLimit: -40
-    m_MaxLimit: 40
+    m_MinLimit: -45
+    m_MaxLimit: 45
     m_AimAxis: 4
     m_UpAxis: 2
     m_WorldUpType: 0
@@ -182,7 +182,6 @@ MonoBehaviour:
   FOVAngleXZ: 180
   FOVAngleY: 45
   MultiAimConstraint: {fileID: 49734731}
-  SmoothRigTransition: {fileID: 1178275665}
   MoveTowardsSoothingTime: 10
   InteractSensor: {fileID: 2696887656187803932}
 --- !u!1 &1701620137
