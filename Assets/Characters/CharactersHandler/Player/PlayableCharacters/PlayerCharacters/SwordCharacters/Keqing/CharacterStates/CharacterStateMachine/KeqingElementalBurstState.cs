@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KeqingElementalBurstState : PlayerElementalBurstState
 {
-    public KeqingElementalBurstState(Skill Skill) : base(Skill)
+    public KeqingElementalBurstState(SkillStateMachine Skill) : base(Skill)
     {
     }
 

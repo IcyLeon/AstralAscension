@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerElementalBurstState : PlayerElementalState
 {
-    public PlayerElementalBurstState(Skill Skill) : base(Skill)
+    public PlayerElementalBurstState(SkillStateMachine Skill) : base(Skill)
     {
     }
 
@@ -28,11 +28,11 @@ public abstract class PlayerElementalBurstState : PlayerElementalState
         TransitBurstState();
     }
 
-    public ElementalBurst elementalBurst
+    public ElementalBurstStateMachine elementalBurst
     {
         get
         {
-            return skill as ElementalBurst;
+            return skill as ElementalBurstStateMachine;
         }
     }
 

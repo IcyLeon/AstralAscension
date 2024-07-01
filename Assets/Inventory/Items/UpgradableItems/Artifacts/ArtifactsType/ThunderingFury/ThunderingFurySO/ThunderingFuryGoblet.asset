@@ -17,5 +17,6 @@ MonoBehaviour:
     type: 3}
   <ItemDesc>k__BackingField: A ceremonial cup that holds the blood of the innocent.
     It is brimming with the thundering fury of the prayers that echo within.
-  <Rarity>k__BackingField: 1
-  <ArtifactsType>k__BackingField: 3
+  <Rarity>k__BackingField: 4
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: b85f86fbd679a314c823ed5373ef4ae9,
+    type: 2}

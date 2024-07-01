@@ -39,7 +39,7 @@ public class KeqingElementalSkillState : SwordElementalSkillState
         elementalfusionElapsedTime = elementalfusionTime;
     }
 
-    public KeqingElementalSkillState(Skill Skill) : base(Skill)
+    public KeqingElementalSkillState(SkillStateMachine Skill) : base(Skill)
     {
         Range = stellarRestoration.stellarRestorationReusableData.ElementalSkillRange;
     }

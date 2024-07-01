@@ -1,0 +1,181 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab3975935454ad449ed2ed99d879add, type: 3}
+  m_Name: ArtifactManagerSO
+  m_EditorClassIdentifier: 
+  <ArtifactFamilyList>k__BackingField:
+  - {fileID: 11400000, guid: 13100007aee165442855fb0a3690a081, type: 2}
+  - {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7, type: 2}
+  <MainArtifactStatsInfoList>k__BackingField:
+  - <ArtifactStatsTypeInfo>k__BackingField:
+    - <ArtifactStatsInfo>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 430
+            inSlope: 121.916664
+            outSlope: 121.916664
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 1893
+            inSlope: 121.916664
+            outSlope: 121.916664
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <Rarity>k__BackingField: 3
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 645
+            inSlope: 182.875
+            outSlope: 182.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 3571
+            inSlope: 182.875
+            outSlope: 182.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <Rarity>k__BackingField: 4
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 717
+            inSlope: 203.15
+            outSlope: 203.15
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 4780
+            inSlope: 203.15
+            outSlope: 203.15
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <Rarity>k__BackingField: 5
+      <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 878b6b22fe268f244810d1a6399c7c0b,
+        type: 2}
+    <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b,
+      type: 2}
+  - <ArtifactStatsTypeInfo>k__BackingField:
+    - <ArtifactStatsInfo>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 28
+            inSlope: 7.9166665
+            outSlope: 7.9166665
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 123
+            inSlope: 7.9166665
+            outSlope: 7.9166665
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <Rarity>k__BackingField: 3
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 42
+            inSlope: 11.875
+            outSlope: 11.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 232
+            inSlope: 11.875
+            outSlope: 11.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <Rarity>k__BackingField: 4
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 47
+            inSlope: 13.2
+            outSlope: 13.2
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 311
+            inSlope: 13.2
+            outSlope: 13.2
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <Rarity>k__BackingField: 5
+      <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 5fa8569028fae654687b977a0b95e4a8,
+        type: 2}
+    <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
+      type: 2}
+  <SubArtifactStatsInfoList>k__BackingField: []

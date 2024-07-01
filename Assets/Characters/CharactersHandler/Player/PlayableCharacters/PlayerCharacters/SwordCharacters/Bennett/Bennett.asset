@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84aec40edc18fbc408f229e7d6ac2d3a, type: 3}
   m_Name: Bennett
   m_EditorClassIdentifier: 
-  characterName: Bennett
-  characterDescription: 
-  characterIcon: {fileID: 21300000, guid: 998682eb2b5f4b94d83ce302b21cc5bf, type: 3}
+  <characterName>k__BackingField: Bennett
+  <characterDescription>k__BackingField: 
+  <characterIcon>k__BackingField: {fileID: 0}
   <ElementSO>k__BackingField: {fileID: 11400000, guid: bc08167fa5d1d664d97e6e683b702f22,
     type: 2}
   <Rarity>k__BackingField: 4

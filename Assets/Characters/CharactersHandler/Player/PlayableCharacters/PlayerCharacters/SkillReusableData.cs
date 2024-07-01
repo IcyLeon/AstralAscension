@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SkillReusableData
 {
-    public Skill skill { get; }
-    public SkillReusableData(Skill skill)
+    public SkillStateMachine skill { get; }
+    public SkillReusableData(SkillStateMachine skill)
     {
         this.skill = skill;
     }

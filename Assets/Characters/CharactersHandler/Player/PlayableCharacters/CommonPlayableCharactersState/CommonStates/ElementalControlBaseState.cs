@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class ElementalControlBaseState
 {
-    protected Skill skill;
-    public ElementalControlBaseState(Skill skills)
+    protected SkillStateMachine skill;
+    public ElementalControlBaseState(SkillStateMachine skills)
     {
         skill = skills;
     }
@@ -18,11 +18,11 @@ public abstract class ElementalControlBaseState
         }
     }
 
-    public virtual void Enter()
+    public virtual void OnEnable()
     {
     }
 
-    public virtual void Exit()
+    public virtual void OnDisable()
     {
     }
 

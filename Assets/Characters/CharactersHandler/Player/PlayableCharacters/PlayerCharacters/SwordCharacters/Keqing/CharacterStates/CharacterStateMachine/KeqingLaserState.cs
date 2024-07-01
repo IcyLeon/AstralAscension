@@ -17,7 +17,7 @@ public class KeqingLaserState : PlayerElementalBurstState
     private int CurrentHits;
     private Vector3 LastPosition;
 
-    public KeqingLaserState(Skill Skill) : base(Skill)
+    public KeqingLaserState(SkillStateMachine Skill) : base(Skill)
     {
         TimeInBetweenHits = 2.5f / (TotalHits * 2f);
     }

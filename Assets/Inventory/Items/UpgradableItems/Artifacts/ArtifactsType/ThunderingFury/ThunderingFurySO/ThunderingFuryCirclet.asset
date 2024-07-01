@@ -17,5 +17,6 @@ MonoBehaviour:
     type: 3}
   <ItemDesc>k__BackingField: A crown once worn by an ancient shaman who worshiped
     the Thunderbird. The capricious beast remained unmoved by the shaman's devotion.
-  <Rarity>k__BackingField: 1
-  <ArtifactsType>k__BackingField: 3
+  <Rarity>k__BackingField: 4
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1,
+    type: 2}

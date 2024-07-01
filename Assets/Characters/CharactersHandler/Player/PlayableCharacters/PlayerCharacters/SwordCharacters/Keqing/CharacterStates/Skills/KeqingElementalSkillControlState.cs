@@ -38,7 +38,7 @@ public class KeqingElementalSkillControlState : ElementalSkillControlState
         }
     }
 
-    public KeqingElementalSkillControlState(Skill skills) : base(skills)
+    public KeqingElementalSkillControlState(SkillStateMachine skills) : base(skills)
     {
     }
 }

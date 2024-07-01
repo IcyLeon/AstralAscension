@@ -11,7 +11,7 @@ public class KeqingAnimationEvents : SwordCharacterAnimationEvents
         if (playableCharacters == null || playableCharacters.PlayableCharacterStateMachine == null)
             return;
 
-        StellarRestoration StellarRestoration = playableCharacters.PlayableCharacterStateMachine.playerElementalSkill as StellarRestoration;
+        StellarRestoration StellarRestoration = playableCharacters.PlayableCharacterStateMachine.playerElementalSkillStateMachine as StellarRestoration;
 
         if (StellarRestoration == null)
             return;

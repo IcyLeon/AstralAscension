@@ -46,31 +46,15 @@ public abstract class PlayerCharacterState : DamageableEntityState
         playableCharacterStateMachine.playerStateMachine.SmoothRotateToTargetRotation();
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-
-        if (playableCharacterStateMachine.playerElementalBurst != null)
-            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.Enter();
-
-        if (playableCharacterStateMachine.playerElementalSkill != null)
-            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-
-        if (playableCharacterStateMachine.playerElementalBurst != null)
-            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.Exit();
-
-        if (playableCharacterStateMachine.playerElementalSkill != null)
-            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.Exit();
-    }
-
     public override void OnEnable()
     {
         base.OnEnable();
+
+        if (playableCharacterStateMachine.playerElementalSkillStateMachine != null)
+            playableCharacterStateMachine.playerElementalSkillStateMachine.OnEnable();
+
+        if (playableCharacterStateMachine.playerElementalBurstStateMachine != null)
+            playableCharacterStateMachine.playerElementalBurstStateMachine.OnEnable();
 
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started += Attack_performed;
     }
@@ -78,6 +62,12 @@ public abstract class PlayerCharacterState : DamageableEntityState
     public override void OnDisable()
     {
         base.OnDisable();
+
+        if (playableCharacterStateMachine.playerElementalSkillStateMachine != null)
+            playableCharacterStateMachine.playerElementalSkillStateMachine.OnDisable();
+
+        if (playableCharacterStateMachine.playerElementalBurstStateMachine != null)
+            playableCharacterStateMachine.playerElementalBurstStateMachine.OnDisable();
 
         playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started -= Attack_performed;
     }
@@ -87,41 +77,9 @@ public abstract class PlayerCharacterState : DamageableEntityState
         Attack();
     }
 
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-
-
-        if (playableCharacterStateMachine.playerElementalBurst != null)
-            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.FixedUpdate();
-
-        if (playableCharacterStateMachine.playerElementalSkill != null)
-            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.FixedUpdate();
-    }
-
-    public override void LateUpdate()
-    {
-        base.LateUpdate();
-
-
-        if (playableCharacterStateMachine.playerElementalBurst != null)
-            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.LateUpdate();
-
-        if (playableCharacterStateMachine.playerElementalSkill != null)
-            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.LateUpdate();
-
-    }
-
     public override void Update()
     {
         base.Update();
-
-        if (playableCharacterStateMachine.playerElementalBurst != null)
-            playableCharacterStateMachine.playerElementalBurst.elementalBurstControlBaseState.Update();
-
-        if (playableCharacterStateMachine.playerElementalSkill != null)
-            playableCharacterStateMachine.playerElementalSkill.elementalSkillControlBaseState.Update();
-
         OnPlungeUpdate();
     }
 

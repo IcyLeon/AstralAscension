@@ -11,7 +11,7 @@ public class KeqingTeleportState : KeqingElementalSkillState
     private const float OffsetTime = 0.5f;
     private Vector3 dir;
 
-    public KeqingTeleportState(Skill Skill) : base(Skill)
+    public KeqingTeleportState(SkillStateMachine Skill) : base(Skill)
     {
     }
 

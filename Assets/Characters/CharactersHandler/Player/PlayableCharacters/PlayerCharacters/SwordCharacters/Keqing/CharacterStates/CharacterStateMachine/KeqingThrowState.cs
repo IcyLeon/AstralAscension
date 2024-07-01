@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class KeqingThrowState : KeqingElementalSkillState
 {
-    public KeqingThrowState(Skill Skill) : base(Skill)
+    public KeqingThrowState(SkillStateMachine Skill) : base(Skill)
     {
     }
 

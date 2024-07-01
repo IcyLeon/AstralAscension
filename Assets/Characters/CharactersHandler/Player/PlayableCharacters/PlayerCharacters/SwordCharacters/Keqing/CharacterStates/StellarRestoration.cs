@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StellarRestoration : ElementalSkill
+public class StellarRestoration : ElementalSkillStateMachine
 {
     public KeqingAimState keqingAimState { get; }
     public KeqingTeleportState keqingTeleportState { get; }

@@ -25,4 +25,9 @@ public class PlayerCharactersSO : DamageableEntitySO
     public PlayableCharacterSkillSO ElementalBurstInfo;
 
     [field: SerializeField] public int BurstEnergyCost { get; private set; }
+
+    public override Rarity GetItemRarity()
+    {
+        return Rarity;
+    }
 }
