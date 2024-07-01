@@ -5,9 +5,6 @@ using UnityEngine;
 
 public abstract class PlayableCharacterReuseableData : CharacterReuseableData
 {
-    private float inputCounterElapsed;
-    private const float inputCounterTime = 0.45f;
-
     private float basicAttackIdleElapsed;
     private const float basicAttackIdleTime = 3f;
 
@@ -45,13 +42,9 @@ public abstract class PlayableCharacterReuseableData : CharacterReuseableData
         if (!canAttack)
             return;
 
-        if (Time.time - inputCounterElapsed > inputCounterTime)
-        {
-            basicAttackPhase++;
-            basicAttackPhase = Mathf.Clamp(basicAttackPhase, 0, totalAttackPhase);
-            characterStateMachine.SetAnimationTrigger(basicAttackPhase.ToString());
-            inputCounterElapsed = Time.time;
-        }
+        basicAttackPhase++;
+        basicAttackPhase = Mathf.Clamp(basicAttackPhase, 0, totalAttackPhase);
+        characterStateMachine.SetAnimationTrigger(basicAttackPhase.ToString());
     }
 
     private void UpdateAttack()
@@ -91,7 +84,6 @@ public abstract class PlayableCharacterReuseableData : CharacterReuseableData
 
         canAttack = true;
         ResetAttack();
-        inputCounterElapsed = Time.time;
     }
 
     public override void Update()

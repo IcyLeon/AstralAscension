@@ -17,5 +17,6 @@ MonoBehaviour:
     type: 3}
   <ItemDesc>k__BackingField: A lightning-charged feather that still flickers with
     the wrath of the Thunderbird's cruel retribution.
-  <Rarity>k__BackingField: 1
-  <ArtifactsType>k__BackingField: 1
+  <Rarity>k__BackingField: 4
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
+    type: 2}

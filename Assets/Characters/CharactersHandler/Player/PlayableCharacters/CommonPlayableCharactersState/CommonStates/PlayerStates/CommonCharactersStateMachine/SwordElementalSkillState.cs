@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwordElementalSkillState : PlayerElementalSkillState
 {
-    public SwordElementalSkillState(Skill Skill) : base(Skill)
+    public SwordElementalSkillState(SkillStateMachine Skill) : base(Skill)
     {
     }
 

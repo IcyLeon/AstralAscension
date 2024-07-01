@@ -18,5 +18,6 @@ MonoBehaviour:
   <ItemDesc>k__BackingField: A lightning-infused flower, somehow spared the fate
     of being trodden underfoot or reduced to ash by the furious purple fire, making
     it the sole survivor on the day of disaster.
-  <Rarity>k__BackingField: 1
-  <ArtifactsType>k__BackingField: 0
+  <Rarity>k__BackingField: 4
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b,
+    type: 2}

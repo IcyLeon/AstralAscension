@@ -6,7 +6,7 @@ public class KeqingAimState : KeqingElementalSkillState
 {
     private AimRigController aimRigController;
 
-    public KeqingAimState(Skill Skill) : base(Skill)
+    public KeqingAimState(SkillStateMachine Skill) : base(Skill)
     {
         aimRigController = stellarRestoration.stellarRestorationReusableData.aimRigController;
         if (aimRigController == null)

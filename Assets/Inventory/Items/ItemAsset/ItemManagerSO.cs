@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "ItemManagerSO", menuName = "ScriptableObjects/ItemManager/ItemManagerSO")]
+public class ItemManagerSO : ScriptableObject
+{
+    [field: SerializeField] public ItemRaritySO[] ItemRaritySOList { get; private set; }
+
+    public ItemRaritySO GetItemRarityInfomation(Rarity rarity)
+    {
+        foreach(var itemRarity in ItemRaritySOList)
+        {
+            if (itemRarity.Rarity == rarity)
+                return itemRarity;
+        }
+        return null;
+    } 
+}

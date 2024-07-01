@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkywardSwordReusableData : SkillReusableData
 {
 
-    public SkywardSwordReusableData(Skill Skill) : base(Skill)
+    public SkywardSwordReusableData(SkillStateMachine Skill) : base(Skill)
     {
     }
 }

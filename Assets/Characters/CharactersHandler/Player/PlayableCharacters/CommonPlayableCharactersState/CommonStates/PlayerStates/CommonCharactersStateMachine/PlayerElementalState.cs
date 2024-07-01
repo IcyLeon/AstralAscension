@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class PlayerElementalState : IState, IPlayableElementalState
 {
-    protected Skill skill { get; }
+    protected SkillStateMachine skill { get; }
 
-    public PlayerElementalState(Skill skill)
+    public PlayerElementalState(SkillStateMachine skill)
     {
         this.skill = skill;
     }

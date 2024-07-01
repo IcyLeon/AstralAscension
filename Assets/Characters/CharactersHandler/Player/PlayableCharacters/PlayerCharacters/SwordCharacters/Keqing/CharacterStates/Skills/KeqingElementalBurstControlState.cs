@@ -5,7 +5,7 @@ using UnityEngine;
 public class KeqingElementalBurstControlState : ElementalBurstControlState
 {
 
-    public KeqingElementalBurstControlState(Skill skills) : base(skills)
+    public KeqingElementalBurstControlState(SkillStateMachine skills) : base(skills)
     {
     }
 }

@@ -117,7 +117,7 @@ public class CharacterEquippedManager
 
 public class CharacterStorage
 {
-    private Dictionary<ArtifactsType, Artifacts> artifactsList; // equipped artifacts character
+    private Dictionary<ArtifactTypeSO, Artifact> artifactsList; // equipped artifacts character
     private Dictionary<CharactersSO, CharacterDataStat> playableCharacterStatList;
 
     public CharacterEquippedManager characterEquippedManager { get; }
@@ -165,12 +165,12 @@ public class CharacterStorage
         }
     }
 
-    public void TryAddArtifacts(Artifacts artifacts)
+    public void TryAddArtifacts(Artifact artifact)
     {
-        if (artifacts == null || artifactsList.ContainsKey(artifacts.artifactsSO.ArtifactsType))
+        if (artifact == null || artifactsList.ContainsKey(artifact.artifactSO.ArtifactTypeSO))
             return;
 
-        artifactsList.Add(artifacts.artifactsSO.ArtifactsType, artifacts);
+        artifactsList.Add(artifact.artifactSO.ArtifactTypeSO, artifact);
 
     }
 

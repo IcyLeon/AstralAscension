@@ -18,5 +18,6 @@ MonoBehaviour:
   <ItemDesc>k__BackingField: The hourglass used to foretell the coming of the Thunderbird
     by the tribe that worshiped it. It has fallen into eternal silence now that the
     tribe is no more.
-  <Rarity>k__BackingField: 1
-  <ArtifactsType>k__BackingField: 2
+  <Rarity>k__BackingField: 4
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516,
+    type: 2}

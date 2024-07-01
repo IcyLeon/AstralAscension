@@ -46,7 +46,7 @@ public class StellarRestorationReusableData : SkillReusableData
         base.OnDestroy();
     }
 
-    public StellarRestorationReusableData(Skill skill) : base(skill)
+    public StellarRestorationReusableData(SkillStateMachine skill) : base(skill)
     {
         targetPosition = Vector3.zero;
 

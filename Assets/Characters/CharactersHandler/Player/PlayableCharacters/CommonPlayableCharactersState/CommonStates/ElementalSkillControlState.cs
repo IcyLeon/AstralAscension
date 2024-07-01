@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElementalSkillControlState : ElementalControlBaseState
+public abstract class ElementalSkillControlState : ElementalControlBaseState
 {
-    public override void Enter()
+    public override void OnEnable()
     {
-        base.Enter();
+        base.OnEnable();
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
     }
 
-    public override void Exit()
+    public override void OnDisable()
     {
-        base.Exit();
+        base.OnDisable();
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
         playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
@@ -63,7 +63,7 @@ public class ElementalSkillControlState : ElementalControlBaseState
 
     }
 
-    public ElementalSkillControlState(Skill skills) : base(skills)
+    public ElementalSkillControlState(SkillStateMachine skills) : base(skills)
     {
     }
 }

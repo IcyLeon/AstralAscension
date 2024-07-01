@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KeqingESlashState : KeqingElementalSkillState
 {
-    public KeqingESlashState(Skill Skill) : base(Skill)
+    public KeqingESlashState(SkillStateMachine Skill) : base(Skill)
     {
     }
 
