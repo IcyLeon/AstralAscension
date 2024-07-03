@@ -4,7 +4,21 @@ using UnityEngine;
 
 public class UpgradableItems : Item
 {
-    public UpgradableItems(Rarity Rarity, ItemSO ItemSO) : base(Rarity, ItemSO)
+    public int maxLevel { get; private set; }
+
+    public UpgradableItems(Rarity Rarity, IItem iItem) : base(Rarity, iItem)
     {
+        amount = 0;
+        maxLevel = 20;
+    }
+
+    public void UpgradeItem()
+    {
+        if (amount >= maxLevel)
+            return;
+
+        amount++;
+
+        CallOnItemChanged();
     }
 }

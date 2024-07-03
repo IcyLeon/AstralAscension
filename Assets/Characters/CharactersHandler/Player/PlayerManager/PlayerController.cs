@@ -32,16 +32,16 @@ public class PlayerController : MonoBehaviour
     {
         uiInputAction.ReviewCursor.performed += ReviewCursor_performed;
         uiInputAction.ReviewCursor.canceled += ReviewCursor_canceled;
-        ToggleCursor(false);
+        //ToggleCursor(false);
     }
 
     private void ReviewCursor_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        ToggleCursor(false);
+        //ToggleCursor(false);
     }
     private void ReviewCursor_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        ToggleCursor(true);
+        //ToggleCursor(true);
     }
 
     public void ToggleCursor(bool val)

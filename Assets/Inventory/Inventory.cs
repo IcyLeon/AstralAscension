@@ -6,7 +6,7 @@ using UnityEngine;
 public class Inventory
 {
     public int mora { get; private set; }
-    private List<Item> itemList;
+    public List<Item> itemList { get; private set; }
 
     public delegate void OnItemChanged(Item item);
     public event OnItemChanged OnItemAdd, OnItemRemove;
@@ -19,10 +19,36 @@ public class Inventory
         OnMoraChanged?.Invoke(mora);
     }
 
+    private Item GetItem(Item item)
+    {
+        if (item == null)
+            return null;
+
+        foreach(var itemRef in itemList)
+        {
+            if (itemRef.iItem == item.iItem)
+                return itemRef;
+        }
+        return null;
+    }
+
     public void AddItem(Item item)
     {
         if (item == null)
             return;
+
+        Item existedItem = GetItem(item);
+
+        if (existedItem != null)
+        {
+            ConsumableItem consumableItem = existedItem as ConsumableItem;
+
+            if (consumableItem != null)
+            {
+                consumableItem.AddAmount(1);
+                return;
+            }
+        }
 
         itemList.Add(item);
         OnItemAdd?.Invoke(item);

@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemManagerSO", menuName = "ScriptableObjects/ItemManager/ItemManagerSO")]
 public class ItemManagerSO : ScriptableObject
 {
+    [field: SerializeField] public GameObject ItemQualityItemPrefab { get; private set; }
+    [field: SerializeField] public GameObject StarPrefab { get; private set; }
     [field: SerializeField] public ItemRaritySO[] ItemRaritySOList { get; private set; }
 
     public ItemRaritySO GetItemRarityInfomation(Rarity rarity)
@@ -15,5 +17,13 @@ public class ItemManagerSO : ScriptableObject
                 return itemRarity;
         }
         return null;
-    } 
+    }
+
+    public ItemQualityItem CreateItemQualityItem(Item item, Transform ParentTransform)
+    {
+        ItemQualityItem ItemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityItem>();
+        ItemQualityItem.SetItem(item);
+        return ItemQualityItem;
+    }
+
 }

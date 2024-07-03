@@ -122,12 +122,10 @@ public class ActiveCharacter : MonoBehaviour
 
     private void SwitchCharacter(int index, bool playSwitchSound = true)
     {
-        if (characterStorage == null || characterStorage.characterEquippedManager == null)
+        if (characterStorage == null)
             return;
 
-        CharacterEquippedManager characterEquippedManager = characterStorage.characterEquippedManager;
-
-        List<CharacterDataStat> list = characterEquippedManager.GetEquippedCharacterStat();
+        List<CharacterDataStat> list = characterStorage.characterEquippedManager.GetEquippedCharacterStat();
 
         if (index >= list.Count)
             return;
@@ -147,22 +145,19 @@ public class ActiveCharacter : MonoBehaviour
             if (!CanSwitchCharacter(currentPlayableCharacter))
                 return;
 
-            foreach (var characters in GetAllPlayableCharacters())
-            {
-                characters.gameObject.SetActive(false);
-            }
+            currentPlayableCharacter.gameObject.SetActive(false);
             OnPlayerCharacterExit?.Invoke(currentPlayableCharacterData, currentPlayableCharacter);
         }
 
         currentPlayableCharacterData = PlayableCharacterDataStat;
         currentPlayableCharacter = GetPlayableCharacters(currentPlayableCharacterData);
-
-
         currentPlayableCharacter.gameObject.SetActive(true);
         OnPlayerCharacterSwitch?.Invoke(currentPlayableCharacterData, currentPlayableCharacter);
 
         if (playSwitchSound)
+        {
             player.PlayPlayerSoundEffect(player.PlayerSO.SoundData.SwitchClip);
+        }
     }
 
     private void OnDestroy()
