@@ -4,40 +4,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using static ItemManager;
+using TMPro;
 
-public class ItemQuality : MonoBehaviour, IPointerClickHandler
+[DisallowMultipleComponent]
+public class ItemQuality : MonoBehaviour
 {
+    private ObjectPool<MonoBehaviour> starPool;
+    [SerializeField] private Transform StarContainer;
+
+    [SerializeField] private TextMeshProUGUI DisplayText;
+    [SerializeField] private ItemManagerSO ItemManagerSO;
     [SerializeField] private Image ItemBackgroundImage;
     [SerializeField] private Image ItemImage;
- 
-    private IItem IItem;
-    public event EventHandler OnItemQualityClick;
 
-    private void Start()
+    public IItem iItem { get; private set; }
+
+    private void Awake()
     {
-        if (instance == null)
-            Debug.LogError("ItemManager not found!");
+        starPool = new ObjectPool<MonoBehaviour>(ItemManagerSO.StarPrefab, StarContainer, 5);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void SetInterfaceItem(IItem IItem)
     {
-        OnItemQualityClick?.Invoke(this, EventArgs.Empty);
+        iItem = IItem;
+        UpdateVisuals();
     }
 
-    public void SetItem(IItem item)
+    private void UpdateVisuals()
     {
-        IItem = item;
-
-        if (IItem == null)
+        if (iItem == null)
             return;
 
-        ItemRaritySO itemRaritySO = instance.ItemManagerSO.GetItemRarityInfomation(IItem.GetItemRarity());
+        ItemRaritySO itemRaritySO = ItemManagerSO.GetItemRarityInfomation(iItem.GetItemRarity());
 
         if (itemRaritySO == null)
             return;
 
+        starPool.ResetAll();
+        for (int i = 0; i < (int)itemRaritySO.Rarity; i++)
+        {
+            starPool.GetPooledObject();
+        }
+
         ItemBackgroundImage.sprite = itemRaritySO.ItemQualityBackground;
-        ItemImage.sprite = IItem.GetItemIcon();
+        ItemImage.sprite = iItem.GetItemIcon();
+    }
+
+    public void UpdateDisplayText(string txt)
+    {
+        DisplayText.text = txt;
     }
 }

@@ -10,7 +10,7 @@ public class ArtifactManagerSO : ScriptableObject
     public class ArtifactStatsInfo
     {
         [field: SerializeField] public ArtifactStatsTypeInfo[] ArtifactStatsTypeInfo { get; private set; }
-        [field: SerializeField] public ArtifactTypeSO ArtifactTypeSO { get; private set; }
+        [field: SerializeField] public ItemTypeSO ArtifactTypeSO { get; private set; }
     }
 
 
@@ -31,4 +31,5 @@ public class ArtifactManagerSO : ScriptableObject
     [field: SerializeField, Header("All Artifacts Set")] public ArtifactFamilySO[] ArtifactFamilyList { get; private set; }
     [field: SerializeField] public ArtifactStatsInfo[] MainArtifactStatsInfoList { get; private set; }
     [field: SerializeField] public ArtifactStatsInfo[] SubArtifactStatsInfoList { get; private set; }
+    [field: SerializeField, Header("Percentage Type Stats")] public ArtifactStatSO[] ArtifactPercentageTypeStatsSOList { get; private set; }
 }

@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Artifact : UpgradableItems
 {
-    public float statsValue { get; private set; }
+    public class ArtifactStat
+    {
+        public float statsValue;
+
+    }
+
     public ArtifactSO artifactSO
     {
         get
         {
-            return itemSO as ArtifactSO;
+            return iItem as ArtifactSO;
         }
     }
 
-    public Artifact(Rarity Rarity, ItemSO ItemSO) : base(Rarity, ItemSO)
+    public Artifact(Rarity Rarity, IItem iItem) : base(Rarity, iItem)
     {
     }
 }

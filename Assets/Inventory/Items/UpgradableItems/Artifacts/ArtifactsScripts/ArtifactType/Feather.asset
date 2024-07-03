@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2be69369ce39c459a595d7c766f3ae, type: 3}
   m_Name: Feather
   m_EditorClassIdentifier: 
-  <ArtifactTypeName>k__BackingField: Plume of Death
+  <ItemType>k__BackingField: Plume of Death

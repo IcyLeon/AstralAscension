@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using System;
 using static CharacterManager;
-using static UnityEngine.ParticleSystem;
 
 public class CharacterEquippedManager
 {
@@ -69,11 +68,10 @@ public class CharacterEquippedManager
             return;
         }
 
-        CharacterDataStat temp = equippedCharacterStat[first];
-
         OnEquipRemove?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = equippedCharacterStat[first] });
         OnEquipRemove?.Invoke(this, new CharacterEquipEvents { CharacterDataStat = equippedCharacterStat[second] });
 
+        CharacterDataStat temp = equippedCharacterStat[first];
         equippedCharacterStat[first] = equippedCharacterStat[second];
         equippedCharacterStat[second] = temp;
 
@@ -117,7 +115,7 @@ public class CharacterEquippedManager
 
 public class CharacterStorage
 {
-    private Dictionary<ArtifactTypeSO, Artifact> artifactsList; // equipped artifacts character
+    private Dictionary<ItemTypeSO, Artifact> artifactsList; // equipped artifacts character
     private Dictionary<CharactersSO, CharacterDataStat> playableCharacterStatList;
 
     public CharacterEquippedManager characterEquippedManager { get; }
@@ -167,10 +165,10 @@ public class CharacterStorage
 
     public void TryAddArtifacts(Artifact artifact)
     {
-        if (artifact == null || artifactsList.ContainsKey(artifact.artifactSO.ArtifactTypeSO))
+        if (artifact == null || artifactsList.ContainsKey(artifact.artifactSO.ItemTypeSO))
             return;
 
-        artifactsList.Add(artifact.artifactSO.ArtifactTypeSO, artifact);
+        artifactsList.Add(artifact.artifactSO.ItemTypeSO, artifact);
 
     }
 

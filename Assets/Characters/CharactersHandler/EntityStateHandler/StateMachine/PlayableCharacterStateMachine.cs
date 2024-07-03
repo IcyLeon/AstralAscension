@@ -41,7 +41,7 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         if (playerStateMachine != null)
             playerStateMachine.Update();
 
-        Debug.Log(StateMachineManager.currentStates);
+        //Debug.Log(StateMachineManager.currentStates);
 
         if (playerElementalSkillStateMachine != null)
             playerElementalSkillStateMachine.Update();
