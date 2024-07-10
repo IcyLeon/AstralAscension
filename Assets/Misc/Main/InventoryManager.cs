@@ -17,6 +17,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] ArtifactSO artifactSOtest;
     [SerializeField] ArtifactSO artifactSOtest2;
+    private Artifact testArt, testArt2;
 
     private void Awake()
     {
@@ -28,9 +29,19 @@ public class InventoryManager : MonoBehaviour
         SetInventory(new Inventory(1000));
 
 
-        inventory.AddItem(new Artifact(Rarity.FIVE_STAR, artifactSOtest2));
-        inventory.AddItem(new Artifact(Rarity.FIVE_STAR, artifactSOtest));
-        inventory.AddItem(new Artifact(Rarity.THREE_STAR, artifactSOtest));
+        testArt = new Artifact(Rarity.FIVE_STAR, artifactSOtest);
+        inventory.AddItem(testArt);
+
+        //testArt2 = new Artifact(Rarity.FIVE_STAR, artifactSOtest2);
+        //inventory.AddItem(testArt2);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            testArt.Upgrade();
+        }
     }
 
     private void SetInventory(Inventory inv)

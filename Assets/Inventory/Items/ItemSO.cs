@@ -32,16 +32,18 @@ public class ItemSO : ScriptableObject, IItem
         return ItemName;
     }
 
-    public string GetItemType()
+    public ItemTypeSO GetItemType()
     {
-        if (ItemTypeSO == null)
-            return "??";
-
-        return ItemTypeSO.ItemType;
+        return ItemTypeSO;
     }
 
     public Rarity GetItemRarity()
     {
         return Rarity;
+    }
+
+    public IItem GetInterfaceItemReference()
+    {
+        return this;
     }
 }
