@@ -21,9 +21,9 @@ public class ItemManagerSO : ScriptableObject
 
     public ItemQualityItem CreateItemQualityItem(Item item, Transform ParentTransform)
     {
-        ItemQualityItem ItemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityItem>();
-        ItemQualityItem.SetItem(item);
-        return ItemQualityItem;
+        ItemQualityItem itemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityItem>();
+        itemQualityItem.SetItem(item);
+        return itemQualityItem;
     }
 
 }

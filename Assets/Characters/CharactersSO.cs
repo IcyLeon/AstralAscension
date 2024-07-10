@@ -21,16 +21,18 @@ public class CharactersSO : ScriptableObject, IItem
     {
         return characterName;
     }
-    public string GetItemType()
+    public ItemTypeSO GetItemType()
     {
-        if (characterTypeSO == null)
-            return "??";
-
-        return characterTypeSO.ItemType;
+        return characterTypeSO;
     }
 
     public virtual Rarity GetItemRarity()
     {
         return Rarity.ONE_STAR;
+    }
+
+    public IItem GetInterfaceItemReference()
+    {
+        return this;
     }
 }

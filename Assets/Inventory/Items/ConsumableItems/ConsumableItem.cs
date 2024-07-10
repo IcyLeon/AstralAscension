@@ -10,7 +10,13 @@ public class ConsumableItem : Item
         CallOnItemChanged();
     }
 
-    public ConsumableItem(Rarity Rarity, IItem iItem) : base(Rarity, iItem)
+    public void Use(int amount)
+    {
+        amount = -Mathf.Abs(amount);
+        AddAmount(amount);
+    }
+
+    public ConsumableItem(IItem iItem) : base(iItem)
     {
         amount = 1;
     }

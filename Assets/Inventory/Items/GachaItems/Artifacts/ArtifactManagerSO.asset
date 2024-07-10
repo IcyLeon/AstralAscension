@@ -1,0 +1,2165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab3975935454ad449ed2ed99d879add, type: 3}
+  m_Name: ArtifactManagerSO
+  m_EditorClassIdentifier: 
+  <SubStatItemContentPrefab>k__BackingField: {fileID: 8533305571709888983, guid: 4672325f449e56940ba5011b5064515c,
+    type: 3}
+  <ArtifactFamilyList>k__BackingField:
+  - {fileID: 11400000, guid: 13100007aee165442855fb0a3690a081, type: 2}
+  - {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7, type: 2}
+  <MainArtifactStatsInfoList>k__BackingField:
+  - <ArtifactStatsInfo>k__BackingField:
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 878b6b22fe268f244810d1a6399c7c0b,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 430
+            inSlope: 121.916664
+            outSlope: 121.916664
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 1893
+            inSlope: 121.916664
+            outSlope: 121.916664
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 645
+            inSlope: 182.875
+            outSlope: 182.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 3571
+            inSlope: 182.875
+            outSlope: 182.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 717
+            inSlope: 203.15
+            outSlope: 203.15
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 4780
+            inSlope: 203.15
+            outSlope: 203.15
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 1
+    <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b,
+      type: 2}
+  - <ArtifactStatsInfo>k__BackingField:
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 5fa8569028fae654687b977a0b95e4a8,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 28
+            inSlope: 7.9166665
+            outSlope: 7.9166665
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 123
+            inSlope: 7.9166665
+            outSlope: 7.9166665
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 42
+            inSlope: 11.875
+            outSlope: 11.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 232
+            inSlope: 11.875
+            outSlope: 11.875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 47
+            inSlope: 13.2
+            outSlope: 13.2
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 311
+            inSlope: 13.2
+            outSlope: 13.2
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 1
+    <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
+      type: 2}
+  - <ArtifactStatsInfo>k__BackingField:
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 79322f164861d814b97c0e4f50eed1f6,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.2
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 23.1
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.3
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 34.8
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 46.6
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.2668
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.2
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 23.1
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.3
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 34.8
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 46.6
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.2666
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.6
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 28.8
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7.9
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 43.5
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 8.7
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 58.3
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.2668
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 21
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 92.3
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 25.2
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 139.3
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 28
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 186.5
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.1
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c371dba63bb801443ab3a9a1277335a0,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.8
+            inSlope: 1.65
+            outSlope: 1.65
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 25.6
+            inSlope: 1.65
+            outSlope: 1.65
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.98125
+            outSlope: 1.98125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 38.7
+            inSlope: 1.98125
+            outSlope: 1.98125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7.8
+            inSlope: 2.2
+            outSlope: 2.2
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 51.8
+            inSlope: 2.2
+            outSlope: 2.2
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.1
+    <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516,
+      type: 2}
+  - <ArtifactStatsInfo>k__BackingField:
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 79322f164861d814b97c0e4f50eed1f6,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.2
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 23.1
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.3
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 34.8
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 46.6
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.1925
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.2
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 23.1
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.3
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 34.8
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 46.6
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.1925
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.6
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 28.8
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7.9
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 43.5
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 8.7
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 58.3
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.19
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 21
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 92.3
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 25.2
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 139.3
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 28
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 186.5
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.025
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: ed5566e1a7c18f84696ac97cbdfbabde,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.6
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 28.8
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7.9
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 43.5
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 8.7
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 58.3
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.05
+    <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: b85f86fbd679a314c823ed5373ef4ae9,
+      type: 2}
+  - <ArtifactStatsInfo>k__BackingField:
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 79322f164861d814b97c0e4f50eed1f6,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.2
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 23.1
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.3
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 34.8
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 46.6
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.22
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.2
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 23.1
+            inSlope: 1.4916668
+            outSlope: 1.4916668
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.3
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 34.8
+            inSlope: 1.78125
+            outSlope: 1.78125
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 46.6
+            inSlope: 1.9799999
+            outSlope: 1.9799999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.22
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 6.6
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 28.8
+            inSlope: 1.8499999
+            outSlope: 1.8499999
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7.9
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 43.5
+            inSlope: 2.225
+            outSlope: 2.225
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 8.7
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 58.3
+            inSlope: 2.48
+            outSlope: 2.48
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.22
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 21
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 92.3
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 25.2
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 139.3
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 28
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 186.5
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.04
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 779ccf0402367f44892a2e36f363f218,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 7
+            inSlope: 1.9833332
+            outSlope: 1.9833332
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 30.8
+            inSlope: 1.9833332
+            outSlope: 1.9833332
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 8.4
+            inSlope: 2.375
+            outSlope: 2.375
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 46.4
+            inSlope: 2.375
+            outSlope: 2.375
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 9.3
+            inSlope: 2.645
+            outSlope: 2.645
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 62.2
+            inSlope: 2.645
+            outSlope: 2.645
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.1
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 53467cce7b34e0e449ae64d3bfde97be,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 3.5
+            inSlope: 0.9916666
+            outSlope: 0.9916666
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 15.4
+            inSlope: 0.9916666
+            outSlope: 0.9916666
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 4.2
+            inSlope: 1.1875
+            outSlope: 1.1875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 23.2
+            inSlope: 1.1875
+            outSlope: 1.1875
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 4.7
+            inSlope: 1.32
+            outSlope: 1.32
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 31.1
+            inSlope: 1.32
+            outSlope: 1.32
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.1
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: a22c45a7d205df54b8c655de99863a35,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 4
+            inSlope: 1.15
+            outSlope: 1.15
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 17.8
+            inSlope: 1.15
+            outSlope: 1.15
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 4.8
+            inSlope: 1.375
+            outSlope: 1.375
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 26.8
+            inSlope: 1.375
+            outSlope: 1.375
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 5.4
+            inSlope: 1.5250001
+            outSlope: 1.5250001
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 35.9
+            inSlope: 1.5250001
+            outSlope: 1.5250001
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <ProbabilityRange>k__BackingField: 0.1
+    <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1,
+      type: 2}
+  <SubArtifactStatsInfoList>k__BackingField:
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 878b6b22fe268f244810d1a6399c7c0b,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 143.4
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 239
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 298.75
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 6
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 5fa8569028fae654687b977a0b95e4a8,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 9.34
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 15.56
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 19.45
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 6
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: f1c4aef6eb33aee418425d4e7b9cc174,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 11.11
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 18.52
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 23.15
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 6
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 79322f164861d814b97c0e4f50eed1f6,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 3.5
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 4.66
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 5.83
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 4
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 3.5
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 4.66
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 5.83
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 4
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 4.37
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 5.83
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 7.29
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 4
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c371dba63bb801443ab3a9a1277335a0,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 3.89
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 5.18
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 6.48
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 4
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 13.99
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 18.65
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 23.31
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 4
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 53467cce7b34e0e449ae64d3bfde97be,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 2.33
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 3.11
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 3.89
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 3
+  - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 779ccf0402367f44892a2e36f363f218,
+      type: 2}
+    <ArtifactStatsValue>k__BackingField:
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 4.66
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 6.22
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+        type: 2}
+    - <ArtifactCurveStats>k__BackingField:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 7.77
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+        type: 2}
+    <Weight>k__BackingField: 3
+  ArtifactNumberOfStatList:
+  - <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+      type: 2}
+    <MinNoOfStats>k__BackingField: 1
+    <MaxNoOfStats>k__BackingField: 2
+  - <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+      type: 2}
+    <MinNoOfStats>k__BackingField: 2
+    <MaxNoOfStats>k__BackingField: 3
+  - <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+      type: 2}
+    <MinNoOfStats>k__BackingField: 3
+    <MaxNoOfStats>k__BackingField: 4
+  <ArtifactPercentageTypeStatsSOList>k__BackingField:
+  - {fileID: 11400000, guid: 79322f164861d814b97c0e4f50eed1f6, type: 2}
+  - {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d, type: 2}
+  - {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147, type: 2}
+  - {fileID: 11400000, guid: 53467cce7b34e0e449ae64d3bfde97be, type: 2}
+  - {fileID: 11400000, guid: 779ccf0402367f44892a2e36f363f218, type: 2}
+  - {fileID: 11400000, guid: a22c45a7d205df54b8c655de99863a35, type: 2}
+  - {fileID: 11400000, guid: c371dba63bb801443ab3a9a1277335a0, type: 2}

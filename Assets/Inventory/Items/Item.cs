@@ -6,13 +6,12 @@ using UnityEngine;
 public abstract class Item : IItem
 {
     public event EventHandler OnItemChanged;
-    public Rarity rarity { get; private set; }
     public IItem iItem { get; private set; }
     public int amount { get; protected set; }
 
-    public Item(Rarity Rarity, IItem iItem)
+    public Item(IItem iItem)
     {
-        rarity = Rarity;
+        amount = 0;
         this.iItem = iItem;
     }
 
@@ -23,26 +22,31 @@ public abstract class Item : IItem
 
     public string GetItemName()
     {
-        return iItem.GetItemName();
+        return GetInterfaceItemReference().GetItemName();
     }
 
     public Sprite GetItemIcon()
     {
-        return iItem.GetItemIcon();
+        return GetInterfaceItemReference().GetItemIcon();
     }
 
     public string GetItemDescription()
     {
-        return iItem.GetItemDescription();
+        return GetInterfaceItemReference().GetItemDescription();
     }
 
-    public Rarity GetItemRarity()
+    public virtual Rarity GetItemRarity()
     {
-        return rarity;
+        return GetInterfaceItemReference().GetItemRarity();
     }
 
-    public string GetItemType()
+    public ItemTypeSO GetItemType()
     {
-        return iItem.GetItemType();
+        return GetInterfaceItemReference().GetItemType();
+    }
+
+    public IItem GetInterfaceItemReference()
+    {
+        return iItem.GetInterfaceItemReference();
     }
 }

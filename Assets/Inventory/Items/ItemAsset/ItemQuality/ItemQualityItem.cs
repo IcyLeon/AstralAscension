@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class ItemQualityItem : ItemQualityButton
 {
+    [SerializeField] private LockItem lockItem;
     private Item item;
 
     private void OnDestroyItem()
@@ -49,11 +50,18 @@ public class ItemQualityItem : ItemQualityButton
 
         displayText += item.amount;
 
+        UpdateLockVisual();
+
         UpdateDisplayText(displayText);
     }
 
     private void Item_OnItemChanged(object sender, EventArgs e)
     {
         UpdateVisuals();
+    }
+
+    private void UpdateLockVisual()
+    {
+        lockItem.SetUpgradableItem(item);
     }
 }

@@ -9,25 +9,28 @@ public class ObjectPool<T> where T : MonoBehaviour
     private int amountToPool;
     private List<T> pooledObjects;
 
-    public ObjectPool(GameObject objectPool, Transform ParentTransform = null, int amountToPool = 1)
+    public ObjectPool(GameObject objectPool, Transform ParentTransform = null, int amountToPool = 1) : this(amountToPool)
     {
-        pooledObjects = new();
-        this.amountToPool = amountToPool;
-
         for (int i = 0; i < this.amountToPool; i++)
         {
             GameObject tmp = CreateGameObject(objectPool, ParentTransform);
             pooledObjects.Add(tmp.GetComponent<T>());
         }
     }
-    public ObjectPool(string objectPoolPrefabName, Transform ParentTransform = null, int amountToPool = 1)
+
+    private ObjectPool(int amountToPool)
     {
         pooledObjects = new();
         this.amountToPool = amountToPool;
+    }
+
+    public ObjectPool(string objectPoolPrefabName, Transform ParentTransform = null, int amountToPool = 1) : this(amountToPool)
+    {
+        GameObject objectPool = Resources.Load<GameObject>(objectPoolPrefabName);
 
         for (int i = 0; i < this.amountToPool; i++)
         {
-            GameObject tmp = CreateGameObject(Resources.Load<GameObject>(objectPoolPrefabName), ParentTransform);
+            GameObject tmp = CreateGameObject(objectPool, ParentTransform);
             pooledObjects.Add(tmp.GetComponent<T>());
         }
     }
@@ -37,7 +40,7 @@ public class ObjectPool<T> where T : MonoBehaviour
     {
         for (int i = 0; i < pooledObjects.Count; i++)
         {
-            if (!pooledObjects[i].gameObject.activeInHierarchy)
+            if (!pooledObjects[i].gameObject.activeSelf)
             {
                 pooledObjects[i].gameObject.SetActive(true);
                 return pooledObjects[i];

@@ -3,13 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static InventoryManager;
-
-public class ItemQualityButtonEvent : EventArgs
-{
-    public ItemQualityButton selectedItemQualityButton;
-}
-
 
 [DisallowMultipleComponent]
 public class ArtifactPanelContent : MonoBehaviour
@@ -21,10 +16,9 @@ public class ArtifactPanelContent : MonoBehaviour
         [field: SerializeField] public ItemTypeSO ItemTypeSO { get; private set; }
     }
 
+    [SerializeField] private ItemContentDisplay ItemContentDisplay;
     [SerializeField] private TabGroup TabGroup;
     [SerializeField] private ArtifactPanel[] ArtifactPanelList;
-
-    public event EventHandler<ItemQualityButtonEvent> OnItemQualityButtonChanged;
 
     private Dictionary<Item, ItemQualityButton> itemQualityDictionary;
     private Inventory Inventory;
@@ -35,7 +29,6 @@ public class ArtifactPanelContent : MonoBehaviour
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
     }
-
 
     private void InventoryManager_OnInventoryOld(Inventory inventory)
     {
@@ -61,7 +54,7 @@ public class ArtifactPanelContent : MonoBehaviour
     {
         if (itemQualityDictionary.TryGetValue(item, out ItemQualityButton itemQualityButton))
         {
-            itemQualityButton.OnItemQualityClick -= ItemQualityItem_OnItemQualityClick;
+            itemQualityButton.OnItemQualityClick -= OnSelectedItemQualityClick;
             Destroy(itemQualityButton.gameObject);
             itemQualityDictionary.Remove(item);
         }
@@ -84,27 +77,27 @@ public class ArtifactPanelContent : MonoBehaviour
         if (artifact == null || itemQualityDictionary.ContainsKey(artifact))
             return;
 
-        GameObject Panel = GetPanel(artifact.artifactSO.ItemTypeSO);
+        GameObject Panel = GetPanel(artifact.GetItemType());
 
         if (Panel == null)
             return;
 
         ItemQualityItem itemQualityItem = instance.ItemManagerSO.CreateItemQualityItem(item, Panel.transform);
-        itemQualityItem.OnItemQualityClick += ItemQualityItem_OnItemQualityClick;
+        itemQualityItem.OnItemQualityClick += OnSelectedItemQualityClick;
         itemQualityDictionary.Add(item, itemQualityItem);
     }
 
-    private void ItemQualityItem_OnItemQualityClick(object sender, EventArgs e)
+    private void OnSelectedItemQualityClick(object sender, EventArgs e)
     {
-        OnItemQualityButtonChanged?.Invoke(this, new ItemQualityButtonEvent { selectedItemQualityButton = sender as ItemQualityButton });
+        ItemQualityButton ItemQualityButton = sender as ItemQualityButton;
+        ItemContentDisplay.SetInterfaceItem(ItemQualityButton.ItemQuality.iItem);
     }
 
     private void UpdateVisuals()
     {
         foreach(var itemQualityKeyPairs in itemQualityDictionary)
         {
-            itemQualityKeyPairs.Value.OnItemQualityClick -= ItemQualityItem_OnItemQualityClick;
-            Destroy(itemQualityKeyPairs.Value.gameObject);
+            Inventory_OnItemRemove(itemQualityKeyPairs.Key);
         }
 
         itemQualityDictionary.Clear();

@@ -165,10 +165,15 @@ public class CharacterStorage
 
     public void TryAddArtifacts(Artifact artifact)
     {
-        if (artifact == null || artifactsList.ContainsKey(artifact.artifactSO.ItemTypeSO))
+        if (artifact == null)
             return;
 
-        artifactsList.Add(artifact.artifactSO.ItemTypeSO, artifact);
+        ItemTypeSO itemTypeSO = artifact.GetItemType();
+
+        if (artifactsList.ContainsKey(itemTypeSO))
+            return;
+
+        artifactsList.Add(itemTypeSO, artifact);
 
     }
 

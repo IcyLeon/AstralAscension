@@ -21,13 +21,21 @@ public class ItemQuality : MonoBehaviour
 
     private void Awake()
     {
-        starPool = new ObjectPool<MonoBehaviour>(ItemManagerSO.StarPrefab, StarContainer, 5);
+        InitStarPool();
     }
 
     public void SetInterfaceItem(IItem IItem)
     {
         iItem = IItem;
         UpdateVisuals();
+    }
+
+    private void InitStarPool()
+    {
+        if (starPool != null)
+            return;
+
+        starPool = new ObjectPool<MonoBehaviour>(ItemManagerSO.StarPrefab, StarContainer, 5);
     }
 
     private void UpdateVisuals()
@@ -39,6 +47,8 @@ public class ItemQuality : MonoBehaviour
 
         if (itemRaritySO == null)
             return;
+
+        InitStarPool();
 
         starPool.ResetAll();
         for (int i = 0; i < (int)itemRaritySO.Rarity; i++)
