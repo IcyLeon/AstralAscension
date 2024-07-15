@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using static InventoryManager;
 
 [DisallowMultipleComponent]
@@ -16,6 +15,7 @@ public class ArtifactPanelContent : MonoBehaviour
         [field: SerializeField] public ItemTypeSO ItemTypeSO { get; private set; }
     }
 
+    [SerializeField] private ScrollRect ScrollRect;
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
     [SerializeField] private TabGroup TabGroup;
     [SerializeField] private ArtifactPanel[] ArtifactPanelList;
@@ -26,8 +26,14 @@ public class ArtifactPanelContent : MonoBehaviour
     private void Awake()
     {
         itemQualityDictionary = new();
+        TabGroup.OnTabGroupChanged += TabGroup_OnTabGroupChanged;
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
+    }
+
+    private void TabGroup_OnTabGroupChanged(object sender, TabOption.TabEvents e)
+    {
+        ScrollRect.content = e.PanelRectTransform;
     }
 
     private void InventoryManager_OnInventoryOld(Inventory inventory)
@@ -82,7 +88,7 @@ public class ArtifactPanelContent : MonoBehaviour
         if (Panel == null)
             return;
 
-        ItemQualityItem itemQualityItem = instance.ItemManagerSO.CreateItemQualityItem(item, Panel.transform);
+        ItemQualityItem itemQualityItem = ItemContentDisplay.ItemManagerSO.CreateItemQualityItem(item, Panel.transform);
         itemQualityItem.OnItemQualityClick += OnSelectedItemQualityClick;
         itemQualityDictionary.Add(item, itemQualityItem);
     }
@@ -110,6 +116,7 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void OnDestroy()
     {
+        TabGroup.OnTabGroupChanged -= TabGroup_OnTabGroupChanged;
         OnInventoryOld -= InventoryManager_OnInventoryOld;
         OnInventoryNew -= InventoryManager_OnInventoryNew;
 

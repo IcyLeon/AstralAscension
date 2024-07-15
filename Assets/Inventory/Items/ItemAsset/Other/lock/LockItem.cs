@@ -14,35 +14,12 @@ public abstract class LockItem : MonoBehaviour
 
     public void SetUpgradableItem(Item Item)
     {
-        UnsubscribeEvents();
         upgradableItems = Item as UpgradableItems;
-        SubscribeEvents();
-
         gameObject.SetActive(upgradableItems != null);
-    }
-    private void SubscribeEvents()
-    {
-        if (upgradableItems == null)
-            return;
-
-        upgradableItems.OnItemChanged += UpgradableItems_OnItemChanged;
         UpdateVisual();
     }
 
-    private void UnsubscribeEvents()
-    {
-        if (upgradableItems == null)
-            return;
-
-        upgradableItems.OnItemChanged -= UpgradableItems_OnItemChanged;
-    }
-
-    private void UpgradableItems_OnItemChanged(object sender, EventArgs e)
-    {
-        UpdateVisual();
-    }
-
-    protected void UpdateVisual()
+    protected virtual void UpdateVisual()
     {
         if (upgradableItems == null)
             return;
@@ -50,13 +27,7 @@ public abstract class LockItem : MonoBehaviour
         RefreshLock();
     }
 
-
-    private void OnDestroy()
-    {
-        UnsubscribeEvents();
-    }
-
-    protected virtual void RefreshLock()
+    private void RefreshLock()
     {
         LockItemInfoSO.LockInfo lockInfo = LockItemInfoSO.GetLockInfo(upgradableItems.locked);
 

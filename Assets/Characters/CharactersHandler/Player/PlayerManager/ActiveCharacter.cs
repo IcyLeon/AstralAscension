@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static CharacterManager;
+using static PartySetupManager;
 
 [DisallowMultipleComponent]
 public class ActiveCharacter : MonoBehaviour
@@ -62,29 +63,20 @@ public class ActiveCharacter : MonoBehaviour
     private void Start()
     {
         player.PlayerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
-        player.PlayerController.playerInputAction.BowAim.started += BowAim_started;
         InitExistingCharacters();
-    }
-
-    private void BowAim_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        PlayableCharacterDataStat p = currentPlayableCharacterData as PlayableCharacterDataStat;
-        p.AddEnergy(10);
     }
 
     private void InitExistingCharacters()
     {
-        if (characterStorage == null || characterStorage.characterEquippedManager == null)
+        if (characterStorage == null || characterStorage.PartySetupManager == null)
             return;
-
-        CharacterEquippedManager characterEquippedManager = characterStorage.characterEquippedManager;
 
         PlayableCharacters[] pcList = GetAllPlayableCharacters();
         for (int i = 0; i < pcList.Length; i++)
         {
             PlayableCharacters pc = pcList[i];
-            characterEquippedManager.AddEquipPlayableCharacterToList(pc.GetCharacterDataStat());
             characterStorage.AddCharacterData(pc.GetCharacterDataStat());
+            characterStorage.PartySetupManager.AddMember(pc.GetCharacterDataStat(), 0);
         }
 
         PlayableCharacters existPlayableCharacters = GetComponentInChildren<PlayableCharacters>();
@@ -125,7 +117,7 @@ public class ActiveCharacter : MonoBehaviour
         if (characterStorage == null)
             return;
 
-        List<CharacterDataStat> list = characterStorage.characterEquippedManager.GetEquippedCharacterStat();
+        List<CharacterDataStat> list = characterStorage.PartySetupManager.GetCurrentPartyMembers();
 
         if (index >= list.Count)
             return;

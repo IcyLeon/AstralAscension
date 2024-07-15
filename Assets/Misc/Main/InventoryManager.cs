@@ -13,11 +13,7 @@ public class InventoryManager : MonoBehaviour
     public delegate void OnInventoryChanged(Inventory inventory);
     public static event OnInventoryChanged OnInventoryOld, OnInventoryNew;
 
-    [field: SerializeField] public ItemManagerSO ItemManagerSO { get; private set; }
-
     [SerializeField] ArtifactSO artifactSOtest;
-    [SerializeField] ArtifactSO artifactSOtest2;
-    private Artifact testArt, testArt2;
 
     private void Awake()
     {
@@ -29,19 +25,7 @@ public class InventoryManager : MonoBehaviour
         SetInventory(new Inventory(1000));
 
 
-        testArt = new Artifact(Rarity.FIVE_STAR, artifactSOtest);
-        inventory.AddItem(testArt);
-
-        //testArt2 = new Artifact(Rarity.FIVE_STAR, artifactSOtest2);
-        //inventory.AddItem(testArt2);
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            testArt.Upgrade();
-        }
+        inventory.AddItem(new Artifact(Rarity.FIVE_STAR, artifactSOtest));
     }
 
     private void SetInventory(Inventory inv)

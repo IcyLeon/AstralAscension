@@ -81,9 +81,6 @@ public class ElementalReactionsManager : MonoBehaviour
 
         ElementalReaction ER = ERSO.CreateElementalReaction(target, ElementsInfo);
 
-        if (ER == null)
-            return null;
-
         ER.OnERDestroy += OnDestroyER;
 
         return ER;

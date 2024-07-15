@@ -22,10 +22,12 @@ public class ArtifactMainStatDisplay : ArtifactStatDisplay
 
         ArtifactStatSO artifactStatSO = artifact.mainStat.statInfo.ArtifactStatSO;
         float statsValue = artifact.mainStat.statsValue;
+        float statsPercentage = statsValue * 0.01f;
+
 
         string StatsValueText = ArtifactManager.instance.ArtifactManagerSO.IsPercentageStat(artifactStatSO)
-        ? statsValue.ToString("F1") + "%"
-        : statsValue.ToString("F0");
+        ? statsPercentage.ToString("P1")
+        : Mathf.Round(statsValue).ToString("N0");
 
         return StatsValueText;
     }

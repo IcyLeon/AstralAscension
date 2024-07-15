@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class LockItemLabel : LockItem
 {
-    protected override void RefreshLock()
+    protected override void UpdateVisual()
     {
-        base.RefreshLock();
+        base.UpdateVisual();
 
         gameObject.SetActive(upgradableItems.locked);
     }

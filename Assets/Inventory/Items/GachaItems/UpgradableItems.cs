@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -5,12 +6,20 @@ using UnityEngine;
 
 public class UpgradableItems : Item
 {
+    public CharactersSO equipByCharacter { get; private set; }
+
     public bool locked { get; private set; }
     public int maxLevel { get; private set; }
     public UpgradableItems(IItem iItem) : base(iItem)
     {
         locked = false;
         maxLevel = 20;
+    }
+
+    public virtual void SetEquip(CharactersSO charactersSO)
+    {
+        equipByCharacter = charactersSO;
+        CallOnItemChanged();
     }
 
     public void Upgrade()

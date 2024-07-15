@@ -41,10 +41,11 @@ public class ArtifactSubStatDisplay : ArtifactStatDisplay
 
         ArtifactStatSO artifactStatSO = artifact.subStats.ElementAt(index).Key;
         float statsValue = artifact.subStats[artifactStatSO].statsValue;
+        float statsPercentage = statsValue * 0.01f;
 
         string StatsValueText = ArtifactManager.instance.ArtifactManagerSO.IsPercentageStat(artifactStatSO)
-        ? statsValue.ToString("F1") + "%"
-        : statsValue.ToString("F0");
+        ? statsPercentage.ToString("P1")
+        : Mathf.Round(statsValue).ToString("N0");
 
         return "+" + StatsValueText;
     }
