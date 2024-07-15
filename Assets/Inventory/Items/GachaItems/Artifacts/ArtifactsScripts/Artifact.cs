@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static ArtifactManagerSO;
+using static ArtifactManager;
 
 public class Artifact : GachaItem
 {
@@ -14,9 +15,28 @@ public class Artifact : GachaItem
 
     public Artifact(Rarity Rarity, IItem iItem) : base(Rarity, iItem)
     {
+        if (instance == null)
+        {
+            Debug.LogError("Artifact Manager not found!");
+        }
+
         subStats = new();
         GenerateRandomMainStat();
         GenerateRandomSubStat();
+    }
+
+    public override void SetEquip(CharactersSO charactersSO)
+    {
+        if (charactersSO != null)
+        {
+            instance.AddArtifacts(charactersSO, this);
+        }
+        else
+        {
+            instance.RemoveArtifacts(equipByCharacter, this);
+        }
+
+        base.SetEquip(charactersSO);
     }
 
     private void GenerateRandomMainStat()
@@ -26,17 +46,9 @@ public class Artifact : GachaItem
 
     private void GenerateRandomSubStat()
     {
-        ArtifactNumberofStat artifactNumberofStat = ArtifactManager.instance.ArtifactManagerSO.GetArtifactNumberofSubStat(GetItemRarity());
+        int randomNoSubStats = instance.ArtifactManagerSO.GetArtifactRandomNumberofSubStat(GetItemRarity());
 
-        float randomValue = Random.value;
-        int noOfStats = artifactNumberofStat.MinNoOfStats;
-
-        if (randomValue > 0.5f)                     
-        {               
-            noOfStats = artifactNumberofStat.MaxNoOfStats;
-        }
-
-        for (int i = 0; i < noOfStats; i++)
+        for (int i = 0; i < randomNoSubStats; i++)
         {
             CreateSubStats();
         }
@@ -50,7 +62,7 @@ public class Artifact : GachaItem
 
     private bool HasMaxedOutSubStats()
     {
-        return subStats.Count >= ArtifactManager.instance.ArtifactManagerSO.GetArtifactNumberofSubStat(GetItemRarity()).MaxNoOfStats;
+        return subStats.Count >= instance.ArtifactManagerSO.GetArtifactNumberofSubStat(GetItemRarity()).MaxNoOfStats;
     }
 
     protected override void UpgradeItemAction()

@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.TextCore.Text;
 
 public class ArtifactManager : MonoBehaviour
 {
@@ -26,6 +29,42 @@ public class ArtifactManager : MonoBehaviour
         if (characterStorage != null)
         {
         }
+    }
+
+    public void RemoveArtifacts(CharactersSO characterSO, Artifact artifact)
+    {
+        if (artifact == null || characterSO == null)
+            return;
+
+        if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
+            return;
+
+        characterStorage.playableCharacterStatList[characterSO].RemoveArtifacts(artifact.GetItemType());
+    }
+
+    public void AddArtifacts(CharactersSO characterSO, Artifact artifact)
+    {
+        if (artifact == null || characterSO == null)
+            return;
+
+        if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
+            return;
+
+        CharactersSO previousOwnerSO = artifact.equipByCharacter;
+
+        RemoveArtifacts(previousOwnerSO, artifact); // remove previous owner of the artifact
+
+        Artifact CurrentArtifactEquipped = characterStorage.playableCharacterStatList[characterSO].GetItem(artifact.GetItemType()) as Artifact;
+        AddArtifacts(previousOwnerSO, CurrentArtifactEquipped);
+
+        if (CurrentArtifactEquipped != null) // swap
+        {
+            CurrentArtifactEquipped.SetEquip(previousOwnerSO);
+        }
+
+        characterStorage.playableCharacterStatList[characterSO].AddArtifacts(artifact); // new owner of the artifact
+
+
     }
 
     private void OnDestroy()

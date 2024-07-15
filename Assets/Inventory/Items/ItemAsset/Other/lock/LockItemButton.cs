@@ -6,7 +6,18 @@ using UnityEngine.UI;
 
 public class LockItemButton : LockItem
 {
-    public void ToggleLock()
+    private Button lockButton;
+
+    private void Awake()
+    {
+        lockButton = GetComponent<Button>();
+
+        if (lockButton == null)
+            return;
+
+        lockButton.onClick.AddListener(ToggleLock);
+    }
+    private void ToggleLock()
     {
         if (upgradableItems == null)
             return;

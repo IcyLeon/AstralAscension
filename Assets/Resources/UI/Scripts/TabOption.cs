@@ -17,21 +17,17 @@ public class TabOption : MonoBehaviour, IPointerClickHandler
     [field: SerializeField] public RectTransform Panel { get; private set; }
     [SerializeField] private Image IconImage;
     [SerializeField] private Image BackgroundIconImage;
-    private Color32 DefaultIconColor;
+    [SerializeField] private Color32 DefaultIconColor;
 
     public event EventHandler<TabEvents> TabOptionClick;
-
-    private void Awake()
-    {
-        DefaultIconColor = IconImage.color;
-    }
 
     public void ResetTab()
     {
         if (BackgroundIconImage != null)
             BackgroundIconImage.gameObject.SetActive(false);
 
-        IconImage.color = DefaultIconColor;
+        if (IconImage != null)
+            IconImage.color = DefaultIconColor;
     }
 
     public void Select()

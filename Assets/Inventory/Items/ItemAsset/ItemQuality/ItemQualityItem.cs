@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ItemQualityItem : ItemQualityButton
 {
     [SerializeField] private LockItem lockItem;
+    [SerializeField] private EquipIcon equipIcon;
     private Item item;
 
     private void OnDestroyItem()
@@ -63,5 +64,6 @@ public class ItemQualityItem : ItemQualityButton
     private void UpdateLockVisual()
     {
         lockItem.SetUpgradableItem(item);
+        equipIcon.UpdateVisual(item);
     }
 }

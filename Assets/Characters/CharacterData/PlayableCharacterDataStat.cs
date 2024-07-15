@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayableCharacterDataStat : CharacterDataStat
 {
+    private Dictionary<ItemTypeSO, UpgradableItems> itemList; // equipped artifacts character
     public float currentElementalSkillCooldownElapsed { get; private set; }
     public float currentElementalBurstCooldownElapsed { get; private set; }
 
@@ -22,9 +23,45 @@ public class PlayableCharacterDataStat : CharacterDataStat
 
     public PlayableCharacterDataStat(CharactersSO charactersSO, int currentAscension = 0) : base(charactersSO)
     {
+        itemList = new();
         this.currentAscension = currentAscension;
         currentEnergy = 0;
         currentElementalSkillCooldownElapsed = currentElementalBurstCooldownElapsed = 0;
+    }
+
+    public void RemoveArtifacts(ItemTypeSO artifactTypeSO)
+    {
+        Artifact artifact = GetItem(artifactTypeSO) as Artifact;
+        if (artifact == null)
+            return;
+
+        itemList.Remove(artifactTypeSO);
+        artifact.SetEquip(null);
+    }
+
+    public Item GetItem(ItemTypeSO itemTypeSO)
+    {
+        if (itemTypeSO != null && itemList.TryGetValue(itemTypeSO, out UpgradableItems item))
+        {
+            return item;
+        }
+
+        return null;
+    }
+
+    public void AddArtifacts(Artifact artifact)
+    {
+        if (artifact == null)
+            return;
+
+        ItemTypeSO itemTypeSO = artifact.GetItemType();
+
+        if (GetItem(itemTypeSO) != null)
+        {
+            RemoveArtifacts(itemTypeSO);
+        }
+
+        itemList[itemTypeSO] = artifact;
     }
 
     public override void Update()

@@ -8,12 +8,17 @@ using UnityEngine.UI;
 
 public class TabGroup : MonoBehaviour
 {
-    [SerializeField] private ScrollRect ScrollRect;
     [SerializeField] private Color32 SelectedTabColor;
     protected TabOption[] tabOptions;
+
+    public event EventHandler<TabOption.TabEvents> OnTabGroupChanged;
+
     protected virtual void Awake()
     {
         tabOptions = GetComponentsInChildren<TabOption>(true);
+
+        if (tabOptions == null)
+            return;
 
         foreach(var tabOption in tabOptions)
         {
@@ -36,8 +41,6 @@ public class TabGroup : MonoBehaviour
         }
 
         ActivePanel(e);
-
-        ScrollRect.content = e.PanelRectTransform;
     }
 
     private void TabOption_TabOptionClick(object sender, TabOption.TabEvents e)
@@ -47,8 +50,16 @@ public class TabGroup : MonoBehaviour
 
     private void ActivePanel(TabOption.TabEvents e)
     {
-        e.TabOptionIconImage.color = SelectedTabColor;
+        if (e.TabOptionIconImage != null)
+            e.TabOptionIconImage.color = SelectedTabColor;
+
         e.PanelRectTransform.gameObject.SetActive(true);
+
+        OnTabGroupChanged?.Invoke(this, new TabOption.TabEvents
+        {
+            PanelRectTransform = e.PanelRectTransform,
+            TabOptionIconImage = e.TabOptionIconImage
+        });
     }
 
 

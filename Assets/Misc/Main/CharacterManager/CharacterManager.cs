@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class CharacterManager : MonoBehaviour
 {
-    public const int MAX_EQUIP_CHARACTERS = 4;
     public static CharacterManager instance { get; private set; }
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
@@ -78,6 +77,11 @@ public class CharacterManager : MonoBehaviour
     public float GetProbabilityPlayVO()
     {
         return ProbabilityPlayVO;
+    }
+
+    private void OnDestroy()
+    {
+        characterStorage.OnDestroy();    
     }
 
     public static bool ContainsParam(Animator _Anim, string _ParamName)

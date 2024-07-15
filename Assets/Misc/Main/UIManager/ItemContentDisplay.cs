@@ -1,41 +1,59 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemContentDisplay : MonoBehaviour
 {
-    private ObjectPool<MonoBehaviour> starPool;
-    private ObjectPool<ArtifactSubStatDisplay> subStatPool;
+    public class ItemContentEvent : EventArgs
+    {
+        public IItem iItem;
+    }
 
-    [SerializeField] private ItemManagerSO ItemManagerSO;
+    private ObjectPool<MonoBehaviour> starPool;
+
+    public event EventHandler<ItemContentEvent> OnItemContentDisplayChanged;
+
+    [field: SerializeField] public ItemManagerSO ItemManagerSO { get; private set; }
 
     [Header("Base Item Information")]
     [SerializeField] private TextMeshProUGUI ItemNameTxt;
     [SerializeField] private TextMeshProUGUI ItemTypeTxt;
     [SerializeField] private TextMeshProUGUI ItemDescTxt;
+    [SerializeField] private Image ItemImage;
     [SerializeField] private Transform StarContainerTransform;
 
     [Header("Upgradable Item Information")]
     [SerializeField] private GameObject LevelContent;
     [SerializeField] private LockItem UpgradableItemLockItem;
     [SerializeField] private TextMeshProUGUI LevelTxt;
+    [SerializeField] private ItemEquipDisplay ItemEquipDisplay;
 
     [Header("Artifact Item Information")]
     [SerializeField] private GameObject ArtifactContent;
     [SerializeField] private TextMeshProUGUI ArtifactSetTxt;
-    [SerializeField] private Transform SubStatContainerParent;
 
     private IItem iItem;
 
+    private ArtifactSubStatDisplay[] artifactSubStatDisplayList;
     private ArtifactMainStatDisplay artifactMainStatDisplay;
 
     private void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         InitStarPool();
-        subStatPool = new ObjectPool<ArtifactSubStatDisplay>(ArtifactManager.instance.ArtifactManagerSO.SubStatItemContentPrefab, SubStatContainerParent, 5);
-        artifactMainStatDisplay = GetComponentInChildren<ArtifactMainStatDisplay>(true);
+
+        if (artifactSubStatDisplayList == null)
+            artifactSubStatDisplayList = GetComponentsInChildren<ArtifactSubStatDisplay>(true);
+
+        if (artifactMainStatDisplay == null)
+            artifactMainStatDisplay = GetComponentInChildren<ArtifactMainStatDisplay>(true);
     }
 
     // Update is called once per frame
@@ -47,23 +65,31 @@ public class ItemContentDisplay : MonoBehaviour
         UpdateUpgradableItemsVisual();
         UpdateStars();
         UpdateArtifactsSOVisual();
-        UpdateLockVisual();
 
         ItemNameTxt.text = iItem.GetItemName();
         ItemTypeTxt.text = iItem.GetItemType().ItemType;
         ItemDescTxt.text = iItem.GetItemDescription();
+
+        if (ItemImage)
+            ItemImage.sprite = iItem.GetItemIcon();
+
+        OnItemContentDisplayChanged?.Invoke(this, new ItemContentEvent
+        {
+            iItem = iItem,
+        });
     }
 
-    private void UpdateLockVisual()
-    {
-        UpgradableItems UpgradableItems = iItem as UpgradableItems;
-        UpgradableItemLockItem.SetUpgradableItem(UpgradableItems);
-    }
 
     private void UpdateUpgradableItemsVisual()
     {
         UpgradableItems UpgradableItems = iItem as UpgradableItems;
         LevelContent.SetActive(UpgradableItems != null);
+
+        UpgradableItemLockItem.SetUpgradableItem(UpgradableItems);
+
+        if (ItemEquipDisplay != null)
+            ItemEquipDisplay.UpdateVisual(UpgradableItems);
+
         UpdateArtifactStatsDisplay();
 
         if (UpgradableItems == null)
@@ -79,15 +105,12 @@ public class ItemContentDisplay : MonoBehaviour
         if (artifactMainStatDisplay != null)
             artifactMainStatDisplay.SetArtifactItem(artifact);
 
-        if (subStatPool != null)
+        for (int i = 0; i < artifactSubStatDisplayList.Length; i++)
         {
-            subStatPool.ResetAll();
-            subStatPool.CallbackPoolObject((artifactSubStatDisplay, i) =>
-                {
-                    artifactSubStatDisplay.SetIndex(i);
-                    artifactSubStatDisplay.SetArtifactItem(artifact);
-                }
-            );
+            ArtifactSubStatDisplay artifactSubStatDisplay = artifactSubStatDisplayList[i];
+            artifactSubStatDisplay.gameObject.SetActive(false);
+            artifactSubStatDisplay.SetIndex(i);
+            artifactSubStatDisplay.SetArtifactItem(artifact);
         }
     }
 
@@ -134,6 +157,7 @@ public class ItemContentDisplay : MonoBehaviour
         if (iItem == IItem)
             return;
 
+        Init();
         UnsubscribeItemEvent();
         iItem = IItem;
         SubscribeItemEvent();

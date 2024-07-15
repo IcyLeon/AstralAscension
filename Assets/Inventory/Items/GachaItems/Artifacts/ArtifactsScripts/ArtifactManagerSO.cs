@@ -85,11 +85,14 @@ public class ArtifactManagerSO : ScriptableObject
         [field: SerializeField] public int MaxNoOfStats { get; private set; }
     }
 
-    [field: SerializeField] public GameObject SubStatItemContentPrefab { get; private set; }
     [field: SerializeField, Header("All Artifacts Set")] public ArtifactFamilySO[] ArtifactFamilyList { get; private set; }
     [field: SerializeField, Header("Main Stats Information")] public ArtifactMainStatsTypeInfo[] MainArtifactStatsInfoList { get; private set; }
     [field: SerializeField, Header("Sub Stats Information")] public ArtifactSubStatsInfo[] SubArtifactStatsInfoList { get; private set; }
     [SerializeField] private ArtifactNumberofStat[] ArtifactNumberOfStatList;
+
+    [Header("Chance of Getting Max Stat")]
+    [Range(0f, 1f)]
+    [SerializeField] private float MaxStatProbabilityRequirement;
     [field: SerializeField, Header("Percentage Type Stats")] public ArtifactStatSO[] ArtifactPercentageTypeStatsSOList { get; private set; }
 
 
@@ -109,6 +112,23 @@ public class ArtifactManagerSO : ScriptableObject
         return null;
     }
 
+    public int GetArtifactRandomNumberofSubStat(Rarity rarity)
+    {
+        ArtifactNumberofStat artifactNumberofStat = GetArtifactNumberofSubStat(rarity);
+
+        if (artifactNumberofStat == null)
+            return 1;
+
+        float randomValue = Random.value;
+        int noOfStats = artifactNumberofStat.MinNoOfStats;
+
+        if (randomValue > MaxStatProbabilityRequirement)
+        {
+            noOfStats = artifactNumberofStat.MaxNoOfStats;
+        }
+
+        return noOfStats;
+    }
     public ArtifactNumberofStat GetArtifactNumberofSubStat(Rarity rarity)
     {
         foreach (var ArtifactNumberOfStat in ArtifactNumberOfStatList)
