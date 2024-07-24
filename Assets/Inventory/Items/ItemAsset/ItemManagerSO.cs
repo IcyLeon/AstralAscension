@@ -22,7 +22,7 @@ public class ItemManagerSO : ScriptableObject
     public ItemQualityItem CreateItemQualityItem(Item item, Transform ParentTransform)
     {
         ItemQualityItem itemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityItem>();
-        itemQualityItem.SetItem(item);
+        itemQualityItem.SetIEntity(item);
         return itemQualityItem;
     }
 

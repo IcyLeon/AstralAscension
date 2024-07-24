@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7226423a2c556488ce15688526c40b, type: 3}
+  m_Name: NoblessOblige
+  m_EditorClassIdentifier: 
+  <ArtifactSetName>k__BackingField: Nobless Oblige
+  ArtifactType: 1
+  <ArtifactSetsList>k__BackingField:
+  - {fileID: 11400000, guid: 92d2f3b44d46abd4bb57c69c818c2f73, type: 2}
+  - {fileID: 11400000, guid: 33df293da2ea4244f8adf316a5bd55e5, type: 2}
+  - {fileID: 11400000, guid: d7ecc49d3b5e7ff438e3165cd99c3c46, type: 2}
+  - {fileID: 11400000, guid: 3ef51df195a7c994ab50dfd11e2935c2, type: 2}
+  - {fileID: 11400000, guid: 7805a2b5cade58e45a4095fe2bf90b03, type: 2}
+  <TwoPieceDescription>k__BackingField: Elemental Burst DMG +20%
+  <FourPieceDescription>k__BackingField: Using an Elemental Burst increases all party
+    members' ATK by 20% for 12s. This effect cannot stack.

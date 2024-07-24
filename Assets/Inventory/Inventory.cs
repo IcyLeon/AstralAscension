@@ -19,14 +19,28 @@ public class Inventory
         OnMoraChanged?.Invoke(mora);
     }
 
-    private Item GetItem(Item item)
+    public List<T> GetItemListOfType<T>()
     {
-        if (item == null)
+        List<T> tempList = new();
+
+        foreach (var item in itemList)
+        {
+            if (item is T typedItem)
+            {
+                tempList.Add(typedItem);
+            }
+        }
+        return tempList;
+    }
+
+    private Item GetItem(IItem iItem)
+    {
+        if (iItem == null)
             return null;
 
         foreach(var itemRef in itemList)
         {
-            if (itemRef.iItem == item.iItem)
+            if (itemRef.iItem == iItem)
                 return itemRef;
         }
         return null;
@@ -37,17 +51,12 @@ public class Inventory
         if (item == null)
             return;
 
-        Item existedItem = GetItem(item);
+        Item existedItem = GetItem(item.GetInterfaceItemReference());
 
-        if (existedItem != null)
+        if (existedItem != null && existedItem.IsStackable())
         {
-            ConsumableItem consumableItem = existedItem as ConsumableItem;
-
-            if (consumableItem != null)
-            {
-                consumableItem.AddAmount(1);
-                return;
-            }
+            existedItem.AddAmount(1);
+            return;
         }
 
         itemList.Add(item);

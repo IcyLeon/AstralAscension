@@ -10,3 +10,8 @@ public interface IItem
 
     public IItem GetInterfaceItemReference();
 }
+
+public interface IEntity : IItem
+{
+    public bool IsNew();
+}
