@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum Rarity
 {
-    ONE_STAR = 1,
+    ONE_STAR,
     TWO_STAR,
     THREE_STAR,
     FOUR_STAR,

@@ -20,7 +20,10 @@ public class PlayerCanvas : MonoBehaviour
     {
         Canvas canvas = GetComponent<Canvas>();
         if (canvas != null)
+        {
             canvas.worldCamera = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
+            canvas.planeDistance = 1f;
+        }
     }
 
     private void OnDestroy()

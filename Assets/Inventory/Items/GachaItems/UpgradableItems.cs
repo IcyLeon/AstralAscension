@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
 
 public class UpgradableItems : Item
@@ -30,6 +29,15 @@ public class UpgradableItems : Item
         amount++;
         UpgradeItemAction();
         CallOnItemChanged();
+    }
+
+    public override void AddAmount(int amount)
+    {
+    }
+
+    public override bool IsStackable()
+    {
+        return false;
     }
 
     public void SetLockStatus(bool locked)

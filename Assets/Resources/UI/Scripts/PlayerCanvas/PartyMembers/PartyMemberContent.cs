@@ -27,7 +27,7 @@ public class PartyMemberContent : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (characterDataStat == null)
+        if (characterDataStat == null || eventData.button != PointerEventData.InputButton.Left)
             return;
 
         PartyMemberClick?.Invoke(characterDataStat);

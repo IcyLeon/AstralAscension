@@ -136,13 +136,13 @@ public abstract class PlayerMovementState : IState
         if (CanUpdateMovement())
             return;
 
-        float angle = Mathf.Atan2(playerStateMachine.playerData.movementInput.x, playerStateMachine.playerData.movementInput.y) * Mathf.Rad2Deg + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
+        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playerStateMachine.playerData.movementInput) + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
     }
 
     protected Vector3 GetDirectionXZ(float angleInDeg)
     {
-        return new Vector3(Mathf.Sin(angleInDeg * Mathf.Deg2Rad), 0f, Mathf.Cos(angleInDeg * Mathf.Deg2Rad));
+        return Vector3Handler.FindVector(angleInDeg, 0);
     }
 
     protected float GetMovementSpeed()

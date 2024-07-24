@@ -8,13 +8,13 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance { get; private set; }
-    private Inventory inventory;
+    public Inventory inventory { get; private set; }
 
     public delegate void OnInventoryChanged(Inventory inventory);
     public static event OnInventoryChanged OnInventoryOld, OnInventoryNew;
 
     [SerializeField] ArtifactSO artifactSOtest;
-
+    [SerializeField] ArtifactSO artifactSOtest2;
     private void Awake()
     {
         instance = this;
@@ -23,9 +23,17 @@ public class InventoryManager : MonoBehaviour
     private void Start()
     {
         SetInventory(new Inventory(1000));
+    }
 
-
-        inventory.AddItem(new Artifact(Rarity.FIVE_STAR, artifactSOtest));
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            inventory.AddItem(new Artifact(Rarity.FIVE_STAR, artifactSOtest));
+            inventory.AddItem(new Artifact(Rarity.THREE_STAR, artifactSOtest));
+            inventory.AddItem(new Artifact(Rarity.FOUR_STAR, artifactSOtest));
+            inventory.AddItem(new Artifact(Rarity.FOUR_STAR, artifactSOtest));
+        }
     }
 
     private void SetInventory(Inventory inv)

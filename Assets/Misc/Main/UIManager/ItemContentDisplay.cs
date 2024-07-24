@@ -34,6 +34,8 @@ public class ItemContentDisplay : MonoBehaviour
     [Header("Artifact Item Information")]
     [SerializeField] private GameObject ArtifactContent;
     [SerializeField] private TextMeshProUGUI ArtifactSetTxt;
+    [SerializeField] private TextMeshProUGUI Artifact2PieceTxt;
+    [SerializeField] private TextMeshProUGUI Artifact4PieceTxt;
 
     private IItem iItem;
 
@@ -120,21 +122,19 @@ public class ItemContentDisplay : MonoBehaviour
 
         ArtifactContent.SetActive(artifactSO != null);
 
-        if (artifactSO == null)
+        ArtifactFamilySO artifactFamilySO = ArtifactManager.instance.ArtifactManagerSO.GetArtifactFamilySO(artifactSO);
+
+        if (artifactFamilySO == null)
             return;
 
-        ArtifactFamilySO artifactFamilySO = ArtifactManager.instance.ArtifactManagerSO.GetArtifactFamilySO(artifactSO);
-        string ArtifactSetName = "???";
-        if (artifactFamilySO != null)
-        {
-            ArtifactSetName = artifactFamilySO.ArtifactSetName;
-        }
-        ArtifactSetTxt.text = ArtifactSetName + ":";
+        ArtifactSetTxt.text = artifactFamilySO.ArtifactSetName + ":";
+        Artifact2PieceTxt.text = "2-Piece Set: " + artifactFamilySO.TwoPieceDescription;
+        Artifact4PieceTxt.text = "4-Piece Set: " + artifactFamilySO.FourPieceDescription;
     }
 
     private void InitStarPool()
     {
-        if (starPool != null)
+        if (starPool != null || StarContainerTransform == null)
             return;
 
         starPool = new ObjectPool<MonoBehaviour>(ItemManagerSO.StarPrefab, StarContainerTransform, 5);
@@ -147,7 +147,7 @@ public class ItemContentDisplay : MonoBehaviour
 
         InitStarPool();
         starPool.ResetAll();
-        for (int i = 0; i < (int)iItem.GetItemRarity(); i++)
+        for (int i = 0; i <= (int)iItem.GetItemRarity(); i++)
         {
             starPool.GetPooledObject();
         }

@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class ConsumableItem : Item
 {
-    public void AddAmount(int amount)
+    public override bool IsStackable()
     {
-        this.amount += amount;
-        CallOnItemChanged();
+        return true;
     }
 
     public void Use(int amount)

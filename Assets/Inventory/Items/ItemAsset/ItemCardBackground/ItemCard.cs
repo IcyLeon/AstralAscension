@@ -10,6 +10,7 @@ public class ItemCard : MonoBehaviour
 
     public void SetInterfaceItem(IItem iItem)
     {
+        gameObject.SetActive(iItem != null);
         if (iItem == null)
             return;
 

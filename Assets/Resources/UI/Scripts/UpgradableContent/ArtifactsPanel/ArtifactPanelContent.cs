@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static InventoryManager;
@@ -11,7 +12,7 @@ public class ArtifactPanelContent : MonoBehaviour
     [Serializable]
     public class ArtifactPanel
     {
-        [field: SerializeField] public GameObject Panel { get; private set; }
+        [field: SerializeField] public TabOption tabOption { get; private set; }
         [field: SerializeField] public ItemTypeSO ItemTypeSO { get; private set; }
     }
 
@@ -21,7 +22,7 @@ public class ArtifactPanelContent : MonoBehaviour
     [SerializeField] private ArtifactPanel[] ArtifactPanelList;
 
     private Dictionary<Item, ItemQualityButton> itemQualityDictionary;
-    private Inventory Inventory;
+    private Inventory inventory;
 
     private void Awake()
     {
@@ -31,27 +32,40 @@ public class ArtifactPanelContent : MonoBehaviour
         OnInventoryNew += InventoryManager_OnInventoryNew;
     }
 
+    private void Init()
+    {
+        if (instance == null)
+        {
+            Debug.LogError("Inventory Manager not found!");
+            return;
+        }
+
+        InventoryManager_OnInventoryNew(instance.inventory);
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
     private void TabGroup_OnTabGroupChanged(object sender, TabOption.TabEvents e)
     {
         ScrollRect.content = e.PanelRectTransform;
     }
 
-    private void InventoryManager_OnInventoryOld(Inventory inventory)
+    private void InventoryManager_OnInventoryOld(Inventory Inventory)
     {
-        if (inventory != null)
-        {
-            inventory.OnItemAdd -= Inventory_OnItemAdd;
-            inventory.OnItemRemove -= Inventory_OnItemRemove;
-        }
+        Inventory.OnItemAdd -= Inventory_OnItemAdd;
+        Inventory.OnItemRemove -= Inventory_OnItemRemove;
     }
 
-    private void InventoryManager_OnInventoryNew(Inventory inventory)
+    private void InventoryManager_OnInventoryNew(Inventory Inventory)
     {
-        Inventory = inventory;
-        if (Inventory != null)
+        inventory = Inventory;
+        if (inventory != null)
         {
-            Inventory.OnItemAdd += Inventory_OnItemAdd;
-            Inventory.OnItemRemove += Inventory_OnItemRemove;
+            inventory.OnItemAdd += Inventory_OnItemAdd;
+            inventory.OnItemRemove += Inventory_OnItemRemove;
             UpdateVisuals();
         }
     }
@@ -71,7 +85,7 @@ public class ArtifactPanelContent : MonoBehaviour
         foreach(var ArtifactPanel in ArtifactPanelList)
         {
             if (ArtifactPanel.ItemTypeSO == itemTypeSO)
-                return ArtifactPanel.Panel;
+                return ArtifactPanel.tabOption.Panel.gameObject;
         }
         return null;
     }
@@ -101,14 +115,14 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        foreach(var itemQualityKeyPairs in itemQualityDictionary)
+        for (int i = itemQualityDictionary.Count - 1; i >= 0; i--)
         {
-            Inventory_OnItemRemove(itemQualityKeyPairs.Key);
+            Inventory_OnItemRemove(itemQualityDictionary.ElementAt(i).Key);
         }
 
         itemQualityDictionary.Clear();
 
-        foreach (var item in Inventory.itemList)
+        foreach (var item in inventory.itemList)
         {
             Inventory_OnItemAdd(item);
         }
@@ -120,23 +134,10 @@ public class ArtifactPanelContent : MonoBehaviour
         OnInventoryOld -= InventoryManager_OnInventoryOld;
         OnInventoryNew -= InventoryManager_OnInventoryNew;
 
-        if (Inventory != null)
+        if (inventory != null)
         {
-            Inventory.OnItemAdd -= Inventory_OnItemAdd;
-            Inventory.OnItemRemove -= Inventory_OnItemRemove;
+            inventory.OnItemAdd -= Inventory_OnItemAdd;
+            inventory.OnItemRemove -= Inventory_OnItemRemove;
         }
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        if (instance == null)
-            Debug.LogError("Inventory Manager  not found!");
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        
     }
 }

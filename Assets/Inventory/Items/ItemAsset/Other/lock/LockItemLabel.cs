@@ -10,6 +10,9 @@ public class LockItemLabel : LockItem
     {
         base.UpdateVisual();
 
+        if (upgradableItems == null)
+            return;
+
         gameObject.SetActive(upgradableItems.locked);
     }
 }

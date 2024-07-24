@@ -75,9 +75,14 @@ public abstract class POIRig : MonoBehaviour
     private bool IsInFOV(Vector3 dir)
     {
         Vector3 direction = dir;
-        dir.y = 0;
-        return Vector3.Angle(interactSensorReference.transform.forward, dir) <= FOVAngleXZ / 2f &&
-            Mathf.Abs(Mathf.Asin(direction.y) * Mathf.Rad2Deg) <= FOVAngleY;
+        Vector3 forwardXZ = interactSensorReference.transform.forward;
+        forwardXZ.y = 0;
+        direction.y = 0;
+
+        float angle = Vector3Handler.FindAngleBetweenVectors(forwardXZ, direction);
+
+        return angle <= FOVAngleXZ / 2f &&
+            Mathf.Abs(Mathf.Asin(dir.y) * Mathf.Rad2Deg) <= FOVAngleY / 2;
     }
 
     private void MoveTarget()
