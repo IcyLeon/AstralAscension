@@ -102,7 +102,7 @@ public class EquipAction : MonoBehaviour
             if (upgradableItems.equipByCharacter != charactersSO &&
                 characterStorage.playableCharacterStatList.TryGetValue(charactersSO, out PlayableCharacterDataStat playableCharacterDataStat))
             {
-                if (playableCharacterDataStat.GetItem(upgradableItems.GetItemType()) != null)
+                if (playableCharacterDataStat.GetItem(upgradableItems.GetTypeSO()) != null)
                 {
                     EquipTxt.text = "Switch";
                     return;

@@ -39,10 +39,9 @@ public class ItemContentDisplay : MonoBehaviour
 
     private IItem iItem;
 
-    private ArtifactSubStatDisplay[] artifactSubStatDisplayList;
-    private ArtifactMainStatDisplay artifactMainStatDisplay;
+    private ItemContentInformation[] ItemContentInformations;
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -51,15 +50,14 @@ public class ItemContentDisplay : MonoBehaviour
     {
         InitStarPool();
 
-        if (artifactSubStatDisplayList == null)
-            artifactSubStatDisplayList = GetComponentsInChildren<ArtifactSubStatDisplay>(true);
-
-        if (artifactMainStatDisplay == null)
-            artifactMainStatDisplay = GetComponentInChildren<ArtifactMainStatDisplay>(true);
+        if (ItemContentInformations == null)
+        {
+            ItemContentInformations = GetComponentsInChildren<ItemContentInformation>(true);
+        }
     }
 
     // Update is called once per frame
-    private void UpdateVisuals()
+    private void UpdateVisual()
     {
         if (iItem == null)
             return;
@@ -68,12 +66,12 @@ public class ItemContentDisplay : MonoBehaviour
         UpdateStars();
         UpdateArtifactsSOVisual();
 
-        ItemNameTxt.text = iItem.GetItemName();
-        ItemTypeTxt.text = iItem.GetItemType().ItemType;
-        ItemDescTxt.text = iItem.GetItemDescription();
+        ItemNameTxt.text = iItem.GetName();
+        ItemTypeTxt.text = iItem.GetTypeSO().ItemType;
+        ItemDescTxt.text = iItem.GetDescription();
 
         if (ItemImage)
-            ItemImage.sprite = iItem.GetItemIcon();
+            ItemImage.sprite = iItem.GetIcon();
 
         OnItemContentDisplayChanged?.Invoke(this, new ItemContentEvent
         {
@@ -84,6 +82,11 @@ public class ItemContentDisplay : MonoBehaviour
 
     private void UpdateUpgradableItemsVisual()
     {
+        foreach (var ItemContentInformation in ItemContentInformations)
+        {
+            ItemContentInformation.UpdateItemContentInformation(iItem);
+        }
+
         UpgradableItems UpgradableItems = iItem as UpgradableItems;
         LevelContent.SetActive(UpgradableItems != null);
 
@@ -92,28 +95,10 @@ public class ItemContentDisplay : MonoBehaviour
         if (ItemEquipDisplay != null)
             ItemEquipDisplay.UpdateVisual(UpgradableItems);
 
-        UpdateArtifactStatsDisplay();
-
         if (UpgradableItems == null)
             return;
 
         LevelTxt.text = "+" + UpgradableItems.amount;
-    }
-
-    private void UpdateArtifactStatsDisplay()
-    {
-        Artifact artifact = iItem as Artifact;
-
-        if (artifactMainStatDisplay != null)
-            artifactMainStatDisplay.SetArtifactItem(artifact);
-
-        for (int i = 0; i < artifactSubStatDisplayList.Length; i++)
-        {
-            ArtifactSubStatDisplay artifactSubStatDisplay = artifactSubStatDisplayList[i];
-            artifactSubStatDisplay.gameObject.SetActive(false);
-            artifactSubStatDisplay.SetIndex(i);
-            artifactSubStatDisplay.SetArtifactItem(artifact);
-        }
     }
 
     private void UpdateArtifactsSOVisual()
@@ -147,7 +132,7 @@ public class ItemContentDisplay : MonoBehaviour
 
         InitStarPool();
         starPool.ResetAll();
-        for (int i = 0; i <= (int)iItem.GetItemRarity(); i++)
+        for (int i = 0; i <= (int)iItem.GetRarity(); i++)
         {
             starPool.GetPooledObject();
         }
@@ -161,8 +146,6 @@ public class ItemContentDisplay : MonoBehaviour
         UnsubscribeItemEvent();
         iItem = IItem;
         SubscribeItemEvent();
-
-        UpdateVisuals();
     }
 
     private void UnsubscribeItemEvent()
@@ -182,10 +165,12 @@ public class ItemContentDisplay : MonoBehaviour
     private void SubscribeItemEvent()
     {
         Item item = iItem as Item;
+
         if (item == null)
             return;
 
         item.OnItemChanged += Item_OnItemChanged;
+        UpdateVisual();
     }
 
     private void OnDestroy()

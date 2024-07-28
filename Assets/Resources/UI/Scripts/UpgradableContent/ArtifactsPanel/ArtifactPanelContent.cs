@@ -26,7 +26,6 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void Awake()
     {
-        itemQualityDictionary = new();
         TabGroup.OnTabGroupChanged += TabGroup_OnTabGroupChanged;
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
@@ -34,6 +33,13 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void Init()
     {
+        if (itemQualityDictionary != null)
+        {
+            return;
+        }
+
+        itemQualityDictionary = new();
+
         if (instance == null)
         {
             Debug.LogError("Inventory Manager not found!");
@@ -66,7 +72,7 @@ public class ArtifactPanelContent : MonoBehaviour
         {
             inventory.OnItemAdd += Inventory_OnItemAdd;
             inventory.OnItemRemove += Inventory_OnItemRemove;
-            UpdateVisuals();
+            UpdateVisual();
         }
     }
 
@@ -97,7 +103,7 @@ public class ArtifactPanelContent : MonoBehaviour
         if (artifact == null || itemQualityDictionary.ContainsKey(artifact))
             return;
 
-        GameObject Panel = GetPanel(artifact.GetItemType());
+        GameObject Panel = GetPanel(artifact.GetTypeSO());
 
         if (Panel == null)
             return;
@@ -113,7 +119,7 @@ public class ArtifactPanelContent : MonoBehaviour
         ItemContentDisplay.SetInterfaceItem(ItemQualityButton.ItemQuality.iItem);
     }
 
-    private void UpdateVisuals()
+    private void UpdateVisual()
     {
         for (int i = itemQualityDictionary.Count - 1; i >= 0; i--)
         {

@@ -74,29 +74,29 @@ public class CharacterDataStat : IEntity
         UpdateElementList();
     }
 
-    public string GetItemName()
+    public string GetName()
     {
-        return damageableEntitySO.GetItemName();
+        return damageableEntitySO.GetName();
     }
 
-    public ItemTypeSO GetItemType()
+    public ItemTypeSO GetTypeSO()
     {
-        return damageableEntitySO.GetItemType();
+        return damageableEntitySO.GetTypeSO();
     }
 
-    public Sprite GetItemIcon()
+    public Sprite GetIcon()
     {
-        return damageableEntitySO.GetItemIcon();
+        return damageableEntitySO.GetIcon();
     }
 
-    public string GetItemDescription()
+    public string GetDescription()
     {
-        return damageableEntitySO.GetItemDescription();
+        return damageableEntitySO.GetDescription();
     }
 
-    public Rarity GetItemRarity()
+    public Rarity GetRarity()
     {
-        return damageableEntitySO.GetItemRarity();
+        return damageableEntitySO.GetRarity();
     }
 
     public IItem GetInterfaceItemReference()

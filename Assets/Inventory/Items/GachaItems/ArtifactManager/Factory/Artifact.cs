@@ -46,7 +46,7 @@ public class Artifact : GachaItem
 
     private void GenerateRandomSubStat()
     {
-        int randomNoSubStats = instance.ArtifactManagerSO.GetArtifactRandomNumberofSubStat(GetItemRarity());
+        int randomNoSubStats = instance.ArtifactManagerSO.GetArtifactRandomNumberofSubStat(GetRarity());
 
         for (int i = 0; i < randomNoSubStats; i++)
         {
@@ -62,7 +62,7 @@ public class Artifact : GachaItem
 
     private bool HasMaxedOutSubStats()
     {
-        return subStats.Count >= instance.ArtifactManagerSO.GetArtifactNumberofSubStat(GetItemRarity()).MaxNoOfStats;
+        return subStats.Count >= instance.ArtifactManagerSO.GetArtifactNumberofSubStat(GetRarity()).MaxNoOfStats;
     }
 
     protected override void UpgradeItemAction()

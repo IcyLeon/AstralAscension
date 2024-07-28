@@ -36,29 +36,29 @@ public abstract class Item : IEntity
         OnItemChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public string GetItemName()
+    public string GetName()
     {
-        return GetInterfaceItemReference().GetItemName();
+        return GetInterfaceItemReference().GetName();
     }
 
-    public Sprite GetItemIcon()
+    public Sprite GetIcon()
     {
-        return GetInterfaceItemReference().GetItemIcon();
+        return GetInterfaceItemReference().GetIcon();
     }
 
-    public string GetItemDescription()
+    public string GetDescription()
     {
-        return GetInterfaceItemReference().GetItemDescription();
+        return GetInterfaceItemReference().GetDescription();
     }
 
-    public virtual Rarity GetItemRarity()
+    public virtual Rarity GetRarity()
     {
-        return GetInterfaceItemReference().GetItemRarity();
+        return GetInterfaceItemReference().GetRarity();
     }
 
-    public ItemTypeSO GetItemType()
+    public ItemTypeSO GetTypeSO()
     {
-        return GetInterfaceItemReference().GetItemType();
+        return GetInterfaceItemReference().GetTypeSO();
     }
 
     public IItem GetInterfaceItemReference()

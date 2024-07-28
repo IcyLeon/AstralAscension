@@ -53,14 +53,17 @@ public class ItemQualityItem : ItemQualityIEntity
         UpdateVisual();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         OnDestroyItem();
-        OnItemQualityClick -= ItemQualityItem_OnItemQualityClick;
     }
 
     protected override void UpdateVisual()
     {
+        if (item == null)
+            return;
+
         string displayText = "";
 
         if (item is UpgradableItems)
@@ -70,21 +73,24 @@ public class ItemQualityItem : ItemQualityIEntity
 
         displayText += item.amount;
 
-        UpdateLockVisual();
-
         UpdateDisplayText(displayText);
 
         NewImage.gameObject.SetActive(item.newStatus);
+
+        UpdateLockVisual();
     }
 
     private void Item_OnItemChanged(object sender, EventArgs e)
     {
+        if (this == null)
+            return;
+
         UpdateVisual();
     }
 
     private void UpdateLockVisual()
     {
-        LockItem.SetUpgradableItem(item);
         EquipIcon.UpdateVisual(item);
+        LockItem.SetUpgradableItem(item);
     }
 }

@@ -9,7 +9,12 @@ public class ArtifactMainStat : ArtifactStat
 
     public float PreviewMainStat(int level)
     {
-        return statInfo.GetArtifactStatsValue(artifact.GetItemRarity()).ArtifactCurveStats.Evaluate(level);
+        AnimationCurve animationCurve = statInfo.GetArtifactStatsValue(artifact.GetRarity()).ArtifactCurveStats;
+        Keyframe endKeyFrame = animationCurve[animationCurve.length - 1];
+        float endValue = endKeyFrame.value;
+        float firstValue = animationCurve[0].value;
+
+        return ((endValue - firstValue) / endKeyFrame.time) * level + firstValue;
     }
 
     public override void Upgrade()
@@ -20,7 +25,7 @@ public class ArtifactMainStat : ArtifactStat
 
     public ArtifactMainStat(Artifact Artifact) : base(Artifact)
     {
-        artifactMainStatsTypeInfo = ArtifactManager.instance.ArtifactManagerSO.GetArtifactMainStatsTypeInfo(artifact.GetInterfaceItemReference().GetItemType());
+        artifactMainStatsTypeInfo = ArtifactManager.instance.ArtifactManagerSO.GetArtifactMainStatsTypeInfo(artifact.GetInterfaceItemReference().GetTypeSO());
         statInfo = artifactMainStatsTypeInfo.GetRandomMainStats();
         Upgrade();
     }

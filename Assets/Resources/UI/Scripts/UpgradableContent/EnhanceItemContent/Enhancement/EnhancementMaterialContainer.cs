@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static InventoryManager;
+using Random = UnityEngine.Random;
 
-public class EnhancementManager : MonoBehaviour
+[DisallowMultipleComponent]
+public class EnhancementMaterialContainer : MonoBehaviour
 {
     [SerializeField] private SlotManager slotManager;
     [SerializeField] private TMP_Dropdown dropdown;
@@ -13,8 +16,9 @@ public class EnhancementManager : MonoBehaviour
     [SerializeField] private Button EnhanceBtn;
     private Rarity raritySelection;
     private Inventory inventory;
-    private EnhancePanel enhancePanel;
+    private EnhancementManager enhancementManager;
 
+    public event EventHandler OnUpgradeClick;
     private void Awake()
     {
         OnInventoryNew += InventoryManager_OnInventoryNew;
@@ -25,8 +29,8 @@ public class EnhancementManager : MonoBehaviour
             OnDropdown(dropdown);
         });
 
-        enhancePanel = GetComponentInParent<EnhancePanel>();
-        enhancePanel.OnUpgradableItemChanged += EnhancePanel_OnUpgradableItemChanged;
+        enhancementManager = GetComponentInParent<EnhancementManager>();
+        enhancementManager.OnEnhanceItemChanged += EnhancePanel_OnEnhanceItemChanged;
 
         AutoAddBtn.onClick.AddListener(OnAutoAdd);
         EnhanceBtn.onClick.AddListener(OnEnhance);
@@ -42,7 +46,7 @@ public class EnhancementManager : MonoBehaviour
         raritySelection = (Rarity)dropdown.value;
     }
 
-    private void EnhancePanel_OnUpgradableItemChanged(object sender, System.EventArgs e)
+    private void EnhancePanel_OnEnhanceItemChanged(object sender, System.EventArgs e)
     {
         OnItemChanged();
     }
@@ -79,7 +83,7 @@ public class EnhancementManager : MonoBehaviour
     private void OnItemChanged()
     {
         ResetSlots();
-        slotManager.SetinterfaceItemType(enhancePanel.iItem);
+        slotManager.SetinterfaceItemType(enhancementManager.iItem);
     }
 
     private void BubbleSortRarities(ref List<UpgradableItems> list)
@@ -88,7 +92,7 @@ public class EnhancementManager : MonoBehaviour
         {
             for (int j = 0; j < list.Count - i - 1; j++)
             {
-                if (list[j].GetItemRarity() > list[j + 1].GetItemRarity())
+                if (list[j].GetRarity() > list[j + 1].GetRarity())
                 {
                     Swap(ref list, j, j + 1);
                 }
@@ -111,7 +115,7 @@ public class EnhancementManager : MonoBehaviour
         {
             UpgradableItems upgradableItem = item as UpgradableItems;
             if (upgradableItem != null && 
-                upgradableItem.GetItemRarity() <= raritySelection)
+                upgradableItem.GetRarity() <= raritySelection)
             {
                 UpgradableItems.Add(upgradableItem);
             }
@@ -152,7 +156,7 @@ public class EnhancementManager : MonoBehaviour
     private void OnEnhance()
     {
         ResetSlots();
-
+        OnUpgradeClick?.Invoke(this, EventArgs.Empty);
     }
 
     // Update is called once per frame
@@ -161,7 +165,9 @@ public class EnhancementManager : MonoBehaviour
         OnInventoryNew -= InventoryManager_OnInventoryNew;
         OnInventoryOld -= InventoryManager_OnInventoryOld;
 
-        if (enhancePanel != null)
-            enhancePanel.OnUpgradableItemChanged -= EnhancePanel_OnUpgradableItemChanged;
+        if (enhancementManager != null)
+        {
+            enhancementManager.OnEnhanceItemChanged -= EnhancePanel_OnEnhanceItemChanged;
+        }
     }
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4091984463803776380}
   - component: {fileID: 881724690860173016}
   - component: {fileID: 4171654057137483806}
-  - component: {fileID: 8991819231313697712}
   m_Layer: 5
   m_Name: Dot
   m_TagString: Untagged
@@ -98,20 +97,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &8991819231313697712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6070396425807995407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!1 &8533305571709888983
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +198,7 @@ GameObject:
   - component: {fileID: 8533305571726087368}
   - component: {fileID: 8533305571726087369}
   m_Layer: 5
-  m_Name: SubStatValueDisplay
+  m_Name: StatValueDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,7 +334,7 @@ GameObject:
   - component: {fileID: 8533305572104891397}
   - component: {fileID: 8533305572104891394}
   m_Layer: 5
-  m_Name: SubStatNameDisplay
+  m_Name: StatNameDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,7 +469,7 @@ GameObject:
   - component: {fileID: 8856310517652042451}
   - component: {fileID: 8856310517652042444}
   m_Layer: 5
-  m_Name: SubStatContent
+  m_Name: StatContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

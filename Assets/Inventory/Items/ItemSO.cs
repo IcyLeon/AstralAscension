@@ -17,27 +17,27 @@ public class ItemSO : ScriptableObject, IItem
     [field: SerializeField, TextArea] public string ItemDescription { get; private set; }
     [field: SerializeField, Header("Item Type")] public ItemTypeSO ItemTypeSO { get; private set; }
 
-    public string GetItemDescription()
+    public string GetDescription()
     {
         return ItemDescription;
     }
 
-    public Sprite GetItemIcon()
+    public Sprite GetIcon()
     {
         return ItemSprite;
     }
 
-    public string GetItemName()
+    public string GetName()
     {
         return ItemName;
     }
 
-    public ItemTypeSO GetItemType()
+    public ItemTypeSO GetTypeSO()
     {
         return ItemTypeSO;
     }
 
-    public Rarity GetItemRarity()
+    public Rarity GetRarity()
     {
         return Rarity;
     }

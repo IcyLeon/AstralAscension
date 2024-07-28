@@ -26,7 +26,7 @@ public class PlayerCharactersSO : DamageableEntitySO
 
     [field: SerializeField] public int BurstEnergyCost { get; private set; }
 
-    public override Rarity GetItemRarity()
+    public override Rarity GetRarity()
     {
         return Rarity;
     }

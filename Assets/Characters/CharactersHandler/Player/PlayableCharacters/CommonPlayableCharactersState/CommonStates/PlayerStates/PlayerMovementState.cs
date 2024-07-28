@@ -86,7 +86,6 @@ public abstract class PlayerMovementState : IState
         return GetHorizontalVelocity().magnitude >= val;
     }
 
-
     protected bool IsMovingUp(float val = 0.1f)
     {
         return GetVerticalVelocity().y >= val;

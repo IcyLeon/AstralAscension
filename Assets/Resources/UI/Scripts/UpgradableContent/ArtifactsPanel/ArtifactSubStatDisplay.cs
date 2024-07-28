@@ -34,7 +34,7 @@ public class ArtifactSubStatDisplay : ArtifactStatDisplay
         return artifact.subStats.ElementAt(index).Value.statInfo.ArtifactStatSO.ArtifactStat;
     }
 
-    protected override string UpdateStatValue()
+    protected string GetRawStatValueDisplay()
     {
         if (IsOutOfRange(artifact))
             return "";
@@ -47,6 +47,11 @@ public class ArtifactSubStatDisplay : ArtifactStatDisplay
         ? statsPercentage.ToString("P1")
         : Mathf.Round(statsValue).ToString("N0");
 
-        return "+" + StatsValueText;
+        return StatsValueText;
+    }
+
+    protected override string UpdateStatValue()
+    {
+        return "+" + GetRawStatValueDisplay();
     }
 }
