@@ -11,7 +11,7 @@ public class GachaItem : UpgradableItems
         rarity = Rarity;
     }
 
-    public override Rarity GetItemRarity()
+    public override Rarity GetRarity()
     {
         return rarity;
     }

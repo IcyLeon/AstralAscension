@@ -15,7 +15,9 @@ public abstract class LockItem : MonoBehaviour
     public void SetUpgradableItem(Item Item)
     {
         upgradableItems = Item as UpgradableItems;
+
         gameObject.SetActive(upgradableItems != null);
+
         UpdateVisual();
     }
 

@@ -38,7 +38,6 @@ public class UpgradeAction : MonoBehaviour
     private void OnUpgrade()
     {
         UpgradableItemContent.SetIItem(upgradableItems);
-        //upgradableItems.Upgrade();
     }
 
     private void UpdateVisual()

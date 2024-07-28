@@ -14,7 +14,7 @@ public class ItemCard : MonoBehaviour
         if (iItem == null)
             return;
 
-        ItemRaritySO itemRaritySO = ItemContentDisplay.ItemManagerSO.GetItemRarityInfomation(iItem.GetItemRarity());
+        ItemRaritySO itemRaritySO = ItemContentDisplay.ItemManagerSO.GetItemRarityInfomation(iItem.GetRarity());
         if (itemRaritySO == null)
             return;
 

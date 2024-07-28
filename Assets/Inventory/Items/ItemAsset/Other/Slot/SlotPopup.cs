@@ -14,7 +14,7 @@ public class SlotPopup : MonoBehaviour
     public event EventHandler<ItemQualityEvents> OnItemQualityClick;
 
     private SlotManager slotManager;
-    private Dictionary<Item, ItemQualityButton> itemQualityDictionary;
+    private Dictionary<Item, ItemQualityIEntity> itemQualityDictionary;
 
     private IItem iItemType;
     private Inventory inventory;
@@ -27,10 +27,18 @@ public class SlotPopup : MonoBehaviour
 
     private void Init()
     {
-        if (itemQualityDictionary == null)
+        Inventory inventory = instance.inventory;
+
+        if (itemQualityDictionary != null)
         {
-            itemQualityDictionary = new();
+            if (inventory != null)
+            {
+                UpdateVisual();
+            }
+            return;
         }
+
+        itemQualityDictionary = new();
 
         if (instance == null)
         {
@@ -38,7 +46,7 @@ public class SlotPopup : MonoBehaviour
             return;
         }
 
-        InventoryManager_OnInventoryNew(instance.inventory);
+        InventoryManager_OnInventoryNew(inventory);
     }    
 
     private void Start()
@@ -65,17 +73,12 @@ public class SlotPopup : MonoBehaviour
 
     private void Inventory_OnItemRemove(Item item)
     {
-        if (!itemQualityDictionary.TryGetValue(item, out ItemQualityButton itemQualityButton))
+        if (!itemQualityDictionary.TryGetValue(item, out ItemQualityIEntity itemQualityIEntity))
             return;
 
-        ItemQualityIEntity ItemQualityIEntity = itemQualityButton as ItemQualityIEntity;
-        if (ItemQualityIEntity != null)
-        {
-            ItemQualityIEntity.ItemQualitySelection.OnRemoveClick -= ItemQualitySelection_OnRemoveClick;
-        }
-
-        itemQualityButton.OnItemQualityClick -= OnSelectedItemQualityClick;
-        Destroy(itemQualityButton.gameObject);
+        itemQualityIEntity.ItemQualitySelection.OnRemoveClick -= ItemQualitySelection_OnRemoveClick;
+        itemQualityIEntity.OnItemQualityClick -= OnSelectedItemQualityClick;
+        Destroy(itemQualityIEntity.gameObject);
         itemQualityDictionary.Remove(item);
     }
 
@@ -103,11 +106,11 @@ public class SlotPopup : MonoBehaviour
             return;
 
         GameObject go = Instantiate(ItemManagerSO.ItemQualityItemPrefab, ScrollRect.content);
-        ItemQualityItem itemQualityItem = go.GetComponent<ItemQualityItem>();
-        itemQualityItem.SetIEntity(item);
-        itemQualityItem.OnItemQualityClick += OnSelectedItemQualityClick;
-        itemQualityItem.ItemQualitySelection.OnRemoveClick += ItemQualitySelection_OnRemoveClick;
-        itemQualityDictionary.Add(item, itemQualityItem);
+        ItemQualityIEntity itemQualityIEntity = go.GetComponent<ItemQualityIEntity>();
+        itemQualityIEntity.SetIEntity(item);
+        itemQualityIEntity.OnItemQualityClick += OnSelectedItemQualityClick;
+        itemQualityIEntity.ItemQualitySelection.OnRemoveClick += ItemQualitySelection_OnRemoveClick;
+        itemQualityDictionary.Add(item, itemQualityIEntity);
     }
 
     private void ItemQualitySelection_OnRemoveClick(object sender, System.EventArgs e)
@@ -120,6 +123,7 @@ public class SlotPopup : MonoBehaviour
 
         if (slot != null)
         {
+            itemCard.gameObject.SetActive(false);
             slot.SetItemQualityButton(null);
         }    
     }
@@ -164,8 +168,7 @@ public class SlotPopup : MonoBehaviour
 
         if (itemQualityDictionary.ContainsKey(item))
         {
-            ItemQualityIEntity ItemQualityIEntity = itemQualityDictionary[item] as ItemQualityIEntity;
-            ItemQualityIEntity.ItemQualitySelection.gameObject.SetActive(true);
+            itemQualityDictionary[item].ItemQualitySelection.gameObject.SetActive(true);
         }
     }
 
@@ -178,8 +181,7 @@ public class SlotPopup : MonoBehaviour
 
         if (itemQualityDictionary.ContainsKey(item))
         {
-            ItemQualityIEntity ItemQualityIEntity = itemQualityDictionary[item] as ItemQualityIEntity;
-            ItemQualityIEntity.ItemQualitySelection.gameObject.SetActive(false);
+            itemQualityDictionary[item].ItemQualitySelection.gameObject.SetActive(false);
         }
     }
 

@@ -12,7 +12,7 @@ public class SlotItemEvent : SlotEvent
 
 public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-    [SerializeField] private ItemQualityButton itemQualityButtonPrefab;
+    [SerializeField] private ItemManagerSO ItemManagerSO;
     public event EventHandler<SlotEvent> OnSlotClick;
     public event EventHandler<SlotItemEvent> OnSlotItemAdd;
     public event EventHandler<SlotItemEvent> OnSlotItemRemove;
@@ -35,7 +35,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
             }
         }
 
-        itemQualityButton = Instantiate(itemQualityButtonPrefab, transform).GetComponent<ItemQualityItem>();
+        itemQualityButton = Instantiate(ItemManagerSO.ItemQualityItemPrefab, transform).GetComponent<ItemQualityItem>();
         itemQualityButton.RaycastImage.raycastTarget = false;
         itemQualityButton.SetIEntity(entity);
         SubscribeEvents(entity);

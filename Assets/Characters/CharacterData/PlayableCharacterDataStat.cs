@@ -48,7 +48,7 @@ public class PlayableCharacterDataStat : CharacterDataStat
             Artifact artifact = item.Value as Artifact;
             if (artifact != null)
             {
-                ArtifactList.Add(artifact.GetItemType(), artifact);
+                ArtifactList.Add(artifact.GetTypeSO(), artifact);
             }
         }
 
@@ -70,7 +70,7 @@ public class PlayableCharacterDataStat : CharacterDataStat
         if (artifact == null)
             return;
 
-        ItemTypeSO itemTypeSO = artifact.GetItemType();
+        ItemTypeSO itemTypeSO = artifact.GetTypeSO();
 
         if (GetItem(itemTypeSO) != null)
         {

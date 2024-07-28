@@ -34,7 +34,7 @@ public class ArtifactSubStat : ArtifactStat
         int randomIndex = Random.Range(0, 4);
         float statsMultiplier = 1f - (0.1f * randomIndex);
 
-        statsValue += statInfo.GetArtifactStatsValue(artifact.GetItemRarity()).ArtifactCurveStats.Evaluate(0) * statsMultiplier;
+        statsValue += statInfo.GetArtifactStatsValue(artifact.GetRarity()).ArtifactCurveStats.Evaluate(0) * statsMultiplier;
     }
 
     public ArtifactSubStat(Artifact Artifact) : base(Artifact)

@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab3975935454ad449ed2ed99d879add, type: 3}
   m_Name: ArtifactManagerSO
   m_EditorClassIdentifier: 
-  <SubStatItemContentPrefab>k__BackingField: {fileID: 8533305571709888983, guid: 4672325f449e56940ba5011b5064515c,
-    type: 3}
   <ArtifactFamilyList>k__BackingField:
   - {fileID: 11400000, guid: 13100007aee165442855fb0a3690a081, type: 2}
   - {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7, type: 2}
@@ -2164,3 +2162,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 779ccf0402367f44892a2e36f363f218, type: 2}
   - {fileID: 11400000, guid: a22c45a7d205df54b8c655de99863a35, type: 2}
   - {fileID: 11400000, guid: c371dba63bb801443ab3a9a1277335a0, type: 2}
+  ArtifactEXPList:
+  - <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+      type: 2}
+    <EXP>k__BackingField: b80b00008d0e0000491100001e1400000c170000131a00004c1d00009e200000c52600008d2700002a2b0000f92e0000
+  - <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+      type: 2}
+    <EXP>k__BackingField: b80b00008d0e0000491100001e1400000c170000131a00004c1d00009e200000c52600008d2700002a2b0000f92e0000e13200002e3b0000c0440000974f0000
+  - <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+      type: 2}
+    <EXP>k__BackingField: b80b00008d0e0000491100001e1400000c170000131a00004c1d00009e200000c52600008d2700002a2b0000f92e0000e13200002e3b0000c0440000974f0000cc5b0000aa6900004a790000f78a0000

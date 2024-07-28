@@ -43,7 +43,7 @@ public class ItemQuality : MonoBehaviour
         if (iItem == null)
             return;
 
-        ItemRaritySO itemRaritySO = ItemManagerSO.GetItemRarityInfomation(iItem.GetItemRarity());
+        ItemRaritySO itemRaritySO = ItemManagerSO.GetItemRarityInfomation(iItem.GetRarity());
 
         if (itemRaritySO == null)
             return;
@@ -57,7 +57,7 @@ public class ItemQuality : MonoBehaviour
         }
 
         ItemBackgroundImage.sprite = itemRaritySO.ItemQualityBackground;
-        ItemImage.sprite = iItem.GetItemIcon();
+        ItemImage.sprite = iItem.GetIcon();
     }
 
     public void UpdateDisplayText(string txt)

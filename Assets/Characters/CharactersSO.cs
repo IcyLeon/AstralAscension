@@ -7,26 +7,26 @@ public class CharactersSO : ScriptableObject, IItem
     [field: SerializeField] public Sprite characterIcon { get; private set; }
     [field: SerializeField] public ItemTypeSO characterTypeSO { get; private set; }
 
-    public string GetItemDescription()
+    public string GetDescription()
     {
         return characterDescription;
     }
 
-    public Sprite GetItemIcon()
+    public Sprite GetIcon()
     {
         return characterIcon;
     }
 
-    public string GetItemName()
+    public string GetName()
     {
         return characterName;
     }
-    public ItemTypeSO GetItemType()
+    public ItemTypeSO GetTypeSO()
     {
         return characterTypeSO;
     }
 
-    public virtual Rarity GetItemRarity()
+    public virtual Rarity GetRarity()
     {
         return Rarity.ONE_STAR;
     }

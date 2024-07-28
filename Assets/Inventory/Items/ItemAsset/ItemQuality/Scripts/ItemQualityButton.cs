@@ -30,6 +30,11 @@ public abstract class ItemQualityButton : MonoBehaviour, IPointerClickHandler
         ItemQuality.SetInterfaceItem(IItem);
     }
 
+    protected virtual void OnDestroy()
+    {
+        OnItemQualityClick = null;
+    }
+
     protected void UpdateDisplayText(string txt)
     {
         if (ItemQuality == null)

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public interface IItem
 {
-    public string GetItemName();
-    public ItemTypeSO GetItemType();
-    public Sprite GetItemIcon();
-    public string GetItemDescription();
-    public Rarity GetItemRarity();
+    public string GetName();
+    public ItemTypeSO GetTypeSO();
+    public Sprite GetIcon();
+    public string GetDescription();
+    public Rarity GetRarity();
 
     public IItem GetInterfaceItemReference();
 }

@@ -35,7 +35,7 @@ public class ArtifactManager : MonoBehaviour
         if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
             return;
 
-        characterStorage.playableCharacterStatList[characterSO].RemoveArtifacts(artifact.GetItemType());
+        characterStorage.playableCharacterStatList[characterSO].RemoveArtifacts(artifact.GetTypeSO());
     }
 
     public void AddArtifacts(CharactersSO characterSO, Artifact artifact)
@@ -47,7 +47,7 @@ public class ArtifactManager : MonoBehaviour
             return;
 
         // get the existing artifact equipped from characterSO
-        Artifact CurrentArtifactEquipped = characterStorage.playableCharacterStatList[characterSO].GetItem(artifact.GetItemType()) as Artifact;
+        Artifact CurrentArtifactEquipped = characterStorage.playableCharacterStatList[characterSO].GetItem(artifact.GetTypeSO()) as Artifact;
         
         CharactersSO previousOwnerSO = artifact.equipByCharacter;
         RemoveArtifacts(previousOwnerSO, artifact); // remove previous owner of the artifact

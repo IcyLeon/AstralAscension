@@ -1,6 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public class ItemEXP
+{
+    [field: SerializeField] public ItemRaritySO ItemRaritySO { get; private set; }
+    [field: SerializeField] public int[] EXP { get; private set; }
+}
+
 
 [CreateAssetMenu(fileName = "ItemManagerSO", menuName = "ScriptableObjects/ItemManager/ItemManagerSO")]
 public class ItemManagerSO : ScriptableObject
