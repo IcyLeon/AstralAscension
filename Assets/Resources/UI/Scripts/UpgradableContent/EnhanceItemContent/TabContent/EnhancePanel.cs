@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnhancePanel : MonoBehaviour
 {
-    private UpgradableItemContent UpgradableItemContent;
+    private EnhanceItemContent EnhanceItemContent;
     public IItem iItem { get; private set; }
 
     public event EventHandler OnUpgradableItemChanged;
@@ -18,15 +18,15 @@ public class EnhancePanel : MonoBehaviour
     public void UpdateVisual()
     {
         Init();
-        iItem = UpgradableItemContent.iItem;
+        iItem = EnhanceItemContent.iItem;
         OnUpgradableItemChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void Init()
     {
-        if (UpgradableItemContent != null)
+        if (EnhanceItemContent != null)
             return;
 
-        UpgradableItemContent = GetComponentInParent<UpgradableItemContent>();
+        EnhanceItemContent = GetComponentInParent<EnhanceItemContent>();
     }
 }

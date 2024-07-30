@@ -35,7 +35,7 @@ public class ArtifactManager : MonoBehaviour
         if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
             return;
 
-        characterStorage.playableCharacterStatList[characterSO].RemoveArtifacts(artifact.GetTypeSO());
+        characterStorage.playableCharacterStatList[characterSO].RemoveEquipItem(artifact.GetTypeSO());
     }
 
     public void AddArtifacts(CharactersSO characterSO, Artifact artifact)
@@ -51,7 +51,7 @@ public class ArtifactManager : MonoBehaviour
         
         CharactersSO previousOwnerSO = artifact.equipByCharacter;
         RemoveArtifacts(previousOwnerSO, artifact); // remove previous owner of the artifact
-        characterStorage.playableCharacterStatList[characterSO].AddArtifacts(artifact); // set the new owner of the artifact
+        characterStorage.playableCharacterStatList[characterSO].AddEquipItem(artifact); // set the new owner of the artifact
 
         AddArtifacts(previousOwnerSO, CurrentArtifactEquipped); // set the previous owner to the artifact equipped from characterSO 
         if (CurrentArtifactEquipped != null)
@@ -69,9 +69,9 @@ public class ArtifactManager : MonoBehaviour
             return artifactFamilySOs;
         }
 
-        Dictionary<ItemTypeSO, Artifact> artifactList = characterStorage.playableCharacterStatList[characterSO].GetArtifactList();
+        Dictionary<ItemTypeSO, Item> itemList = characterStorage.playableCharacterStatList[characterSO].equippeditemList;
 
-        foreach (var artifactKeyPair in artifactList)
+        foreach (var artifactKeyPair in itemList)
         {
             ArtifactFamilySO artifactFamilySO = ArtifactManagerSO.GetArtifactFamilySO(artifactKeyPair.Value.GetInterfaceItemReference());
 
@@ -92,17 +92,5 @@ public class ArtifactManager : MonoBehaviour
     {
         CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
         CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

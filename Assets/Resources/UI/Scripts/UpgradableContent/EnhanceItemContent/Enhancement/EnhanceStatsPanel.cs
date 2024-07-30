@@ -68,6 +68,9 @@ public class EnhanceStatsPanel : MonoBehaviour
     private void SubscribeItemEvent()
     {
         Item item = iItem as Item;
+
+        gameObject.SetActive(item != null);
+
         if (item == null)
             return;
 

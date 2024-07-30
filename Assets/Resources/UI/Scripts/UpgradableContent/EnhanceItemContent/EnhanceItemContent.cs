@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradableItemContent : MonoBehaviour
+public class EnhanceItemContent : MonoBehaviour
 {
     [SerializeField] private DetailsPanel DetailsPanel;
     [SerializeField] private EnhancePanel EnhancePanel;

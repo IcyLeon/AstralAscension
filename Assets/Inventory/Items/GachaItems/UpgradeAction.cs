@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UpgradeAction : MonoBehaviour
 {
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
-    private UpgradableItemContent UpgradableItemContent;
+    private EnhanceItemContent EnhanceItemContent;
     private UpgradableItems upgradableItems;
     private Button UpgradeBtn;
 
@@ -25,7 +25,7 @@ public class UpgradeAction : MonoBehaviour
 
     private void Start()
     {
-        UpgradableItemContent = MainUI.instance.UpgradableItemContent;
+        EnhanceItemContent = MainUI.instance.EnhanceItemContent;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
@@ -37,7 +37,7 @@ public class UpgradeAction : MonoBehaviour
     // Update is called once per frame
     private void OnUpgrade()
     {
-        UpgradableItemContent.SetIItem(upgradableItems);
+        EnhanceItemContent.SetIItem(upgradableItems);
     }
 
     private void UpdateVisual()

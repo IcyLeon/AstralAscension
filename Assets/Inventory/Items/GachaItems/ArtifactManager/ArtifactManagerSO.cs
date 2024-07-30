@@ -93,7 +93,7 @@ public class ArtifactManagerSO : ScriptableObject
     [field: SerializeField, Header("Percentage Type Stats")] public ArtifactStatSO[] ArtifactPercentageTypeStatsSOList { get; private set; }
 
     [Header("Artifact Upgrade EXP")]
-    [SerializeField] private ItemEXP[] ArtifactEXPList;
+    [SerializeField] private ItemEXPCostManagerSO ArtifactEXPManagerSO;
 
     /// <summary>
     /// Get the Artifact Family of the Artifacts. Eg; Thundering Fury
