@@ -93,7 +93,7 @@ public class PartySetupManager
 
     public void AddMember(CharacterDataStat characterDataStat, int partySetupIndex, int PartyLocation)
     {
-        if (!characterStorage.HasObtainedCharacter(characterDataStat))
+        if (characterDataStat == null && characterStorage.HasObtainedCharacter(characterDataStat.damageableEntitySO) == null)
             return;
 
         CharacterDataStat CharacterInSlot = PartySetupList[partySetupIndex][PartyLocation];
@@ -128,7 +128,7 @@ public class PartySetupManager
 
     public void AddMember(CharacterDataStat characterDataStat, int partySetupIndex)
     {
-        if (!characterStorage.HasObtainedCharacter(characterDataStat))
+        if (characterDataStat == null && characterStorage.HasObtainedCharacter(characterDataStat.damageableEntitySO) == null)
             return;
 
         int emptySlot = GetEmptySlot(partySetupIndex);

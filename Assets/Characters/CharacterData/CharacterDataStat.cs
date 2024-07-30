@@ -108,4 +108,9 @@ public class CharacterDataStat : IEntity
     {
         return false;
     }
+
+    public virtual void OnDestroy()
+    {
+
+    }
 }

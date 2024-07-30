@@ -5,7 +5,7 @@ using UnityEngine;
 public class MainUI : MonoBehaviour
 {
     public static MainUI instance { get; private set; }
-    [field: SerializeField] public UpgradableItemContent UpgradableItemContent { get; private set; }
+    [field: SerializeField] public EnhanceItemContent EnhanceItemContent { get; private set; }
 
     private void Awake()
     {

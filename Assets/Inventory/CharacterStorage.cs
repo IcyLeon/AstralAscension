@@ -13,34 +13,37 @@ public class CharacterStorage
 
     public void AddCharacterData(CharacterDataStat c)
     {
-        if (c == null)
+        PlayableCharacterDataStat playableCharacterDataStat = c as PlayableCharacterDataStat;
+
+        if (playableCharacterDataStat == null || HasObtainedCharacter(playableCharacterDataStat.damageableEntitySO) != null)
             return;
 
-        if (!HasObtainedCharacter(c))
-        {
-            playableCharacterStatList.Add(c.damageableEntitySO, c as PlayableCharacterDataStat);
-            OnCharacterAdd?.Invoke(c);
-        }
+        playableCharacterStatList.Add(playableCharacterDataStat.playerCharactersSO, playableCharacterDataStat);
+        OnCharacterAdd?.Invoke(c);
     }
 
-    public void RemoveCharacterData(CharacterDataStat c)
+    public void RemoveCharacterData(CharactersSO c)
     {
         if (c == null)
             return;
 
-        if (HasObtainedCharacter(c))
+        CharacterDataStat CharacterDataStat = HasObtainedCharacter(c);
+        if (CharacterDataStat != null)
         {
-            playableCharacterStatList.Remove(c.damageableEntitySO);
-            OnCharacterRemove?.Invoke(c);
+            CharacterDataStat.OnDestroy();
+            playableCharacterStatList.Remove(c);
+            OnCharacterRemove?.Invoke(CharacterDataStat);
         }
     }
 
-    public bool HasObtainedCharacter(CharacterDataStat c)
+    public CharacterDataStat HasObtainedCharacter(CharactersSO c)
     {
-        if (playableCharacterStatList == null)
-            return false;
+        if (playableCharacterStatList != null && playableCharacterStatList.TryGetValue(c, out PlayableCharacterDataStat pc))
+        {
+            return pc;
+        }
 
-        return playableCharacterStatList.ContainsKey(c.damageableEntitySO);
+        return null;
     }
 
     public void Update()

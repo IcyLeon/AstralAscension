@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 public class PlayableCharacterDataStat : CharacterDataStat
 {
-    private Dictionary<ItemTypeSO, UpgradableItems> itemList; // equipped items character
+    public Dictionary<ItemTypeSO, Item> equippeditemList { get; } // equipped items character
+    public CharacterArtifactManager characterArtifactManager { get; }
+
     public float currentElementalSkillCooldownElapsed { get; private set; }
     public float currentElementalBurstCooldownElapsed { get; private set; }
 
@@ -13,71 +16,71 @@ public class PlayableCharacterDataStat : CharacterDataStat
     private int currentAscension;
 
     public event EventHandler OnEnergyChanged;
-
-    public PlayerCharactersSO playerCharactersSO { 
-        get 
-        { 
-            return (PlayerCharactersSO)damageableEntitySO; 
-        } 
-    }
+    public event EventHandler OnItemEquippedChanged;
 
     public PlayableCharacterDataStat(CharactersSO charactersSO, int currentAscension = 0) : base(charactersSO)
     {
-        itemList = new();
+        equippeditemList = new();
+        characterArtifactManager = new(this);
         this.currentAscension = currentAscension;
         currentEnergy = 0;
         currentElementalSkillCooldownElapsed = currentElementalBurstCooldownElapsed = 0;
     }
 
-    public void RemoveArtifacts(ItemTypeSO artifactTypeSO)
+    public PlayerCharactersSO playerCharactersSO
     {
-        Artifact artifact = GetItem(artifactTypeSO) as Artifact;
-        if (artifact == null)
-            return;
-
-        itemList.Remove(artifactTypeSO);
-        artifact.SetEquip(null);
+        get
+        {
+            return damageableEntitySO as PlayerCharactersSO;
+        }
     }
 
-    public Dictionary<ItemTypeSO, Artifact> GetArtifactList()
+    public void RemoveEquipItem(ItemTypeSO itemTypeSO)
     {
-        Dictionary<ItemTypeSO, Artifact> ArtifactList = new();
+        Item item = GetItem(itemTypeSO);
 
-        foreach(var item in itemList)
+        if (item == null)
+            return;
+
+        equippeditemList.Remove(itemTypeSO);
+        UnequipItem(item);
+        OnItemEquippedChanged?.Invoke(item, EventArgs.Empty);
+    }
+
+    private void UnequipItem(Item item)
+    {
+        UpgradableItems upgradableItem = item as UpgradableItems;
+
+        if (upgradableItem == null)
+            return;
+
+        upgradableItem.SetEquip(null);
+    }
+
+    public void AddEquipItem(Item item)
+    {
+        if (item == null)
+            return;
+
+        ItemTypeSO itemTypeSO = item.GetTypeSO();
+
+        if (GetItem(itemTypeSO) != null)
         {
-            Artifact artifact = item.Value as Artifact;
-            if (artifact != null)
-            {
-                ArtifactList.Add(artifact.GetTypeSO(), artifact);
-            }
+            RemoveEquipItem(itemTypeSO);
         }
 
-        return ArtifactList;
+        equippeditemList.Add(item.GetTypeSO(), item);
+        OnItemEquippedChanged?.Invoke(item, EventArgs.Empty);
     }
 
     public Item GetItem(ItemTypeSO itemTypeSO)
     {
-        if (itemTypeSO != null && itemList.TryGetValue(itemTypeSO, out UpgradableItems item))
+        if (itemTypeSO != null && equippeditemList.TryGetValue(itemTypeSO, out Item item))
         {
             return item;
         }
 
         return null;
-    }
-
-    public void AddArtifacts(Artifact artifact)
-    {
-        if (artifact == null)
-            return;
-
-        ItemTypeSO itemTypeSO = artifact.GetTypeSO();
-
-        if (GetItem(itemTypeSO) != null)
-        {
-            RemoveArtifacts(itemTypeSO);
-        }
-
-        itemList.Add(itemTypeSO, artifact);
     }
 
     public override void Update()
@@ -147,4 +150,9 @@ public class PlayableCharacterDataStat : CharacterDataStat
         currentElementalBurstCooldownElapsed = playerCharactersSO.ElementalBurstInfo.SkillCooldown;
     }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        characterArtifactManager.OnDestroy();
+    }
 }

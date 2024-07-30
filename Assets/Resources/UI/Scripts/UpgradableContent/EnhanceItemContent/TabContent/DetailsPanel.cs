@@ -7,7 +7,7 @@ public class DetailsPanel : MonoBehaviour
 {
     [SerializeField] private ItemCard ItemCard;
     [SerializeField] private Image EquipCharacterIconImage;
-    private UpgradableItemContent UpgradableItemContent;
+    private EnhanceItemContent EnhanceItemContent;
 
     public IItem iItem { get; private set; }
 
@@ -19,7 +19,7 @@ public class DetailsPanel : MonoBehaviour
     public void UpdateVisual()
     {
         Init();
-        iItem = UpgradableItemContent.iItem;
+        iItem = EnhanceItemContent.iItem;
         ItemCard.SetInterfaceItem(iItem);
         UpdateUpgradableItemVisual();
     }
@@ -38,9 +38,9 @@ public class DetailsPanel : MonoBehaviour
 
     private void Init()
     {
-        if (UpgradableItemContent != null)
+        if (EnhanceItemContent != null)
             return;
 
-        UpgradableItemContent = GetComponentInParent<UpgradableItemContent>();
+        EnhanceItemContent = GetComponentInParent<EnhanceItemContent>();
     }
 }

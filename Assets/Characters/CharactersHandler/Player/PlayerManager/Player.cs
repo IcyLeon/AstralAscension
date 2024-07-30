@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     public OnCollisionEvent OnCollisionStayEvent;
     public OnCollisionEvent OnCollisionExitEvent;
     #endregion
-
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] public CameraManager CameraManager { get; private set; }
