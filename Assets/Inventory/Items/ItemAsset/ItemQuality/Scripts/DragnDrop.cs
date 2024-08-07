@@ -11,10 +11,17 @@ public class DragEvent : EventArgs
 
 public class DragnDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
+    private GameObject dragObject;
     public event EventHandler<DragEvent> OnDragEvent;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        dragObject = eventData.pointerDrag;
+    }
+
+    public GameObject GetDragObject()
+    {
+        return dragObject;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -24,5 +31,6 @@ public class DragnDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        dragObject = null;
     }
 }

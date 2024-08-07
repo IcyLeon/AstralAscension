@@ -16,10 +16,10 @@ public class PlayerIcon : MonoBehaviour, IMapIconWidget
             return;
         }
 
-        instance.CallOnMapIconAdd(this);
+        instance.CallOnMapObjectAdd(this);
     }
 
-    public MapIconAction AddMapIconComponent(MapIcon MapIcon)
+    public MapIconAction AddMapIconActionComponent(MapIcon MapIcon)
     {
         return new PlayerMapIconAction(MapIcon);
     }

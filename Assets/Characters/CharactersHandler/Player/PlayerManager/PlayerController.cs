@@ -22,6 +22,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public PlayerInputSystem.MapActions mapInputAction
+    {
+        get
+        {
+            return playerInputSystem.Map;
+        }
+    }
+
     // Start is called before the first frame update
     private void Awake()
     {

@@ -371,6 +371,15 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8ffc893-4aca-458f-b220-6585cfe92c97"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -393,6 +402,45 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Review Cursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cc7d44a-40ed-4490-a4a1-685d4c55bdad"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Map"",
+            ""id"": ""8b3d0d8f-fe64-48d0-aa81-b60701400d9b"",
+            ""actions"": [
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""a18a8119-dfd0-4d67-b3f8-8ccb273eee76"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""02d15c96-47cd-40ae-9f7c-982bbd071fb7"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": ""NormalizeVector2"",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -418,6 +466,10 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
         m_UI_ReviewCursor = m_UI.FindAction("Review Cursor", throwIfNotFound: true);
+        m_UI_Map = m_UI.FindAction("Map", throwIfNotFound: true);
+        // Map
+        m_Map = asset.FindActionMap("Map", throwIfNotFound: true);
+        m_Map_Zoom = m_Map.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -592,12 +644,14 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_Inventory;
     private readonly InputAction m_UI_ReviewCursor;
+    private readonly InputAction m_UI_Map;
     public struct UIActions
     {
         private @PlayerInputSystem m_Wrapper;
         public UIActions(@PlayerInputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
         public InputAction @ReviewCursor => m_Wrapper.m_UI_ReviewCursor;
+        public InputAction @Map => m_Wrapper.m_UI_Map;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -613,6 +667,9 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @ReviewCursor.started -= m_Wrapper.m_UIActionsCallbackInterface.OnReviewCursor;
                 @ReviewCursor.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnReviewCursor;
                 @ReviewCursor.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnReviewCursor;
+                @Map.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMap;
+                @Map.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMap;
+                @Map.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMap;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -623,10 +680,46 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
                 @ReviewCursor.started += instance.OnReviewCursor;
                 @ReviewCursor.performed += instance.OnReviewCursor;
                 @ReviewCursor.canceled += instance.OnReviewCursor;
+                @Map.started += instance.OnMap;
+                @Map.performed += instance.OnMap;
+                @Map.canceled += instance.OnMap;
             }
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Map
+    private readonly InputActionMap m_Map;
+    private IMapActions m_MapActionsCallbackInterface;
+    private readonly InputAction m_Map_Zoom;
+    public struct MapActions
+    {
+        private @PlayerInputSystem m_Wrapper;
+        public MapActions(@PlayerInputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Zoom => m_Wrapper.m_Map_Zoom;
+        public InputActionMap Get() { return m_Wrapper.m_Map; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MapActions set) { return set.Get(); }
+        public void SetCallbacks(IMapActions instance)
+        {
+            if (m_Wrapper.m_MapActionsCallbackInterface != null)
+            {
+                @Zoom.started -= m_Wrapper.m_MapActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnZoom;
+            }
+            m_Wrapper.m_MapActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
+            }
+        }
+    }
+    public MapActions @Map => new MapActions(this);
     public interface IPlayerActions
     {
         void OnLook(InputAction.CallbackContext context);
@@ -645,5 +738,10 @@ public partial class @PlayerInputSystem : IInputActionCollection2, IDisposable
     {
         void OnInventory(InputAction.CallbackContext context);
         void OnReviewCursor(InputAction.CallbackContext context);
+        void OnMap(InputAction.CallbackContext context);
+    }
+    public interface IMapActions
+    {
+        void OnZoom(InputAction.CallbackContext context);
     }
 }

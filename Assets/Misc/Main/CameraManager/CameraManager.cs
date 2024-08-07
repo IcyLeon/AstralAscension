@@ -76,13 +76,13 @@ public class CameraManager : MonoBehaviour
 
     private void UpdateZoomCamera()
     {
-        m_TargetZoom = Mathf.Clamp(m_TargetZoom, CameraSO.minZoom, CameraSO.maxZoom);
         playerTransposerCameras.m_CameraDistance = Mathf.SmoothStep(playerTransposerCameras.m_CameraDistance, m_TargetZoom, Time.deltaTime * CameraSO.zoomSoothing);
     }
 
     private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         m_TargetZoom += Player.PlayerController.playerInputAction.Zoom.ReadValue<Vector2>().y;
+        m_TargetZoom = Mathf.Clamp(m_TargetZoom, CameraSO.minZoom, CameraSO.maxZoom);
     }
 
     // Update is called once per frame

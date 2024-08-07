@@ -2,24 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
-public class DetailsPanel : MonoBehaviour
+public class DetailsPanel : EnhancementPanel
 {
     [SerializeField] private ItemCard ItemCard;
     [SerializeField] private Image EquipCharacterIconImage;
-    private EnhanceItemContent EnhanceItemContent;
 
-    public IItem iItem { get; private set; }
-
-    private void Awake()
+    protected override void UpdateVisual()
     {
-        Init();
-    }
-
-    public void UpdateVisual()
-    {
-        Init();
-        iItem = EnhanceItemContent.iItem;
+        base.UpdateVisual();
         ItemCard.SetInterfaceItem(iItem);
         UpdateUpgradableItemVisual();
     }
@@ -34,13 +26,5 @@ public class DetailsPanel : MonoBehaviour
             return;
 
         EquipCharacterIconImage.sprite = upgradableItems.equipByCharacter.GetIcon();
-    }
-
-    private void Init()
-    {
-        if (EnhanceItemContent != null)
-            return;
-
-        EnhanceItemContent = GetComponentInParent<EnhanceItemContent>();
     }
 }

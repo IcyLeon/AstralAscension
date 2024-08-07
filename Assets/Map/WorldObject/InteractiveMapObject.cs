@@ -23,7 +23,7 @@ public abstract class InteractiveMapObject : MonoBehaviour, IMapIconWidget
             return;
         }
 
-        instance.CallOnMapIconAdd(this);
+        instance.CallOnMapObjectAdd(this);
     }
 
 
@@ -42,7 +42,7 @@ public abstract class InteractiveMapObject : MonoBehaviour, IMapIconWidget
         return m_MapIconTypeSO;
     }
 
-    public virtual MapIconAction AddMapIconComponent(MapIcon MapIcon)
+    public virtual MapIconAction AddMapIconActionComponent(MapIcon MapIcon)
     {
         return new InteractiveMapIconAction(MapIcon);
     }

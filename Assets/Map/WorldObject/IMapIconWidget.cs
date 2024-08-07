@@ -6,7 +6,7 @@ using UnityEngine;
 public interface IMapIconWidget
 {
     void Spawn();
-    MapIconAction AddMapIconComponent(MapIcon MapIcon);
+    MapIconAction AddMapIconActionComponent(MapIcon MapIcon);
     MapIconTypeSO GetMapIconTypeSO();
     Transform GetMapIconTransform();
 }

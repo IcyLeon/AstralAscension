@@ -13,17 +13,30 @@ public class PlayerMapIconAction : MapIconAction
         mapIcon.GetComponent<Image>().raycastTarget = false;
     }
 
+    public override bool ShowActionOption()
+    {
+        return false;
+    }
+
+    public override string GetActionText()
+    {
+        return "";
+    }
+    public override void Action()
+    {
+    }
+
     public override void Update()
     {
         base.Update();
-        //MapCentering();
         UpdateRotation();
     }
 
-    private void MapCentering()
+
+    public void MapCentering()
     {
-        Vector2 direction = (mapIcon.RT.anchoredPosition) - (mapIcon.worldMapBackground.GetMapSize() * 0.5f) + mapIcon.worldMapBackground.MapRT.anchoredPosition;
-        mapIcon.worldMapBackground.MapRT.anchoredPosition -= direction;
+        Vector2 direction = (mapIcon.worldMapBackground.GetMapSize() * 0.5f) - (mapIcon.RT.anchoredPosition) - (mapIcon.worldMapBackground.MapRT.anchoredPosition + mapIcon.worldMapBackground.OffsetPositionCenter());
+        mapIcon.worldMapBackground.MapRT.anchoredPosition += direction;
     }
 
     private void UpdateRotation()

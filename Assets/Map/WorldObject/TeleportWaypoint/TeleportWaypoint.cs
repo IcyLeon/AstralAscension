@@ -8,4 +8,9 @@ public class TeleportWaypoint : InteractiveMapObject, IInteractable
     {
         CallOnMapObjectChanged();
     }
+
+    public override MapIconAction AddMapIconActionComponent(MapIcon MapIcon)
+    {
+        return new TeleportWaypointMapIconAction(MapIcon);
+    }
 }
