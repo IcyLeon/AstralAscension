@@ -22,10 +22,11 @@ public class EnhancementManager : MonoBehaviour
     {
         EnhancementMaterialContainer.OnUpgradeClick += EnhancementMaterialContainer_OnUpgradeClick;
 
-        enhancePanel = GetComponentInParent<EnhancePanel>();
+        enhancePanel = GetComponentInParent<EnhancePanel>(true);
         if (enhancePanel != null)
         {
             enhancePanel.OnUpgradableItemChanged += EnhancePanel_OnUpgradableItemChanged;
+            UpdateVisual();
         }
     }
 
@@ -46,6 +47,11 @@ public class EnhancementManager : MonoBehaviour
     }
 
     private void EnhancePanel_OnUpgradableItemChanged(object sender, System.EventArgs e)
+    {
+        UpdateVisual();
+    }
+
+    private void UpdateVisual()
     {
         iItem = enhancePanel.iItem;
         EnhanceStatsPanel.SetInterfaceItem(iItem);

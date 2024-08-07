@@ -9,8 +9,15 @@ public class InteractiveMapIconAction : MapIconAction
     public InteractiveMapIconAction(MapIcon mapIcon) : base(mapIcon)
     {
     }
-
+    public override bool ShowActionOption()
+    {
+        return true;
+    }
     public override void OnDestroy()
+    {
+    }
+
+    public override void Action()
     {
     }
 
@@ -18,5 +25,10 @@ public class InteractiveMapIconAction : MapIconAction
     {
         base.Update();
 
+    }
+
+    public override string GetActionText()
+    {
+        return "";
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,7 +17,7 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
     public WorldMapBackground worldMapBackground { get; private set; }
     public IMapIconWidget iMapIconWidget { get; private set; }
 
-    private MapIconAction mapIconAction;
+    public MapIconAction mapIconAction { get; private set; }
 
     public event EventHandler<MapIconEvent> OnMapIconClick;
 
@@ -26,6 +25,7 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
     {
         RT = GetComponent<RectTransform>();
     }
+
     public void SetMapIconWidget(IMapIconWidget IMapIconWidget, WorldMapBackground WorldMapBackground)
     {
         iMapIconWidget = IMapIconWidget;
@@ -35,12 +35,36 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
 
         worldMapBackground = WorldMapBackground;
 
-        mapIconAction = iMapIconWidget.AddMapIconComponent(this);
+        UnsubscribeEvent();
+        mapIconAction = iMapIconWidget.AddMapIconActionComponent(this);
+        SubscribeEvents();
+        UpdateIconPosition();
 
         if (iMapIconWidget.GetMapIconTypeSO() == null)
             return;
 
-        IconImage.sprite = iMapIconWidget.GetMapIconTypeSO().IconSprite;
+        mapIconAction.SetIconSprite(iMapIconWidget.GetMapIconTypeSO().IconSprite);
+    }
+
+    private void UnsubscribeEvent()
+    {
+        if (mapIconAction == null)
+            return;
+
+        mapIconAction.OnMapIconChanged -= MapIconAction_OnMapIconChanged;
+    }
+
+    private void SubscribeEvents()
+    {
+        if (mapIconAction == null)
+            return;
+
+        mapIconAction.OnMapIconChanged += MapIconAction_OnMapIconChanged;
+    }
+
+    private void MapIconAction_OnMapIconChanged(object sender, EventArgs e)
+    {
+        IconImage.sprite = mapIconAction.GetImageSprite();
     }
 
     private void Update()
@@ -51,7 +75,10 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
 
     private void UpdateIconPosition()
     {
-        RT.anchoredPosition = worldMapBackground.GetMapUILocation(iMapIconWidget.GetMapIconTransform());
+        if (iMapIconWidget == null)
+            return;
+
+        RT.anchoredPosition = worldMapBackground.GetMapUILocation(iMapIconWidget);
     }
     private void UpdateMapIconAction()
     {
@@ -63,6 +90,8 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
 
     private void OnDestroy()
     {
+        UnsubscribeEvent();
+
         if (mapIconAction == null)
             return;
 

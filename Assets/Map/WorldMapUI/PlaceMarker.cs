@@ -15,7 +15,14 @@ public class PlaceMarker : MonoBehaviour, IPointerClickHandler
     private void Awake()
     {
         WorldMapUI = GetComponent<WorldMapUI>();
+
+        if (WorldMapUI == null)
+        {
+            Debug.LogError("World Map UI not found!");
+            return;
+        }
     }
+
     private void Start()
     {
         worldMap = WorldMapManager.instance;
@@ -29,17 +36,11 @@ public class PlaceMarker : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
+        if (eventData.button != PointerEventData.InputButton.Left || WorldMapUI.dragnDrop.GetDragObject() != null)
             return;
 
-        if (WorldMapUI == null)
-        {
-            Debug.LogError("World Map UI not found!");
-            return;
-        }
-
-        WorldMapBackground worldMapBackground = WorldMapUI.WorldMapBackground;
-        Vector2 mapMousePosition = eventData.position - (worldMapBackground.GetScreenSize() * 0.5f) + (worldMapBackground.GetMapSize() * 0.5f) - worldMapBackground.MapRT.anchoredPosition;
+        WorldMapBackground worldMapBackground = WorldMapUI.GetWorldMapBackground();
+        Vector2 mapMousePosition = eventData.position - (worldMapBackground.GetScreenSize() * 0.5f) + (worldMapBackground.GetMapSize() * 0.5f) - (worldMapBackground.MapRT.anchoredPosition + worldMapBackground.OffsetPositionCenter());
         Vector3 WorldPosition = worldMap.GetWorldMapLocation(worldMapBackground.GetMapSize(), mapMousePosition);
         PlaceMarkerOnMap(WorldPosition);
     }

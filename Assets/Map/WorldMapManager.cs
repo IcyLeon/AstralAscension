@@ -8,17 +8,44 @@ public class WorldMapManager : MonoBehaviour
     public List<IMapIconWidget> IMapIconWidgetList { get; private set; }
     public static WorldMapManager instance { get; private set; }
 
+    private Camera BirdEyeCamera;
+
     [SerializeField] private Transform UpperLeft;
     [SerializeField] private Transform BottomRight;
 
     public delegate void OnMapIconEvent(IMapIconWidget IMapIconWidget);
-    public event OnMapIconEvent OnMapIconAdd;
-    public event OnMapIconEvent OnMapIconRemove;
+    public event OnMapIconEvent OnMapObjectAdd;
+    public event OnMapIconEvent OnMapObjectRemove;
 
     private void Awake()
     {
         instance = this;
         Init();
+
+        CenterCamera();
+    }
+
+    private void FindWorldMapCamera()
+    {
+        GameObject go = GameObject.FindGameObjectWithTag("WorldMapCamera");
+
+        if (go == null)
+            return;
+
+        BirdEyeCamera = go.GetComponent<Camera>();
+    }
+
+    private void CenterCamera()
+    {
+        FindWorldMapCamera();
+
+        if (BirdEyeCamera == null)
+            return;
+
+        float x = UpperLeft.transform.position.x + (BottomRight.transform.position.x - UpperLeft.transform.position.x) / 2f;
+        float z = BottomRight.transform.position.z - (BottomRight.transform.position.z - UpperLeft.transform.position.z) / 2f;
+
+        BirdEyeCamera.gameObject.transform.position = new Vector3(x, 999f, z);
     }
 
     private void Init()
@@ -69,7 +96,7 @@ public class WorldMapManager : MonoBehaviour
         return new Vector3(x, 0f, z);
     }
 
-    public void CallOnMapIconAdd(IMapIconWidget IMapIconWidget)
+    public void CallOnMapObjectAdd(IMapIconWidget IMapIconWidget)
     {
         Init();
 
@@ -78,15 +105,15 @@ public class WorldMapManager : MonoBehaviour
 
         IMapIconWidgetList.Add(IMapIconWidget);
 
-        OnMapIconAdd?.Invoke(IMapIconWidget);
+        OnMapObjectAdd?.Invoke(IMapIconWidget);
     }
 
-    public void CallOnMapIconRemove(IMapIconWidget IMapIconWidget)
+    public void CallOnMapObjectRemove(IMapIconWidget IMapIconWidget)
     {
         if (!IMapIconWidgetList.Remove(IMapIconWidget))
             return;
 
-        OnMapIconRemove?.Invoke(IMapIconWidget);
+        OnMapObjectRemove?.Invoke(IMapIconWidget);
     }
 
     // Start is called before the first frame update

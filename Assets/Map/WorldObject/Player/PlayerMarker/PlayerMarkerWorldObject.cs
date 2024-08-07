@@ -5,9 +5,6 @@ using static WorldMapManager;
 
 public class PlayerMarkerWorldObject : MonoBehaviour, IMapIconWidget
 {
-    [SerializeField] private MapIconTypeSO testSO;
-
-
     private void Start()
     {
         Spawn();
@@ -21,12 +18,12 @@ public class PlayerMarkerWorldObject : MonoBehaviour, IMapIconWidget
             return;
         }
 
-        instance.CallOnMapIconAdd(this);
+        instance.CallOnMapObjectAdd(this);
     }
 
-    public MapIconAction AddMapIconComponent(MapIcon MapIcon)
+    public MapIconAction AddMapIconActionComponent(MapIcon MapIcon)
     {
-        return new InteractiveMapIconAction(MapIcon);
+        return new PlayerMarkerMapIconAction(MapIcon);
     }
 
     public Transform GetMapIconTransform()
@@ -36,11 +33,11 @@ public class PlayerMarkerWorldObject : MonoBehaviour, IMapIconWidget
 
     public MapIconTypeSO GetMapIconTypeSO()
     {
-        return testSO;
+        return null;
     }
 
     private void OnDestroy()
     {
-        instance.CallOnMapIconRemove(this);
+        instance.CallOnMapObjectRemove(this);
     }
 }
