@@ -2,19 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minimap : MonoBehaviour
+public class MinimapUI : MapUI
 {
     private PlayerMapIconAction playerMapIconAction;
-    private WorldMapBackground WorldMapBackground;
 
-    private void Awake()
+    protected override void OnMapIconAdd(MapIcon mapIcon)
     {
-        WorldMapBackground = GetComponentInChildren<WorldMapBackground>();
-        WorldMapBackground.OnMapIconAdd += WorldMapBackground_OnMapIconAdd;
-    }
+        base.OnMapIconAdd(mapIcon);
 
-    private void WorldMapBackground_OnMapIconAdd(MapIcon mapIcon)
-    {
         PlayerMapIconAction playerMapIconAction = mapIcon.mapIconAction as PlayerMapIconAction;
 
         if (playerMapIconAction == null)
@@ -24,7 +19,7 @@ public class Minimap : MonoBehaviour
 
         this.playerMapIconAction = playerMapIconAction;
 
-        WorldMapBackground.OnMapIconAdd -= WorldMapBackground_OnMapIconAdd;
+        worldMapBackground.OnMapIconAdd -= OnMapIconAdd;
     }
 
     private void Update()
@@ -38,10 +33,5 @@ public class Minimap : MonoBehaviour
             return;
 
         playerMapIconAction.MapCentering();
-    }
-
-    private void OnDestroy()
-    {
-        WorldMapBackground.OnMapIconAdd -= WorldMapBackground_OnMapIconAdd;
     }
 }

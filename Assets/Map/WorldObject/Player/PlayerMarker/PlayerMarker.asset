@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerMarker
   m_EditorClassIdentifier: 
   <IconName>k__BackingField: 
-  <IconSprite>k__BackingField: {fileID: 21300000, guid: cfcff43d608b2bd488c93846cc3bcdd3,
+  <IconSprite>k__BackingField: {fileID: 21300000, guid: 57a6014c05966ac4abd64a886ae79c72,
     type: 3}
   <IconDescription>k__BackingField: 

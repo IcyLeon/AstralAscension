@@ -20,6 +20,9 @@ public class PinSlot : MonoBehaviour
 
     private void UpdateVisual()
     {
+        if (SlotIconTypeSO == null)
+            return;
+
         PinSlotImage.sprite = SlotIconTypeSO.IconSprite;
     }
 

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WorldObjectPanel : CurrentSelectMapIcon
+public class WorldObjectSelectedMapIcon : CurrentSelectMapIcon
 {
     [Header("Icon Base Information")]
     [SerializeField] private TextMeshProUGUI IconTitle;
@@ -23,8 +23,8 @@ public class WorldObjectPanel : CurrentSelectMapIcon
 
     private void UpdateDescription()
     {
-        IconTitle.text = mapIcon.iMapIconWidget.GetMapIconTypeSO().IconName;
-        IconImage.sprite = mapIcon.iMapIconWidget.GetMapIconTypeSO().IconSprite;
-        IconDescription.text = mapIcon.iMapIconWidget.GetMapIconTypeSO().IconDescription;
+        IconTitle.text = mapIcon.mapObject.GetMapIconTypeSO().IconName;
+        IconImage.sprite = mapIcon.mapObject.GetMapIconTypeSO().IconSprite;
+        IconDescription.text = mapIcon.mapObject.GetMapIconTypeSO().IconDescription;
     }
 }

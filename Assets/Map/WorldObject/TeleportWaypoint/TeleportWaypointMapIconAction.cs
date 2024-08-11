@@ -23,6 +23,6 @@ public class TeleportWaypointMapIconAction : InteractiveMapIconAction
     {
         Player player = mapIcon.worldMapBackground.player;
 
-        player.transform.position = mapIcon.iMapIconWidget.GetMapIconTransform().position;
+        player.transform.position = mapIcon.mapObject.GetMapIconTransform().position;
     }
 }

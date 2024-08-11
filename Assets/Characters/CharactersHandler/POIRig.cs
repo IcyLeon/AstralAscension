@@ -87,6 +87,9 @@ public abstract class POIRig : MonoBehaviour
 
     private void MoveTarget()
     {
+        if (MultiAimConstraint.data.sourceObjects.Count == 0)
+            return;
+
         Vector3 WorldPosition = Vector3.MoveTowards(MultiAimConstraint.data.sourceObjects[0].transform.position, closestTarget, Time.deltaTime * MoveTowardsSoothingTime);
         SetTargetPosition(WorldPosition);
     }
