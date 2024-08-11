@@ -6,11 +6,15 @@ public class TeleportWaypoint : InteractiveMapObject, IInteractable
 {
     public void Interact(Transform sourceTransform)
     {
-        CallOnMapObjectChanged();
     }
 
-    public override MapIconAction AddMapIconActionComponent(MapIcon MapIcon)
+    public override MapIconAction GetMapIconActionComponent(MapIcon MapIcon)
     {
         return new TeleportWaypointMapIconAction(MapIcon);
+    }
+
+    protected override MapIconData CreateMapIconData()
+    {
+        return new TeleportWaypointData(this);
     }
 }

@@ -5,31 +5,36 @@ using UnityEngine;
 
 public abstract class MapIconAction
 {
-    public event EventHandler OnMapIconChanged;
-
-    private Sprite iconSprite;
     protected MapIcon mapIcon { get; private set; }
 
-    public MapIconAction(MapIcon mapIcon)
+    public MapIconAction(MapIcon MapIcon)
     {
-        this.mapIcon = mapIcon;
+        mapIcon = MapIcon;
+        Init();
+    }
+
+    public void Init()
+    {
+        MapIconTypeSO mapIconTypeSO = mapIcon.mapObject.GetMapIconTypeSO();
+
+        if (mapIconData == null || mapIconTypeSO == null)
+            return;
+
+        mapIconData.SetMapIconTypeSO(mapIconTypeSO);
+    }
+
+    public MapIconData mapIconData
+    {
+        get
+        {
+            return mapIcon.mapObject.mapIconData;
+        }
     }
 
     public abstract bool ShowActionOption();
     public abstract string GetActionText();
 
     public abstract void Action();
-
-    public Sprite GetImageSprite()
-    {
-        return iconSprite;
-    }
-
-    public void SetIconSprite(Sprite sprite)
-    {
-        iconSprite = sprite;
-        OnMapIconChanged?.Invoke(this, EventArgs.Empty);
-    }
 
     public virtual void Update()
     {

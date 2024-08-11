@@ -7,10 +7,19 @@ public class PlayerMapIconAction : MapIconAction
 {
     public PlayerMapIconAction(MapIcon mapIcon) : base(mapIcon)
     {
-        if (mapIcon == null)
+        mapIcon.worldMapBackground.OnMapIconAdd += OnMapIconAdd;
+
+        Image mapIconImage = mapIcon.GetComponent<Image>();
+
+        if (mapIconImage == null)
             return;
 
-        mapIcon.GetComponent<Image>().raycastTarget = false;
+        mapIconImage.raycastTarget = false;
+    }
+
+    private void OnMapIconAdd(MapIcon mapIcon)
+    {
+        this.mapIcon.transform.SetAsLastSibling();
     }
 
     public override bool ShowActionOption()
@@ -41,12 +50,16 @@ public class PlayerMapIconAction : MapIconAction
 
     private void UpdateRotation()
     {
-        if (mapIcon.iMapIconWidget == null)
+        if (mapIcon.mapObject == null)
             return;
 
-        Quaternion rotation = Quaternion.Euler(0f, 0f, 360f - mapIcon.iMapIconWidget.GetMapIconTransform().eulerAngles.y);
+        Quaternion rotation = Quaternion.Euler(0f, 0f, 360f - mapIcon.mapObject.GetMapIconTransform().eulerAngles.y);
         mapIcon.RT.rotation = rotation;
     }
 
-
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        mapIcon.worldMapBackground.OnMapIconAdd -= OnMapIconAdd;
+    }
 }

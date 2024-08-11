@@ -3,47 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static WorldMapManager;
 
-public abstract class InteractiveMapObject : MonoBehaviour, IMapIconWidget
+public abstract class InteractiveMapObject : MapObject
 {
     [SerializeField] private MapIconTypeSO m_MapIconTypeSO;
-    public event EventHandler OnMapObjectChanged;
 
-    private void Start()
-    {
-        Spawn(); 
-    }
-
-    public void Spawn()
-    {
-        if (instance == null)
-        {
-            Debug.LogError("World Map Manager not found!");
-            return;
-        }
-
-        instance.CallOnMapObjectAdd(this);
-    }
-
-
-    public Transform GetMapIconTransform()
-    {
-        return transform;
-    }
-
-    protected void CallOnMapObjectChanged()
-    {
-        OnMapObjectChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    public MapIconTypeSO GetMapIconTypeSO()
+    public override MapIconTypeSO GetMapIconTypeSO()
     {
         return m_MapIconTypeSO;
     }
 
-    public virtual MapIconAction AddMapIconActionComponent(MapIcon MapIcon)
+    public override MapIconAction GetMapIconActionComponent(MapIcon MapIcon)
     {
         return new InteractiveMapIconAction(MapIcon);
+    }
+
+    protected override MapIconData CreateMapIconData()
+    {
+        return new MapIconData(this);
     }
 }

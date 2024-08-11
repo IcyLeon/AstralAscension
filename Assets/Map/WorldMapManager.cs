@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class WorldMapManager : MonoBehaviour
 {
-    public List<IMapIconWidget> IMapIconWidgetList { get; private set; }
+    public Dictionary<MapObject, MapIconData> MapObjectList { get; private set; }
+
     public static WorldMapManager instance { get; private set; }
 
     private Camera BirdEyeCamera;
@@ -13,7 +14,7 @@ public class WorldMapManager : MonoBehaviour
     [SerializeField] private Transform UpperLeft;
     [SerializeField] private Transform BottomRight;
 
-    public delegate void OnMapIconEvent(IMapIconWidget IMapIconWidget);
+    public delegate void OnMapIconEvent(MapObject mapObject);
     public event OnMapIconEvent OnMapObjectAdd;
     public event OnMapIconEvent OnMapObjectRemove;
 
@@ -50,10 +51,10 @@ public class WorldMapManager : MonoBehaviour
 
     private void Init()
     {
-        if (IMapIconWidgetList != null)
+        if (MapObjectList != null)
             return;
 
-        IMapIconWidgetList = new();
+        MapObjectList = new();
     }
 
     /// <summary>
@@ -96,24 +97,32 @@ public class WorldMapManager : MonoBehaviour
         return new Vector3(x, 0f, z);
     }
 
-    public void CallOnMapObjectAdd(IMapIconWidget IMapIconWidget)
+    public void CallOnMapObjectAdd(MapIconData MapIconData)
     {
         Init();
 
-        if (IMapIconWidgetList.Contains(IMapIconWidget))
+        if (GetMapIconData(MapIconData.mapObject) != null)
             return;
 
-        IMapIconWidgetList.Add(IMapIconWidget);
+        MapObjectList.Add(MapIconData.mapObject, MapIconData);
 
-        OnMapObjectAdd?.Invoke(IMapIconWidget);
+        OnMapObjectAdd?.Invoke(MapIconData.mapObject);
     }
 
-    public void CallOnMapObjectRemove(IMapIconWidget IMapIconWidget)
+    public MapIconData GetMapIconData(MapObject mapObject)
     {
-        if (!IMapIconWidgetList.Remove(IMapIconWidget))
+        if (mapObject == null || !MapObjectList.ContainsKey(mapObject))
+            return null;
+
+        return MapObjectList[mapObject];
+    }
+
+    public void CallOnMapObjectRemove(MapObject mapObject)
+    {
+        if (!MapObjectList.Remove(mapObject))
             return;
 
-        OnMapObjectRemove?.Invoke(IMapIconWidget);
+        OnMapObjectRemove?.Invoke(mapObject);
     }
 
     // Start is called before the first frame update

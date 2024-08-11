@@ -1,20 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[DisallowMultipleComponent]
-public class WorldMapUI : MonoBehaviour
+public class WorldMapUI : MapUI
 {
     private MapPopupPanel mapPopupPanel;
     private Canvas canvas;
-
-    private WorldMapBackground WorldMapBackground;
-
-    private WorldMapManager worldMap;
 
     public DragnDrop dragnDrop { get; private set; }
 
@@ -26,50 +19,39 @@ public class WorldMapUI : MonoBehaviour
 
     private Vector2 PivotPoint;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         m_TargetZoom = m_Zoom = 1.75f;
         zoomScale = 0.5f;
 
         canvas = GetComponentInParent<Canvas>();
         dragnDrop = GetComponent<DragnDrop>();
 
-        WorldMapBackground = GetComponentInChildren<WorldMapBackground>();
         mapPopupPanel = GetComponentInChildren<MapPopupPanel>(true);
+        mapPopupPanel.SetMapUI(this);
 
-        WorldMapBackground.OnMapIconAdd += WorldMapBackground_OnMapIconAdd;
-        WorldMapBackground.OnMapIconRemove += WorldMapBackground_OnMapIconRemove;
-
-    }
-
-    public WorldMapBackground GetWorldMapBackground()
-    {
-        return WorldMapBackground;
     }
 
     private void Start()
     {
-        worldMap = WorldMapManager.instance;
-        if (worldMap == null)
-        {
-            Debug.LogError("World Map Manager is not found!");
-            return;
-        }
-
-        player = WorldMapBackground.player;
+        player = worldMapBackground.player;
 
         player.PlayerController.mapInputAction.Zoom.performed += Zoom_performed;
 
         UpdateVisual();
     }
 
-    private void WorldMapBackground_OnMapIconRemove(MapIcon mapIcon)
+    protected override void OnMapIconRemove(MapIcon mapIcon)
     {
+        base.OnMapIconRemove(mapIcon);
         mapIcon.OnMapIconClick -= MapIcon_OnMapIconClick;
     }
 
-    private void WorldMapBackground_OnMapIconAdd(MapIcon mapIcon)
+    protected override void OnMapIconAdd(MapIcon mapIcon)
     {
+        base.OnMapIconAdd(mapIcon);
         mapIcon.OnMapIconClick += MapIcon_OnMapIconClick;
     }
 
@@ -82,19 +64,19 @@ public class WorldMapUI : MonoBehaviour
     private void UpdateZoom()
     {
         m_Zoom = Mathf.SmoothStep(m_Zoom, m_TargetZoom, Time.deltaTime * 15f);
-        WorldMapBackground.MapRT.sizeDelta = WorldMapBackground.GetOriginalMapSize() * m_Zoom;
+        worldMapBackground.MapRT.sizeDelta = worldMapBackground.GetOriginalMapSize() * m_Zoom;
     }
 
     private void UpdateVisual()
     {
-        foreach (var iconDictionaryKeyPair in WorldMapBackground.IconsDictionary)
+        foreach (var iconDictionaryKeyPair in worldMapBackground.IconsDictionary)
         {
-            WorldMapBackground_OnMapIconRemove(iconDictionaryKeyPair.Value);
+            OnMapIconRemove(iconDictionaryKeyPair.Value);
         }
 
-        foreach (var iconDictionaryKeyPair in WorldMapBackground.IconsDictionary)
+        foreach (var iconDictionaryKeyPair in worldMapBackground.IconsDictionary)
         {
-            WorldMapBackground_OnMapIconAdd(iconDictionaryKeyPair.Value);
+            OnMapIconAdd(iconDictionaryKeyPair.Value);
         }
     }
 
@@ -113,14 +95,9 @@ public class WorldMapUI : MonoBehaviour
         dragnDrop.OnDragEvent -= DragnDrop_OnDragEvent;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-        if (WorldMapBackground != null) 
-        {
-            WorldMapBackground.OnMapIconAdd -= WorldMapBackground_OnMapIconAdd;
-            WorldMapBackground.OnMapIconRemove -= WorldMapBackground_OnMapIconRemove;
-        }
-
+        base.OnDestroy();
         player.PlayerController.uiInputAction.Map.performed -= Zoom_performed;
         dragnDrop.OnDragEvent -= DragnDrop_OnDragEvent;
     }
@@ -135,18 +112,18 @@ public class WorldMapUI : MonoBehaviour
         if (DE.eventData.button != PointerEventData.InputButton.Left)
             return;
 
-        RectTransform rt = WorldMapBackground.MapRT;
+        RectTransform rt = worldMapBackground.MapRT;
         rt.anchoredPosition += DE.eventData.delta / canvas.scaleFactor;
 
 
-        Vector2 clampedanchoredPosition = rt.anchoredPosition + WorldMapBackground.OffsetPositionCenter();
-        Vector2 Position = (clampedanchoredPosition - WorldMapBackground.GetMapSize() * 0.5f) * -1f;
-        PivotPoint = Position / WorldMapBackground.GetMapSize();
-        WorldMapBackground.MapRT.pivot = PivotPoint;
+        Vector2 clampedanchoredPosition = rt.anchoredPosition + worldMapBackground.OffsetPositionCenter();
+        Vector2 Position = (clampedanchoredPosition - worldMapBackground.GetMapSize() * 0.5f) * -1f;
+        PivotPoint = Position / worldMapBackground.GetMapSize();
+        worldMapBackground.MapRT.pivot = PivotPoint;
 
 
-        clampedanchoredPosition.x = Mathf.Clamp(clampedanchoredPosition.x, -WorldMapBackground.GetMapSize().x / 2f, WorldMapBackground.GetMapSize().x / 2f);
-        clampedanchoredPosition.y = Mathf.Clamp(clampedanchoredPosition.y, -WorldMapBackground.GetMapSize().y / 2f, WorldMapBackground.GetMapSize().y / 2f);
-        rt.anchoredPosition = clampedanchoredPosition - WorldMapBackground.OffsetPositionCenter();
+        clampedanchoredPosition.x = Mathf.Clamp(clampedanchoredPosition.x, -worldMapBackground.GetMapSize().x / 2f, worldMapBackground.GetMapSize().x / 2f);
+        clampedanchoredPosition.y = Mathf.Clamp(clampedanchoredPosition.y, -worldMapBackground.GetMapSize().y / 2f, worldMapBackground.GetMapSize().y / 2f);
+        rt.anchoredPosition = clampedanchoredPosition - worldMapBackground.OffsetPositionCenter();
     }
 }

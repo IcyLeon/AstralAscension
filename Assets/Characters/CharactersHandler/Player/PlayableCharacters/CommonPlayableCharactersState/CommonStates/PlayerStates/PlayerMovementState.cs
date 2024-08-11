@@ -116,7 +116,7 @@ public abstract class PlayerMovementState : IState
         return playerStateMachine.PlayableCharacterStateMachine.IsSkillCasting();
     }
 
-    private bool CanUpdateMovement()
+    private bool IsNotMoving()
     {
         return playerStateMachine.playerData.movementInput == Vector2.zero
             || playerStateMachine.playerData.SpeedModifier == 0f
@@ -124,7 +124,7 @@ public abstract class PlayerMovementState : IState
     }
     private void UpdatePhysicsMovement()
     {
-        if (CanUpdateMovement())
+        if (IsNotMoving())
             return;
 
         playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirectionXZ(playerStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
@@ -132,7 +132,7 @@ public abstract class PlayerMovementState : IState
 
     protected virtual void UpdateRotation()
     {
-        if (CanUpdateMovement())
+        if (IsNotMoving())
             return;
 
         float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playerStateMachine.playerData.movementInput) + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
@@ -220,8 +220,8 @@ public abstract class PlayerMovementState : IState
     public virtual void Update()
     {
         OnDeadUpdate();
-        UpdateRotation();
         ReadMovement();
+        UpdateRotation();
         BlendMovementAnimation();
     }
 }

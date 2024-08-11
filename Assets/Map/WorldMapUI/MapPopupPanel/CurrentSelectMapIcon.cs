@@ -11,7 +11,7 @@ public abstract class CurrentSelectMapIcon : MonoBehaviour
     protected MapPopupPanel mapPopupPanel;
     protected MapIcon mapIcon;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         Init();
     }
@@ -30,12 +30,12 @@ public abstract class CurrentSelectMapIcon : MonoBehaviour
     {
         mapIcon = mapPopupPanel.mapIcon;
 
-        if (mapIcon == null || mapIcon.iMapIconWidget == null || mapIcon.iMapIconWidget.GetMapIconTypeSO() == null)
+        if (mapIcon == null || mapIcon.mapObject == null)
             return;
 
         gameObject.SetActive(IsVisible());
 
-        if (gameObject.activeSelf)
+        if (gameObject.activeSelf && mapIcon.mapObject.GetMapIconTypeSO())
         {
             UpdateInformation();
         }

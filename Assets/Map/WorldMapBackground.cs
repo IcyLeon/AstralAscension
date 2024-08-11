@@ -6,10 +6,10 @@ using UnityEngine;
 public class WorldMapBackground : MonoBehaviour
 {
     [SerializeField] private GameObject MapIconPrefab;
-    public Dictionary<IMapIconWidget, MapIcon> IconsDictionary { get; private set; }
+    public Dictionary<MapObject, MapIcon> IconsDictionary { get; private set; }
     [field: SerializeField] public RectTransform MapRT { get; private set; }
     [SerializeField] private Transform IconMapPivotTransform;
-    private WorldMapManager worldMap;
+    public WorldMapManager worldMap { get; private set; }
 
     private Vector2 originalMapSize;
 
@@ -40,15 +40,18 @@ public class WorldMapBackground : MonoBehaviour
         UpdateVisual();
     }
 
-    private void WorldMap_OnMapObjectRemove(IMapIconWidget IMapIconWidget)
+    private void WorldMap_OnMapObjectRemove(MapObject MapObject)
     {
-        if (!IconsDictionary.TryGetValue(IMapIconWidget, out MapIcon mapIcon))
+        if (!IconsDictionary.TryGetValue(MapObject, out MapIcon mapIcon))
             return;
 
-        IconsDictionary.Remove(IMapIconWidget);
+        IconsDictionary.Remove(MapObject);
+
+        if (mapIcon == null)
+            return;
+
         OnMapIconRemove?.Invoke(mapIcon);
         Destroy(mapIcon.gameObject);
-
     }
 
     private void UpdateVisual()
@@ -58,33 +61,36 @@ public class WorldMapBackground : MonoBehaviour
             WorldMap_OnMapObjectRemove(IconsDictionary.ElementAt(i).Key);
         }
 
-        foreach (var IMapIconWidget in worldMap.IMapIconWidgetList)
+        foreach (var IMapIconWidget in worldMap.MapObjectList)
         {
-            WorldMap_OnMapObjectAdd(IMapIconWidget);
+            WorldMap_OnMapObjectAdd(IMapIconWidget.Key);
         }
     }
 
     private void OnDestroy()
     {
+        if (worldMap == null)
+            return;
+
         worldMap.OnMapObjectAdd -= WorldMap_OnMapObjectAdd;
         worldMap.OnMapObjectRemove -= WorldMap_OnMapObjectRemove;
     }
 
-    private void WorldMap_OnMapObjectAdd(IMapIconWidget iMapIconWidget)
+    private void WorldMap_OnMapObjectAdd(MapObject mapObject)
     {
-        if (IconsDictionary.ContainsKey(iMapIconWidget))
+        if (IconsDictionary.ContainsKey(mapObject))
             return;
 
         MapIcon mapIcon = Instantiate(MapIconPrefab, IconMapPivotTransform).GetComponent<MapIcon>();
-        mapIcon.SetMapIconWidget(iMapIconWidget, this);
-        IconsDictionary.Add(iMapIconWidget, mapIcon);
+        mapIcon.SetMapObject(mapObject, this);
+        IconsDictionary.Add(mapObject, mapIcon);
         OnMapIconAdd?.Invoke(mapIcon);
     }
 
 
-    public Vector3 GetMapUILocation(IMapIconWidget mapIconWidget)
+    public Vector3 GetMapUILocation(MapObject mapObject)
     {
-        Vector3 MapWorldPosition = worldMap.GetMapLocation(mapIconWidget.GetMapIconTransform());
+        Vector3 MapWorldPosition = worldMap.GetMapLocation(mapObject.GetMapIconTransform());
 
         return new Vector3(MapWorldPosition.x / worldMap.GetWorldMapWidthRatio(GetMapSize().x),
             MapWorldPosition.z / worldMap.GetWorldMapWidthRatio(GetMapSize().y), 0);

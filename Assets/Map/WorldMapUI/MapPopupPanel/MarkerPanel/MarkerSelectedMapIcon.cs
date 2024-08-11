@@ -9,9 +9,12 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
     private PinSlot[] PinSlotsList;
     private PinSlot currentPinSlotSelected;
 
-    protected override void Awake()
+    public override void Init()
     {
-        base.Awake();
+        base.Init();
+
+        if (PinSlotsList != null)
+            return;
 
         PinSlotsList = GetComponentsInChildren<PinSlot>();
 
@@ -19,24 +22,13 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
         {
             pinSlot.PinSlotClick += PinSlot_PinSlotClick;
         }
+
+        Subscribe_OnMarkerAdd();
     }
 
-    public override void Init()
+    private void WorldMapBackground_OnMapIconAdd(MapIcon mapIcon)
     {
-        base.Init();
-
-        if (mapPopupPanel == null)
-            return;
-
-        mapPopupPanel.OnMapIconChanged += MapPopupPanel_OnMapIconChanged;
-    }
-
-    private void MapPopupPanel_OnMapIconChanged(object sender, System.EventArgs e)
-    {
-        if (PinSlotsList == null || PinSlotsList.Length == 0)
-            return;
-
-        OnSelectedPinSlot(PinSlotsList[0]);
+        UpdateVisual();
     }
 
     protected override void OnDestroy()
@@ -48,11 +40,34 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
             pinSlot.PinSlotClick -= PinSlot_PinSlotClick;
         }
 
-        if (mapPopupPanel != null)
-        {
-            mapPopupPanel.OnMapIconChanged -= MapPopupPanel_OnMapIconChanged;
-        }
+        Unsubscribe_OnMarkerAdd();
     }
+
+    private void UpdateVisual()
+    {
+        if (PinSlotsList.Length == 0)
+            return;
+
+        OnSelectedPinSlot(PinSlotsList[0]);
+    }
+
+    private void Subscribe_OnMarkerAdd()
+    {
+        if (mapPopupPanel == null || mapPopupPanel.mapUI == null)
+            return;
+
+        mapPopupPanel.mapUI.worldMapBackground.OnMapIconAdd += WorldMapBackground_OnMapIconAdd;
+        UpdateVisual();
+    }
+
+    private void Unsubscribe_OnMarkerAdd()
+    {
+        if (mapPopupPanel == null || mapPopupPanel.mapUI == null)
+            return;
+
+        mapPopupPanel.mapUI.worldMapBackground.OnMapIconAdd -= WorldMapBackground_OnMapIconAdd;
+    }
+
 
     private void PinSlot_PinSlotClick(object sender, System.EventArgs e)
     {
@@ -66,7 +81,7 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
         if (currentPinSlotSelected == null || currentPinSlotSelected.SlotIconTypeSO == null)
             return;
 
-        mapIcon.mapIconAction.SetIconSprite(currentPinSlotSelected.SlotIconTypeSO.IconSprite);
+        mapIcon.mapIconAction.mapIconData.SetMapIconTypeSO(currentPinSlotSelected.SlotIconTypeSO);
     }
 
     protected override bool IsVisible()
