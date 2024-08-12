@@ -13,14 +13,16 @@ public abstract class MapIconAction
         Init();
     }
 
-    public void Init()
+    private void Init()
     {
         MapIconTypeSO mapIconTypeSO = mapIcon.mapObject.GetMapIconTypeSO();
 
         if (mapIconData == null || mapIconTypeSO == null)
             return;
 
-        mapIconData.SetMapIconTypeSO(mapIconTypeSO);
+        mapIconData.SetMarkerName(mapIconTypeSO.IconName);
+        mapIconData.SetMarkerSprite(mapIconTypeSO.IconSprite);
+        mapIconData.SetMarkerDesc(mapIconTypeSO.IconDescription);
     }
 
     public MapIconData mapIconData

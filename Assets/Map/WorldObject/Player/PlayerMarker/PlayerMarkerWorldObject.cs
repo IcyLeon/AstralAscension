@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using static WorldMapManager;
 
+[DisallowMultipleComponent]
 public class PlayerMarkerWorldObject : MapObject
 {
     protected override MapIconData CreateMapIconData()
     {
-        return new MapIconData(this);
+        return new PlayerMarkerIconData(this);
     }
 
     public override MapIconAction GetMapIconActionComponent(MapIcon MapIcon)

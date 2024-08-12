@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class MapIconData
 {
-    private MapIconTypeSO mapIconTypeSO;
+    public string mapIconName { get; private set; }
+    public Sprite mapIconSprite { get; private set; }
+    public string mapIconDescription { get; private set; }
+
     public MapObject mapObject { get; private set; }
 
     public event EventHandler OnMapIconChanged;
@@ -14,14 +17,35 @@ public class MapIconData
         mapObject = MapObject;
     }
 
-    public MapIconTypeSO GetMapIconTypeSO()
+    public virtual bool IsConfirmedPlaced()
     {
-        return mapIconTypeSO;
+        return true;
     }
 
-    public void SetMapIconTypeSO(MapIconTypeSO MapIconTypeSO)
+    public void SetMarkerName(string name)
     {
-        mapIconTypeSO = MapIconTypeSO;
+        mapIconName = name;
+        CallMapIconChanged();
+    }
+    public void SetMarkerSprite(Sprite sprite)
+    {
+        mapIconSprite = sprite;
+        CallMapIconChanged();
+    }
+
+    public void SetMarkerDesc(string desc)
+    {
+        mapIconDescription = desc;
+        CallMapIconChanged();
+    }
+
+    protected void CallMapIconChanged()
+    {
         OnMapIconChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public virtual void OnDestroy()
+    {
+
     }
 }

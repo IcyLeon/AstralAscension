@@ -17,6 +17,14 @@ public abstract class MapObject : MonoBehaviour
         return transform;
     }
 
+    public void DestroyMapObject()
+    {
+        if (gameObject == null)
+            return;
+
+        Destroy(gameObject);
+    }
+
     private void Start()
     {
         if (instance == null)

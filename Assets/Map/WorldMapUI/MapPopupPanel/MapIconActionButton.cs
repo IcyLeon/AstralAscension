@@ -5,17 +5,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
 public class MapIconActionButton : MonoBehaviour
 {
+    [SerializeField] private Button ActionButton;
     [SerializeField] private TextMeshProUGUI ButtonText;
     private MapPopupPanel MapPopupPanel;
-    private Button ActionButton;
     private MapIcon mapIcon;
 
     private void Awake()
     {
-        ActionButton = GetComponent<Button>();
         ActionButton.onClick.AddListener(OnButtonClick);
 
         MapPopupPanel = GetComponentInParent<MapPopupPanel>(true);
