@@ -7,8 +7,16 @@ public abstract class MapUI : MonoBehaviour
 {
     public WorldMapBackground worldMapBackground { get; protected set; }
 
-    protected virtual void Awake()
+    private void Awake()
     {
+        Init();
+    }
+
+    public virtual void Init()
+    {
+        if (worldMapBackground != null)
+            return;
+
         worldMapBackground = GetComponentInChildren<WorldMapBackground>();
         worldMapBackground.OnMapIconAdd += OnMapIconAdd;
         worldMapBackground.OnMapIconRemove += OnMapIconRemove;

@@ -19,14 +19,18 @@ public class WorldMapUI : MapUI
 
     private Vector2 PivotPoint;
 
-    protected override void Awake()
+    public override void Init()
     {
-        base.Awake();
+        base.Init();
+
+        if (canvas != null)
+            return;
+
+        canvas = GetComponentInParent<Canvas>();
 
         m_TargetZoom = m_Zoom = 1.75f;
         zoomScale = 0.5f;
 
-        canvas = GetComponentInParent<Canvas>();
         dragnDrop = GetComponent<DragnDrop>();
 
         mapPopupPanel = GetComponentInChildren<MapPopupPanel>(true);

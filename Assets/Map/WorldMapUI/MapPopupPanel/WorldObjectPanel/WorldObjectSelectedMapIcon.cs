@@ -23,8 +23,11 @@ public class WorldObjectSelectedMapIcon : CurrentSelectMapIcon
 
     private void UpdateDescription()
     {
-        IconTitle.text = mapIcon.mapObject.GetMapIconTypeSO().IconName;
-        IconImage.sprite = mapIcon.mapObject.GetMapIconTypeSO().IconSprite;
-        IconDescription.text = mapIcon.mapObject.GetMapIconTypeSO().IconDescription;
+        if (mapIcon.mapObject == null)
+            return;
+
+        IconTitle.text = mapIcon.mapObject.mapIconData.mapIconName;
+        IconImage.sprite = mapIcon.mapObject.mapIconData.mapIconSprite;
+        IconDescription.text = mapIcon.mapObject.mapIconData.mapIconDescription;
     }
 }

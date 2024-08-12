@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MapPopupPanel : MonoBehaviour
 {
@@ -44,7 +43,6 @@ public class MapPopupPanel : MonoBehaviour
         if (mapUI == null || mapUI.worldMapBackground == null)
             return;
 
-
         mapUI.worldMapBackground.OnMapIconAdd -= WorldMapBackground_OnMapIconAdd;
     }
 
@@ -63,11 +61,16 @@ public class MapPopupPanel : MonoBehaviour
         UnsubscribeEvents();
     }
 
+    public void TogglePanel(bool toggleStatus)
+    {
+        gameObject.SetActive(toggleStatus);
+    }
+
     public void SetMapIcon(MapIcon MapIcon)
     {
         mapIcon = MapIcon;
 
-        gameObject.SetActive(mapIcon != null);
+        TogglePanel(mapIcon != null);
 
         OnMapIconChanged?.Invoke(this, EventArgs.Empty);
     }

@@ -35,6 +35,12 @@ public class PlaceMarker : MonoBehaviour, IPointerClickHandler
 
     private void PlaceMarkerOnMap(Vector3 WorldPosition)
     {
+        WorldMapBackground worldMapBackground = worldMapUI.worldMapBackground;
+        int TotalPlayerMarkers = worldMapBackground.worldMap.CountAllPlacedMarkers();
+
+        if (TotalPlayerMarkers >= WorldMapManager.MAX_PIN)
+            return;
+
         GameObject marker = Instantiate(m_MarkerPrefab, WorldPosition, Quaternion.identity);
     }
 }

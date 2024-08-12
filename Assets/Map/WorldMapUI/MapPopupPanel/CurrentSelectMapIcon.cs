@@ -8,8 +8,9 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public abstract class CurrentSelectMapIcon : MonoBehaviour
 {
-    protected MapPopupPanel mapPopupPanel;
-    protected MapIcon mapIcon;
+    public MapPopupPanel mapPopupPanel { get; private set; }
+    public MapIcon mapIcon { get; private set; }
+    public event EventHandler OnMapIconChanged;
 
     private void Awake()
     {
@@ -35,10 +36,12 @@ public abstract class CurrentSelectMapIcon : MonoBehaviour
 
         gameObject.SetActive(IsVisible());
 
-        if (gameObject.activeSelf && mapIcon.mapObject.GetMapIconTypeSO())
-        {
-            UpdateInformation();
-        }
+        OnMapIconChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnEnable()
+    {
+        UpdateInformation();
     }
 
     private void MapPopupPanel_OnMapIconChanged(object sender, EventArgs e)

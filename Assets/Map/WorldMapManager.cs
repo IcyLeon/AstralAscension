@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class WorldMapManager : MonoBehaviour
 {
+    public static int MAX_PIN { get; private set; } = 200;
+
     public Dictionary<MapObject, MapIconData> MapObjectList { get; private set; }
 
     public static WorldMapManager instance { get; private set; }
@@ -24,6 +27,21 @@ public class WorldMapManager : MonoBehaviour
         Init();
 
         CenterCamera();
+    }
+
+    public int CountAllPlacedMarkers()
+    {
+        int count = 0;
+
+        foreach(var MapObject in MapObjectList.Keys)
+        {
+            MapIconData MapIconData = MapObjectList[MapObject];
+
+            if (MapObject is PlayerMarkerWorldObject && MapIconData.IsConfirmedPlaced())
+                count++;
+        }
+
+        return count;
     }
 
     private void FindWorldMapCamera()

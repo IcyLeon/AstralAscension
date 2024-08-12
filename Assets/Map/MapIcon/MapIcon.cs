@@ -59,12 +59,10 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
 
     private void UpdateVisual()
     {
-        MapIconTypeSO MapIconTypeSO = mapIconAction.mapIconData.GetMapIconTypeSO();
-
-        if (MapIconTypeSO == null)
+        if (mapIconAction == null || mapIconAction.mapIconData == null)
             return;
 
-        IconImage.sprite = MapIconTypeSO.IconSprite;
+        IconImage.sprite = mapIconAction.mapIconData.mapIconSprite;
     }    
 
     private void Update()
