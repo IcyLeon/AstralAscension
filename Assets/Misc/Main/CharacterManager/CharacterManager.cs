@@ -11,7 +11,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private float ProbabilityPlayVO;
     [SerializeField] private CharacterDataSO[] CharacterDataSO;
 
-    private CharacterStorage characterStorage;
+    public CharacterStorage characterStorage { get; private set; }
 
     public delegate void OnCharacterStorageChanged(CharacterStorage CharacterStorage);
     public static event OnCharacterStorageChanged OnCharacterStorageOld, OnCharacterStorageNew;

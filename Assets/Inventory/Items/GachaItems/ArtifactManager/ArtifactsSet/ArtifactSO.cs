@@ -5,5 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ArtifactSO", menuName = "ScriptableObjects/ArtifactManager/ArtifactSO")]
 public class ArtifactSO : ItemSO
 {
-    //[field: SerializeField, Header("Artifact Manager Reference")] public ArtifactManagerSO ArtifactManagerSO { get; private set; }
+    [field: SerializeField, Header("Artifact Piece")] public ArtifactFamilySO ArtifactFamilySO { get; private set; }
+
+    public bool IsSameFamily(ArtifactSO artifactSO)
+    {
+        return ArtifactFamilySO == artifactSO.ArtifactFamilySO;
+    }
 }

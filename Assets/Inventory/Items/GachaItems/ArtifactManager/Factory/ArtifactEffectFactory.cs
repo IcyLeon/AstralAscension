@@ -27,21 +27,21 @@ public static class ArtifactEffectFactoryManager
 
 public abstract class ArtifactEffectFactory
 {
-    public abstract ArtifactEffect CreateArtifactEffect(ArtifactFamilySO ArtifactFamilySO);
+    public abstract ArtifactEffectPieceFactory CreateArtifactEffectPieceFactory(ArtifactFamilySO ArtifactFamilySO);
 }
 
 public class ThunderingFuryEffectFactory : ArtifactEffectFactory
 {
-    public override ArtifactEffect CreateArtifactEffect(ArtifactFamilySO ArtifactFamilySO)
+    public override ArtifactEffectPieceFactory CreateArtifactEffectPieceFactory(ArtifactFamilySO ArtifactFamilySO)
     {
-        return new ThunderingFuryEffect(ArtifactFamilySO);
+        return new ThunderingFuryEffectPieceFactory(ArtifactFamilySO);
     }
 }
 
 public class NoblessObligeEffectFactory : ArtifactEffectFactory
 {
-    public override ArtifactEffect CreateArtifactEffect(ArtifactFamilySO ArtifactFamilySO)
+    public override ArtifactEffectPieceFactory CreateArtifactEffectPieceFactory(ArtifactFamilySO ArtifactFamilySO)
     {
-        return new NoblessObligeEffect(ArtifactFamilySO);
+        return new NoblessObligeEffectPieceFactory(ArtifactFamilySO);
     }
 }

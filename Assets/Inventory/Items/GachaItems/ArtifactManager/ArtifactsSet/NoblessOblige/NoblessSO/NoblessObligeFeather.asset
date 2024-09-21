@@ -20,5 +20,5 @@ MonoBehaviour:
     of Mondstadt on hunts. It still stands proudly as if no time has passed.
   <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
     type: 2}
-  <ArtifactManagerSO>k__BackingField: {fileID: 11400000, guid: a44a0b6f76c19f04c91a931ce5cd24f2,
+  <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7,
     type: 2}

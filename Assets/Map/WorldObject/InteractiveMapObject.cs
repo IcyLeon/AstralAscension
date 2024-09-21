@@ -13,11 +13,6 @@ public abstract class InteractiveMapObject : MapObject
         return m_MapIconTypeSO;
     }
 
-    public override MapIconAction GetMapIconActionComponent(MapIcon MapIcon)
-    {
-        return new InteractiveMapIconAction(MapIcon);
-    }
-
     protected override MapIconData CreateMapIconData()
     {
         return new MapIconData(this);

@@ -9,11 +9,16 @@ public class MapIconActionButton : MonoBehaviour
 {
     [SerializeField] private Button ActionButton;
     [SerializeField] private TextMeshProUGUI ButtonText;
+
+    private Player player;
+
     private MapPopupPanel MapPopupPanel;
     private MapIcon mapIcon;
 
     private void Awake()
     {
+        player = GetComponentInParent<Player>();
+
         ActionButton.onClick.AddListener(OnButtonClick);
 
         MapPopupPanel = GetComponentInParent<MapPopupPanel>(true);
@@ -30,20 +35,20 @@ public class MapIconActionButton : MonoBehaviour
     {
         mapIcon = MapPopupPanel.mapIcon;
 
-        gameObject.SetActive(mapIcon.mapIconAction != null && mapIcon.mapIconAction.ShowActionOption());
+        gameObject.SetActive(mapIcon.mapObject != null);
 
         if (!gameObject.activeSelf)
             return;
 
-        ButtonText.text = mapIcon.mapIconAction.GetActionText();
+        ButtonText.text = mapIcon.mapObject.GetActionText();
     }
 
     private void OnButtonClick()
     {
-        if (mapIcon == null || mapIcon.mapIconAction == null)
+        if (mapIcon == null || mapIcon.mapObject == null)
             return;
 
-        mapIcon.mapIconAction.Action();
+        mapIcon.mapObject.Action(player);
     }
 
     private void OnDestroy()

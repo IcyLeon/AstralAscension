@@ -12,7 +12,8 @@ public class EquipAction : MonoBehaviour
 
     private CharacterStorage characterStorage;
 
-    [SerializeField] private CharactersSO charactersSO;
+    [field: SerializeField] public CharactersSO charactersSO { get; private set; } // temp
+
     private Button EquipBtn;
 
     private void Awake()

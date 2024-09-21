@@ -8,7 +8,7 @@ using static ArtifactManager;
 
 public class Artifact : GachaItem
 {
-    public static float ARTIFACT_LEVEL_EVENT = 4;
+    public static float ARTIFACT_LEVEL_EVENT { get; private set; } = 4;
     public ArtifactMainStat mainStat { get; private set; }
     public Dictionary<ArtifactStatSO, ArtifactSubStat> subStats { get; private set; }
 

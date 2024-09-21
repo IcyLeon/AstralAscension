@@ -16,7 +16,7 @@ public class PartyMembersUIManager : MonoBehaviour
     private void Awake()
     {
         objectPool = new ObjectPool<PartyMemberContent>(PartyInfoPrefab, transform, MAX_EQUIP_CHARACTERS);
-        objectPool.CallbackPoolObject((PartyMemberContent, i) => PartyMemberContent.SetIndexKeyText(i + 1));
+        objectPool.CallbackPoolObject((p, i) => p.SetIndexKeyText(i + 1));
         PartyMemberContentDictionary = new(); // for add and remove events
         OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
         OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;

@@ -8,13 +8,18 @@ public class TeleportWaypoint : InteractiveMapObject, IInteractable
     {
     }
 
-    public override MapIconAction GetMapIconActionComponent(MapIcon MapIcon)
-    {
-        return new TeleportWaypointMapIconAction(MapIcon);
-    }
-
     protected override MapIconData CreateMapIconData()
     {
         return new TeleportWaypointData(this);
+    }
+
+    public override string GetActionText()
+    {
+        return "Teleport";
+    }
+
+    public override void Action(Player player)
+    {
+        player.transform.position = GetMapIconTransform().position;
     }
 }

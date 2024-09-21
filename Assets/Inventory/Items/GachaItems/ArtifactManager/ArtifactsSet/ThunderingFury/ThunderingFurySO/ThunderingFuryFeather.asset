@@ -20,5 +20,5 @@ MonoBehaviour:
     with the wrath of the Thunderbird's cruel retribution.
   <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
     type: 2}
-  <ArtifactManagerSO>k__BackingField: {fileID: 11400000, guid: a44a0b6f76c19f04c91a931ce5cd24f2,
+  <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: 13100007aee165442855fb0a3690a081,
     type: 2}

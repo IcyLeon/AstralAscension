@@ -38,7 +38,7 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
             OnPinValueChange();
         });
 
-        Subscribe_OnMarkerAdd();
+        SubscribeEvents();
     }
 
     private void OnMarkerMapIconChanged(object sender, System.EventArgs e)
@@ -51,7 +51,7 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
         if (!IsVisible())
             return;
 
-        UpdatePinSelected();
+        PinSlotFirstSelected();
     }
 
     private void OnPinValueChange()
@@ -89,7 +89,7 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
             pinSlot.PinSlotClick -= PinSlot_PinSlotClick;
         }
 
-        Unsubscribe_OnMarkerAdd();
+        UnsubscribeEvents();
     }
 
     private void UpdatePinFieldVisual()
@@ -100,7 +100,7 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
         PinField.text = mapIcon.mapObject.mapIconData.mapIconName;
     }
 
-    private void UpdatePinSelected()
+    private void PinSlotFirstSelected()
     {
         if (PinSlotsList.Length == 0)
             return;
@@ -108,18 +108,18 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
         OnSelectedPinSlot(PinSlotsList[0]);
     }
 
-    private void Subscribe_OnMarkerAdd()
+    private void SubscribeEvents()
     {
         if (mapPopupPanel == null || mapPopupPanel.mapUI == null)
             return;
 
         mapPopupPanel.OnMapIconChanged += OnMarkerMapIconChanged;
         mapPopupPanel.mapUI.worldMapBackground.OnMapIconAdd += OnMapIconAdd;
-        UpdatePinSelected();
+        PinSlotFirstSelected();
         UpdatePinFieldVisual();
     }
 
-    private void Unsubscribe_OnMarkerAdd()
+    private void UnsubscribeEvents()
     {
         if (mapPopupPanel == null || mapPopupPanel.mapUI == null)
             return;
@@ -131,12 +131,13 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
 
     private void PinSlot_PinSlotClick(object sender, System.EventArgs e)
     {
-        OnSelectedPinSlot(sender as PinSlot);
+        PinSlot selectedPinSlot = sender as PinSlot;
+        OnSelectedPinSlot(selectedPinSlot);
     }
 
     private void OnSelectedPinSlot(PinSlot pinSlot)
     {
-        if (pinSlot == null || mapIcon.mapObject is not PlayerMarkerWorldObject)
+        if (mapIcon == null || mapIcon.mapObject is not PlayerMarkerWorldObject)
             return;
 
         mapIcon.mapObject.mapIconData.SetMarkerSprite(pinSlot.SlotIconTypeSO.IconSprite);
@@ -144,7 +145,7 @@ public class MarkerSelectedMapIcon : CurrentSelectMapIcon
 
     protected override bool IsVisible()
     {
-        return mapIcon.mapIconAction is PlayerMarkerMapIconAction;
+        return mapIcon.mapObject is PlayerMarkerWorldObject;
     }
 
     protected override void UpdateInformation()

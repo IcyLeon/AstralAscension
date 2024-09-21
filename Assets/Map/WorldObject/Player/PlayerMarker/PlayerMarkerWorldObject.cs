@@ -12,18 +12,8 @@ public class PlayerMarkerWorldObject : MapObject
         return new PlayerMarkerIconData(this);
     }
 
-    public override MapIconAction GetMapIconActionComponent(MapIcon MapIcon)
-    {
-        return new PlayerMarkerMapIconAction(MapIcon);
-    }
-
-    public override MapIconTypeSO GetMapIconTypeSO()
-    {
-        return null;
-    }
-
     private void OnDestroy()
     {
-        instance.CallOnMapObjectRemove(this);
+        instance.CallOnMapObjectRemove(mapIconData);
     }
 }

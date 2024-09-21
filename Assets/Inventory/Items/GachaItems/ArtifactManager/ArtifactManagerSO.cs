@@ -98,19 +98,19 @@ public class ArtifactManagerSO : ScriptableObject
     /// <summary>
     /// Get the Artifact Family of the Artifacts. Eg; Thundering Fury
     /// </summary>
-    public ArtifactFamilySO GetArtifactFamilySO(IItem iItem)
-    {
-        foreach(var family in ArtifactFamilyList)
-        {
-            foreach(var artifact in family.ArtifactSetsList)
-            {
-                ArtifactSO artifactSO = iItem as ArtifactSO;
-                if (artifact == artifactSO)
-                    return family;
-            }
-        }
-        return null;
-    }
+    //public ArtifactFamilySO GetArtifactFamilySO(IItem iItem)
+    //{
+    //    foreach(var family in ArtifactFamilyList)
+    //    {
+    //        foreach(var artifact in family.ArtifactSetsList)
+    //        {
+    //            ArtifactSO artifactSO = iItem as ArtifactSO;
+    //            if (artifact == artifactSO)
+    //                return family;
+    //        }
+    //    }
+    //    return null;
+    //}
 
     public int GetArtifactRandomNumberofSubStat(Rarity rarity)
     {

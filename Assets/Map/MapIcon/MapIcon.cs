@@ -12,11 +12,10 @@ public class MapIconEvent : EventArgs
 
 public class MapIcon : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] protected Image IconImage;
+    [SerializeField] private Image IconImage;
     public RectTransform RT { get; private set; }
     public WorldMapBackground worldMapBackground { get; private set; }
     public MapObject mapObject { get; private set; }
-    public MapIconAction mapIconAction { get; private set; } // update the icon gameobject transform etc.
 
     public event EventHandler<MapIconEvent> OnMapIconClick;
 
@@ -25,29 +24,28 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
         RT = GetComponent<RectTransform>();
     }
 
-    public void SetMapObject(MapObject MapObject, WorldMapBackground WorldMapBackground)
+    public virtual void SetMapObject(MapObject MapObject, WorldMapBackground WorldMapBackground)
     {
         worldMapBackground = WorldMapBackground;
         UnsubscribeEvent();
         mapObject = MapObject;
-        mapIconAction = mapObject.GetMapIconActionComponent(this);
         SubscribeEvents();
     }
 
     private void UnsubscribeEvent()
     {
-        if (mapIconAction == null || mapIconAction.mapIconData == null)
+        if (mapObject == null || mapObject.mapIconData == null)
             return;
 
-        mapIconAction.mapIconData.OnMapIconChanged -= MapIconAction_OnMapIconChanged;
+        mapObject.mapIconData.OnMapIconChanged -= MapIconAction_OnMapIconChanged;
     }
 
     private void SubscribeEvents()
     {
-        if (mapIconAction == null || mapIconAction.mapIconData == null)
+        if (mapObject == null || mapObject.mapIconData == null)
             return;
 
-        mapIconAction.mapIconData.OnMapIconChanged += MapIconAction_OnMapIconChanged;
+        mapObject.mapIconData.OnMapIconChanged += MapIconAction_OnMapIconChanged;
         UpdateIconPosition();
         UpdateVisual();
     }
@@ -59,16 +57,15 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
 
     private void UpdateVisual()
     {
-        if (mapIconAction == null || mapIconAction.mapIconData == null)
+        if (mapObject == null || mapObject.mapIconData == null)
             return;
 
-        IconImage.sprite = mapIconAction.mapIconData.mapIconSprite;
+        IconImage.sprite = mapObject.mapIconData.mapIconSprite;
     }    
 
-    private void Update()
+    protected virtual void Update()
     {
         UpdateIconPosition();
-        UpdateMapIconAction();
     }
 
     private void UpdateIconPosition()
@@ -78,22 +75,10 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
 
         RT.anchoredPosition = worldMapBackground.GetMapUILocation(mapObject);
     }
-    private void UpdateMapIconAction()
-    {
-        if (mapIconAction == null)
-            return;
 
-        mapIconAction.Update();
-    }
-
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         UnsubscribeEvent();
-
-        if (mapIconAction == null)
-            return;
-
-        mapIconAction.OnDestroy();
     }
 
     public void OnPointerClick(PointerEventData eventData)

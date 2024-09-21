@@ -19,7 +19,7 @@ public abstract class MarkerPinContent : MonoBehaviour
         if (markerSelectedMapIcon != null)
             return;
 
-        markerSelectedMapIcon = GetComponentInParent<MarkerSelectedMapIcon>();
+        markerSelectedMapIcon = GetComponentInParent<MarkerSelectedMapIcon>(true);
         markerSelectedMapIcon.OnMapIconChanged += OnMapIconChanged;
         UpdateMapIconInformation();
     }
