@@ -23,6 +23,8 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
+        CameraMain = Camera.main;
+
         playerTransposerCameras = PlayerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         playerPOV = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
     }
@@ -64,8 +66,6 @@ public class CameraManager : MonoBehaviour
     {
         m_TargetZoom = CameraSO.maxZoom;
         transform.SetParent(null);
-        CameraMain = Camera.main;
-
         Player.PlayerController.playerInputAction.Zoom.performed += Zoom_performed;
     }
 

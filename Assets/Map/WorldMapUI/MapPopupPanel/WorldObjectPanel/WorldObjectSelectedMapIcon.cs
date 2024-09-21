@@ -18,7 +18,7 @@ public class WorldObjectSelectedMapIcon : CurrentSelectMapIcon
 
     protected override bool IsVisible()
     {
-        return mapIcon.mapIconAction is InteractiveMapIconAction;
+        return mapIcon.mapObject is InteractiveMapObject;
     }
 
     private void UpdateDescription()

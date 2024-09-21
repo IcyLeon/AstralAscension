@@ -12,11 +12,6 @@ public class PlayerIcon : MapObject
         return new MapIconData(this);
     }
 
-    public override MapIconAction GetMapIconActionComponent(MapIcon MapIcon)
-    {
-        return new PlayerMapIconAction(MapIcon);
-    }
-
     public override MapIconTypeSO GetMapIconTypeSO()
     {
         return m_MapIconType;

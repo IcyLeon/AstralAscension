@@ -10,6 +10,7 @@ public class ArtifactManager : MonoBehaviour
 
     private CharacterStorage characterStorage;
     public static ArtifactManager instance { get; private set; }
+    public static int PIECE_COUNT_EVENT { get; private set; } = 2;
 
     private void Awake()
     {
@@ -60,33 +61,33 @@ public class ArtifactManager : MonoBehaviour
         }
     }
 
-    public Dictionary<ArtifactFamilySO, int> GetAllArtifactFamilyInventory(CharactersSO characterSO)
-    {
-        Dictionary<ArtifactFamilySO, int> artifactFamilySOs = new();
+    //public Dictionary<ArtifactFamilySO, int> GetAllArtifactFamilyInventory(CharactersSO characterSO)
+    //{
+    //    Dictionary<ArtifactFamilySO, int> artifactFamilySOs = new();
 
-        if (characterSO == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
-        {
-            return artifactFamilySOs;
-        }
+    //    if (characterSO == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
+    //    {
+    //        return artifactFamilySOs;
+    //    }
 
-        Dictionary<ItemTypeSO, Item> itemList = characterStorage.playableCharacterStatList[characterSO].equippeditemList;
+    //    Dictionary<ItemTypeSO, Item> itemList = characterStorage.playableCharacterStatList[characterSO].equippeditemList;
 
-        foreach (var artifactKeyPair in itemList)
-        {
-            ArtifactFamilySO artifactFamilySO = ArtifactManagerSO.GetArtifactFamilySO(artifactKeyPair.Value.GetInterfaceItemReference());
+    //    foreach (var artifactKeyPair in itemList)
+    //    {
+    //        ArtifactFamilySO artifactFamilySO = ArtifactManagerSO.GetArtifactFamilySO(artifactKeyPair.Value.GetInterfaceItemReference());
 
-            if (!artifactFamilySOs.ContainsKey(artifactFamilySO))
-            {
-                artifactFamilySOs.Add(artifactFamilySO, 1);
-            }
-            else
-            {
-                artifactFamilySOs[artifactFamilySO]++;
-            }
-        }
+    //        if (!artifactFamilySOs.ContainsKey(artifactFamilySO))
+    //        {
+    //            artifactFamilySOs.Add(artifactFamilySO, 1);
+    //        }
+    //        else
+    //        {
+    //            artifactFamilySOs[artifactFamilySO]++;
+    //        }
+    //    }
 
-        return artifactFamilySOs;
-    }
+    //    return artifactFamilySOs;
+    //}
 
     private void OnDestroy()
     {

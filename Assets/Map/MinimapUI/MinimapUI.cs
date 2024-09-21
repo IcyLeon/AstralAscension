@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class MinimapUI : MapUI
 {
-    private PlayerMapIconAction playerMapIconAction;
+    private PlayerMapIcon playerMapIcon;
 
     protected override void OnMapIconAdd(MapIcon mapIcon)
     {
         base.OnMapIconAdd(mapIcon);
 
-        PlayerMapIconAction playerMapIconAction = mapIcon.mapIconAction as PlayerMapIconAction;
+        PlayerMapIcon playerIcon = mapIcon as PlayerMapIcon;
 
-        if (playerMapIconAction == null)
+        if (playerIcon == null)
         {
             return;
         }
 
-        this.playerMapIconAction = playerMapIconAction;
+        playerMapIcon = playerIcon;
 
         worldMapBackground.OnMapIconAdd -= OnMapIconAdd;
     }
@@ -27,11 +27,12 @@ public class MinimapUI : MapUI
         UpdatePlayerIcon();
     }
 
-    private void UpdatePlayerIcon()
+    protected void UpdatePlayerIcon()
     {
-        if (playerMapIconAction == null)
+        if (playerMapIcon == null)
             return;
 
-        playerMapIconAction.MapCentering();
+        Vector2 direction = (playerMapIcon.worldMapBackground.GetMapSize() * 0.5f) - (playerMapIcon.RT.anchoredPosition) - (playerMapIcon.worldMapBackground.MapRT.anchoredPosition + playerMapIcon.worldMapBackground.OffsetPositionCenter());
+        playerMapIcon.worldMapBackground.MapRT.anchoredPosition += direction;
     }
 }

@@ -20,5 +20,5 @@ MonoBehaviour:
     aristocrats of Mondstadt. Mournful winds seem to echo within its empty interior.
   <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: b85f86fbd679a314c823ed5373ef4ae9,
     type: 2}
-  <ArtifactManagerSO>k__BackingField: {fileID: 11400000, guid: a44a0b6f76c19f04c91a931ce5cd24f2,
+  <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7,
     type: 2}

@@ -31,12 +31,6 @@ public class ItemContentDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LevelTxt;
     [SerializeField] private ItemEquipDisplay ItemEquipDisplay;
 
-    [Header("Artifact Item Information")]
-    [SerializeField] private GameObject ArtifactContent;
-    [SerializeField] private TextMeshProUGUI ArtifactSetTxt;
-    [SerializeField] private TextMeshProUGUI Artifact2PieceTxt;
-    [SerializeField] private TextMeshProUGUI Artifact4PieceTxt;
-
     private IItem iItem;
 
     private ItemContentInformation[] ItemContentInformations;
@@ -64,7 +58,6 @@ public class ItemContentDisplay : MonoBehaviour
 
         UpdateUpgradableItemsVisual();
         UpdateStars();
-        UpdateArtifactsSOVisual();
 
         ItemNameTxt.text = iItem.GetName();
         ItemTypeTxt.text = iItem.GetTypeSO().ItemType;
@@ -99,22 +92,6 @@ public class ItemContentDisplay : MonoBehaviour
             return;
 
         LevelTxt.text = "+" + UpgradableItems.amount;
-    }
-
-    private void UpdateArtifactsSOVisual()
-    {
-        ArtifactSO artifactSO = iItem.GetInterfaceItemReference() as ArtifactSO;
-
-        ArtifactContent.SetActive(artifactSO != null);
-
-        ArtifactFamilySO artifactFamilySO = ArtifactManager.instance.ArtifactManagerSO.GetArtifactFamilySO(artifactSO);
-
-        if (artifactFamilySO == null)
-            return;
-
-        ArtifactSetTxt.text = artifactFamilySO.ArtifactSetName + ":";
-        Artifact2PieceTxt.text = "2-Piece Set: " + artifactFamilySO.TwoPieceDescription;
-        Artifact4PieceTxt.text = "4-Piece Set: " + artifactFamilySO.FourPieceDescription;
     }
 
     private void InitStarPool()

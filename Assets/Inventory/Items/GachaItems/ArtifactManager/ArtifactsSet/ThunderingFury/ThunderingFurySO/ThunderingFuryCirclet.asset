@@ -20,5 +20,5 @@ MonoBehaviour:
     the Thunderbird. The capricious beast remained unmoved by the shaman's devotion.
   <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1,
     type: 2}
-  <ArtifactManagerSO>k__BackingField: {fileID: 11400000, guid: a44a0b6f76c19f04c91a931ce5cd24f2,
+  <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: 13100007aee165442855fb0a3690a081,
     type: 2}

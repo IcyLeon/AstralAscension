@@ -135,12 +135,12 @@ public class WorldMapManager : MonoBehaviour
         return MapObjectList[mapObject];
     }
 
-    public void CallOnMapObjectRemove(MapObject mapObject)
+    public void CallOnMapObjectRemove(MapIconData MapIconData)
     {
-        if (!MapObjectList.Remove(mapObject))
+        if (MapIconData == null || !MapObjectList.Remove(MapIconData.mapObject))
             return;
 
-        OnMapObjectRemove?.Invoke(mapObject);
+        OnMapObjectRemove?.Invoke(MapIconData.mapObject);
     }
 
     // Start is called before the first frame update

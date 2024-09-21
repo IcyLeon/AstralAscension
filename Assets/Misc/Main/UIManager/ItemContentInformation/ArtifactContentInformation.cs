@@ -1,38 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ArtifactContentInformation : ItemContentInformation
 {
-    private ArtifactSubStatDisplay[] artifactSubStatDisplayList;
-    [SerializeField] private ArtifactMainStatDisplay artifactMainStatDisplay;
-
-    protected override void Init()
-    {
-        if (artifactSubStatDisplayList == null)
-            artifactSubStatDisplayList = GetComponentsInChildren<ArtifactSubStatDisplay>(true);
-    }
+    [SerializeField] private TextMeshProUGUI ArtifactSetTxt;
+    [SerializeField] private ArtifactPieceSetsDisplayManager ArtifactPieceSetsDisplayManager;
 
     public override void UpdateItemContentInformation(IItem iItem)
     {
-        Init();
-        Artifact artifact = iItem as Artifact;
+        ArtifactSO artifactSO = iItem.GetInterfaceItemReference() as ArtifactSO;
 
-        gameObject.SetActive(artifact != null);
+        gameObject.SetActive(artifactSO != null);
 
-        if (artifactMainStatDisplay != null)
-        {
-            artifactMainStatDisplay.SetArtifactItem(artifact);
-        }
-
-        if (!gameObject.activeSelf)
+        if (artifactSO == null)
             return;
 
-        for (int i = 0; i < artifactSubStatDisplayList.Length; i++)
-        {
-            ArtifactSubStatDisplay artifactSubStatDisplay = artifactSubStatDisplayList[i];
-            artifactSubStatDisplay.SetIndex(i);
-            artifactSubStatDisplay.SetArtifactItem(artifact);
-        }
+        ArtifactFamilySO artifactFamilySO = artifactSO.ArtifactFamilySO;
+
+        if (artifactFamilySO == null)
+            return;
+
+        ArtifactSetTxt.text = artifactFamilySO.ArtifactSetName + ":";
+
+        ArtifactPieceSetsDisplayManager.SetArtifactFamilySO(artifactFamilySO);
+    }
+
+    protected override void Init()
+    {
     }
 }

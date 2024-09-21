@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b4704e72eefd89418ac905ec080d247, type: 3}
+  m_Name: MinimapIconPrefabManagerSO
+  m_EditorClassIdentifier: 
+  MapIconPrefab: {fileID: 8015975398444779944, guid: 8557324d60b29774594daea01d4de40e,
+    type: 3}
+  PlayerMapIconPrefab: {fileID: 5759799622508564261, guid: 24b64f1ad846f6a48a488d5813a2506e,
+    type: 3}

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WorldMapBackground : MonoBehaviour
 {
-    [SerializeField] private GameObject MapIconPrefab;
+    [SerializeField] private MapIconPrefabManagerSO MapIconPrefabManagerSO;
     public Dictionary<MapObject, MapIcon> IconsDictionary { get; private set; }
     [field: SerializeField] public RectTransform MapRT { get; private set; }
     [SerializeField] private Transform IconMapPivotTransform;
@@ -81,7 +81,8 @@ public class WorldMapBackground : MonoBehaviour
         if (IconsDictionary.ContainsKey(mapObject))
             return;
 
-        MapIcon mapIcon = Instantiate(MapIconPrefab, IconMapPivotTransform).GetComponent<MapIcon>();
+        GameObject prefab = MapIconPrefabManagerSO.GetMapIconPrefab(mapObject);
+        MapIcon mapIcon = Instantiate(prefab, IconMapPivotTransform).GetComponent<MapIcon>();
         mapIcon.SetMapObject(mapObject, this);
         IconsDictionary.Add(mapObject, mapIcon);
         OnMapIconAdd?.Invoke(mapIcon);

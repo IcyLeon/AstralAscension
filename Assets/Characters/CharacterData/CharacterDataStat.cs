@@ -2,14 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class CharacterDataStat : IEntity
 {
+    public Dictionary<ItemTypeSO, IItem> equippeditemList { get; } // equipped items character
+    public delegate void OnItemEquippedEvent(IItem IItem);
+    public event OnItemEquippedEvent OnItemChanged;
+    public event OnItemEquippedEvent OnItemAdd;
+    public event OnItemEquippedEvent OnItemRemove;
+
+
     public Dictionary<ElementsSO, Elements> inflictElementList { get; private set; }
     public delegate void OnElementChange(Elements element);
     public event OnElementChange OnElementEnter;
     public event OnElementChange OnElementExit;
+
+    public EffectManager effectManager { get; }
+    public ArtifactEffectManager artifactEffectManager { get; private set; }
 
     public DamageableEntitySO damageableEntitySO { get; protected set; }
     private float maxHealth;
@@ -18,12 +27,65 @@ public class CharacterDataStat : IEntity
 
     public CharacterDataStat(CharactersSO charactersSO)
     {
-        inflictElementList = new();
+        effectManager = new();
+        artifactEffectManager = new(this, effectManager);
 
+        inflictElementList = new();
+        equippeditemList = new();
         damageableEntitySO = charactersSO as DamageableEntitySO;
 
         level = 1;
-        currentHealth = maxHealth = 1000; // test
+        currentHealth = maxHealth = 1000;
+    }
+
+    public void RemoveEquipItem(ItemTypeSO itemTypeSO)
+    {
+        IItem item = GetItem(itemTypeSO);
+
+        if (item == null)
+            return;
+
+        equippeditemList.Remove(itemTypeSO);
+        UnequipItem(item);
+        OnItemChanged?.Invoke(item);
+        OnItemRemove?.Invoke(item);
+    }
+
+    private void UnequipItem(IItem item)
+    {
+        UpgradableItems upgradableItem = item as UpgradableItems;
+
+        if (upgradableItem == null)
+            return;
+
+        upgradableItem.SetEquip(null);
+    }
+
+    public void AddEquipItem(Item item)
+    {
+        if (item == null)
+            return;
+
+        ItemTypeSO itemTypeSO = item.GetTypeSO();
+
+        if (GetItem(itemTypeSO) != null)
+        {
+            RemoveEquipItem(itemTypeSO);
+        }
+
+        equippeditemList.Add(item.GetTypeSO(), item);
+        OnItemChanged?.Invoke(item);
+        OnItemAdd?.Invoke(item);
+    }
+
+    public IItem GetItem(ItemTypeSO itemTypeSO)
+    {
+        if (itemTypeSO != null && equippeditemList.TryGetValue(itemTypeSO, out IItem item))
+        {
+            return item;
+        }
+
+        return null;
     }
 
     public void SetCurrentHealth(float health)
@@ -111,6 +173,6 @@ public class CharacterDataStat : IEntity
 
     public virtual void OnDestroy()
     {
-
+        effectManager.OnDestroy();
     }
 }
