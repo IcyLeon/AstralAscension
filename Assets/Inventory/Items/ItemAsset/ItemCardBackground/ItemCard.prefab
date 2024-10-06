@@ -1813,7 +1813,6 @@ GameObject:
   - component: {fileID: 8409771288839019721}
   - component: {fileID: 8409771288839019720}
   - component: {fileID: 8409771288839019723}
-  - component: {fileID: 6312350281196430553}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -1921,29 +1920,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2.2
---- !u!114 &6312350281196430553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8409771288839019725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28daf319f189c7246a3bb7d12fd52413, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <ItemManagerSO>k__BackingField: {fileID: 11400000, guid: 1d493bc2664a9124c969999c78ce53ff,
-    type: 2}
-  ItemNameTxt: {fileID: 8409771288791454753}
-  ItemTypeTxt: {fileID: 8409771288547342974}
-  ItemDescTxt: {fileID: 8409771289125318158}
-  ItemImage: {fileID: 1188457793800956236}
-  StarContainerTransform: {fileID: 0}
-  LevelContent: {fileID: 8409771288249635312}
-  UpgradableItemLockItem: {fileID: 6929566012110931600}
-  LevelTxt: {fileID: 8409771288260836190}
-  ItemEquipDisplay: {fileID: 0}
 --- !u!1 &8409771288993446225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2539,7 +2515,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 26, y: 0}
-  m_SizeDelta: {x: 1861, y: 0}
+  m_SizeDelta: {x: 421, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8409771289283795548
 MonoBehaviour:
@@ -3006,6 +2982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8409771289998629783}
   - component: {fileID: 2605076178910800539}
+  - component: {fileID: 2279830095791934825}
   m_Layer: 5
   m_Name: ItemCard
   m_TagString: Untagged
@@ -3046,8 +3023,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66817448ea0a8f04590ac7c88ea016f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemContentDisplay: {fileID: 6312350281196430553}
+  ItemContentDisplay: {fileID: 2279830095791934825}
   CardImage: {fileID: 8409771288839019723}
+--- !u!114 &2279830095791934825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8409771289998629782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28daf319f189c7246a3bb7d12fd52413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ItemManagerSO>k__BackingField: {fileID: 11400000, guid: 1d493bc2664a9124c969999c78ce53ff,
+    type: 2}
+  ItemNameTxt: {fileID: 8409771288791454753}
+  ItemTypeTxt: {fileID: 8409771288547342974}
+  ItemDescTxt: {fileID: 8409771289125318158}
+  ItemImage: {fileID: 1188457793800956236}
+  StarContainerTransform: {fileID: 0}
+  LevelContent: {fileID: 8409771288249635312}
+  UpgradableItemLockItem: {fileID: 6929566012110931600}
+  LevelTxt: {fileID: 8409771288260836190}
+  ItemEquipDisplay: {fileID: 0}
 --- !u!1 &9166517389743300249
 GameObject:
   m_ObjectHideFlags: 0
@@ -3059,6 +3059,7 @@ GameObject:
   - component: {fileID: 7385016146017911247}
   - component: {fileID: 7206550739566655096}
   - component: {fileID: 4001146081406574703}
+  - component: {fileID: 3985643843014192784}
   m_Layer: 5
   m_Name: PieceSets
   m_TagString: Untagged
@@ -3126,6 +3127,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ce90de46b3d014d827d7c2808d6206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3985643843014192784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166517389743300249}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de69b7a695d3ba240821f662407edfb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemContentDisplay: {fileID: 2279830095791934825}
+  ArtifactPieceSetsDisplayManager: {fileID: 4001146081406574703}
+  StatsHighlightContent:
+    <SuccessColor>k__BackingField:
+      serializedVersion: 2
+      rgba: 4285046371
+    <DefaultColor>k__BackingField:
+      serializedVersion: 2
+      rgba: 4286280822
+  charactersSO: {fileID: 11400000, guid: 4b03f6fe8ee2ea94a991062db983ba6e, type: 2}
 --- !u!1001 &2146783710687593339
 PrefabInstance:
   m_ObjectHideFlags: 0

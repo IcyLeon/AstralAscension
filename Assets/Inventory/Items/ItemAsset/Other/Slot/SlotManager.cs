@@ -16,21 +16,25 @@ public class SlotManager : MonoBehaviour
     public event EventHandler<SlotItemEvent> OnSlotItemAdd;
     public event EventHandler<SlotItemEvent> OnSlotItemRemove;
 
-    public void SetinterfaceItemType(IItem IItem)
+    public void SetIItemType(IItem IItem)
     {
-        SlotPopup.SetinterfaceItemType(IItem);
+        SlotPopup.SetIItemType(IItem);
     }
 
-    public List<Item> GetItemList()
+    public List<IEntity> GetItemList()
     {
         return SlotPopup.GetItemList();
+    }
+
+    public void RemoveItems(List<IEntity> ItemEntityList)
+    {
+        SlotPopup.RemoveItems(ItemEntityList);
     }
 
     private void Awake()
     {
         slotList = GetComponentsInChildren<Slot>();
         SubscribeEvents();
-        SlotPopup.SetSlotManager(this);
     }
 
     private void SlotPopup_OnItemQualityClick(object sender, ItemQualityEvents e)
@@ -89,10 +93,9 @@ public class SlotManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        SlotPopup.OnItemQualityClick += SlotPopup_OnItemQualityClick;
+        SlotPopup.SetSlotManager(this);
 
-        if (slotList == null)
-            return;
+        SlotPopup.OnItemQualityClick += SlotPopup_OnItemQualityClick;
 
         foreach (var slot in slotList)
         {
@@ -121,6 +124,21 @@ public class SlotManager : MonoBehaviour
                 return slot;
         }
         return null;
+    }
+
+    public List<IEntity> GetItemEntityList()
+    {
+        List<IEntity> ItemEntityList = new();
+
+        foreach (var slot in slotList)
+        {
+            ItemQualityIEntity ItemQualityIEntity = slot.itemQualityButton;
+
+            if (ItemQualityIEntity != null && ItemQualityIEntity.iEntity != null)
+                ItemEntityList.Add(ItemQualityIEntity.iEntity);
+        }
+
+        return ItemEntityList;
     }
 
     public Slot GetAvailableSlot()

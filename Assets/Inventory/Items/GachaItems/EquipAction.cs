@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,9 @@ public class EquipAction : MonoBehaviour
 {
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
     [SerializeField] private TextMeshProUGUI EquipTxt;
+
+    private InventoryManager inventoryManager;
+
     private UpgradableItems upgradableItems;
 
     private CharacterStorage characterStorage;
@@ -22,13 +26,19 @@ public class EquipAction : MonoBehaviour
         CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
 
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
-        UpdateVisuals();
+
         EquipBtn = GetComponent<Button>();
 
         if (EquipBtn == null)
             return;
 
         EquipBtn.onClick.AddListener(OnEquip);
+    }
+
+    private void Start()
+    {
+        inventoryManager = InventoryManager.instance;
+        SetIItem(ItemContentDisplay.iItem);
     }
 
     public void SetCharacterSO(CharactersSO charactersSO)
@@ -46,13 +56,13 @@ public class EquipAction : MonoBehaviour
 
     private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
     {
-        SetUpgradableItems(e.iItem as UpgradableItems);
+        SetIItem(e.iItem);
     }
 
-    private void SetUpgradableItems(UpgradableItems UpgradableItems)
+    private void SetIItem(IItem IItem)
     {
         UnsubscribeEvents();
-        upgradableItems = UpgradableItems;
+        upgradableItems = IItem as UpgradableItems;
         SubscribeEvents();
     }
 
@@ -91,14 +101,7 @@ public class EquipAction : MonoBehaviour
     {
         gameObject.SetActive(upgradableItems != null);
 
-        if (upgradableItems == null)
-        {
-            ResetEquipStatus();
-            return;
-        }
-
-
-        if (upgradableItems.equipByCharacter != null)
+        if (upgradableItems != null && upgradableItems.equipByCharacter != null)
         {
             if (upgradableItems.equipByCharacter != charactersSO &&
                 characterStorage.playableCharacterStatList.TryGetValue(charactersSO, out PlayableCharacterDataStat playableCharacterDataStat))
@@ -129,10 +132,10 @@ public class EquipAction : MonoBehaviour
 
         if (upgradableItems.equipByCharacter == null || upgradableItems.equipByCharacter != charactersSO)
         {
-            upgradableItems.SetEquip(charactersSO);
+            inventoryManager.EquipItem(charactersSO, upgradableItems);
             return;
         }
 
-        upgradableItems.SetEquip(null);
+        inventoryManager.UnequipItem(charactersSO, upgradableItems);
     }
 }

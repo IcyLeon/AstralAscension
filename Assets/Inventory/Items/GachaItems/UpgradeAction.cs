@@ -13,7 +13,6 @@ public class UpgradeAction : MonoBehaviour
     private void Awake()
     {
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
-        UpdateVisual();
 
         UpgradeBtn = GetComponent<Button>();
 
@@ -26,12 +25,18 @@ public class UpgradeAction : MonoBehaviour
     private void Start()
     {
         UpgradeItemContent = MainUI.instance.UpgradeItemContent;
+        SetIItem(ItemContentDisplay.iItem);
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
     {
-        upgradableItems = e.iItem as UpgradableItems;
-        UpdateVisual();
+        SetIItem(e.iItem);
+    }
+
+    private void SetIItem(IItem IItem)
+    {
+        upgradableItems = IItem as UpgradableItems;
+        UpdateVisuals();
     }
 
     // Update is called once per frame
@@ -40,7 +45,7 @@ public class UpgradeAction : MonoBehaviour
         UpgradeItemContent.SetIItem(upgradableItems);
     }
 
-    private void UpdateVisual()
+    private void UpdateVisuals()
     {
         gameObject.SetActive(upgradableItems != null);
     }

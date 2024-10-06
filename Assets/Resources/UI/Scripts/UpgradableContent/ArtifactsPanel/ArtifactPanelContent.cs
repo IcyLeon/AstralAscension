@@ -21,7 +21,7 @@ public class ArtifactPanelContent : MonoBehaviour
     [SerializeField] private TabGroup TabGroup;
     [SerializeField] private ArtifactPanel[] ArtifactPanelList;
 
-    private Dictionary<Item, ItemQualityButton> itemQualityDictionary;
+    private Dictionary<IEntity, ItemQualityButton> itemQualityDictionary;
     private Inventory inventory;
 
     private void Awake()
@@ -34,9 +34,7 @@ public class ArtifactPanelContent : MonoBehaviour
     private void Init()
     {
         if (itemQualityDictionary != null)
-        {
             return;
-        }
 
         itemQualityDictionary = new();
 
@@ -76,7 +74,7 @@ public class ArtifactPanelContent : MonoBehaviour
         }
     }
 
-    private void Inventory_OnItemRemove(Item item)
+    private void Inventory_OnItemRemove(IEntity item)
     {
         if (itemQualityDictionary.TryGetValue(item, out ItemQualityButton itemQualityButton))
         {
@@ -96,7 +94,7 @@ public class ArtifactPanelContent : MonoBehaviour
         return null;
     }
 
-    private void Inventory_OnItemAdd(Item item)
+    private void Inventory_OnItemAdd(IEntity item)
     {
         Artifact artifact = item as Artifact;
 
@@ -113,10 +111,9 @@ public class ArtifactPanelContent : MonoBehaviour
         itemQualityDictionary.Add(item, itemQualityItem);
     }
 
-    private void OnSelectedItemQualityClick(object sender, EventArgs e)
+    private void OnSelectedItemQualityClick(object sender, ItemQualityEvents e)
     {
-        ItemQualityButton ItemQualityButton = sender as ItemQualityButton;
-        ItemContentDisplay.SetInterfaceItem(ItemQualityButton.ItemQuality.iItem);
+        ItemContentDisplay.SetInterfaceItem(e.ItemQualityButton.ItemQuality.iItem);
     }
 
     private void UpdateVisual()

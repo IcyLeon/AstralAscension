@@ -11,6 +11,7 @@ public class StatsHighlightContent
     [field: SerializeField] public Color32 DefaultColor { get; private set; }
 }
 
+[DisallowMultipleComponent]
 [RequireComponent(typeof(ArtifactPieceSetsDisplayManager))]
 public class ArtifactPieceHighlightManager : MonoBehaviour
 {
@@ -40,16 +41,22 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
             return;
 
         characterStorage = CharacterManager.instance.characterStorage;
+        SetIItem(ItemContentDisplay.iItem);
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
     {
-        UnSubscribeUpgradableEvents();
-        iItem = e.iItem;
-        SubscribeUpgradableEvents();
+        SetIItem(e.iItem);
     }
 
-    private void SubscribeUpgradableEvents()
+    private void SetIItem(IItem IItem)
+    {
+        UnsubscribeEvents();
+        iItem = IItem;
+        SubscribeEvents();
+    }
+
+    private void SubscribeEvents()
     {
         Item item = iItem as Item;
 
@@ -57,7 +64,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
             return;
 
         item.OnItemChanged += UpgradableItems_OnItemChanged;
-        UpdateVisual();
+        UpdateVisuals();
     }
 
     private void ResetAll()
@@ -70,12 +77,15 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void UpgradableItems_OnItemChanged(object sender, EventArgs e)
     {
-        UpdateVisual();
+        UpdateVisuals();
     }
 
-    private void UpdateVisual()
+    private void UpdateVisuals()
     {
         ResetAll();
+
+        if (characterStorage == null)
+            return;
 
         CharacterDataStat c = characterStorage.HasObtainedCharacter(charactersSO);
 
@@ -90,7 +100,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         }
     }
 
-    private void UnSubscribeUpgradableEvents()
+    private void UnsubscribeEvents()
     {
         Item item = iItem as Item;
 
@@ -118,7 +128,6 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
         CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
 
-        UnSubscribeUpgradableEvents();
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
     }
 }

@@ -15,3 +15,11 @@ public interface IEntity : IItem
 {
     public bool IsNew();
 }
+
+public interface IEXP
+{
+    public ItemEXPCostManagerSO GetExpCostSO();
+    public int GetLevel();
+    public int GetCurrentExp();
+    public void AddCurrentExp(int exp);
+}

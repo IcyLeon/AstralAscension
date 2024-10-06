@@ -9,6 +9,8 @@ public class EnhanceStatsPanel : MonoBehaviour
     [Header("Upgradable Item Content")]
     [SerializeField] private GameObject LevelContent;
     [SerializeField] private TextMeshProUGUI LevelTxt;
+    [SerializeField] private TextMeshProUGUI ExpTxt;
+    private EnhancementManager enhancementManager;
 
     private IItem iItem;
     private ItemContentInformation[] ItemContentInformations;
@@ -25,6 +27,22 @@ public class EnhanceStatsPanel : MonoBehaviour
             return;
 
         ItemContentInformations = GetComponentsInChildren<ItemContentInformation>(true);
+
+        enhancementManager = GetComponentInParent<EnhancementManager>();
+        enhancementManager.OnItemUpgrade += EnhancementManager_OnItemUpgrade;
+    }
+
+    private void EnhancementManager_OnItemUpgrade(object sender, System.EventArgs e)
+    {
+        UpdateVisual();
+    }
+
+    private void OnDestroy()
+    {
+        if (enhancementManager != null)
+        {
+            enhancementManager.OnEnhanceItemChanged -= EnhancementManager_OnItemUpgrade;
+        }
     }
 
     public void SetInterfaceItem(IItem IItem)
@@ -33,70 +51,32 @@ public class EnhanceStatsPanel : MonoBehaviour
             return;
 
         Init();
-        UnsubscribeItemEvent();
         iItem = IItem;
-        SubscribeItemEvent();
-    }
-
-    private void OnDestroy()
-    {
-        UnsubscribeItemEvent();
-    }
-
-    private void UnsubscribeItemEvent()
-    {
-        Item item = iItem as Item;
-        if (item == null)
-            return;
-
-        item.OnItemChanged -= Item_OnItemChanged;
-    }
-
-    private void UpdateUpgradableItem()
-    {
-        UpgradableItems upgradableItems = iItem as UpgradableItems;
-
-        LevelContent.gameObject.SetActive(iItem != null);
-
-        if (!LevelContent.activeSelf)
-            return;
-
-        LevelTxt.text = "+" + upgradableItems.amount;
-
-    }
-
-    private void SubscribeItemEvent()
-    {
-        Item item = iItem as Item;
-
-        gameObject.SetActive(item != null);
-
-        if (item == null)
-            return;
-
-        item.OnItemChanged += Item_OnItemChanged;
         UpdateVisual();
     }
 
-    private void Item_OnItemChanged(object sender, System.EventArgs e)
+    private void UpdateEXPEntityDisplay()
     {
-        UpdateVisual();
+        IEXP iExpEntity = iItem as IEXP;
+
+        LevelContent.gameObject.SetActive(iExpEntity != null);
+
+        if (iExpEntity == null)
+            return;
+
+        LevelTxt.text = "+" + iExpEntity.GetLevel();
+        ExpTxt.text = iExpEntity.GetCurrentExp() + "/" + iExpEntity.GetExpCostSO().GetRequiredEXP(iExpEntity.GetLevel(), iItem.GetRarity());
     }
 
-    public void UpdateVisual()
+
+    private void UpdateVisual()
     {
         foreach (var ItemContentInformation in ItemContentInformations)
         {
             ItemContentInformation.UpdateItemContentInformation(iItem);
         }
 
-        UpdateUpgradableItem();
+        UpdateEXPEntityDisplay();
 
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        
     }
 }

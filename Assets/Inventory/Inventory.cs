@@ -6,9 +6,9 @@ using UnityEngine;
 public class Inventory
 {
     public int mora { get; private set; }
-    public List<Item> itemList { get; private set; }
+    public List<IEntity> itemList { get; private set; }
 
-    public delegate void OnItemChanged(Item item);
+    public delegate void OnItemChanged(IEntity item);
     public event OnItemChanged OnItemAdd, OnItemRemove;
     public event Action<int> OnMoraChanged;
 
@@ -33,25 +33,25 @@ public class Inventory
         return tempList;
     }
 
-    private Item GetItem(IItem iItem)
+    private IEntity GetItem(IItem iItem)
     {
         if (iItem == null)
             return null;
 
         foreach(var itemRef in itemList)
         {
-            if (itemRef.iItem == iItem)
+            if (itemRef == iItem)
                 return itemRef;
         }
         return null;
     }
 
-    public void AddItem(Item item)
+    public void AddItem(IEntity item)
     {
         if (item == null)
             return;
 
-        Item existedItem = GetItem(item.GetInterfaceItemReference());
+        Item existedItem = GetItem(item.GetInterfaceItemReference()) as Item;
 
         if (existedItem != null && existedItem.IsStackable())
         {
@@ -63,13 +63,13 @@ public class Inventory
         OnItemAdd?.Invoke(item);
     }
 
-    public void RemoveItem(Item item)
+    public void RemoveItem(IEntity iItem)
     {
-        if (item == null)
+        if (iItem == null)
             return;
 
-        itemList.Remove(item);
-        OnItemRemove?.Invoke(item);
+        itemList.Remove(iItem);
+        OnItemRemove?.Invoke(iItem);
     }
 
     public Inventory(int StartingMora = 0)

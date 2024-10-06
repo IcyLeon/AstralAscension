@@ -23,6 +23,26 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
     }
 
+    private void Awake()
+    {
+        OnSlotItemAdd += Slot_OnSlotItemAdd;
+    }
+
+    private void Slot_OnSlotItemAdd(object sender, SlotItemEvent e)
+    {
+        HideNewStatus(itemQualityButton);
+    }
+
+    private void HideNewStatus(ItemQualityIEntity ItemQualityIEntity)
+    {
+        ItemQualityItem itemQualityItem = ItemQualityIEntity as ItemQualityItem;
+
+        if (itemQualityItem == null)
+            return;
+
+        itemQualityItem.HideNewStatus();
+    }
+
     public void SetItemQualityButton(IEntity entity)
     {
         if (entity == null || itemQualityButton != null)
@@ -56,6 +76,8 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
     }
     private void UnsubscribeEvents()
     {
+        OnSlotItemAdd -= Slot_OnSlotItemAdd;
+
         if (itemQualityButton == null)
             return;
 

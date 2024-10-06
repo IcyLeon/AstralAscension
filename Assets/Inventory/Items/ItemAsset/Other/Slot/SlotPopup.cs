@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static InventoryManager;
 
 public class SlotPopup : MonoBehaviour
 {
@@ -14,44 +13,49 @@ public class SlotPopup : MonoBehaviour
     public event EventHandler<ItemQualityEvents> OnItemQualityClick;
 
     private SlotManager slotManager;
-    private Dictionary<Item, ItemQualityIEntity> itemQualityDictionary;
+    private Dictionary<IEntity, ItemQualityIEntity> itemQualityDictionary;
 
     private IItem iItemType;
     private Inventory inventory;
 
     private void Awake()
     {
-        OnInventoryOld += InventoryManager_OnInventoryOld;
-        OnInventoryNew += InventoryManager_OnInventoryNew;
+        InventoryManager.OnInventoryOld += InventoryManager_OnInventoryOld;
+        InventoryManager.OnInventoryNew += InventoryManager_OnInventoryNew;
     }
 
     private void Init()
     {
-        Inventory inventory = instance.inventory;
-
         if (itemQualityDictionary != null)
-        {
-            if (inventory != null)
-            {
-                UpdateVisual();
-            }
             return;
-        }
 
         itemQualityDictionary = new();
 
-        if (instance == null)
+        InventoryManager IM = InventoryManager.instance;
+
+        if (IM == null)
         {
             Debug.LogError("Inventory Manager not found!");
             return;
         }
 
-        InventoryManager_OnInventoryNew(inventory);
+        InventoryManager_OnInventoryNew(IM.inventory);
     }    
 
     private void Start()
     {
         Init();
+    }
+
+    public void RemoveItems(List<IEntity> ItemEntityList)
+    {
+        if (inventory == null)
+            return;
+
+        for (int i = ItemEntityList.Count - 1; i >= 0; i--)
+        {
+            inventory.RemoveItem(ItemEntityList[i]);
+        }
     }
 
     private void InventoryManager_OnInventoryOld(Inventory Inventory)
@@ -71,7 +75,7 @@ public class SlotPopup : MonoBehaviour
         }
     }
 
-    private void Inventory_OnItemRemove(Item item)
+    private void Inventory_OnItemRemove(IEntity item)
     {
         if (!itemQualityDictionary.TryGetValue(item, out ItemQualityIEntity itemQualityIEntity))
             return;
@@ -82,13 +86,14 @@ public class SlotPopup : MonoBehaviour
         itemQualityDictionary.Remove(item);
     }
 
-    public void SetinterfaceItemType(IItem IItem)
+    public void SetIItemType(IItem IItem)
     {
         iItemType = IItem;
         Init();
+        UpdateVisual();
     }
 
-    private bool IsEquippedByCharacter(Item item)
+    private bool IsEquippedByCharacter(IEntity item)
     {
         UpgradableItems upgradableItems = item as UpgradableItems;
 
@@ -98,11 +103,13 @@ public class SlotPopup : MonoBehaviour
         return upgradableItems.equipByCharacter != null;
     }
 
-    private void Inventory_OnItemAdd(Item item)
+    private void Inventory_OnItemAdd(IEntity item)
     {
-        if (itemQualityDictionary.ContainsKey(item) || 
-            (iItemType != null && (item.GetInterfaceItemReference() != iItemType.GetInterfaceItemReference() || item == iItemType)) ||
-            IsEquippedByCharacter(item))
+        if (iItemType != null &&
+            iItemType.GetInterfaceItemReference().GetType() == item.GetInterfaceItemReference().GetType() &&
+            (itemQualityDictionary.ContainsKey(item) || 
+            item == iItemType ||
+            IsEquippedByCharacter(item)))
             return;
 
         GameObject go = Instantiate(ItemManagerSO.ItemQualityItemPrefab, ScrollRect.content);
@@ -123,14 +130,14 @@ public class SlotPopup : MonoBehaviour
 
         if (slot != null)
         {
-            itemCard.gameObject.SetActive(false);
+            HideItemCard();
             slot.SetItemQualityButton(null);
         }    
     }
 
-    public List<Item> GetItemList()
+    public List<IEntity> GetItemList()
     {
-        List<Item> itemList = new();
+        List<IEntity> itemList = new();
 
         if (itemQualityDictionary == null)
             return itemList;
@@ -168,8 +175,21 @@ public class SlotPopup : MonoBehaviour
 
         if (itemQualityDictionary.ContainsKey(item))
         {
-            itemQualityDictionary[item].ItemQualitySelection.gameObject.SetActive(true);
+            SelectedItemQuality(itemQualityDictionary[item]);
+            RevealItemCard(itemQualityDictionary[item]);
         }
+    }
+
+    private void SelectedItemQuality(ItemQualityIEntity ItemQualityIEntity)
+    {
+        ItemQualityIEntity.ItemQualitySelection.RevealSelection();
+
+        ItemQualityItem itemQualityItem = ItemQualityIEntity as ItemQualityItem;
+
+        if (itemQualityItem == null)
+            return;
+
+        itemQualityItem.HideNewStatus();
     }
 
     private void SlotManager_OnSlotItemRemove(object sender, SlotItemEvent e)
@@ -181,7 +201,7 @@ public class SlotPopup : MonoBehaviour
 
         if (itemQualityDictionary.ContainsKey(item))
         {
-            itemQualityDictionary[item].ItemQualitySelection.gameObject.SetActive(false);
+            itemQualityDictionary[item].ItemQualitySelection.HideSelection();
         }
     }
 
@@ -198,21 +218,30 @@ public class SlotPopup : MonoBehaviour
     private void SlotManager_OnSlotSelected(object sender, SlotEvent e)
     {
         Slot slot = e.slot;
-
+        RevealItemCard(slot.itemQualityButton);
         gameObject.SetActive(slot != null);
+    }
 
-        ItemQualityButton itemQualityButton = e.slot.itemQualityButton;
+    private void RevealItemCard(ItemQualityButton ItemQualityButton)
+    {
+        gameObject.SetActive(ItemQualityButton != null);
 
-        if (itemQualityButton == null)
+        if (ItemQualityButton == null)
+        {
+            HideItemCard();
             return;
+        }
 
-        itemCard.SetInterfaceItem(itemQualityButton.ItemQuality.iItem);
+        itemCard.SetInterfaceItem(ItemQualityButton.ItemQuality.iItem);
+    }
+    private void HideItemCard()
+    {
+        itemCard.SetInterfaceItem(null);
     }
 
     private void OnSelectedItemQualityClick(object sender, ItemQualityEvents e)
     {
-        ItemQualityButton itemQualityButton = sender as ItemQualityButton;
-        itemCard.SetInterfaceItem(itemQualityButton.ItemQuality.iItem);
+        RevealItemCard(e.ItemQualityButton);
         OnItemQualityClick?.Invoke(sender, e);
     }
 
@@ -234,8 +263,8 @@ public class SlotPopup : MonoBehaviour
     private void OnDestroy()
     {
         UnSubscribeEvents();
-        OnInventoryOld -= InventoryManager_OnInventoryOld;
-        OnInventoryNew -= InventoryManager_OnInventoryNew;
+        InventoryManager.OnInventoryOld -= InventoryManager_OnInventoryOld;
+        InventoryManager.OnInventoryNew -= InventoryManager_OnInventoryNew;
 
         if (inventory != null)
         {

@@ -3,28 +3,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradableItems : Item
+public class UpgradableItems : Item, IEXP
 {
     public CharactersSO equipByCharacter { get; private set; }
-
+    private ItemEXPCostManagerSO expCostManagerSO;
+    private int currentEXP;
     public bool locked { get; private set; }
-    public int maxLevel { get; private set; }
+    public int maxLevel { get; protected set; }
     public UpgradableItems(IItem iItem) : base(iItem)
     {
+        expCostManagerSO = InitItemEXPCostManagerSO();
         locked = false;
+
         maxLevel = 20;
     }
 
-    public virtual void SetEquip(CharactersSO charactersSO)
+    protected virtual ItemEXPCostManagerSO InitItemEXPCostManagerSO()
+    {
+        return null;
+    }
+
+    public void SetEquip(CharactersSO charactersSO)
     {
         equipByCharacter = charactersSO;
         CallOnItemChanged();
     }
 
+    public bool IsMax()
+    {
+        return amount >= maxLevel;
+    }
+
     public void Upgrade()
     {
-        if (amount >= maxLevel)
+        if (IsMax())
+        {
             return;
+        }
 
         amount++;
         UpgradeItemAction();
@@ -48,6 +63,35 @@ public class UpgradableItems : Item
 
     protected virtual void UpgradeItemAction()
     {
+        if (!IsMax())
+            return;
 
+        ResetEXP();
+    }
+
+    public int GetLevel()
+    {
+        return amount;
+    }
+
+    public int GetCurrentExp()
+    {
+        return currentEXP;
+    }
+
+    public void ResetEXP()
+    {
+        currentEXP = 0;
+    }
+
+    public ItemEXPCostManagerSO GetExpCostSO()
+    {
+        return expCostManagerSO;
+    }
+
+    public void AddCurrentExp(int exp)
+    {
+        currentEXP += exp;
+        currentEXP = Mathf.Max(currentEXP, 0);
     }
 }

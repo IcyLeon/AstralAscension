@@ -8,7 +8,6 @@ using static ArtifactManager;
 
 public class Artifact : GachaItem
 {
-    public static float ARTIFACT_LEVEL_EVENT { get; private set; } = 4;
     public ArtifactMainStat mainStat { get; private set; }
     public Dictionary<ArtifactStatSO, ArtifactSubStat> subStats { get; private set; }
 
@@ -17,25 +16,16 @@ public class Artifact : GachaItem
         if (instance == null)
         {
             Debug.LogError("Artifact Manager not found!");
+            return;
         }
 
         subStats = new();
         GenerateRandomMainStat();
         GenerateRandomSubStat();
     }
-
-    public override void SetEquip(CharactersSO charactersSO)
+    protected override ItemEXPCostManagerSO InitItemEXPCostManagerSO()
     {
-        if (charactersSO != null)
-        {
-            instance.AddArtifacts(charactersSO, this);
-        }
-        else
-        {
-            instance.RemoveArtifacts(equipByCharacter, this);
-        }
-
-        base.SetEquip(charactersSO);
+        return instance.ArtifactManagerSO.ArtifactEXPManagerSO;
     }
 
     private void GenerateRandomMainStat()

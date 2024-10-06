@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CharacterDataStat : IEntity
+public class CharacterDataStat : IEntity, IEXP
 {
     public Dictionary<ItemTypeSO, IItem> equippeditemList { get; } // equipped items character
     public delegate void OnItemEquippedEvent(IItem IItem);
@@ -23,7 +23,8 @@ public class CharacterDataStat : IEntity
     public DamageableEntitySO damageableEntitySO { get; protected set; }
     private float maxHealth;
     private float currentHealth;
-    public int level { get; private set; }
+    private int level;
+    private int currentEXP;
 
     public CharacterDataStat(CharactersSO charactersSO)
     {
@@ -35,47 +36,41 @@ public class CharacterDataStat : IEntity
         damageableEntitySO = charactersSO as DamageableEntitySO;
 
         level = 1;
+        currentEXP = 0;
         currentHealth = maxHealth = 1000;
     }
 
-    public void RemoveEquipItem(ItemTypeSO itemTypeSO)
+    public void UnequipItem(ItemTypeSO itemTypeSO)
     {
-        IItem item = GetItem(itemTypeSO);
+        IItem existingiItem = GetItem(itemTypeSO);
 
-        if (item == null)
-            return;
-
-        equippeditemList.Remove(itemTypeSO);
-        UnequipItem(item);
-        OnItemChanged?.Invoke(item);
-        OnItemRemove?.Invoke(item);
-    }
-
-    private void UnequipItem(IItem item)
-    {
-        UpgradableItems upgradableItem = item as UpgradableItems;
+        UpgradableItems upgradableItem = existingiItem as UpgradableItems;
 
         if (upgradableItem == null)
             return;
 
+        equippeditemList.Remove(itemTypeSO);
         upgradableItem.SetEquip(null);
+        OnItemRemove?.Invoke(existingiItem);
+        OnItemChanged?.Invoke(existingiItem);
     }
 
-    public void AddEquipItem(Item item)
+    public void EquipItem(IItem iItem)
     {
-        if (item == null)
+        if (iItem == null)
             return;
 
-        ItemTypeSO itemTypeSO = item.GetTypeSO();
+        UnequipItem(iItem.GetTypeSO());
 
-        if (GetItem(itemTypeSO) != null)
-        {
-            RemoveEquipItem(itemTypeSO);
-        }
+        UpgradableItems upgradableItem = iItem as UpgradableItems;
 
-        equippeditemList.Add(item.GetTypeSO(), item);
-        OnItemChanged?.Invoke(item);
-        OnItemAdd?.Invoke(item);
+        if (upgradableItem == null)
+            return;
+
+        equippeditemList.Add(iItem.GetTypeSO(), iItem);
+        upgradableItem.SetEquip(damageableEntitySO);
+        OnItemAdd?.Invoke(iItem);
+        OnItemChanged?.Invoke(iItem);
     }
 
     public IItem GetItem(ItemTypeSO itemTypeSO)
@@ -174,5 +169,24 @@ public class CharacterDataStat : IEntity
     public virtual void OnDestroy()
     {
         effectManager.OnDestroy();
+    }
+
+    public int GetLevel()
+    {
+        return level;
+    }
+
+    public int GetCurrentExp()
+    {
+        return 0;
+    }
+
+    public ItemEXPCostManagerSO GetExpCostSO()
+    {
+        return null;
+    }
+
+    public void AddCurrentExp(int exp)
+    {
     }
 }
