@@ -91,9 +91,8 @@ public class ArtifactManagerSO : ScriptableObject
     [Range(0f, 1f)]
     [SerializeField] private float MaxStatProbabilityRequirement;
     [field: SerializeField, Header("Percentage Type Stats")] public ArtifactStatSO[] ArtifactPercentageTypeStatsSOList { get; private set; }
-
-    [Header("Artifact Upgrade EXP")]
-    [SerializeField] private ItemEXPCostManagerSO ArtifactEXPManagerSO;
+    
+    [field: SerializeField, Header("Artifact Upgrade EXP")] public ItemEXPCostManagerSO ArtifactEXPManagerSO { get; private set; }
 
     /// <summary>
     /// Get the Artifact Family of the Artifacts. Eg; Thundering Fury

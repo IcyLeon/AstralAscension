@@ -25,6 +25,11 @@ public class ItemQualityItem : ItemQualityIEntity
 
     private void ItemQualityItem_OnItemQualityClick(object sender, EventArgs e)
     {
+        HideNewStatus();
+    }
+
+    public void HideNewStatus()
+    {
         if (item == null || !item.newStatus)
             return;
 

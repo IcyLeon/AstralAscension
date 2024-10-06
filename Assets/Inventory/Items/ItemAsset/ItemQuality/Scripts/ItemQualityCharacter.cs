@@ -23,6 +23,6 @@ public class ItemQualityCharacter : ItemQualityIEntity
 
     protected override void UpdateVisual()
     {
-        UpdateDisplayText("Lv." + playableCharacterDataStat.level);
+        UpdateDisplayText("Lv." + playableCharacterDataStat.GetLevel());
     }
 }

@@ -2162,5 +2162,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 779ccf0402367f44892a2e36f363f218, type: 2}
   - {fileID: 11400000, guid: a22c45a7d205df54b8c655de99863a35, type: 2}
   - {fileID: 11400000, guid: c371dba63bb801443ab3a9a1277335a0, type: 2}
-  ArtifactEXPManagerSO: {fileID: 11400000, guid: b2acf8e06d6aef945ac779da25ec0886,
+  <ArtifactEXPManagerSO>k__BackingField: {fileID: 11400000, guid: b2acf8e06d6aef945ac779da25ec0886,
     type: 2}

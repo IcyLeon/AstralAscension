@@ -12,6 +12,8 @@ public class InventoryManager : MonoBehaviour
     public delegate void OnInventoryChanged(Inventory inventory);
     public static event OnInventoryChanged OnInventoryOld, OnInventoryNew;
 
+    private CharacterStorage characterStorage;
+
     [SerializeField] ArtifactSO artifactSOtest;
     [SerializeField] ArtifactSO artifactSOtest2;
     [SerializeField] ArtifactSO artifactSOtest3;
@@ -20,6 +22,8 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
+        CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
     }
 
     private void Start()
@@ -52,12 +56,57 @@ public class InventoryManager : MonoBehaviour
         OnInventoryNew?.Invoke(inventory);
     }
 
+    private void CharacterManager_OnCharacterStorageOld(CharacterStorage CharacterStorage)
+    {
+    }
+
+    private void CharacterManager_OnCharacterStorageNew(CharacterStorage CharacterStorage)
+    {
+        characterStorage = CharacterStorage;
+    }
+
+    public void UnequipItem(CharactersSO characterSO, UpgradableItems UpgradableItems)
+    {
+        if (UpgradableItems == null || characterSO == null)
+            return;
+
+        if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
+            return;
+
+        PlayableCharacterDataStat playableCharacter = characterStorage.playableCharacterStatList[characterSO];
+        playableCharacter.UnequipItem(UpgradableItems.GetTypeSO());
+    }
+
+    public void EquipItem(CharactersSO characterSO, UpgradableItems upgradableItems)
+    {
+        if (upgradableItems == null || characterSO == null)
+            return;
+
+        if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
+            return;
+
+        PlayableCharacterDataStat playableCharacter = characterStorage.playableCharacterStatList[characterSO];
+
+        // get the existing artifact equipped from characterSO
+        Artifact currentArtifactEquipped = playableCharacter.GetItem(upgradableItems.GetTypeSO()) as Artifact;
+
+        CharactersSO previousOwnerSO = upgradableItems.equipByCharacter;
+
+        UnequipItem(previousOwnerSO, upgradableItems); // remove previous owner of the artifact
+
+        playableCharacter.EquipItem(upgradableItems); // set the new owner of the artifact
+
+        EquipItem(previousOwnerSO, currentArtifactEquipped); // set the previous owner to the artifact equipped from characterSO 
+    }
+
     private void OnDestroy()
     {
         if (inventory != null)
         {
             OnInventoryOld?.Invoke(inventory);
         }
-    }
 
+        CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
+        CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
+    }
 }

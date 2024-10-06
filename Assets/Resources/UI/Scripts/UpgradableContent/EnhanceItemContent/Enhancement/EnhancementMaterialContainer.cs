@@ -7,6 +7,11 @@ using UnityEngine.UI;
 using static InventoryManager;
 using Random = UnityEngine.Random;
 
+public class UpgradeEvents : EventArgs
+{
+    public List<IEntity> itemEntityList;
+}
+
 [DisallowMultipleComponent]
 public class EnhancementMaterialContainer : MonoBehaviour
 {
@@ -15,14 +20,11 @@ public class EnhancementMaterialContainer : MonoBehaviour
     [SerializeField] private Button AutoAddBtn;
     [SerializeField] private Button EnhanceBtn;
     private Rarity raritySelection;
-    private Inventory inventory;
     private EnhancementManager enhancementManager;
-
-    public event EventHandler OnUpgradeClick;
+    public event EventHandler<UpgradeEvents> OnUpgradeClick;
     private void Awake()
     {
         OnInventoryNew += InventoryManager_OnInventoryNew;
-        OnInventoryOld += InventoryManager_OnInventoryOld;
 
         dropdown.onValueChanged.AddListener(delegate
         {
@@ -59,6 +61,8 @@ public class EnhancementMaterialContainer : MonoBehaviour
             return;
         }
 
+        OnItemChanged();
+
         InventoryManager_OnInventoryNew(instance.inventory);
     }
 
@@ -67,26 +71,18 @@ public class EnhancementMaterialContainer : MonoBehaviour
         slotManager.ResetAllSlots();
     }
 
-    private void InventoryManager_OnInventoryOld(Inventory Inventory)
-    {
-    }
-
     private void InventoryManager_OnInventoryNew(Inventory Inventory)
     {
-        inventory = Inventory;
-        if (inventory != null)
-        {
-            OnItemChanged();
-        }
+        OnItemChanged();
     }
 
     private void OnItemChanged()
     {
         ResetSlots();
-        slotManager.SetinterfaceItemType(enhancementManager.iItem);
+        slotManager.SetIItemType(enhancementManager.iItem);
     }
 
-    private void BubbleSortRarities(ref List<UpgradableItems> list)
+    private void BubbleSortRarities(ref List<IEntity> list)
     {
         for(int i = 0; i < list.Count - 1; i++)
         {
@@ -100,33 +96,32 @@ public class EnhancementMaterialContainer : MonoBehaviour
         }
     }
 
-    private void Swap(ref List<UpgradableItems> list, int first, int second)
+    private void Swap(ref List<IEntity> list, int first, int second)
     {
         var temp = list[first];
         list[first] = list[second];
         list[second] = temp;
     }
 
-    private List<UpgradableItems> GetRelatedItemList(List<Item> list)
+    private List<IEntity> GetRelatedItemList(List<IEntity> list)
     {
-        List<UpgradableItems> UpgradableItems = new();
+        List<IEntity> IEntityList = new();
 
         foreach(var item in list)
         {
-            UpgradableItems upgradableItem = item as UpgradableItems;
-            if (upgradableItem != null && 
-                upgradableItem.GetRarity() <= raritySelection)
+            if (item != null &&
+                item.GetRarity() <= raritySelection)
             {
-                UpgradableItems.Add(upgradableItem);
+                IEntityList.Add(item);
             }
         }
 
-        return UpgradableItems;
+        return IEntityList;
     }
 
     private void OnAutoAdd()
     {
-        List<UpgradableItems> allrelatedItems = GetRelatedItemList(slotManager.GetItemList());
+        List<IEntity> allrelatedItems = GetRelatedItemList(slotManager.GetItemList());
 
         for (int i = 0; i < allrelatedItems.Count; i++)
         {
@@ -143,7 +138,7 @@ public class EnhancementMaterialContainer : MonoBehaviour
             if (emptySlot == null)
                 return;
 
-            UpgradableItems item = allrelatedItems[i];
+            UpgradableItems item = allrelatedItems[i] as UpgradableItems;
 
             if (item.locked || item.equipByCharacter != null || slotManager.Contains(item))
                 continue;
@@ -155,15 +150,27 @@ public class EnhancementMaterialContainer : MonoBehaviour
 
     private void OnEnhance()
     {
+        List<IEntity> itemEntityList = slotManager.GetItemEntityList();
+
+        if (itemEntityList.Count == 0)
+        {
+            return;
+        }
+
         ResetSlots();
-        OnUpgradeClick?.Invoke(this, EventArgs.Empty);
+
+        OnUpgradeClick?.Invoke(this, new UpgradeEvents
+        {
+            itemEntityList = itemEntityList,
+        });
+
+        slotManager.RemoveItems(itemEntityList);
     }
 
     // Update is called once per frame
     private void OnDestroy()
     {
         OnInventoryNew -= InventoryManager_OnInventoryNew;
-        OnInventoryOld -= InventoryManager_OnInventoryOld;
 
         if (enhancementManager != null)
         {

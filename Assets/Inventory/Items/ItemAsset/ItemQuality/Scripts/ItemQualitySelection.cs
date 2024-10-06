@@ -21,4 +21,14 @@ public class ItemQualitySelection : MonoBehaviour
     {
         OnRemoveClick?.Invoke(this, EventArgs.Empty);
     }
+
+    public void RevealSelection()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void HideSelection()
+    {
+        gameObject.SetActive(false);
+    }
 }

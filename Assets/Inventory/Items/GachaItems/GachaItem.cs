@@ -9,6 +9,8 @@ public class GachaItem : UpgradableItems
     public GachaItem(Rarity Rarity, IItem iItem) : base(iItem)
     {
         rarity = Rarity;
+
+        maxLevel = GetExpCostSO().GetMaxLevel(GetRarity());
     }
 
     public override Rarity GetRarity()

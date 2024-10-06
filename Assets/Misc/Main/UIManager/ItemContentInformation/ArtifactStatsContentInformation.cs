@@ -9,8 +9,10 @@ public class ArtifactStatsContentInformation : ItemContentInformation
 
     protected override void Init()
     {
-        if (artifactSubStatDisplayList == null)
-            artifactSubStatDisplayList = GetComponentsInChildren<ArtifactSubStatDisplay>(true);
+        if (artifactSubStatDisplayList != null)
+            return;
+
+        artifactSubStatDisplayList = GetComponentsInChildren<ArtifactSubStatDisplay>(true);
     }
 
     public override void UpdateItemContentInformation(IItem iItem)

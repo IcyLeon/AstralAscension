@@ -31,7 +31,7 @@ public class ItemContentDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LevelTxt;
     [SerializeField] private ItemEquipDisplay ItemEquipDisplay;
 
-    private IItem iItem;
+    public IItem iItem { get; private set; }
 
     private ItemContentInformation[] ItemContentInformations;
 
