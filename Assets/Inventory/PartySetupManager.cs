@@ -19,7 +19,7 @@ public class PartySetupManager
 
     private int currentPartyIndex;
 
-    private CharacterStorage characterStorage;
+    public CharacterStorage characterStorage { get; private set; }
 
     public event EventHandler<PartyEvents> OnPartyAdd, OnPartyRemove;
     public event EventHandler OnCurrentPartyChanged;
@@ -80,7 +80,7 @@ public class PartySetupManager
     {
         List<CharacterDataStat> PartyLayout = new(GetCurrentPartyLayout());
 
-        for(int i = 0; i < PartyLayout.Count; i++)
+        for(int i = PartyLayout.Count - 1; i >= 0; i--)
         {
             if (PartyLayout[i] == null)
             {
@@ -93,20 +93,22 @@ public class PartySetupManager
 
     public void AddMember(CharacterDataStat characterDataStat, int partySetupIndex, int PartyLocation)
     {
-        if (characterDataStat == null && characterStorage.HasObtainedCharacter(characterDataStat.damageableEntitySO) == null)
+        if (characterDataStat == null || characterStorage.HasObtainedCharacter(characterDataStat.damageableEntitySO) == null)
             return;
+
+        CharactersSO charactersSO = characterDataStat.damageableEntitySO;
 
         CharacterDataStat CharacterInSlot = PartySetupList[partySetupIndex][PartyLocation];
 
-        if (CharacterAlreadyExist(characterDataStat, partySetupIndex))
+        if (CharacterAlreadyExist(charactersSO, partySetupIndex))
         {
-            Debug.Log(characterDataStat.damageableEntitySO.characterName + " is already existed!");
+            Debug.Log(charactersSO.GetName() + " is already existed!");
             return;
         }
 
         if (CharacterInSlot != null)
         {
-            Debug.Log(CharacterInSlot.damageableEntitySO.characterName + " is currently taking this slot!");
+            Debug.Log(CharacterInSlot.damageableEntitySO.GetName() + " is currently taking this slot!");
             return;
         }
 
@@ -234,16 +236,14 @@ public class PartySetupManager
         return PartyList;
     }
 
-    private bool CharacterAlreadyExist(CharacterDataStat CharacterDataStat, int partySetupIndex)
+    private bool CharacterAlreadyExist(CharactersSO charactersSO, int partySetupIndex)
     {
-        if (CharacterDataStat == null || partySetupIndex < 0 || partySetupIndex >= PartySetupList.Length)
+        if (charactersSO == null || partySetupIndex < 0 || partySetupIndex >= PartySetupList.Length)
             return false;
 
-        List<CharacterDataStat> PartyMemberList = PartySetupList[partySetupIndex];
-
-        foreach (var PartyMember in PartyMemberList)
+        foreach (var PartyMember in PartySetupList[partySetupIndex])
         {
-            if (PartyMember != null && PartyMember.damageableEntitySO == CharacterDataStat.damageableEntitySO)
+            if (PartyMember != null && PartyMember.damageableEntitySO == charactersSO)
                 return true;
         }
 

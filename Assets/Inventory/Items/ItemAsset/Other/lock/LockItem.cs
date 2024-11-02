@@ -12,11 +12,38 @@ public abstract class LockItem : MonoBehaviour
     [SerializeField] private Image LockImage;
     [SerializeField] private LockItemInfoSO LockItemInfoSO;
 
-    public void SetUpgradableItem(Item Item)
+    public void SetIItem(IItem iItem)
     {
-        upgradableItems = Item as UpgradableItems;
+        UnsubscribeEvents();
+
+        upgradableItems = iItem as UpgradableItems;
 
         gameObject.SetActive(upgradableItems != null);
+
+        SubscribeEvents();
+    }
+
+    private void UnsubscribeEvents()
+    {
+        if (upgradableItems == null)
+            return;
+
+        upgradableItems.OnIEntityChanged -= UpgradableItems_OnIEntityChanged;
+    }
+
+    private void SubscribeEvents()
+    {
+        if (upgradableItems == null)
+            return;
+
+        upgradableItems.OnIEntityChanged += UpgradableItems_OnIEntityChanged;
+        UpdateVisual();
+    }
+
+    private void UpgradableItems_OnIEntityChanged(object sender, IEntityEvents e)
+    {
+        if (this == null)
+            return;
 
         UpdateVisual();
     }
@@ -36,5 +63,10 @@ public abstract class LockItem : MonoBehaviour
         LockImage.sprite = lockInfo.LockImage;
         LockImage.color = lockInfo.LockImageColor;
         BackgroundImage.color = lockInfo.LockBackgroundColor;
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
     }
 }

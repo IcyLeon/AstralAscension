@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FOVAngleXZ: 180
-  FOVAngleY: 45
+  FOVAngleY: 90
   MultiAimConstraint: {fileID: 49734731}
   MoveTowardsSoothingTime: 10
   InteractSensor: {fileID: 2696887656187803932}
@@ -5300,7 +5300,7 @@ Animator:
   m_GameObject: {fileID: 3767589340201022138}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5682899d8a654874ba96e778c6174a7e, type: 3}
-  m_Controller: {fileID: 9100000, guid: 62befe2634a5c5f4ca839616dfba7b37, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7a969fd27b347534fbd6580562224d00, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

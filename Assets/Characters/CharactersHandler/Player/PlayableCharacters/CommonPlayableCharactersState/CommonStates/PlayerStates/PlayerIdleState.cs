@@ -11,9 +11,14 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.idleParameter);
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
         playerStateMachine.ResetVelocity();
+    }
+
+    protected override void OnSkillCastUpdate()
+    {
     }
 
     public override void Update()
@@ -24,11 +29,13 @@ public class PlayerIdleState : PlayerGroundedState
         {
             return;
         }
+
         OnMove();
     }
 
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.idleParameter);
     }
 }

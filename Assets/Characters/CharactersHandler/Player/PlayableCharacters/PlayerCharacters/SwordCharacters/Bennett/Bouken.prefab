@@ -1710,7 +1710,7 @@ Animator:
   m_GameObject: {fileID: 1574953757427478429}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5682899d8a654874ba96e778c6174a7e, type: 3}
-  m_Controller: {fileID: 9100000, guid: 62befe2634a5c5f4ca839616dfba7b37, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8e3fe560cdd20ea4aa99372394582b71, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -5073,8 +5073,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5963759583802203077}
   - component: {fileID: 2890970878917624226}
-  - component: {fileID: 4200648304600327990}
   - component: {fileID: 3602181579987752047}
+  - component: {fileID: 4200648304600327990}
   m_Layer: 3
   m_Name: Bouken
   m_TagString: Untagged
@@ -5113,6 +5113,24 @@ CapsuleCollider:
   m_Height: 1.82
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &3602181579987752047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3545135287976817918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87f5516b1af49d479777acf1e451675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  POITargetTransform: {fileID: 8719712637377475560}
+  <Animator>k__BackingField: {fileID: 8431426115144009586}
+  <CharacterSO>k__BackingField: {fileID: 11400000, guid: fe054ffa3c0236b4bab5fbb1df399c87,
+    type: 2}
+  VoiceSource: {fileID: 4200648304600327990}
+  <MainCollider>k__BackingField: {fileID: 2890970878917624226}
 --- !u!82 &4200648304600327990
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5209,24 +5227,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3602181579987752047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3545135287976817918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a87f5516b1af49d479777acf1e451675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  POITargetTransform: {fileID: 8719712637377475560}
-  <Animator>k__BackingField: {fileID: 8431426115144009586}
-  <CharacterSO>k__BackingField: {fileID: 11400000, guid: fe054ffa3c0236b4bab5fbb1df399c87,
-    type: 2}
-  VoiceSource: {fileID: 4200648304600327990}
-  <MainCollider>k__BackingField: {fileID: 2890970878917624226}
 --- !u!1 &3569918656322661637
 GameObject:
   m_ObjectHideFlags: 0

@@ -416,18 +416,13 @@ Animator:
   m_GameObject: {fileID: 303882851474343399}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 55d8000689eab4a48a6c7be255a6206a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 62befe2634a5c5f4ca839616dfba7b37, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8e3fe560cdd20ea4aa99372394582b71, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform '\u8170'\n\tTransform '\u982D'\n\tTransform '\u9996'\n\tTransform
-    '\u4E0A\u534A\u8EAB'\n\tTransform '\u8170'\n\tTransform '\u982D'\n\tTransform
-    '\u9996'\n\tTransform '\u4E0A\u534A\u8EAB'\n\tTransform '\u8170'\n\tTransform
-    '\u982D'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -18166,7 +18161,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 57fe971e186699d49a27e187f129fba6,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57fe971e186699d49a27e187f129fba6, type: 3}

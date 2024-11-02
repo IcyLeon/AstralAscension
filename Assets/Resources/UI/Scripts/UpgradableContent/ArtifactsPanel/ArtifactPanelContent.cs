@@ -20,7 +20,7 @@ public class ArtifactPanelContent : MonoBehaviour
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
     [SerializeField] private TabGroup TabGroup;
     [SerializeField] private ArtifactPanel[] ArtifactPanelList;
-
+    private ItemManagerSO ItemAssetManagerSO;
     private Dictionary<IEntity, ItemQualityButton> itemQualityDictionary;
     private Inventory inventory;
 
@@ -29,6 +29,14 @@ public class ArtifactPanelContent : MonoBehaviour
         TabGroup.OnTabGroupChanged += TabGroup_OnTabGroupChanged;
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
+    }
+
+    private void InitAssetManager()
+    {
+        if (ItemAssetManagerSO != null)
+            return;
+
+        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
     }
 
     private void Init()
@@ -44,6 +52,7 @@ public class ArtifactPanelContent : MonoBehaviour
             return;
         }
 
+        InitAssetManager();
         InventoryManager_OnInventoryNew(instance.inventory);
     }
 
@@ -65,6 +74,9 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void InventoryManager_OnInventoryNew(Inventory Inventory)
     {
+        if (inventory == Inventory)
+            return;
+
         inventory = Inventory;
         if (inventory != null)
         {
@@ -74,13 +86,13 @@ public class ArtifactPanelContent : MonoBehaviour
         }
     }
 
-    private void Inventory_OnItemRemove(IEntity item)
+    private void Inventory_OnItemRemove(IEntity IEntity)
     {
-        if (itemQualityDictionary.TryGetValue(item, out ItemQualityButton itemQualityButton))
+        if (itemQualityDictionary.TryGetValue(IEntity, out ItemQualityButton itemQualityButton))
         {
             itemQualityButton.OnItemQualityClick -= OnSelectedItemQualityClick;
             Destroy(itemQualityButton.gameObject);
-            itemQualityDictionary.Remove(item);
+            itemQualityDictionary.Remove(IEntity);
         }
     }
 
@@ -94,30 +106,31 @@ public class ArtifactPanelContent : MonoBehaviour
         return null;
     }
 
-    private void Inventory_OnItemAdd(IEntity item)
+    private void Inventory_OnItemAdd(IEntity IEntity)
     {
-        Artifact artifact = item as Artifact;
-
-        if (artifact == null || itemQualityDictionary.ContainsKey(artifact))
+        if (IEntity == null || itemQualityDictionary.ContainsKey(IEntity))
             return;
 
-        GameObject Panel = GetPanel(artifact.GetTypeSO());
+        GameObject Panel = GetPanel(IEntity.GetTypeSO());
 
         if (Panel == null)
             return;
 
-        ItemQualityItem itemQualityItem = ItemContentDisplay.ItemManagerSO.CreateItemQualityItem(item, Panel.transform);
+        ItemQualityItem itemQualityItem = ItemAssetManagerSO.CreateItemQualityItem(IEntity, Panel.transform);
         itemQualityItem.OnItemQualityClick += OnSelectedItemQualityClick;
-        itemQualityDictionary.Add(item, itemQualityItem);
+        itemQualityDictionary.Add(IEntity, itemQualityItem);
     }
 
     private void OnSelectedItemQualityClick(object sender, ItemQualityEvents e)
     {
-        ItemContentDisplay.SetInterfaceItem(e.ItemQualityButton.ItemQuality.iItem);
+        ItemContentDisplay.SetIItem(e.ItemQualityButton.iItem);
     }
 
     private void UpdateVisual()
     {
+        if (itemQualityDictionary == null)
+            return;
+
         for (int i = itemQualityDictionary.Count - 1; i >= 0; i--)
         {
             Inventory_OnItemRemove(itemQualityDictionary.ElementAt(i).Key);

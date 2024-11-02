@@ -7,6 +7,8 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance { get; private set; }
+    private AssetManager assetManager;
+
     public Inventory inventory { get; private set; }
 
     public delegate void OnInventoryChanged(Inventory inventory);
@@ -28,6 +30,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
+        assetManager = AssetManager.instance;
         SetInventory(new Inventory(1000));
     }
 

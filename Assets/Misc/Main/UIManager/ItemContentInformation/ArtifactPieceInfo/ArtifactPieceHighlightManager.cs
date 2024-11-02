@@ -58,12 +58,17 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        Item item = iItem as Item;
+        IEntity iEntity = iItem as IEntity;
 
-        if (item == null)
+        if (iEntity == null)
             return;
 
-        item.OnItemChanged += UpgradableItems_OnItemChanged;
+        iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
+        UpdateVisuals();
+    }
+
+    private void IEntity_OnIEntityChanged(object sender, IEntityEvents e)
+    {
         UpdateVisuals();
     }
 
@@ -73,11 +78,6 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         {
             ArtifactPieceInfoDisplay.SetTextColor(StatsHighlightContent.DefaultColor);
         }
-    }
-
-    private void UpgradableItems_OnItemChanged(object sender, EventArgs e)
-    {
-        UpdateVisuals();
     }
 
     private void UpdateVisuals()
@@ -102,12 +102,12 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void UnsubscribeEvents()
     {
-        Item item = iItem as Item;
+        IEntity iEntity = iItem as IEntity;
 
-        if (item == null)
+        if (iEntity == null)
             return;
 
-        item.OnItemChanged -= UpgradableItems_OnItemChanged;
+        iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
     }
 
     public void SetCharacterSO(CharactersSO charactersSO)

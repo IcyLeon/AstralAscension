@@ -8,34 +8,49 @@ using static ArtifactManager;
 
 public class Artifact : GachaItem
 {
+    public ArtifactManagerSO artifactManagerSO { get; private set; }
     public ArtifactMainStat mainStat { get; private set; }
     public Dictionary<ArtifactStatSO, ArtifactSubStat> subStats { get; private set; }
 
-    public Artifact(Rarity Rarity, IItem iItem) : base(Rarity, iItem)
+    public Artifact(Rarity rarity, IItem iItem) : base(rarity, iItem)
     {
+        if (artifactManagerSO == null)
+        {
+            Debug.LogError("ArtifactManagerSO not found!");
+            return;
+        }
+
+        subStats = new();
+        GenerateMainStat();
+        GenerateRandomSubStat();
+    }
+
+    protected override void OnCreateUpgradableItem()
+    {
+        base.OnCreateUpgradableItem();
+
         if (instance == null)
         {
             Debug.LogError("Artifact Manager not found!");
             return;
         }
 
-        subStats = new();
-        GenerateRandomMainStat();
-        GenerateRandomSubStat();
-    }
-    protected override ItemEXPCostManagerSO InitItemEXPCostManagerSO()
-    {
-        return instance.ArtifactManagerSO.ArtifactEXPManagerSO;
+        artifactManagerSO = instance.ArtifactManagerSO;
     }
 
-    private void GenerateRandomMainStat()
+    protected override ItemEXPCostManagerSO InitItemEXPCostManagerSO()
+    {
+        return artifactManagerSO.ArtifactEXPManagerSO;
+    }
+
+    private void GenerateMainStat()
     {
         mainStat = new ArtifactMainStat(this);
     }
 
     private void GenerateRandomSubStat()
     {
-        int randomNoSubStats = instance.ArtifactManagerSO.GetArtifactRandomNumberofSubStat(GetRarity());
+        int randomNoSubStats = artifactManagerSO.GetArtifactRandomNumberofSubStat(GetRarity());
 
         for (int i = 0; i < randomNoSubStats; i++)
         {
@@ -51,11 +66,12 @@ public class Artifact : GachaItem
 
     private bool HasMaxedOutSubStats()
     {
-        return subStats.Count >= instance.ArtifactManagerSO.GetArtifactNumberofSubStat(GetRarity()).MaxNoOfStats;
+        return subStats.Count >= artifactManagerSO.GetArtifactNumberofSubStat(GetRarity()).MaxNoOfStats;
     }
 
     protected override void UpgradeItemAction()
     {
+        base.UpgradeItemAction();
         mainStat.Upgrade();
         if (amount % ARTIFACT_LEVEL_EVENT == 0 && amount != 0)
         {

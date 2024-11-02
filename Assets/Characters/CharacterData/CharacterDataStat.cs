@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ public class CharacterDataStat : IEntity, IEXP
     public delegate void OnElementChange(Elements element);
     public event OnElementChange OnElementEnter;
     public event OnElementChange OnElementExit;
+    public event EventHandler OnUpgradeIEXP;
+    public event EventHandler<IEntityEvents> OnIEntityChanged;
 
     public EffectManager effectManager { get; }
     public ArtifactEffectManager artifactEffectManager { get; private set; }
@@ -24,6 +27,7 @@ public class CharacterDataStat : IEntity, IEXP
     private float maxHealth;
     private float currentHealth;
     private int level;
+    private int maxlevel;
     private int currentEXP;
 
     public CharacterDataStat(CharactersSO charactersSO)
@@ -36,6 +40,7 @@ public class CharacterDataStat : IEntity, IEXP
         damageableEntitySO = charactersSO as DamageableEntitySO;
 
         level = 1;
+        maxlevel = 20;
         currentEXP = 0;
         currentHealth = maxHealth = 1000;
     }
@@ -176,9 +181,14 @@ public class CharacterDataStat : IEntity, IEXP
         return level;
     }
 
+    public int GetMaxLevel()
+    {
+        return maxlevel;
+    }
+
     public int GetCurrentExp()
     {
-        return 0;
+        return currentEXP;
     }
 
     public ItemEXPCostManagerSO GetExpCostSO()
@@ -186,7 +196,21 @@ public class CharacterDataStat : IEntity, IEXP
         return null;
     }
 
-    public void AddCurrentExp(int exp)
+    public void SetCurrentExp(int exp)
     {
+    }
+
+    public void Upgrade()
+    {
+        OnUpgradeIEXP?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SetNewStatus(bool status)
+    {
+    }
+
+    public IEntity GetIEntity()
+    {
+        return this;
     }
 }

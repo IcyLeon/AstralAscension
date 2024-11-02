@@ -24,8 +24,7 @@ public class PartyMembersUIManager : MonoBehaviour
 
     private void CharacterManager_OnCharacterStorageOld(CharacterStorage CharacterStorage)
     {
-        PartySetupManager p = CharacterStorage.PartySetupManager;
-        p.OnCurrentPartyChanged -= PartySetupManager_OnCurrentPartyChanged;
+        CharacterStorage.PartySetupManager.OnCurrentPartyChanged -= PartySetupManager_OnCurrentPartyChanged;
     }
 
 

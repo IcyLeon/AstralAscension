@@ -21,7 +21,7 @@ public class ItemEquipDisplay : MonoBehaviour
         if (playerCharactersSO == null)
             return;
 
-        EquipTxt.text = "Equipped: " + playerCharactersSO.characterName;
-        PartyIconImage.sprite = playerCharactersSO.partyCharacterIcon;
+        EquipTxt.text = "Equipped: " + playerCharactersSO.GetName();
+        PartyIconImage.sprite = playerCharactersSO.GetIcon();
     }
 }

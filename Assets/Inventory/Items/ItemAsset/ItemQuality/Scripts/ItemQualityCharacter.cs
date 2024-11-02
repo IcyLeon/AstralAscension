@@ -14,13 +14,6 @@ public class ItemQualityCharacter : ItemQualityIEntity
         }
     }
 
-    public override void SetIEntity(IEntity entity)
-    {
-        base.SetIEntity(entity);
-        UpdateVisual();
-    }
-
-
     protected override void UpdateVisual()
     {
         UpdateDisplayText("Lv." + playableCharacterDataStat.GetLevel());

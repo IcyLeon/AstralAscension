@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -80,12 +79,7 @@ public class EquipAction : MonoBehaviour
         if (upgradableItems == null)
             return;
 
-        upgradableItems.OnItemChanged -= UpgradableItems_OnItemChanged;
-    }
-
-    private void UpgradableItems_OnItemChanged(object sender, System.EventArgs e)
-    {
-        UpdateVisuals();
+        upgradableItems.OnIEntityChanged -= UpgradableItems_OnIEntityChanged;
     }
 
     private void SubscribeEvents()
@@ -93,7 +87,12 @@ public class EquipAction : MonoBehaviour
         if (upgradableItems == null)
             return;
 
-        upgradableItems.OnItemChanged += UpgradableItems_OnItemChanged;
+        upgradableItems.OnIEntityChanged += UpgradableItems_OnIEntityChanged;
+        UpdateVisuals();
+    }
+
+    private void UpgradableItems_OnIEntityChanged(object sender, IEntityEvents e)
+    {
         UpdateVisuals();
     }
 

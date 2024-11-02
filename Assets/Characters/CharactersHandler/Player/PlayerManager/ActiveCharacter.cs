@@ -14,12 +14,16 @@ public class ActiveCharacter : MonoBehaviour
 
     private Player player;
 
+    private Dictionary<CharactersSO, PlayableCharacters> charactersList;
     private CharacterDataStat currentPlayableCharacterData;
+    private PartySetupManager partySetupManager;
 
-    private CharacterStorage characterStorage;
+
+    [SerializeField] CharactersSO[] TestCharacters;
 
     private void Awake()
     {
+        charactersList = new();
         OnCharacterStorageNew += ActiveCharacter_OnCharacterStorageNew;
         OnCharacterStorageOld += ActiveCharacter_OnCharacterStorageOld;
 
@@ -35,55 +39,46 @@ public class ActiveCharacter : MonoBehaviour
 
     private void ActiveCharacter_OnCharacterStorageOld(CharacterStorage CharacterStorage)
     {
+        CharacterStorage.PartySetupManager.OnCurrentPartyChanged -= P_OnCurrentPartyChanged;
     }
 
     private void ActiveCharacter_OnCharacterStorageNew(CharacterStorage CharacterStorage)
     {
-        characterStorage = CharacterStorage;
-        if (characterStorage != null)
+        if (CharacterStorage != null)
         {
-        }
-        else
-        {
-            Debug.LogError("Missing CharacterStorage reference!");
+            partySetupManager = CharacterStorage.PartySetupManager;
+            partySetupManager.OnCurrentPartyChanged += P_OnCurrentPartyChanged;
         }
     }
 
-    public PlayableCharacters GetPlayableCharacters(CharacterDataStat c)
+    private void P_OnCurrentPartyChanged(object sender, System.EventArgs e)
     {
-        foreach (var p in GetAllPlayableCharacters())
-        {
-            if (p.GetCharacterDataStat() == c)
-                return p;
-        }
-        return null;
     }
 
     // Start is called before the first frame update
     private void Start()
     {
         player.PlayerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
-        InitExistingCharacters();
+        TestExistingCharacters();
     }
 
-    private void InitExistingCharacters()
+
+    private void TestExistingCharacters()
     {
-        if (characterStorage == null || characterStorage.PartySetupManager == null)
-            return;
-
-        PlayableCharacters[] pcList = GetAllPlayableCharacters();
-        for (int i = 0; i < pcList.Length; i++)
+        for (int i = 0; i < TestCharacters.Length; i++)
         {
-            PlayableCharacters pc = pcList[i];
-            characterStorage.AddCharacterData(pc.GetCharacterDataStat());
-            characterStorage.PartySetupManager.AddMember(pc.GetCharacterDataStat(), 0);
+            PlayableCharacters dc = Instantiate(TestCharacters[i].CharacterPrefab, transform).GetComponent<PlayableCharacters>();
+
+            if (dc == null)
+                continue;
+
+            dc.gameObject.SetActive(false);
+            partySetupManager.characterStorage.AddCharacterData(dc.GetCharacterDataStat());
+            partySetupManager.AddMember(dc.GetCharacterDataStat(), 0);
+            charactersList.Add(dc.CharacterSO, dc);
         }
 
-        PlayableCharacters existPlayableCharacters = GetComponentInChildren<PlayableCharacters>();
-        if (existPlayableCharacters != null)
-        {
-            SwitchCharacter(existPlayableCharacters.GetCharacterDataStat(), false);
-        }
+        SwitchCharacter(partySetupManager.GetCurrentPartyMembers()[0], false);
     }
 
 
@@ -91,17 +86,12 @@ public class ActiveCharacter : MonoBehaviour
     {
         int.TryParse(obj.control.name, out int numKeyValue);
 
-        if (numKeyValue > MAX_EQUIP_CHARACTERS || characterStorage == null)
+        if (numKeyValue > MAX_EQUIP_CHARACTERS || partySetupManager == null)
             return;
 
         int actualValue = numKeyValue - 1;
 
         SwitchCharacter(actualValue);
-    }
-
-    public PlayableCharacters[] GetAllPlayableCharacters()
-    {
-        return GetComponentsInChildren<PlayableCharacters>(true);
     }
 
     public bool CanSwitchCharacter(PlayableCharacters pc)
@@ -114,10 +104,10 @@ public class ActiveCharacter : MonoBehaviour
 
     private void SwitchCharacter(int index, bool playSwitchSound = true)
     {
-        if (characterStorage == null)
+        if (partySetupManager == null)
             return;
 
-        List<CharacterDataStat> list = characterStorage.PartySetupManager.GetCurrentPartyMembers();
+        List<CharacterDataStat> list = partySetupManager.GetCurrentPartyMembers();
 
         if (index >= list.Count)
             return;
@@ -125,12 +115,20 @@ public class ActiveCharacter : MonoBehaviour
         SwitchCharacter(list[index], playSwitchSound);
     }
 
+    private PlayableCharacters GetPlayableCharacter(CharacterDataStat CharacterDataStat)
+    {
+        if (CharacterDataStat == null || CharacterDataStat.damageableEntitySO == null ||
+            !charactersList.ContainsKey(CharacterDataStat.damageableEntitySO))
+            return null;
+
+        return charactersList[CharacterDataStat.damageableEntitySO];
+    }
     private void SwitchCharacter(CharacterDataStat PlayableCharacterDataStat, bool playSwitchSound = true)
     {
         if (PlayableCharacterDataStat == null || currentPlayableCharacterData == PlayableCharacterDataStat)
             return;
 
-        PlayableCharacters currentPlayableCharacter = GetPlayableCharacters(currentPlayableCharacterData);
+        PlayableCharacters currentPlayableCharacter = GetPlayableCharacter(currentPlayableCharacterData);
 
         if (currentPlayableCharacterData != null)
         {
@@ -142,7 +140,7 @@ public class ActiveCharacter : MonoBehaviour
         }
 
         currentPlayableCharacterData = PlayableCharacterDataStat;
-        currentPlayableCharacter = GetPlayableCharacters(currentPlayableCharacterData);
+        currentPlayableCharacter = GetPlayableCharacter(currentPlayableCharacterData);
         currentPlayableCharacter.gameObject.SetActive(true);
         OnPlayerCharacterSwitch?.Invoke(currentPlayableCharacterData, currentPlayableCharacter);
 
@@ -157,8 +155,9 @@ public class ActiveCharacter : MonoBehaviour
         OnCharacterStorageNew -= ActiveCharacter_OnCharacterStorageNew;
         PartyMemberContent.PartyMemberClick -= PartyMemberContent_PartyMemberClick;
         OnCharacterStorageOld -= ActiveCharacter_OnCharacterStorageOld;
-        if (characterStorage != null)
+        if (partySetupManager != null)
         {
+            partySetupManager.OnCurrentPartyChanged -= P_OnCurrentPartyChanged;
         }
 
         player.PlayerController.playerInputAction.SwitchCharacters.performed -= SwitchCharacters_performed;

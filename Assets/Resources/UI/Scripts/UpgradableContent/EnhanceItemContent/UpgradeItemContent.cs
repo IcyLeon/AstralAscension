@@ -7,7 +7,7 @@ public class UpgradeItemContent : MonoBehaviour
 {
     private EnhancementPanel[] EnhancementPanels;
 
-    public IItem iItem { get; private set; }
+    public IEXP iEXPEntity { get; private set; }
 
     public event EventHandler OnUpgradableItemChanged;
 
@@ -21,11 +21,11 @@ public class UpgradeItemContent : MonoBehaviour
         }
     }
 
-    public void SetIItem(IItem IItem)
+    public void SetIItem(IEXP IExpEntity)
     {
-        iItem = IItem;
+        iEXPEntity = IExpEntity;
 
-        gameObject.SetActive(iItem != null);
+        gameObject.SetActive(iEXPEntity != null);
 
         OnUpgradableItemChanged?.Invoke(this, EventArgs.Empty);
     }

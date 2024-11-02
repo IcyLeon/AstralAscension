@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static AssetManager;
 
 public class ItemContentDisplay : MonoBehaviour
 {
@@ -13,10 +14,8 @@ public class ItemContentDisplay : MonoBehaviour
     }
 
     private ObjectPool<MonoBehaviour> starPool;
-
+    private ItemManagerSO ItemAssetManagerSO;
     public event EventHandler<ItemContentEvent> OnItemContentDisplayChanged;
-
-    [field: SerializeField] public ItemManagerSO ItemManagerSO { get; private set; }
 
     [Header("Base Item Information")]
     [SerializeField] private TextMeshProUGUI ItemNameTxt;
@@ -27,7 +26,7 @@ public class ItemContentDisplay : MonoBehaviour
 
     [Header("Upgradable Item Information")]
     [SerializeField] private GameObject LevelContent;
-    [SerializeField] private LockItem UpgradableItemLockItem;
+    [SerializeField] private LockItem LockItem;
     [SerializeField] private TextMeshProUGUI LevelTxt;
     [SerializeField] private ItemEquipDisplay ItemEquipDisplay;
 
@@ -35,29 +34,55 @@ public class ItemContentDisplay : MonoBehaviour
 
     private ItemContentInformation[] ItemContentInformations;
 
-    private void Awake()
+    private void InitAssetManager()
+    {
+        if (ItemAssetManagerSO != null)
+            return;
+
+        ItemAssetManagerSO = instance.ItemAssetManagerSO;
+    }
+
+    private void Start()
     {
         Init();
     }
 
     private void Init()
     {
-        InitStarPool();
+        if (ItemContentInformations != null)
+            return;
 
-        if (ItemContentInformations == null)
-        {
-            ItemContentInformations = GetComponentsInChildren<ItemContentInformation>(true);
-        }
+        ItemContentInformations = GetComponentsInChildren<ItemContentInformation>(true);
+        InitAssets();
+    }
+
+    private void InitAssets()
+    {
+        InitAssetManager();
+        InitStarPool();
     }
 
     // Update is called once per frame
-    private void UpdateVisual()
+    private void UpdateSubInformationVisuals()
     {
         if (iItem == null)
             return;
 
-        UpdateUpgradableItemsVisual();
+        foreach (var ItemContentInformation in ItemContentInformations)
+        {
+            ItemContentInformation.UpdateItemContentInformation(iItem);
+        }
+    }
+
+
+    private void UpdateIItemVisual()
+    {
+        if (iItem == null)
+            return;
+
         UpdateStars();
+
+        LockItem.SetIItem(iItem);
 
         ItemNameTxt.text = iItem.GetName();
         ItemTypeTxt.text = iItem.GetTypeSO().ItemType;
@@ -72,18 +97,10 @@ public class ItemContentDisplay : MonoBehaviour
         });
     }
 
-
     private void UpdateUpgradableItemsVisual()
     {
-        foreach (var ItemContentInformation in ItemContentInformations)
-        {
-            ItemContentInformation.UpdateItemContentInformation(iItem);
-        }
-
         UpgradableItems UpgradableItems = iItem as UpgradableItems;
         LevelContent.SetActive(UpgradableItems != null);
-
-        UpgradableItemLockItem.SetUpgradableItem(UpgradableItems);
 
         if (ItemEquipDisplay != null)
             ItemEquipDisplay.UpdateVisual(UpgradableItems);
@@ -99,7 +116,7 @@ public class ItemContentDisplay : MonoBehaviour
         if (starPool != null || StarContainerTransform == null)
             return;
 
-        starPool = new ObjectPool<MonoBehaviour>(ItemManagerSO.StarPrefab, StarContainerTransform, 5);
+        starPool = new ObjectPool<MonoBehaviour>(ItemAssetManagerSO.StarPrefab, StarContainerTransform, 5);
     }
 
     private void UpdateStars()
@@ -107,14 +124,15 @@ public class ItemContentDisplay : MonoBehaviour
         if (StarContainerTransform == null)
             return;
 
-        InitStarPool();
+        InitAssets();
         starPool.ResetAll();
+
         for (int i = 0; i <= (int)iItem.GetRarity(); i++)
         {
             starPool.GetPooledObject();
         }
     }
-    public void SetInterfaceItem(IItem IItem)
+    public void SetIItem(IItem IItem)
     {
         if (iItem == IItem)
             return;
@@ -122,32 +140,45 @@ public class ItemContentDisplay : MonoBehaviour
         Init();
         UnsubscribeItemEvent();
         iItem = IItem;
+
+        UpdateIItemVisual();
+        UpdateSubInformationVisuals();
+
         SubscribeItemEvent();
     }
 
     private void UnsubscribeItemEvent()
     {
-        Item item = iItem as Item;
-        if (item == null)
+        IEntity iEntity = iItem as IEntity;
+
+        if (iEntity == null)
             return;
 
-        item.OnItemChanged -= Item_OnItemChanged;
-    }
-
-    private void Item_OnItemChanged(object sender, System.EventArgs e)
-    {
-        UpdateUpgradableItemsVisual();
+        iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
+        iEntity.OnIEntityChanged -= UpgradableItem_OnIEntityChanged;
     }
 
     private void SubscribeItemEvent()
     {
-        Item item = iItem as Item;
+        IEntity iEntity = iItem as IEntity;
 
-        if (item == null)
+        if (iEntity == null)
             return;
 
-        item.OnItemChanged += Item_OnItemChanged;
-        UpdateVisual();
+        iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
+        iEntity.OnIEntityChanged += UpgradableItem_OnIEntityChanged;
+
+        UpdateUpgradableItemsVisual();
+    }
+
+    private void UpgradableItem_OnIEntityChanged(object sender, IEntityEvents e)
+    {
+        UpdateUpgradableItemsVisual();
+    }
+
+    private void IEntity_OnIEntityChanged(object sender, IEntityEvents e)
+    {
+        UpdateSubInformationVisuals();
     }
 
     private void OnDestroy()

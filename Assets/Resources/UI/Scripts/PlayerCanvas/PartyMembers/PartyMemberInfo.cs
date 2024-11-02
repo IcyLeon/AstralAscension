@@ -20,8 +20,8 @@ public class PartyMemberInfo : MonoBehaviour
             if (playableCharacterDataStat == null)
                 return;
 
-            NameTxt.text = characterDataStat.damageableEntitySO.characterName;
-            PartyIconImage.sprite = playableCharacterDataStat.playerCharactersSO.partyCharacterIcon;
+            NameTxt.text = characterDataStat.damageableEntitySO.GetName();
+            PartyIconImage.sprite = playableCharacterDataStat.playerCharactersSO.PartyCharacterIcon;
 
             Healthbar_Characters.SetCharacterDataStat(characterDataStat);
         }

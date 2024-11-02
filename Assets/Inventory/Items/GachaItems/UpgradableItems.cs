@@ -3,19 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradableItems : Item, IEXP
+public abstract class UpgradableItems : Item, IEXP
 {
     public CharactersSO equipByCharacter { get; private set; }
     private ItemEXPCostManagerSO expCostManagerSO;
     private int currentEXP;
     public bool locked { get; private set; }
-    public int maxLevel { get; protected set; }
+    protected int maxLevel;
+
+    public event EventHandler OnUpgradeIEXP;
+
     public UpgradableItems(IItem iItem) : base(iItem)
     {
+        OnCreateUpgradableItem();
         expCostManagerSO = InitItemEXPCostManagerSO();
         locked = false;
-
         maxLevel = 20;
+    }
+    protected virtual void OnCreateUpgradableItem()
+    {
+    }
+
+    public int GetMaxLevel()
+    {
+        return maxLevel;
     }
 
     protected virtual ItemEXPCostManagerSO InitItemEXPCostManagerSO()
@@ -31,19 +42,18 @@ public class UpgradableItems : Item, IEXP
 
     public bool IsMax()
     {
-        return amount >= maxLevel;
+        return GetLevel() >= GetMaxLevel();
     }
 
     public void Upgrade()
     {
         if (IsMax())
-        {
             return;
-        }
 
         amount++;
         UpgradeItemAction();
         CallOnItemChanged();
+        OnUpgradeIEXP?.Invoke(this, EventArgs.Empty);
     }
 
     public override void AddAmount(int amount)
@@ -89,9 +99,14 @@ public class UpgradableItems : Item, IEXP
         return expCostManagerSO;
     }
 
-    public void AddCurrentExp(int exp)
+    public void SetCurrentExp(int exp)
     {
-        currentEXP += exp;
+        currentEXP = exp;
         currentEXP = Mathf.Max(currentEXP, 0);
+    }
+
+    public IEntity GetIEntity()
+    {
+        return this;
     }
 }

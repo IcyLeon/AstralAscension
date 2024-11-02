@@ -23,6 +23,7 @@ public class DamageManager : MonoBehaviour
 
     private void Awake()
     {
+        Init();
         OnDamageTextSend += DamageManager_OnDamageHit;
     }
 
@@ -40,20 +41,6 @@ public class DamageManager : MonoBehaviour
         }
 
         damageText.SetDamageTextValue(e.DamageText, e.WorldPosition, color);
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-    }
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
-    }
-
-    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
-    {
-        Init();
     }
 
     private void Init()

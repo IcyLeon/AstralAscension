@@ -6,22 +6,57 @@ using UnityEngine.UI;
 public class EquipIcon : MonoBehaviour
 {
     [SerializeField] private Image IconImage;
+    private UpgradableItems upgradableItem;
 
-    public void UpdateVisual(Item item)
+    public void SetIItem(IItem IItem)
     {
-        UpgradableItems upgradableItems = item as UpgradableItems;
-
-        gameObject.SetActive(upgradableItems != null);
-
-        if (upgradableItems == null)
+        UnsubscribeEvents();
+        upgradableItem = IItem as UpgradableItems;
+        SubscribeEvents();
+    }
+    private void SubscribeEvents()
+    {
+        if (upgradableItem == null)
             return;
 
-        PlayerCharactersSO playerCharactersSO = upgradableItems.equipByCharacter as PlayerCharactersSO;
+        upgradableItem.OnIEntityChanged += UpgradableItem_OnIEntityChanged;
+        UpdateVisual();
+    }
+
+    private void UpgradableItem_OnIEntityChanged(object sender, IEntityEvents e)
+    {
+        if (this == null)
+            return;
+
+        UpdateVisual();
+    }
+
+    private void UnsubscribeEvents()
+    {
+        if (upgradableItem == null)
+            return;
+
+        upgradableItem.OnIEntityChanged -= UpgradableItem_OnIEntityChanged;
+    }
+
+    private void UpdateVisual()
+    {
+        gameObject.SetActive(upgradableItem != null);
+
+        if (upgradableItem == null)
+            return;
+
+        PlayerCharactersSO playerCharactersSO = upgradableItem.equipByCharacter as PlayerCharactersSO;
         gameObject.SetActive(playerCharactersSO != null);
 
         if (playerCharactersSO == null)
             return;
 
-        IconImage.sprite = playerCharactersSO.partyCharacterIcon;
+        IconImage.sprite = playerCharactersSO.GetIcon();
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
     }
 }

@@ -10,7 +10,7 @@ public class ArtifactSubStat : ArtifactStat
     {
         List<ArtifactSubStatsInfo> statList = new();
 
-        ArtifactSubStatsInfo[] artifactSubStatsInfoList = ArtifactManager.instance.ArtifactManagerSO.SubArtifactStatsInfoList;
+        ArtifactSubStatsInfo[] artifactSubStatsInfoList = artifact.artifactManagerSO.SubArtifactStatsInfoList;
 
         for (int i = 0; i < artifactSubStatsInfoList.Length; i++)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class KeqingState : SwordState
+public class KeqingState : SwordCharacterState
 {
     public KeqingState(CharacterStateMachine CharacterStateMachine) : base(CharacterStateMachine)
     {

@@ -120,7 +120,8 @@ public abstract class PlayerMovementState : IState
     {
         return playerStateMachine.playerData.movementInput == Vector2.zero
             || playerStateMachine.playerData.SpeedModifier == 0f
-            || IsSkillCasting() || playerStateMachine.PlayableCharacterStateMachine.IsAttacking();
+            || IsSkillCasting() 
+            || playerStateMachine.PlayableCharacterStateMachine.IsAttacking();
     }
     private void UpdatePhysicsMovement()
     {
@@ -178,7 +179,7 @@ public abstract class PlayerMovementState : IState
     {
         playerStateMachine.playerData.movementInput = playerStateMachine.player.PlayerController.playerInputAction.Movement.ReadValue<Vector2>();
         
-        if (playerStateMachine.playerData.movementInput.magnitude > 0)
+        if (playerStateMachine.playerData.movementInput != Vector2.zero)
             Movement_performed(playerStateMachine.playerData.movementInput);
     }
 
@@ -220,8 +221,8 @@ public abstract class PlayerMovementState : IState
     public virtual void Update()
     {
         OnDeadUpdate();
-        ReadMovement();
         UpdateRotation();
+        ReadMovement();
         BlendMovementAnimation();
     }
 }
