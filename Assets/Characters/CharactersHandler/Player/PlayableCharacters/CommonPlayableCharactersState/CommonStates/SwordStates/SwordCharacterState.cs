@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class SwordState : PlayerCharacterState
+public abstract class SwordCharacterState : PlayerCharacterState
 {
-    public SwordState(CharacterStateMachine CharacterStateMachine) : base(CharacterStateMachine)
+    public SwordCharacterState(CharacterStateMachine CharacterStateMachine) : base(CharacterStateMachine)
     {
     }
 

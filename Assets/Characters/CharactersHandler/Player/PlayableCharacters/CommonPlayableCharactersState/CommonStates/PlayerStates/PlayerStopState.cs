@@ -18,7 +18,7 @@ public class PlayerStopState : PlayerGroundedState
     {
         base.FixedUpdate();
 
-        playerStateMachine.SmoothRotateToTargetRotation();
+        SmoothRotateToTargetRotation();
 
         if (IsMovingHorizontal())
         {
@@ -34,6 +34,7 @@ public class PlayerStopState : PlayerGroundedState
         {
             return;
         }
+
         OnMove();
     }
 

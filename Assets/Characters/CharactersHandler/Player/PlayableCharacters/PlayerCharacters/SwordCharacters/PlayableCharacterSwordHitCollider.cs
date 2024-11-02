@@ -18,7 +18,7 @@ public class PlayableCharacterSwordHitCollider : MonoBehaviour
     [SerializeField] private Collider hitCollider;
     public event EventHandler<PlayableCharacterHitEvents> EntitySwordHitEvent;
 
-    private void Start()
+    private void Awake()
     {
         Source = GetComponentInParent<IDamageable>();
         hitCollider.enabled = false;

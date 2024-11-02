@@ -16,18 +16,17 @@ public abstract class ItemQualityButton : MonoBehaviour, IPointerClickHandler
     public Image RaycastImage { get; private set; }
     [field: SerializeField] public ItemQuality ItemQuality { get; private set; }
     public event EventHandler<ItemQualityEvents> OnItemQualityClick;
+    public IItem iItem { get; private set; }
 
     protected virtual void Awake()
     {
         RaycastImage = GetComponent<Image>();
     }
 
-    protected void SetInterfaceItem(IItem IItem)
+    public virtual void SetIItem(IItem IItem)
     {
-        if (ItemQuality == null)
-            return;
-
-        ItemQuality.SetInterfaceItem(IItem);
+        iItem = IItem;
+        ItemQuality.SetIItem(IItem);
     }
 
     protected virtual void OnDestroy()

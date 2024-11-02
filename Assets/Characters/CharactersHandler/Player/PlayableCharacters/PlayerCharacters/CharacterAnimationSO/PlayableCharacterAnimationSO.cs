@@ -9,35 +9,34 @@ public class PlayableCharacterAnimationSO : ScriptableObject
     [Serializable]
     public class ElementalStateHash
     {
-        public string elementalSkillParameter;
-        public string elementalBurstParameter;
+        [field: SerializeField] public string elementalSkillParameter { get; private set; }
+        [field: SerializeField] public string elementalBurstParameter { get; private set; }
     }
-
+   
     [Serializable]
     public class CommonPlayableCharacterHash
     {
-        [Header("Blending Movement")]
-        public string movementParameters;
+        [field: SerializeField, Header("Blending Movement")] public string movementParameters { get; private set; }
 
-        [Header("Entering State")]
-        public string groundParameter;
-        public string elementalStateParameter;
-        public string dashParameter;
-        public string fallParameter;
-        public string jumpParameter;
-        public string plungeParameter;
-        public string attackParameter;
-        public string stopParameter;
-        public string landParameter;
+        [field: SerializeField, Header("Entering State")] public string groundParameter { get; private set; }
+        [field: SerializeField] public string elementalStateParameter { get; private set; }
+        [field: SerializeField] public string dashParameter { get; private set; }
+        [field: SerializeField] public string fallParameter { get; private set; }
+        [field: SerializeField] public string jumpParameter { get; private set; }
+        [field: SerializeField] public string plungeParameter { get; private set; }
+        [field: SerializeField] public string attackParameter { get; private set; }
+        [field: SerializeField] public string stopParameter { get; private set; }
+        [field: SerializeField] public string landParameter { get; private set; }
+        [field: SerializeField] public string movingParameter { get; private set; }
+        [field: SerializeField] public string idleParameter { get; private set; }
 
-        [Header("Triggers")]
-        public ElementalStateHash elementalStateHash;
-        public string deadParameter;        
-        public string weakLandParameter;
-        public string hardLandParameter; 
-        public string plungeLandingParameter;
-        public string weakStopParameter;
-        public string strongStopParameter;
+        [field: SerializeField, Header("Triggers")] public ElementalStateHash elementalStateHash { get; private set; }
+        [field: SerializeField] public string deadParameter { get; private set; }
+        [field: SerializeField] public string weakLandParameter { get; private set; }
+        [field: SerializeField] public string hardLandParameter { get; private set; }
+        [field: SerializeField] public string plungeLandingParameter { get; private set; }
+        [field: SerializeField] public string weakStopParameter { get; private set; }
+        [field: SerializeField] public string strongStopParameter { get; private set; }
     }
 
     [field: SerializeField] public CommonPlayableCharacterHash CommonPlayableCharacterHashParameters { get; private set; }

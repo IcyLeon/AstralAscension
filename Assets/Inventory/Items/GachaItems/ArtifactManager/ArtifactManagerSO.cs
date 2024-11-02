@@ -19,11 +19,11 @@ public class ArtifactManagerSO : ScriptableObject
         [field: SerializeField] public ArtifactStatSO ArtifactStatSO { get; private set; }
         [field: SerializeField] public ArtifactStatsValue[] ArtifactStatsValue { get; private set; }
 
-        public ArtifactStatsValue GetArtifactStatsValue(Rarity rarity)
+        public ArtifactStatsValue GetArtifactStatsValue(Rarity Rarity)
         {
             foreach (var statInfo in ArtifactStatsValue)
             {
-                if (statInfo.ItemRaritySO.Rarity == rarity)
+                if (statInfo.ItemRaritySO.Rarity == Rarity)
                     return statInfo;
             }
             return null;
@@ -111,9 +111,9 @@ public class ArtifactManagerSO : ScriptableObject
     //    return null;
     //}
 
-    public int GetArtifactRandomNumberofSubStat(Rarity rarity)
+    public int GetArtifactRandomNumberofSubStat(Rarity Rarity)
     {
-        ArtifactNumberofStat artifactNumberofStat = GetArtifactNumberofSubStat(rarity);
+        ArtifactNumberofStat artifactNumberofStat = GetArtifactNumberofSubStat(Rarity);
 
         if (artifactNumberofStat == null)
             return 1;
@@ -128,11 +128,11 @@ public class ArtifactManagerSO : ScriptableObject
 
         return noOfStats;
     }
-    public ArtifactNumberofStat GetArtifactNumberofSubStat(Rarity rarity)
+    public ArtifactNumberofStat GetArtifactNumberofSubStat(Rarity Rarity)
     {
         foreach (var ArtifactNumberOfStat in ArtifactNumberOfStatList)
         {
-            if (ArtifactNumberOfStat.ItemRaritySO.Rarity == rarity)
+            if (ArtifactNumberOfStat.ItemRaritySO.Rarity == Rarity)
                 return ArtifactNumberOfStat;
         }
         return null;

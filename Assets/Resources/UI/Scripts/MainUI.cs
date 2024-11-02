@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class MainUI : MonoBehaviour
 {
-    public static MainUI instance { get; private set; }
     [field: SerializeField] public UpgradeItemContent UpgradeItemContent { get; private set; }
 
     private void Awake()
     {
-        instance = this;
     }
 
     // Start is called before the first frame update

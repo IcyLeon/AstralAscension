@@ -6,7 +6,8 @@ using UnityEngine;
 public abstract class Item : IEntity
 {
     public bool newStatus { get; private set; }
-    public event EventHandler OnItemChanged;
+    public event EventHandler<IEntityEvents> OnIEntityChanged;
+
     public IItem iItem { get; private set; }
     public int amount { get; protected set; }
 
@@ -33,7 +34,10 @@ public abstract class Item : IEntity
 
     protected void CallOnItemChanged()
     {
-        OnItemChanged?.Invoke(this, EventArgs.Empty);
+        OnIEntityChanged?.Invoke(this, new IEntityEvents
+        {
+            iEntity = this,
+        });
     }
 
     public string GetName()

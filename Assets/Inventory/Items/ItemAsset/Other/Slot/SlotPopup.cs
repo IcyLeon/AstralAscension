@@ -10,12 +10,11 @@ public class SlotPopup : MonoBehaviour
     [SerializeField] private ItemManagerSO ItemManagerSO;
     [SerializeField] private ScrollRect ScrollRect;
     [SerializeField] private ItemCard itemCard;
-    public event EventHandler<ItemQualityEvents> OnItemQualityClick;
 
     private SlotManager slotManager;
     private Dictionary<IEntity, ItemQualityIEntity> itemQualityDictionary;
 
-    private IItem iItemType;
+    private IItem iItem;
     private Inventory inventory;
 
     private void Awake()
@@ -31,16 +30,14 @@ public class SlotPopup : MonoBehaviour
 
         itemQualityDictionary = new();
 
-        InventoryManager IM = InventoryManager.instance;
-
-        if (IM == null)
+        if (InventoryManager.instance == null)
         {
             Debug.LogError("Inventory Manager not found!");
             return;
         }
 
-        InventoryManager_OnInventoryNew(IM.inventory);
-    }    
+        InventoryManager_OnInventoryNew(InventoryManager.instance.inventory);
+    }
 
     private void Start()
     {
@@ -66,7 +63,11 @@ public class SlotPopup : MonoBehaviour
 
     private void InventoryManager_OnInventoryNew(Inventory Inventory)
     {
+        if (inventory == Inventory)
+            return;
+
         inventory = Inventory;
+
         if (inventory != null)
         {
             inventory.OnItemAdd += Inventory_OnItemAdd;
@@ -80,22 +81,23 @@ public class SlotPopup : MonoBehaviour
         if (!itemQualityDictionary.TryGetValue(item, out ItemQualityIEntity itemQualityIEntity))
             return;
 
-        itemQualityIEntity.ItemQualitySelection.OnRemoveClick -= ItemQualitySelection_OnRemoveClick;
-        itemQualityIEntity.OnItemQualityClick -= OnSelectedItemQualityClick;
+        itemQualityIEntity.OnItemQualityClick -= OnSelectedItemQualityButton;
+        itemQualityIEntity.OnItemQualityClick -= OnAddItemQualityToSlot;
+        itemQualityIEntity.ItemQualitySelection.OnRemoveClick -= OnItemQualityRemove;
         Destroy(itemQualityIEntity.gameObject);
         itemQualityDictionary.Remove(item);
     }
 
     public void SetIItemType(IItem IItem)
     {
-        iItemType = IItem;
+        iItem = IItem;
         Init();
         UpdateVisual();
     }
 
-    private bool IsEquippedByCharacter(IEntity item)
+    private bool IsEquippedByCharacter(IEntity iEntity)
     {
-        UpgradableItems upgradableItems = item as UpgradableItems;
+        UpgradableItems upgradableItems = iEntity as UpgradableItems;
 
         if (upgradableItems == null)
             return false;
@@ -105,34 +107,31 @@ public class SlotPopup : MonoBehaviour
 
     private void Inventory_OnItemAdd(IEntity item)
     {
-        if (iItemType != null &&
-            iItemType.GetInterfaceItemReference().GetType() == item.GetInterfaceItemReference().GetType() &&
-            (itemQualityDictionary.ContainsKey(item) || 
-            item == iItemType ||
+        if (iItem != null &&
+            iItem.GetInterfaceItemReference().GetType() == item.GetInterfaceItemReference().GetType() &&
+            (itemQualityDictionary.ContainsKey(item) ||
+            item == iItem ||
             IsEquippedByCharacter(item)))
             return;
 
         GameObject go = Instantiate(ItemManagerSO.ItemQualityItemPrefab, ScrollRect.content);
         ItemQualityIEntity itemQualityIEntity = go.GetComponent<ItemQualityIEntity>();
-        itemQualityIEntity.SetIEntity(item);
-        itemQualityIEntity.OnItemQualityClick += OnSelectedItemQualityClick;
-        itemQualityIEntity.ItemQualitySelection.OnRemoveClick += ItemQualitySelection_OnRemoveClick;
+        itemQualityIEntity.SetIItem(item);
+        itemQualityIEntity.OnItemQualityClick += OnAddItemQualityToSlot;
+        itemQualityIEntity.OnItemQualityClick += OnSelectedItemQualityButton;
+        itemQualityIEntity.ItemQualitySelection.OnRemoveClick += OnItemQualityRemove;
         itemQualityDictionary.Add(item, itemQualityIEntity);
     }
 
-    private void ItemQualitySelection_OnRemoveClick(object sender, System.EventArgs e)
+    private void OnItemQualityRemove(object sender, ItemQualityEvents e)
     {
-        ItemQualitySelection itemQualitySelection = sender as ItemQualitySelection;
-
-        IEntity iEntity = itemQualitySelection.itemQualityIEntity.iEntity;
-
-        Slot slot = slotManager.Contains(iEntity);
+        Slot slot = slotManager.Contains(e.ItemQualityButton.iItem);
 
         if (slot != null)
         {
-            HideItemCard();
             slot.SetItemQualityButton(null);
-        }    
+            RevealItemCard(null);
+        }
     }
 
     public List<IEntity> GetItemList()
@@ -142,7 +141,7 @@ public class SlotPopup : MonoBehaviour
         if (itemQualityDictionary == null)
             return itemList;
 
-        foreach(var itemKeyPair in itemQualityDictionary)
+        foreach (var itemKeyPair in itemQualityDictionary)
         {
             itemList.Add(itemKeyPair.Key);
         }
@@ -168,41 +167,24 @@ public class SlotPopup : MonoBehaviour
 
     private void SlotManager_OnSlotItemAdd(object sender, SlotItemEvent e)
     {
-        Item item = e.iEntity as Item;
+        RevealItemCard(e.slot.itemQualityButton);
 
-        if (item == null)
+        ItemQualityIEntity ItemQualityIEntity = GetItemQualityIEntity(e.iEntity);
+
+        if (ItemQualityIEntity == null)
             return;
 
-        if (itemQualityDictionary.ContainsKey(item))
-        {
-            SelectedItemQuality(itemQualityDictionary[item]);
-            RevealItemCard(itemQualityDictionary[item]);
-        }
-    }
-
-    private void SelectedItemQuality(ItemQualityIEntity ItemQualityIEntity)
-    {
         ItemQualityIEntity.ItemQualitySelection.RevealSelection();
-
-        ItemQualityItem itemQualityItem = ItemQualityIEntity as ItemQualityItem;
-
-        if (itemQualityItem == null)
-            return;
-
-        itemQualityItem.HideNewStatus();
     }
 
     private void SlotManager_OnSlotItemRemove(object sender, SlotItemEvent e)
     {
-        Item item = e.iEntity as Item;
+        ItemQualityIEntity ItemQualityIEntity = GetItemQualityIEntity(e.iEntity);
 
-        if (item == null)
+        if (ItemQualityIEntity == null)
             return;
 
-        if (itemQualityDictionary.ContainsKey(item))
-        {
-            itemQualityDictionary[item].ItemQualitySelection.HideSelection();
-        }
+        ItemQualityIEntity.ItemQualitySelection.HideSelection();
     }
 
     private void UnSubscribeEvents()
@@ -217,33 +199,45 @@ public class SlotPopup : MonoBehaviour
 
     private void SlotManager_OnSlotSelected(object sender, SlotEvent e)
     {
-        Slot slot = e.slot;
-        RevealItemCard(slot.itemQualityButton);
-        gameObject.SetActive(slot != null);
+        RevealItemCard(e.slot.itemQualityButton);
+    }
+
+    private ItemQualityIEntity GetItemQualityIEntity(IEntity iEntity)
+    {
+        if (!itemQualityDictionary.ContainsKey(iEntity))
+            return null;
+
+        return itemQualityDictionary[iEntity];
     }
 
     private void RevealItemCard(ItemQualityButton ItemQualityButton)
     {
-        gameObject.SetActive(ItemQualityButton != null);
+        gameObject.SetActive(true);
 
         if (ItemQualityButton == null)
         {
-            HideItemCard();
+            itemCard.SetIItem(null);
             return;
         }
 
-        itemCard.SetInterfaceItem(ItemQualityButton.ItemQuality.iItem);
-    }
-    private void HideItemCard()
-    {
-        itemCard.SetInterfaceItem(null);
+        itemCard.SetIItem(ItemQualityButton.iItem);
     }
 
-    private void OnSelectedItemQualityClick(object sender, ItemQualityEvents e)
+    private void OnSelectedItemQualityButton(object sender, ItemQualityEvents e)
     {
         RevealItemCard(e.ItemQualityButton);
-        OnItemQualityClick?.Invoke(sender, e);
     }
+
+    private void OnAddItemQualityToSlot(object sender, ItemQualityEvents e)
+    {
+        IEntity iEntity = e.ItemQualityButton.iItem as IEntity;
+
+        if (!slotManager.CanManualAdd(iEntity))
+            return;
+
+        slotManager.TryAddEntityToAvailableSlot(iEntity);
+    }
+
 
     private void UpdateVisual()
     {

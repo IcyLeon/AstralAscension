@@ -57,7 +57,7 @@ public abstract class PlayerGroundedState : PlayerMovementState
         if (!IsSkillCasting())
             return;
 
-        Exit();
+        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
     }
 
     public override void Update()
@@ -76,6 +76,9 @@ public abstract class PlayerGroundedState : PlayerMovementState
 
     protected virtual void OnAttackUpdate()
     {
+        if (IsSkillCasting())
+            return;
+
         if (!playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
             return;
 
@@ -84,6 +87,9 @@ public abstract class PlayerGroundedState : PlayerMovementState
 
     protected void OnMove()
     {
+        if (IsSkillCasting())
+            return;
+
         if (playerStateMachine.playerData.canSprint)
         {
             playerStateMachine.ChangeState(playerStateMachine.playerSprintState);

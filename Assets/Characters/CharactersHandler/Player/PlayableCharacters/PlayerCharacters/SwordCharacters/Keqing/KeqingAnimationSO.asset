@@ -13,25 +13,27 @@ MonoBehaviour:
   m_Name: KeqingAnimationSO
   m_EditorClassIdentifier: 
   <CommonPlayableCharacterHashParameters>k__BackingField:
-    movementParameters: Velocity
-    groundParameter: isGrounded
-    elementalStateParameter: isEState
-    dashParameter: isDashing
-    fallParameter: isFalling
-    jumpParameter: isJumping
-    plungeParameter: isPlunging
-    attackParameter: isAttacking
-    stopParameter: isStopping
-    landParameter: isLanding
-    elementalStateHash:
-      elementalSkillParameter: ESkill
-      elementalBurstParameter: EBurst
-    deadParameter: Dead
-    weakLandParameter: WeakLand
-    hardLandParameter: HardLand
-    plungeLandingParameter: PlungeLand
-    weakStopParameter: WeakStop
-    strongStopParameter: StrongStop
+    <movementParameters>k__BackingField: Velocity
+    <groundParameter>k__BackingField: isGrounded
+    <elementalStateParameter>k__BackingField: isEState
+    <dashParameter>k__BackingField: isDashing
+    <fallParameter>k__BackingField: isFalling
+    <jumpParameter>k__BackingField: isJumping
+    <plungeParameter>k__BackingField: isPlunging
+    <attackParameter>k__BackingField: isAttacking
+    <stopParameter>k__BackingField: isStopping
+    <landParameter>k__BackingField: isLanding
+    <movingParameter>k__BackingField: isMoving
+    <idleParameter>k__BackingField: isIdling
+    <elementalStateHash>k__BackingField:
+      <elementalSkillParameter>k__BackingField: ESkill
+      <elementalBurstParameter>k__BackingField: EBurst
+    <deadParameter>k__BackingField: Dead
+    <weakLandParameter>k__BackingField: WeakLand
+    <hardLandParameter>k__BackingField: HardLand
+    <plungeLandingParameter>k__BackingField: PlungeLand
+    <weakStopParameter>k__BackingField: WeakStop
+    <strongStopParameter>k__BackingField: StrongStop
   <aimParameter>k__BackingField: isAiming
   <throwParameter>k__BackingField: Throw
   <elementalSkillSlashParameter>k__BackingField: ESkillSlash

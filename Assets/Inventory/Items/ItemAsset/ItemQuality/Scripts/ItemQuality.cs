@@ -5,15 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using static AssetManager;
 
 [DisallowMultipleComponent]
 public class ItemQuality : MonoBehaviour
 {
     private ObjectPool<MonoBehaviour> starPool;
+    private ItemManagerSO ItemAssetManagerSO;
+
     [SerializeField] private Transform StarContainer;
 
     [SerializeField] private TextMeshProUGUI DisplayText;
-    [SerializeField] private ItemManagerSO ItemManagerSO;
     [SerializeField] private Image ItemBackgroundImage;
     [SerializeField] private Image ItemImage;
 
@@ -21,10 +23,24 @@ public class ItemQuality : MonoBehaviour
 
     private void Awake()
     {
+        InitAssets();
+    }
+
+    private void InitAssets()
+    {
+        InitAssetManager();
         InitStarPool();
     }
 
-    public void SetInterfaceItem(IItem IItem)
+    private void InitAssetManager()
+    {
+        if (ItemAssetManagerSO != null)
+            return;
+
+        ItemAssetManagerSO = instance.ItemAssetManagerSO;
+    }
+
+    public void SetIItem(IItem IItem)
     {
         iItem = IItem;
         UpdateVisual();
@@ -35,7 +51,7 @@ public class ItemQuality : MonoBehaviour
         if (starPool != null)
             return;
 
-        starPool = new ObjectPool<MonoBehaviour>(ItemManagerSO.StarPrefab, StarContainer, 5);
+        starPool = new ObjectPool<MonoBehaviour>(ItemAssetManagerSO.StarPrefab, StarContainer, 5);
     }
 
     private void UpdateVisual()
@@ -43,15 +59,12 @@ public class ItemQuality : MonoBehaviour
         if (iItem == null)
             return;
 
-        ItemRaritySO itemRaritySO = ItemManagerSO.GetItemRarityInfomation(iItem.GetRarity());
-
-        if (itemRaritySO == null)
-            return;
-
-        InitStarPool();
-
+        InitAssets();
         starPool.ResetAll();
-        for (int i = 0; i <= (int)itemRaritySO.Rarity; i++)
+
+        ItemRaritySO itemRaritySO = ItemAssetManagerSO.GetItemRarityInfomation(iItem.GetRarity());
+
+        for (int i = 0; i <= (int)iItem.GetRarity(); i++)
         {
             starPool.GetPooledObject();
         }

@@ -13,7 +13,7 @@ public class ItemSO : ScriptableObject, IItem
 {
     [field: SerializeField, Header("Base Item Information")] public string ItemName { get; private set; }
     [field: SerializeField] public Sprite ItemSprite { get; private set; }
-    [field: SerializeField] public Rarity Rarity { get; private set; } = Rarity.ONE_STAR;
+    [field: SerializeField] public ItemRaritySO ItemRaritySO { get; private set; }
     [field: SerializeField, TextArea] public string ItemDescription { get; private set; }
     [field: SerializeField, Header("Item Type")] public ItemTypeSO ItemTypeSO { get; private set; }
 
@@ -39,7 +39,12 @@ public class ItemSO : ScriptableObject, IItem
 
     public Rarity GetRarity()
     {
-        return Rarity;
+        if (ItemRaritySO == null)
+        {
+            return Rarity.ONE_STAR;
+        }
+
+        return ItemRaritySO.Rarity;
     }
 
     public IItem GetInterfaceItemReference()

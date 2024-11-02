@@ -9,17 +9,17 @@ using UnityEngine.UI;
 public class EnhancementManager : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonMask;
-    [SerializeField] private Slider ExpSlider;
 
     [Header("Enhancement Reference")]
     [SerializeField] private EnhancementMaterialContainer EnhancementMaterialContainer;
     [SerializeField] private EnhanceStatsPanel EnhanceStatsPanel;
-    public IItem iItem { get; private set; }
+    public IEXP iEXPEntity { get; private set; }
     private EnhancePanel enhancePanel;
     private Coroutine enhancingCoroutine;
 
     public event EventHandler OnEnhanceItemChanged;
     public event EventHandler OnItemUpgrade;
+    public event EventHandler<UpgradeEvents> OnSlotItemChanged;
 
     private void Awake()
     {
@@ -31,24 +31,26 @@ public class EnhancementManager : MonoBehaviour
             enhancePanel.OnUpgradableItemChanged += EnhancePanel_OnUpgradableItemChanged;
             UpdateVisual();
         }
+
+        EnhancementMaterialContainer.OnSlotItemChanged += EnhancementMaterialContainer_OnSlotItemChanged;
+    }
+
+    private bool IsUpgrading()
+    {
+        return enhancingCoroutine != null;
+    }
+
+    private void EnhancementMaterialContainer_OnSlotItemChanged(object sender, UpgradeEvents e)
+    {
+        OnSlotItemChanged?.Invoke(sender, e);
     }
 
     private void EnhancementMaterialContainer_OnUpgradeClick(object sender, UpgradeEvents e)
     {
-        if (enhancingCoroutine != null)
+        if (IsUpgrading())
             return;
 
-        enhancingCoroutine = StartCoroutine(UpgradingEnumerator(1000));
-    }
-
-    private void AddExpToItem(int amount)
-    {
-        IEXP iEXPEntity = iItem as IEXP;
-
-        if (iEXPEntity == null)
-            return;
-
-        iEXPEntity.AddCurrentExp(amount);
+        enhancingCoroutine = StartCoroutine(UpgradingEnumerator(e.Exp));
     }
 
     private IEnumerator UpgradingEnumerator(int addExpAmount)
@@ -58,28 +60,20 @@ public class EnhancementManager : MonoBehaviour
 
         ButtonMask.SetActive(true);
 
-        IEXP iEXPEntity = iItem as IEXP;
-
         if (iEXPEntity == null)
         {
             enhancingCoroutine = null;
             yield break;
         }
 
-        AddExpToItem(addExpAmount);
+        iEXPEntity.SetCurrentExp(iEXPEntity.GetCurrentExp() + addExpAmount);
 
         do
         {
-            int requiredEXP = iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iItem.GetRarity());
+            UpdateEnhancingItem(iEXPEntity);
 
-            if (GetExpSliderValue() >= requiredEXP)
-            {
-                AddExpToItem(-requiredEXP);
-                UpgradeItem();
-            }
-
-            ExpSlider.value = Mathf.Lerp(ExpSlider.value, iEXPEntity.GetCurrentExp(),
-                elapseTime / (duration * 2f));
+            EnhanceStatsPanel.SetExpSliderValue(Mathf.Lerp(EnhanceStatsPanel.GetExpSliderValue(), iEXPEntity.GetCurrentExp(),
+                elapseTime / (duration * 2f)));
 
             elapseTime += Time.unscaledDeltaTime;
 
@@ -87,42 +81,28 @@ public class EnhancementManager : MonoBehaviour
 
         } while (elapseTime <= duration);
 
+        UpdateEnhancingItem(iEXPEntity);
+
         OnItemUpgrade?.Invoke(this, EventArgs.Empty);
         ButtonMask.SetActive(false);
         enhancingCoroutine = null;
     }
 
-    private void ResetExpSlider()
+    private void UpdateEnhancingItem(IEXP iEXPEntity)
     {
-        ExpSlider.value = 0f;
-    }
+        int requiredEXP = iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iEXPEntity.GetIEntity().GetRarity());
 
-    private void InitExpSliderValue()
-    {
-        IEXP iEXPEntity = iItem as IEXP;
-
-        if (iEXPEntity == null)
+        if (GetDisplayExpSliderValue() < requiredEXP)
             return;
 
-        ExpSlider.value = iEXPEntity.GetCurrentExp();
+        iEXPEntity.SetCurrentExp(iEXPEntity.GetCurrentExp() - requiredEXP);
+        iEXPEntity.Upgrade();
     }
 
-    private int GetExpSliderValue()
+
+    private int GetDisplayExpSliderValue()
     {
-        return Mathf.RoundToInt(ExpSlider.value);
-    }
-
-    private void UpgradeItem()
-    {
-        ResetExpSlider();
-        UpdateMaxSliderValue();
-
-        UpgradableItems upgradableItems = iItem as UpgradableItems;
-
-        if (upgradableItems == null)
-            return;
-
-        upgradableItems.Upgrade();
+        return Mathf.RoundToInt(EnhanceStatsPanel.GetExpSliderValue());
     }
 
     private void EnhancePanel_OnUpgradableItemChanged(object sender, System.EventArgs e)
@@ -130,29 +110,16 @@ public class EnhancementManager : MonoBehaviour
         UpdateVisual();
     }
 
-    private void UpdateMaxSliderValue()
-    {
-        IEXP iEXPEntity = iItem as IEXP;
-
-        if (iEXPEntity == null || iEXPEntity.GetExpCostSO() == null)
-            return;
-
-        ExpSlider.maxValue = iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iItem.GetRarity());
-    }
-
     private void UpdateVisual()
     {
-        iItem = enhancePanel.iItem;
-        EnhanceStatsPanel.SetInterfaceItem(iItem);
-        InitExpSliderValue();
-        UpdateMaxSliderValue();
+        iEXPEntity = enhancePanel.iEXPEntity;
         OnEnhanceItemChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnDestroy()
     {
         EnhancementMaterialContainer.OnUpgradeClick -= EnhancementMaterialContainer_OnUpgradeClick;
-
+        EnhancementMaterialContainer.OnSlotItemChanged -= EnhancementMaterialContainer_OnSlotItemChanged;
         if (enhancePanel != null)
         {
             enhancePanel.OnUpgradableItemChanged -= EnhancePanel_OnUpgradableItemChanged;

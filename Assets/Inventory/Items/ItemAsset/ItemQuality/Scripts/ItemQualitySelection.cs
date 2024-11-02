@@ -9,26 +9,41 @@ public class ItemQualitySelection : MonoBehaviour
 {
     [SerializeField] private Button RemoveBtn;
     public ItemQualityIEntity itemQualityIEntity { get; private set; }
-    public event EventHandler OnRemoveClick;
+    public event EventHandler<ItemQualityEvents> OnRemoveClick;
 
     private void Awake()
     {
-        itemQualityIEntity = GetComponentInParent<ItemQualityIEntity>(true);
+        Init();
         RemoveBtn.onClick.AddListener(OnRemove);
+    }
+
+    private void Init()
+    {
+        if (itemQualityIEntity != null)
+            return;
+
+        itemQualityIEntity = GetComponentInParent<ItemQualityIEntity>(true);
     }
 
     private void OnRemove()
     {
-        OnRemoveClick?.Invoke(this, EventArgs.Empty);
+        OnRemoveClick?.Invoke(this, new ItemQualityEvents
+        {
+            ItemQualityButton = itemQualityIEntity
+        });
     }
 
     public void RevealSelection()
     {
+        Init();
         gameObject.SetActive(true);
+
+        itemQualityIEntity.HideNewStatus();
     }
 
     public void HideSelection()
     {
+        Init();
         gameObject.SetActive(false);
     }
 }

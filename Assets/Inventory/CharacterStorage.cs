@@ -15,7 +15,7 @@ public class CharacterStorage
     {
         PlayableCharacterDataStat playableCharacterDataStat = c as PlayableCharacterDataStat;
 
-        if (playableCharacterDataStat == null || HasObtainedCharacter(playableCharacterDataStat.damageableEntitySO) != null)
+        if (playableCharacterDataStat == null || HasObtainedCharacter(c.damageableEntitySO) != null)
             return;
 
         playableCharacterStatList.Add(playableCharacterDataStat.playerCharactersSO, playableCharacterDataStat);

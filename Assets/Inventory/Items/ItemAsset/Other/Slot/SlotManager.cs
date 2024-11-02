@@ -37,25 +37,6 @@ public class SlotManager : MonoBehaviour
         SubscribeEvents();
     }
 
-    private void SlotPopup_OnItemQualityClick(object sender, ItemQualityEvents e)
-    {
-        IEntity iEntity = e.ItemQualityButton.ItemQuality.iItem as IEntity;
-
-        Slot availableSlot = GetAvailableSlot();
-
-        if (availableSlot != null && CanManualAdd(iEntity))
-        {
-            availableSlot.SetItemQualityButton(iEntity);
-        }
-    }
-
-    private bool CanManualAdd(IEntity iEntity)
-    {
-        UpgradableItems upgradableItems = iEntity as UpgradableItems;
-
-        return !Contains(iEntity) && !upgradableItems.locked;
-    }
-
     public void ResetAllSlots()
     {
         foreach(var slot in slotList)
@@ -71,6 +52,28 @@ public class SlotManager : MonoBehaviour
         });
     }
 
+    public bool TryAddEntityToAvailableSlot(IEntity IEntity)
+    {
+        Slot emptySlot = GetAvailableSlot();
+
+        if (emptySlot == null)
+        {
+            PopoutMessageManager.SendPopoutMessage(this, "Slots are fulled!");
+            return false;
+        }
+
+        emptySlot.SetItemQualityButton(IEntity);
+
+        return true;
+    }
+
+    public bool CanManualAdd(IItem iItem)
+    {
+        UpgradableItems upgradableItems = iItem as UpgradableItems;
+
+        return !Contains(iItem) && (upgradableItems == null || (upgradableItems != null && !upgradableItems.locked));
+    }
+
     private void OnDestroy()
     {
         UnSubscribeEvents();
@@ -78,8 +81,6 @@ public class SlotManager : MonoBehaviour
 
     private void UnSubscribeEvents()
     {
-        SlotPopup.OnItemQualityClick -= SlotPopup_OnItemQualityClick;
-
         if (slotList == null)
             return;
 
@@ -94,8 +95,6 @@ public class SlotManager : MonoBehaviour
     private void SubscribeEvents()
     {
         SlotPopup.SetSlotManager(this);
-
-        SlotPopup.OnItemQualityClick += SlotPopup_OnItemQualityClick;
 
         foreach (var slot in slotList)
         {
@@ -116,11 +115,11 @@ public class SlotManager : MonoBehaviour
     }
 
 
-    public Slot Contains(IEntity IEntity)
+    public Slot Contains(IItem iItem)
     {
         foreach (var slot in slotList)
         {
-            if (slot.itemQualityButton != null && slot.itemQualityButton.ItemQuality.iItem == IEntity)
+            if (slot.itemQualityButton != null && slot.itemQualityButton.iItem == iItem)
                 return slot;
         }
         return null;
@@ -134,14 +133,14 @@ public class SlotManager : MonoBehaviour
         {
             ItemQualityIEntity ItemQualityIEntity = slot.itemQualityButton;
 
-            if (ItemQualityIEntity != null && ItemQualityIEntity.iEntity != null)
+            if (ItemQualityIEntity != null)
                 ItemEntityList.Add(ItemQualityIEntity.iEntity);
         }
 
         return ItemEntityList;
     }
 
-    public Slot GetAvailableSlot()
+    private Slot GetAvailableSlot()
     {
         foreach (var slot in slotList)
         {
@@ -150,5 +149,10 @@ public class SlotManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public int GetTotalSlots()
+    {
+        return slotList.Length;
     }
 }

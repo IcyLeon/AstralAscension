@@ -12,21 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84aec40edc18fbc408f229e7d6ac2d3a, type: 3}
   m_Name: Bennett
   m_EditorClassIdentifier: 
-  <characterName>k__BackingField: Bennett
-  <characterDescription>k__BackingField: 
-  <characterIcon>k__BackingField: {fileID: 21300000, guid: 998682eb2b5f4b94d83ce302b21cc5bf,
+  <CharacterName>k__BackingField: Bennett
+  <CharacterDescription>k__BackingField: 
+  <CharacterIcon>k__BackingField: {fileID: 21300000, guid: 998682eb2b5f4b94d83ce302b21cc5bf,
     type: 3}
-  <characterTypeSO>k__BackingField: {fileID: 11400000, guid: 99b66ae9d6d450441841fc1e3f40622a,
+  <CharacterTypeSO>k__BackingField: {fileID: 11400000, guid: 99b66ae9d6d450441841fc1e3f40622a,
     type: 2}
+  <CharacterPrefab>k__BackingField: {fileID: 3545135287976817918, guid: d91ddd90c11a71a4cb8bcd2dcf08cf8a,
+    type: 3}
   <ElementSO>k__BackingField: {fileID: 11400000, guid: bc08167fa5d1d664d97e6e683b702f22,
     type: 2}
-  <Rarity>k__BackingField: 4
+  <CharacterRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+    type: 2}
   <AscensionInformation>k__BackingField: []
   <PlayableCharacterAnimationSO>k__BackingField: {fileID: 11400000, guid: 9127efd820acb2e449ccf6faa1959009,
     type: 2}
   <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 11400000, guid: c8acc20ec993bde45905780d7a777141,
     type: 2}
-  partyCharacterIcon: {fileID: 21300000, guid: 19e5553deef272c4bb7ee558df193ff9, type: 3}
-  ElementalSkillInfo: {fileID: 11400000, guid: f4a85518a3e7ab242ba7c0e7a6f7fc06, type: 2}
-  ElementalBurstInfo: {fileID: 11400000, guid: 71a5f2b624b54d94382bb2041e136998, type: 2}
+  PartyCharacterIcon: {fileID: 21300000, guid: 19e5553deef272c4bb7ee558df193ff9, type: 3}
+  <ElementalSkillInfo>k__BackingField: {fileID: 11400000, guid: f4a85518a3e7ab242ba7c0e7a6f7fc06,
+    type: 2}
+  <ElementalBurstInfo>k__BackingField: {fileID: 11400000, guid: 71a5f2b624b54d94382bb2041e136998,
+    type: 2}
   <BurstEnergyCost>k__BackingField: 10

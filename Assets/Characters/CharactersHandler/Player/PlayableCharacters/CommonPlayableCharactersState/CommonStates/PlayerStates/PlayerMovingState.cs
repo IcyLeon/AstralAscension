@@ -13,6 +13,12 @@ public class PlayerMovingState : PlayerGroundedState
 
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.movingParameter);
+    }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -28,5 +34,11 @@ public class PlayerMovingState : PlayerGroundedState
             OnStop();
             return;
         }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.movingParameter);
     }
 }

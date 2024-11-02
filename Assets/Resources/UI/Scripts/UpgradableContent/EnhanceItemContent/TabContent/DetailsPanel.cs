@@ -12,13 +12,13 @@ public class DetailsPanel : EnhancementPanel
     protected override void UpdateVisual()
     {
         base.UpdateVisual();
-        ItemCard.SetInterfaceItem(iItem);
+        ItemCard.SetIItem(iEXPEntity.GetIEntity());
         UpdateUpgradableItemVisual();
     }
 
     private void UpdateUpgradableItemVisual()
     {
-        UpgradableItems upgradableItems = iItem as UpgradableItems;
+        UpgradableItems upgradableItems = iEXPEntity as UpgradableItems;
 
         EquipCharacterIconImage.gameObject.SetActive(upgradableItems != null && upgradableItems.equipByCharacter != null);
 

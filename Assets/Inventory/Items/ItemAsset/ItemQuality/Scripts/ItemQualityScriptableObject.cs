@@ -8,17 +8,10 @@ public class ItemQualityScriptableObject : ItemQualityButton
 {
     [SerializeField] private ScriptableObject ItemScriptableObject;
 
-    public IItem iItem
-    {
-        get
-        {
-            return ItemScriptableObject as IItem;
-        }
-    }
 
     protected override void Awake()
     {
         base.Awake();
-        SetInterfaceItem(iItem);
+        SetIItem(ItemScriptableObject as IItem);
     }
 }

@@ -3,51 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class UpgradeAction : MonoBehaviour
 {
-    [SerializeField] private ItemContentDisplay ItemContentDisplay;
+    private ItemContentDisplay ItemContentDisplay;
     private UpgradeItemContent UpgradeItemContent;
-    private UpgradableItems upgradableItems;
+    private IEXP iEXPEntity;
     private Button UpgradeBtn;
+    private MainUI mainUI;
 
     private void Awake()
     {
+        mainUI = GetComponentInParent<MainUI>();
+
+        ItemContentDisplay = GetComponentInParent<ItemContentDisplay>();
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
 
         UpgradeBtn = GetComponent<Button>();
-
-        if (UpgradeBtn == null)
-            return;
-
         UpgradeBtn.onClick.AddListener(OnUpgrade);
+
+        UpdateVisuals();
     }
 
     private void Start()
     {
-        UpgradeItemContent = MainUI.instance.UpgradeItemContent;
-        SetIItem(ItemContentDisplay.iItem);
+        UpgradeItemContent = mainUI.UpgradeItemContent;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
     {
-        SetIItem(e.iItem);
-    }
-
-    private void SetIItem(IItem IItem)
-    {
-        upgradableItems = IItem as UpgradableItems;
         UpdateVisuals();
     }
 
     // Update is called once per frame
     private void OnUpgrade()
     {
-        UpgradeItemContent.SetIItem(upgradableItems);
+        UpgradeItemContent.SetIItem(iEXPEntity);
     }
 
     private void UpdateVisuals()
     {
-        gameObject.SetActive(upgradableItems != null);
+        iEXPEntity = ItemContentDisplay.iItem as IEXP;
+        gameObject.SetActive(iEXPEntity != null);
     }
 
     private void OnDestroy()

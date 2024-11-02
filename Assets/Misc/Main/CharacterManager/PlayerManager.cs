@@ -10,7 +10,10 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+
+        SpawnPlayer();
     }
 
     private void OnDestroy()
@@ -25,7 +28,6 @@ public class PlayerManager : MonoBehaviour
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        SpawnPlayer();
     }
 
 }

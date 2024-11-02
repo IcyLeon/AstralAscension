@@ -10,6 +10,7 @@ public class ItemEXPCostManagerSO : ScriptableObject
     public class ItemEXP
     {
         [field: SerializeField] public ItemRaritySO ItemRaritySO { get; private set; }
+        [field: SerializeField] public int BaseEnhancementEXP { get; private set; }
         [field: SerializeField] public int[] EXP { get; private set; }
     }
 
@@ -46,5 +47,36 @@ public class ItemEXPCostManagerSO : ScriptableObject
             return 0;
 
         return itemEXP.EXP[currentlevel];
+    }
+
+    public int GetTotalExpRequired(int currentlevel, Rarity rarity)
+    {
+        int totalExp = 0;
+
+        ItemEXP itemEXP = GetItemEXP(rarity);
+
+        if (itemEXP == null)
+        {
+            return totalExp;
+        }
+
+        for (int i = 0; i < currentlevel; i++)
+        {
+            totalExp += itemEXP.EXP[i];
+        }
+
+        return totalExp;
+    }
+
+    public int GetBaseEnhancementEXP(Rarity rarity)
+    {
+        ItemEXP itemEXP = GetItemEXP(rarity);
+
+        if (itemEXP == null)
+        {
+            return 0;
+        }
+
+        return itemEXP.BaseEnhancementEXP;
     }
 }

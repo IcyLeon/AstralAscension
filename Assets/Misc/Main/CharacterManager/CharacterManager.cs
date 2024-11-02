@@ -9,22 +9,11 @@ public class CharacterManager : MonoBehaviour
     public static CharacterManager instance { get; private set; }
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
-    [SerializeField] private CharacterDataSO[] CharacterDataSO;
 
     public CharacterStorage characterStorage { get; private set; }
 
     public delegate void OnCharacterStorageChanged(CharacterStorage CharacterStorage);
     public static event OnCharacterStorageChanged OnCharacterStorageOld, OnCharacterStorageNew;
-
-    public GameObject GetCharacterPrefab(CharactersSO charactersSO)
-    {
-        foreach(var characterDataSO in CharacterDataSO)
-        {
-            if (characterDataSO.charactersSO == charactersSO)
-                return characterDataSO.CharacterPrefab;
-        }
-        return null;
-    }
 
     private void SetCharacterStorage(CharacterStorage CharacterStorage)
     {
@@ -35,21 +24,6 @@ public class CharacterManager : MonoBehaviour
         OnCharacterStorageNew?.Invoke(characterStorage);
     }
 
-    //public void SpawnSavedCharacters(Transform parentTransform)
-    //{
-    //    if (characterStorage == null)
-    //        return;
-
-    //    foreach (var characterDataStat in characterStorage.playableCharacterStatList)
-    //    {
-    //        GameObject characterPrefab = GetCharacterPrefab(characterDataStat.Key);
-    //        if (characterPrefab != null)
-    //        {
-    //            IDamageable IDamageable = Instantiate(characterPrefab, parentTransform).GetComponent<IDamageable>();
-    //            IDamageable.SetCharacterDataStat(characterStorage.playableCharacterStatList[characterDataStat.Key]);
-    //        }
-    //    }
-    //}
 
     private void Awake()
     {
@@ -81,7 +55,8 @@ public class CharacterManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        characterStorage.OnDestroy();    
+        if (characterStorage != null)
+            characterStorage.OnDestroy();    
     }
 
     public static bool ContainsParam(Animator _Anim, string _ParamName)

@@ -6,96 +6,38 @@ using UnityEngine.UI;
 
 public class ItemQualityItem : ItemQualityIEntity
 {
-    [SerializeField] private Image NewImage;
     [SerializeField] private LockItem LockItem;
     [SerializeField] private EquipIcon EquipIcon;
-    private Item item
+    private Item item;
+
+    protected override void InitIEntity()
     {
-        get
-        {
-            return iEntity as Item;
-        }
-    }
+        base.InitIEntity();
 
-    protected override void Awake()
-    {
-        base.Awake();
-        OnItemQualityClick += ItemQualityItem_OnItemQualityClick;
-    }
+        LockItem.SetIItem(iItem);
+        EquipIcon.SetIItem(iItem);
 
-    private void ItemQualityItem_OnItemQualityClick(object sender, EventArgs e)
-    {
-        HideNewStatus();
-    }
-
-    public void HideNewStatus()
-    {
-        if (item == null || !item.newStatus)
-            return;
-
-        item.SetNewStatus(false);
-    }
-
-    private void OnDestroyItem()
-    {
-        if (item == null)
-            return;
-
-        item.OnItemChanged -= Item_OnItemChanged;
-    }
-
-    public override void SetIEntity(IEntity entity)
-    {
-        OnDestroyItem();
-
-        base.SetIEntity(entity);
-
-        if (item == null)
-            return;
-
-        item.OnItemChanged += Item_OnItemChanged;
-
-        UpdateVisual();
-    }
-
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        OnDestroyItem();
+        item = iItem as Item;
     }
 
     protected override void UpdateVisual()
     {
+        base.UpdateVisual();
+
         if (item == null)
             return;
 
-        string displayText = "";
+        UpdateDisplayText(DisplayAmountSymbol() + item.amount);
+    }
 
-        if (item is UpgradableItems)
+    private string DisplayAmountSymbol()
+    {
+        switch(item)
         {
-            displayText = "+";
+            case UpgradableItems upgradableItems:
+                return "+";
+            default:
+                return "";
         }
-
-        displayText += item.amount;
-
-        UpdateDisplayText(displayText);
-
-        NewImage.gameObject.SetActive(item.newStatus);
-
-        UpdateLockVisual();
-    }
-
-    private void Item_OnItemChanged(object sender, EventArgs e)
-    {
-        if (this == null)
-            return;
-
-        UpdateVisual();
-    }
-
-    private void UpdateLockVisual()
-    {
-        EquipIcon.UpdateVisual(item);
-        LockItem.SetUpgradableItem(item);
     }
 }

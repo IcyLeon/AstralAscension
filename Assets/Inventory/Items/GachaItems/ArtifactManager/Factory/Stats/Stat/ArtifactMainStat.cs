@@ -25,7 +25,7 @@ public class ArtifactMainStat : ArtifactStat
 
     public ArtifactMainStat(Artifact Artifact) : base(Artifact)
     {
-        artifactMainStatsTypeInfo = ArtifactManager.instance.ArtifactManagerSO.GetArtifactMainStatsTypeInfo(artifact.GetInterfaceItemReference().GetTypeSO());
+        artifactMainStatsTypeInfo = artifact.artifactManagerSO.GetArtifactMainStatsTypeInfo(artifact.GetInterfaceItemReference().GetTypeSO());
         statInfo = artifactMainStatsTypeInfo.GetRandomMainStats();
         Upgrade();
     }

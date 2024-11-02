@@ -5,8 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static DamageManager;
-using static UnityEditor.Rendering.FilterWindow;
-
 
 [DisallowMultipleComponent]
 public class ElementalReactionsManager : MonoBehaviour
