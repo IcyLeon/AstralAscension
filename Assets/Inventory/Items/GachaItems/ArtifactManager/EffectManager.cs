@@ -6,7 +6,7 @@ using UnityEngine;
 public class EffectManager
 {
     private List<BuffEffect> buffEffectList;
-    public event EventHandler<BuffEvent> OnBuffRemove;
+    public event Action<BuffEvent> OnBuffRemove;
 
     public EffectManager()
     {
@@ -19,7 +19,8 @@ public class EffectManager
             return;
 
         Debug.Log("Remove " + buffEffect.GetType());
-        OnBuffRemove?.Invoke(this, new BuffEvent { BuffEffect = buffEffect });
+
+        OnBuffRemove?.Invoke(new BuffEvent { BuffEffect = buffEffect });
     }
 
 
@@ -44,7 +45,7 @@ public class EffectManager
         return null;
     }
 
-    private void BuffEffect_OnBuffRemove(object sender, BuffEvent e)
+    private void BuffEffect_OnBuffRemove(BuffEvent e)
     {
         RemoveEffect(e.BuffEffect);
 

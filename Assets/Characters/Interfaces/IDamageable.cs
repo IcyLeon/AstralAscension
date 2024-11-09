@@ -5,6 +5,12 @@ public interface IKnockBack
 {
     void KnockBack(Vector3 force);
 }
+public interface IAttacker
+{
+    ElementsSO GetElementsSO();
+    float GetATK();
+    float GetEM();
+}
 
 public interface IDamageable : IAttacker
 {
@@ -27,9 +33,4 @@ public interface IDamageable : IAttacker
     public CharacterDataStat GetCharacterDataStat();
 }
 
-public interface IAttacker
-{
-    ElementsSO GetElementsSO();
-    float GetATK();
-    float GetEM();
-}
+

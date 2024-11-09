@@ -105,22 +105,21 @@ public class SlotPopup : MonoBehaviour
         return upgradableItems.equipByCharacter != null;
     }
 
-    private void Inventory_OnItemAdd(IEntity item)
+    private void Inventory_OnItemAdd(IEntity IEntity)
     {
         if (iItem != null &&
-            iItem.GetInterfaceItemReference().GetType() == item.GetInterfaceItemReference().GetType() &&
-            (itemQualityDictionary.ContainsKey(item) ||
-            item == iItem ||
-            IsEquippedByCharacter(item)))
+            iItem.GetType() == IEntity.GetIItem().GetType() &&
+            (itemQualityDictionary.ContainsKey(IEntity) ||
+            IEntity == iItem ||
+            IsEquippedByCharacter(IEntity)))
             return;
 
-        GameObject go = Instantiate(ItemManagerSO.ItemQualityItemPrefab, ScrollRect.content);
-        ItemQualityIEntity itemQualityIEntity = go.GetComponent<ItemQualityIEntity>();
-        itemQualityIEntity.SetIItem(item);
+        ItemQualityIEntity itemQualityIEntity = ItemManagerSO.CreateItemQualityItem(IEntity, ScrollRect.content);
+        itemQualityIEntity.SetIItem(IEntity);
         itemQualityIEntity.OnItemQualityClick += OnAddItemQualityToSlot;
         itemQualityIEntity.OnItemQualityClick += OnSelectedItemQualityButton;
         itemQualityIEntity.ItemQualitySelection.OnRemoveClick += OnItemQualityRemove;
-        itemQualityDictionary.Add(item, itemQualityIEntity);
+        itemQualityDictionary.Add(IEntity, itemQualityIEntity);
     }
 
     private void OnItemQualityRemove(object sender, ItemQualityEvents e)
@@ -232,7 +231,7 @@ public class SlotPopup : MonoBehaviour
     {
         IEntity iEntity = e.ItemQualityButton.iItem as IEntity;
 
-        if (!slotManager.CanManualAdd(iEntity))
+        if (!slotManager.CanManualAdd(iEntity.GetIItem()))
             return;
 
         slotManager.TryAddEntityToAvailableSlot(iEntity);

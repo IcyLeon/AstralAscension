@@ -17,8 +17,8 @@ public class CharacterDataStat : IEntity, IEXP
     public delegate void OnElementChange(Elements element);
     public event OnElementChange OnElementEnter;
     public event OnElementChange OnElementExit;
-    public event EventHandler OnUpgradeIEXP;
-    public event EventHandler<IEntityEvents> OnIEntityChanged;
+    public event Action OnUpgradeIEXP;
+    public event Action<IEntityEvents> OnIEntityChanged;
 
     public EffectManager effectManager { get; }
     public ArtifactEffectManager artifactEffectManager { get; private set; }
@@ -64,8 +64,6 @@ public class CharacterDataStat : IEntity, IEXP
     {
         if (iItem == null)
             return;
-
-        UnequipItem(iItem.GetTypeSO());
 
         UpgradableItems upgradableItem = iItem as UpgradableItems;
 
@@ -138,32 +136,32 @@ public class CharacterDataStat : IEntity, IEXP
 
     public string GetName()
     {
-        return damageableEntitySO.GetName();
+        return GetIItem().GetName();
     }
 
     public ItemTypeSO GetTypeSO()
     {
-        return damageableEntitySO.GetTypeSO();
+        return GetIItem().GetTypeSO();
     }
 
     public Sprite GetIcon()
     {
-        return damageableEntitySO.GetIcon();
+        return GetIItem().GetIcon();
     }
 
     public string GetDescription()
     {
-        return damageableEntitySO.GetDescription();
+        return GetIItem().GetDescription();
     }
 
     public Rarity GetRarity()
     {
-        return damageableEntitySO.GetRarity();
+        return GetIItem().GetRarity();
     }
 
-    public IItem GetInterfaceItemReference()
+    public IItem GetIItem()
     {
-        return damageableEntitySO.GetInterfaceItemReference();
+        return damageableEntitySO.GetIItem();
     }
 
     public bool IsNew()
@@ -202,7 +200,7 @@ public class CharacterDataStat : IEntity, IEXP
 
     public void Upgrade()
     {
-        OnUpgradeIEXP?.Invoke(this, EventArgs.Empty);
+        OnUpgradeIEXP?.Invoke();
     }
 
     public void SetNewStatus(bool status)

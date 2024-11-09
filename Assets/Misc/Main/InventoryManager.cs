@@ -77,7 +77,7 @@ public class InventoryManager : MonoBehaviour
             return;
 
         PlayableCharacterDataStat playableCharacter = characterStorage.playableCharacterStatList[characterSO];
-        playableCharacter.UnequipItem(UpgradableItems.GetTypeSO());
+        playableCharacter.UnequipItem(UpgradableItems.GetIItem().GetTypeSO());
     }
 
     public void EquipItem(CharactersSO characterSO, UpgradableItems upgradableItems)
@@ -91,24 +91,20 @@ public class InventoryManager : MonoBehaviour
         PlayableCharacterDataStat playableCharacter = characterStorage.playableCharacterStatList[characterSO];
 
         // get the existing artifact equipped from characterSO
-        Artifact currentArtifactEquipped = playableCharacter.GetItem(upgradableItems.GetTypeSO()) as Artifact;
+        UpgradableItems currentItemEquipped = playableCharacter.GetItem(upgradableItems.GetIItem().GetTypeSO()) as UpgradableItems;
 
         CharactersSO previousOwnerSO = upgradableItems.equipByCharacter;
 
         UnequipItem(previousOwnerSO, upgradableItems); // remove previous owner of the artifact
+        UnequipItem(characterSO, currentItemEquipped);
 
         playableCharacter.EquipItem(upgradableItems); // set the new owner of the artifact
 
-        EquipItem(previousOwnerSO, currentArtifactEquipped); // set the previous owner to the artifact equipped from characterSO 
+        EquipItem(previousOwnerSO, currentItemEquipped); // set the previous owner to the artifact equipped from characterSO 
     }
 
     private void OnDestroy()
     {
-        if (inventory != null)
-        {
-            OnInventoryOld?.Invoke(inventory);
-        }
-
         CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
         CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
     }

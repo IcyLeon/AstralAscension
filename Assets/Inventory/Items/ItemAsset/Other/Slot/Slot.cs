@@ -55,9 +55,8 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
             }
         }
 
-        itemQualityButton = Instantiate(ItemManagerSO.ItemQualityItemPrefab, transform).GetComponent<ItemQualityItem>();
+        itemQualityButton = ItemManagerSO.CreateItemQualityItem(entity, transform);
         itemQualityButton.RaycastImage.raycastTarget = false;
-        itemQualityButton.SetIItem(entity);
         SubscribeEvents();
         OnSlotItemAdd?.Invoke(this, new SlotItemEvent
         {
@@ -73,7 +72,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
         itemQualityButton.iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
     }
 
-    private void IEntity_OnIEntityChanged(object sender, IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntityEvents e)
     {
         UpgradableItems upgradableItem = e.iEntity as UpgradableItems;
 

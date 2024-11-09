@@ -10,10 +10,6 @@ public class ArtifactEffectManager
     public ArtifactEffectManager(CharacterDataStat CharacterDataStat, EffectManager EffectManager)
     {
         characterDataStat = CharacterDataStat;
-
-        if (characterDataStat == null)
-            return;
-
         effectManager = EffectManager;
         characterDataStat.OnItemRemove += PlayableCharacterDataStat_OnItemRemove;
         characterDataStat.OnItemAdd += PlayableCharacterDataStat_OnItemAdd;
@@ -25,7 +21,7 @@ public class ArtifactEffectManager
 
         foreach (var artifactKeyPair in characterDataStat.equippeditemList)
         {
-            ArtifactSO artifactSO = artifactKeyPair.Value.GetInterfaceItemReference() as ArtifactSO;
+            ArtifactSO artifactSO = artifactKeyPair.Value.GetIItem() as ArtifactSO;
 
             if (artifactSO != null && artifactSO.IsSameFamily(ArtifactSO))
             {
@@ -41,7 +37,7 @@ public class ArtifactEffectManager
         if (!IsWithinPieceEvent(IItem))
             return;
 
-        ArtifactSO artifactSO = IItem.GetInterfaceItemReference() as ArtifactSO;
+        ArtifactSO artifactSO = IItem.GetIItem() as ArtifactSO;
 
         if (artifactSO == null)
             return;
@@ -60,7 +56,7 @@ public class ArtifactEffectManager
         if (IsWithinPieceEvent(IItem))
             return;
 
-        ArtifactSO artifactSO = IItem.GetInterfaceItemReference() as ArtifactSO;
+        ArtifactSO artifactSO = IItem.GetIItem() as ArtifactSO;
 
         if (artifactSO == null)
             return;
@@ -78,7 +74,7 @@ public class ArtifactEffectManager
 
     private int GetTotalPiece(IItem IItem)
     {
-        ArtifactSO artifactSO = IItem.GetInterfaceItemReference() as ArtifactSO;
+        ArtifactSO artifactSO = IItem.GetIItem() as ArtifactSO;
 
         if (artifactSO == null)
             return 0;

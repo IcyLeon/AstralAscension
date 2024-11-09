@@ -61,8 +61,8 @@ public class WorldMapManager : MonoBehaviour
         if (BirdEyeCamera == null)
             return;
 
-        float x = UpperLeft.transform.position.x + (BottomRight.transform.position.x - UpperLeft.transform.position.x) / 2f;
-        float z = BottomRight.transform.position.z - (BottomRight.transform.position.z - UpperLeft.transform.position.z) / 2f;
+        float x = UpperLeft.transform.position.x + (BottomRight.transform.position.x - UpperLeft.transform.position.x) * 0.5f;
+        float z = BottomRight.transform.position.z - (BottomRight.transform.position.z - UpperLeft.transform.position.z) * 0.5f;
 
         BirdEyeCamera.gameObject.transform.position = new Vector3(x, 999f, z);
     }

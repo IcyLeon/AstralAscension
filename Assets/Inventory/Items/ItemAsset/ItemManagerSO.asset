@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e7fb4d4bf5ea548b73b0a0413b9a9c, type: 3}
   m_Name: ItemManagerSO
   m_EditorClassIdentifier: 
-  <ItemQualityItemPrefab>k__BackingField: {fileID: 7806065613247282785, guid: daa9c2d306426ac45827450e9b817ef5,
+  ItemQualityItemPrefab: {fileID: 7806065613247282785, guid: daa9c2d306426ac45827450e9b817ef5,
     type: 3}
   <StarPrefab>k__BackingField: {fileID: 4927642505363939442, guid: 984e761652a4aa745900aa17082b31ee,
     type: 3}

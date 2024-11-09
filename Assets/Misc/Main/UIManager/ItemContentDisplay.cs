@@ -171,12 +171,12 @@ public class ItemContentDisplay : MonoBehaviour
         UpdateUpgradableItemsVisual();
     }
 
-    private void UpgradableItem_OnIEntityChanged(object sender, IEntityEvents e)
+    private void UpgradableItem_OnIEntityChanged(IEntityEvents e)
     {
         UpdateUpgradableItemsVisual();
     }
 
-    private void IEntity_OnIEntityChanged(object sender, IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntityEvents e)
     {
         UpdateSubInformationVisuals();
     }

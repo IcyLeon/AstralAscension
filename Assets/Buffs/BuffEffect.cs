@@ -10,7 +10,7 @@ public class BuffEvent : EventArgs
 
 public abstract class BuffEffect
 {
-    public event EventHandler<BuffEvent> OnBuffRemove;
+    public event Action<BuffEvent> OnBuffRemove;
 
     public virtual void Update()
     {

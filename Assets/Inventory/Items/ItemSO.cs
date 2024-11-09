@@ -47,7 +47,7 @@ public class ItemSO : ScriptableObject, IItem
         return ItemRaritySO.Rarity;
     }
 
-    public IItem GetInterfaceItemReference()
+    public IItem GetIItem()
     {
         return this;
     }

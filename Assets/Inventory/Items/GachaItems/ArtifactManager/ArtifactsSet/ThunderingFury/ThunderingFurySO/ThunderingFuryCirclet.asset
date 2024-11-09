@@ -15,7 +15,8 @@ MonoBehaviour:
   <ItemName>k__BackingField: Thunder Summoner's Crown
   <ItemSprite>k__BackingField: {fileID: 21300000, guid: 74142e2821a24bb4f8f6154e2d8953d7,
     type: 3}
-  <Rarity>k__BackingField: 4
+  <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+    type: 2}
   <ItemDescription>k__BackingField: A crown once worn by an ancient shaman who worshiped
     the Thunderbird. The capricious beast remained unmoved by the shaman's devotion.
   <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1,

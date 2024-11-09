@@ -40,7 +40,7 @@ public abstract class ElementalReaction
             Position = target.GetCenterBound();
         }
 
-        CallOnDamageTextInvoke(target, new DamageInfo
+        DamageManager.instance.damageMiscEvent.SendDamageInfo(new DamageInfo
         {
             DamageText = elementalReactionSO.DisplayElementalReactionText,
             ElementsInfoSO = elementalReactionSO,

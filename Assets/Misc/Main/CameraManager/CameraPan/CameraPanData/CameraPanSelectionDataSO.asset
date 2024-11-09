@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36aa780053d68a941b15e4dd183e9a89, type: 3}
   m_Name: CameraPanSelectionDataSO
   m_EditorClassIdentifier: 
-  <FreeLookCameraPanData>k__BackingField:
-    <BaseCameraDistance>k__BackingField: 2.5
-    <BaseCameraRotationSpeed>k__BackingField: 15
-    <BaseCameraRotationSmoothingSpeed>k__BackingField: 12
-    <BaseCameraZoomSmoothingSpeed>k__BackingField: 14
-    <CameraZoomSpeed>k__BackingField: 13
-  <CloseUpCameraPanData>k__BackingField:
-    <CameraDistance>k__BackingField: 1.25
+  <CameraDistance>k__BackingField: 2.5
+  <CameraDistanceRange>k__BackingField: {x: 1.25, y: 3}
+  <CameraRotationSpeed>k__BackingField: 10
+  <CameraRotationSmoothingSpeed>k__BackingField: 10
+  <CameraZoomSmoothingSpeed>k__BackingField: 12
+  <CameraZoomSpeed>k__BackingField: 14

@@ -10,11 +10,28 @@ public class Billboard : MonoBehaviour
     void Start()
     {
         MainCamera = Camera.main;
-        ObjectPoolManager.SetGlobalScale(transform, transform.localScale);
+        SetGlobalScale(transform.localScale);
 
         Canvas canvas = GetComponent<Canvas>();
         if (canvas != null)
             canvas.worldCamera = MainCamera;
+    }
+
+    private void SetGlobalScale(Vector3 globalScale)
+    {
+        if (transform.parent == null)
+        {
+            transform.localScale = globalScale;
+        }
+        else
+        {
+            Vector3 parentGlobalScale = transform.parent.localScale;
+            transform.localScale = new Vector3(
+                globalScale.x / parentGlobalScale.x,
+                globalScale.y / parentGlobalScale.y,
+                globalScale.z / parentGlobalScale.z
+            );
+        }
     }
 
 

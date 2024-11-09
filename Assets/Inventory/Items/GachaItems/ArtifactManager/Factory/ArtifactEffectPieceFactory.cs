@@ -31,6 +31,7 @@ public abstract class ArtifactEffectPieceFactory
 
     public ArtifactEffect CreatePieceEffect(int index)
     {
-        return GetArtifactEffectInformation(index).Clone();
+        ArtifactEffect info = GetArtifactEffectInformation(index);
+        return info.Clone();
     }
 }

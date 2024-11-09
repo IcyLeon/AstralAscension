@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemManagerSO", menuName = "ScriptableObjects/ItemManager/ItemManagerSO")]
 public class ItemManagerSO : ScriptableObject
 {
-    [field: SerializeField] public GameObject ItemQualityItemPrefab { get; private set; }
+    [SerializeField] private GameObject ItemQualityItemPrefab;
     [field: SerializeField] public GameObject StarPrefab { get; private set; }
     [field: SerializeField] public ItemRaritySO[] ItemRaritySOList { get; private set; }
 
@@ -20,10 +20,10 @@ public class ItemManagerSO : ScriptableObject
         return null;
     }
 
-    public ItemQualityItem CreateItemQualityItem(IEntity item, Transform ParentTransform)
+    public ItemQualityItem CreateItemQualityItem(IEntity IEntity, Transform ParentTransform)
     {
         ItemQualityItem itemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityItem>();
-        itemQualityItem.SetIItem(item);
+        itemQualityItem.SetIItem(IEntity);
         return itemQualityItem;
     }
 

@@ -11,7 +11,7 @@ public abstract class UpgradableItems : Item, IEXP
     public bool locked { get; private set; }
     protected int maxLevel;
 
-    public event EventHandler OnUpgradeIEXP;
+    public event Action OnUpgradeIEXP;
 
     public UpgradableItems(IItem iItem) : base(iItem)
     {
@@ -53,7 +53,7 @@ public abstract class UpgradableItems : Item, IEXP
         amount++;
         UpgradeItemAction();
         CallOnItemChanged();
-        OnUpgradeIEXP?.Invoke(this, EventArgs.Empty);
+        OnUpgradeIEXP?.Invoke();
     }
 
     public override void AddAmount(int amount)

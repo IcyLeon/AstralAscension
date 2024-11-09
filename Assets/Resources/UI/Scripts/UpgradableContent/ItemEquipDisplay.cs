@@ -12,16 +12,14 @@ public class ItemEquipDisplay : MonoBehaviour
 
     public void UpdateVisual(UpgradableItems upgradableItems)
     {
-        gameObject.SetActive(upgradableItems != null);
-        if (upgradableItems == null)
-            return;
-
         PlayerCharactersSO playerCharactersSO = upgradableItems.equipByCharacter as PlayerCharactersSO;
+
         gameObject.SetActive(playerCharactersSO != null);
+
         if (playerCharactersSO == null)
             return;
 
         EquipTxt.text = "Equipped: " + playerCharactersSO.GetName();
-        PartyIconImage.sprite = playerCharactersSO.GetIcon();
+        PartyIconImage.sprite = playerCharactersSO.PartyCharacterIcon;
     }
 }

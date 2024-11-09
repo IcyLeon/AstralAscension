@@ -21,8 +21,8 @@ public class RT_DragRotation : MonoBehaviour, IScrollHandler, IDragHandler
         if (CharacterSelection.instance == null)
             return;
 
-        CameraSelectionPanStorage c = CharacterSelection.instance.cameraSelectionPanStorage;
-        c.OnScroll(eventData.delta);
+        CameraPanManager c = CharacterSelection.instance.cameraPanManager;
+        c.OnScroll(eventData.scrollDelta.y);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -30,7 +30,7 @@ public class RT_DragRotation : MonoBehaviour, IScrollHandler, IDragHandler
         if (CharacterSelection.instance == null)
             return;
 
-        CameraSelectionPanStorage c = CharacterSelection.instance.cameraSelectionPanStorage;
+        CameraPanManager c = CharacterSelection.instance.cameraPanManager;
         c.OnDrag(eventData.delta);
     }
 }

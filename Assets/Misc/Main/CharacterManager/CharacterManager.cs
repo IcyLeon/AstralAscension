@@ -9,6 +9,7 @@ public class CharacterManager : MonoBehaviour
     public static CharacterManager instance { get; private set; }
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
+    [SerializeField] private GameObject PlayerPrefab;
 
     public CharacterStorage characterStorage { get; private set; }
 
@@ -24,10 +25,15 @@ public class CharacterManager : MonoBehaviour
         OnCharacterStorageNew?.Invoke(characterStorage);
     }
 
+    private void SpawnPlayer()
+    {
+        GameObject player = Instantiate(PlayerPrefab);
+    }
 
     private void Awake()
     {
         instance = this;
+        SpawnPlayer();
     }
 
     private void Start()
