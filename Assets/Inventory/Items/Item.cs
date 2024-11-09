@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Item : IEntity
 {
     public bool newStatus { get; private set; }
-    public event EventHandler<IEntityEvents> OnIEntityChanged;
+    public event Action<IEntityEvents> OnIEntityChanged;
 
     public IItem iItem { get; private set; }
     public int amount { get; protected set; }
@@ -34,43 +34,44 @@ public abstract class Item : IEntity
 
     protected void CallOnItemChanged()
     {
-        OnIEntityChanged?.Invoke(this, new IEntityEvents
+        OnIEntityChanged?.Invoke(new IEntityEvents
         {
             iEntity = this,
         });
     }
 
-    public string GetName()
-    {
-        return GetInterfaceItemReference().GetName();
-    }
-
-    public Sprite GetIcon()
-    {
-        return GetInterfaceItemReference().GetIcon();
-    }
-
-    public string GetDescription()
-    {
-        return GetInterfaceItemReference().GetDescription();
-    }
-
     public virtual Rarity GetRarity()
     {
-        return GetInterfaceItemReference().GetRarity();
+        return GetIItem().GetRarity();
+    }
+
+    public IItem GetIItem()
+    {
+        return iItem.GetIItem();
+    }
+
+    public bool IsNew()
+    {
+        return newStatus;
+    }
+
+    public string GetName()
+    {
+        return GetIItem().GetName();
     }
 
     public ItemTypeSO GetTypeSO()
     {
-        return GetInterfaceItemReference().GetTypeSO();
+        return GetIItem().GetTypeSO();
     }
 
-    public IItem GetInterfaceItemReference()
+    public Sprite GetIcon()
     {
-        return iItem.GetInterfaceItemReference();
+        return GetIItem().GetIcon();
     }
-    public bool IsNew()
+
+    public string GetDescription()
     {
-        return newStatus;
+        return GetIItem().GetDescription();
     }
 }

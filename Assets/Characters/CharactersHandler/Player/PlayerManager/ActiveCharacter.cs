@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static CharacterManager;
 using static PartySetupManager;
 
 [DisallowMultipleComponent]
@@ -24,8 +23,8 @@ public class ActiveCharacter : MonoBehaviour
     private void Awake()
     {
         charactersList = new();
-        OnCharacterStorageNew += ActiveCharacter_OnCharacterStorageNew;
-        OnCharacterStorageOld += ActiveCharacter_OnCharacterStorageOld;
+        CharacterManager.OnCharacterStorageNew += ActiveCharacter_OnCharacterStorageNew;
+        CharacterManager.OnCharacterStorageOld += ActiveCharacter_OnCharacterStorageOld;
 
         PartyMemberContent.PartyMemberClick += PartyMemberContent_PartyMemberClick;
 
@@ -152,9 +151,9 @@ public class ActiveCharacter : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnCharacterStorageNew -= ActiveCharacter_OnCharacterStorageNew;
+        CharacterManager.OnCharacterStorageNew -= ActiveCharacter_OnCharacterStorageNew;
         PartyMemberContent.PartyMemberClick -= PartyMemberContent_PartyMemberClick;
-        OnCharacterStorageOld -= ActiveCharacter_OnCharacterStorageOld;
+        CharacterManager.OnCharacterStorageOld -= ActiveCharacter_OnCharacterStorageOld;
         if (partySetupManager != null)
         {
             partySetupManager.OnCurrentPartyChanged -= P_OnCurrentPartyChanged;

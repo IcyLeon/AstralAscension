@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ObjectPoolManager;
+using Object = UnityEngine.Object;
 
 public class ObjectPool<T> where T : MonoBehaviour
 {
@@ -13,8 +13,9 @@ public class ObjectPool<T> where T : MonoBehaviour
     {
         for (int i = 0; i < this.amountToPool; i++)
         {
-            GameObject tmp = CreateGameObject(objectPool, ParentTransform);
-            pooledObjects.Add(tmp.GetComponent<T>());
+            GameObject go = Object.Instantiate(objectPool, ParentTransform);
+            go.SetActive(false);
+            pooledObjects.Add(go.GetComponent<T>());
         }
     }
 
@@ -30,8 +31,9 @@ public class ObjectPool<T> where T : MonoBehaviour
 
         for (int i = 0; i < this.amountToPool; i++)
         {
-            GameObject tmp = CreateGameObject(objectPool, ParentTransform);
-            pooledObjects.Add(tmp.GetComponent<T>());
+            GameObject go = Object.Instantiate(objectPool, ParentTransform);
+            go.SetActive(false);
+            pooledObjects.Add(go.GetComponent<T>());
         }
     }
 

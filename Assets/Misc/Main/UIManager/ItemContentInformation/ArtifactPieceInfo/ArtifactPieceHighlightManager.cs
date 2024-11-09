@@ -67,7 +67,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         UpdateVisuals();
     }
 
-    private void IEntity_OnIEntityChanged(object sender, IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntityEvents e)
     {
         UpdateVisuals();
     }

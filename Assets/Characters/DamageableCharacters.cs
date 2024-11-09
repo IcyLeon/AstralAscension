@@ -138,12 +138,13 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
 
         OnTakeDamage?.Invoke(BaseDamageAmount);
 
-        ElementalReactionsManager.CallElementDamageInvoke(this, new ElementalReactionsManager.ElementDamageInfoEvent
+        ElementalReactionsManager.instance.elementalReactionMiscEvents.TakeDamage(new ElementDamageInfoEvent
         {
             damageAmount = BaseDamageAmount,
             elementsInfoSO = e,
             source = source,
-            hitPosition = HitPosition
+            hitPosition = HitPosition,
+            target = this
         });
     }
 

@@ -91,7 +91,7 @@ public class EquipAction : MonoBehaviour
         UpdateVisuals();
     }
 
-    private void UpgradableItems_OnIEntityChanged(object sender, IEntityEvents e)
+    private void UpgradableItems_OnIEntityChanged(IEntityEvents e)
     {
         UpdateVisuals();
     }
@@ -105,7 +105,7 @@ public class EquipAction : MonoBehaviour
             if (upgradableItems.equipByCharacter != charactersSO &&
                 characterStorage.playableCharacterStatList.TryGetValue(charactersSO, out PlayableCharacterDataStat playableCharacterDataStat))
             {
-                if (playableCharacterDataStat.GetItem(upgradableItems.GetTypeSO()) != null)
+                if (playableCharacterDataStat.GetItem(upgradableItems.GetIItem().GetTypeSO()) != null)
                 {
                     EquipTxt.text = "Switch";
                     return;

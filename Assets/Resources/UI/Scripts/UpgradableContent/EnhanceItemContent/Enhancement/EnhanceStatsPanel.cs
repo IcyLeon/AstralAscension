@@ -145,7 +145,7 @@ public class EnhanceStatsPanel : MonoBehaviour
         ExpSlider.maxValue = iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iEXPEntity.GetIEntity().GetRarity());
     }
 
-    private void IEXPEntity_OnUpgradeIEXP(object sender, System.EventArgs e)
+    private void IEXPEntity_OnUpgradeIEXP()
     {
         ResetEXPSlider();
         UpdateExpMaxSliderValue();

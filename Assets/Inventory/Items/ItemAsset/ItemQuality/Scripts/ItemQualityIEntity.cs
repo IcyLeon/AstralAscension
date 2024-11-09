@@ -32,7 +32,7 @@ public abstract class ItemQualityIEntity : ItemQualityButton
         iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
     }
 
-    private void IEntity_OnIEntityChanged(object sender, IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntityEvents e)
     {
         if (this == null)
             return;

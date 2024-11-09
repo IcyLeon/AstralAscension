@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class PartyEvents : EventArgs
+{
+    public int PartyIndex;
+    public int PartyCharacterLocation;
+    public CharacterDataStat CharacterDataStat;
+}
+
 public class PartySetupManager
 {
-    public class PartyEvents : EventArgs
-    {
-        public int PartyIndex;
-        public int PartyCharacterLocation;
-        public CharacterDataStat CharacterDataStat;
-    }
-
     public const int MAX_EQUIP_CHARACTERS = 4;
     public const int MAX_PARTY = 4;
 
@@ -96,13 +96,11 @@ public class PartySetupManager
         if (characterDataStat == null || characterStorage.HasObtainedCharacter(characterDataStat.damageableEntitySO) == null)
             return;
 
-        CharactersSO charactersSO = characterDataStat.damageableEntitySO;
-
         CharacterDataStat CharacterInSlot = PartySetupList[partySetupIndex][PartyLocation];
 
-        if (CharacterAlreadyExist(charactersSO, partySetupIndex))
+        if (CharacterAlreadyExist(characterDataStat.damageableEntitySO, partySetupIndex))
         {
-            Debug.Log(charactersSO.GetName() + " is already existed!");
+            Debug.Log(characterDataStat.damageableEntitySO.GetName() + " is already existed!");
             return;
         }
 

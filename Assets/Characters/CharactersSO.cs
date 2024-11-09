@@ -33,7 +33,7 @@ public class CharactersSO : ScriptableObject, IItem
         return Rarity.ONE_STAR;
     }
 
-    public IItem GetInterfaceItemReference()
+    public IItem GetIItem()
     {
         return this;
     }

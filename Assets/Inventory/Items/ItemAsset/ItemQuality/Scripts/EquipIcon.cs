@@ -23,7 +23,7 @@ public class EquipIcon : MonoBehaviour
         UpdateVisual();
     }
 
-    private void UpgradableItem_OnIEntityChanged(object sender, IEntityEvents e)
+    private void UpgradableItem_OnIEntityChanged(IEntityEvents e)
     {
         if (this == null)
             return;
@@ -52,7 +52,7 @@ public class EquipIcon : MonoBehaviour
         if (playerCharactersSO == null)
             return;
 
-        IconImage.sprite = playerCharactersSO.GetIcon();
+        IconImage.sprite = playerCharactersSO.PartyCharacterIcon;
     }
 
     private void OnDestroy()

@@ -10,7 +10,7 @@ public class ArtifactContentInformation : ItemContentInformation
 
     public override void UpdateItemContentInformation(IItem iItem)
     {
-        ArtifactSO artifactSO = iItem.GetInterfaceItemReference() as ArtifactSO;
+        ArtifactSO artifactSO = iItem.GetIItem() as ArtifactSO;
 
         gameObject.SetActive(artifactSO != null);
 

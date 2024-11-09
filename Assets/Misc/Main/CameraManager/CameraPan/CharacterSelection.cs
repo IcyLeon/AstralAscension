@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static CharacterManager;
 
 public class CharacterSelection : MonoBehaviour
 {
     public static CharacterSelection instance { get; private set; }
-    private CameraRotationAroundTarget cameraRotationAroundTarget;
-
-    public CameraSelectionPanStorage cameraSelectionPanStorage { get; private set; }
+    public CameraPanManager cameraPanManager { get; private set; }
 
     private CharacterStorage characterStorage;
 
@@ -16,12 +13,9 @@ public class CharacterSelection : MonoBehaviour
     {
         instance = this;
 
-        OnCharacterStorageNew += DisplayCharacterSelection_OnCharacterStorageNew;
-        OnCharacterStorageOld += DisplayCharacterSelection_OnCharacterStorageOld;
-
-        cameraRotationAroundTarget = GetComponentInChildren<CameraRotationAroundTarget>();
-
-        cameraSelectionPanStorage = new CameraSelectionPanStorage(cameraRotationAroundTarget);
+        cameraPanManager = GetComponentInChildren<CameraPanManager>();
+        CharacterManager.OnCharacterStorageNew += DisplayCharacterSelection_OnCharacterStorageNew;
+        CharacterManager.OnCharacterStorageOld += DisplayCharacterSelection_OnCharacterStorageOld;
     }
 
     private void DisplayCharacterSelection_OnCharacterStorageOld(CharacterStorage CharacterStorage)
@@ -41,7 +35,7 @@ public class CharacterSelection : MonoBehaviour
 
     private void Update()
     {
-        cameraSelectionPanStorage.Update();
+
     }
 
     private void CharacterStorage_OnCharacterAdd(CharacterDataStat c)
@@ -51,8 +45,8 @@ public class CharacterSelection : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnCharacterStorageNew -= DisplayCharacterSelection_OnCharacterStorageNew;
-        OnCharacterStorageOld -= DisplayCharacterSelection_OnCharacterStorageOld;
+        CharacterManager.OnCharacterStorageNew -= DisplayCharacterSelection_OnCharacterStorageNew;
+        CharacterManager.OnCharacterStorageOld -= DisplayCharacterSelection_OnCharacterStorageOld;
 
         if (characterStorage != null)
         {

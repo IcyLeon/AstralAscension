@@ -9,41 +9,84 @@ using static DamageManager;
 [DisallowMultipleComponent]
 public class ElementalReactionsManager : MonoBehaviour
 {
-    public class ElementDamageInfoEvent : EventArgs
-    {
-        public ElementsInfoSO elementsInfoSO;
-        public float damageAmount;
-        public Vector3 hitPosition;
-        public IAttacker source;
-    }
-
     public static ElementalReactionsManager instance { get; private set; } 
-
-    public static event EventHandler<ElementDamageInfoEvent> OnElementDamageEvent;
-    public static event EventHandler<ElementDamageInfoEvent> OnAddElementEvent;
 
     [SerializeField] private ElementalReactionsManagerSO ElementalReactionManagerSO;
 
     private Dictionary<IDamageable, List<ElementalReaction>> ElementalReactionDictionary = new();
+    public ElementalReactionMiscEvents elementalReactionMiscEvents { get; private set; }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-    }
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
-    }
 
     // Start is called before the first frame update
     private void Awake()
     {
         instance = this;
+        elementalReactionMiscEvents = new();
+    }
 
-        OnElementDamageEvent += OnElementDamageHit;
-        OnElementDamageEvent += OnElementDamageTextSpawn;
+    private void OnEnable()
+    {
+        elementalReactionMiscEvents.OnAddElementEvent += OnAddElementToTarget;
+        elementalReactionMiscEvents.OnElementDamageEvent += OnElementDamageOnTarget;
+        elementalReactionMiscEvents.OnElementDamageEvent += OnElementDamageTextSpawn;
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+    }
 
-        OnAddElementEvent += OnAddElements;
+    private void OnDisable()
+    {
+        elementalReactionMiscEvents.OnAddElementEvent -= OnAddElementToTarget;
+        elementalReactionMiscEvents.OnElementDamageEvent -= OnElementDamageOnTarget;
+        elementalReactionMiscEvents.OnElementDamageEvent -= OnElementDamageTextSpawn;
+        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+    }
+
+    private void OnElementDamageOnTarget(ElementDamageInfoEvent e)
+    {
+        if (e.target == null || isImmune(e.target, e.elementsInfoSO))
+            return;
+
+        e.target.SetCurrentHealth(e.target.GetCurrentHealth() - e.damageAmount);
+
+        elementalReactionMiscEvents.AddElement(e);
+    }
+
+    private void OnAddElementToTarget(ElementDamageInfoEvent e)
+    {
+        ElementsSO elementSO = e.elementsInfoSO as ElementsSO;
+
+        if (elementSO == null || e.target == null)
+            return;
+
+        Elements ExistElement = GetElements(e.target, elementSO);
+
+        if (ExistElement != null)
+        {
+            ExistElement.Reset();
+        }
+        else
+        {
+            if (!isImmune(e.target, elementSO))
+            {
+                ExistElement = elementSO.CreateElements(e.target.GetCharacterDataStat());
+                ExistElement.OnElementDestroy += OnDestroyElement;
+            }
+
+        }
+
+        ElementalReaction ER = CreateElementalReaction(e.target, e);
+
+        if (ER == null)
+            return;
+
+        if (!ElementalReactionDictionary.ContainsKey(e.target))
+        {
+            List<ElementalReaction> reactions = new() { ER };
+            ElementalReactionDictionary.Add(e.target, reactions);
+        }
+        else
+        {
+            ElementalReactionDictionary[e.target].Add(ER);
+        }
     }
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
@@ -84,27 +127,12 @@ public class ElementalReactionsManager : MonoBehaviour
         return ER;
     }
 
-    public static void CallAddElementInvoke(object sender, ElementDamageInfoEvent e)
+    private void OnElementDamageTextSpawn(ElementDamageInfoEvent e)
     {
-        OnAddElementEvent?.Invoke(sender, e);
-    }
-
-    public static void CallElementDamageInvoke(object sender, ElementDamageInfoEvent e)
-    {
-        OnElementDamageEvent?.Invoke(sender, e);
-    }
-
-    private void OnElementDamageTextSpawn(object sender, ElementDamageInfoEvent e)
-    {
-        IDamageable target = sender as IDamageable;
-
-        if (target == null)
-            return;
-
         string DamageTxt = e.damageAmount.ToString();
         ElementsInfoSO currentElementsInfoSO = e.elementsInfoSO;
 
-        if (isImmune(target, currentElementsInfoSO))
+        if (isImmune(e.target, currentElementsInfoSO))
         {
             DamageTxt = ElementalReactionManagerSO.GetImmuneSO().DisplayElementalReactionText;
             currentElementsInfoSO = ElementalReactionManagerSO.GetImmuneSO();
@@ -115,20 +143,13 @@ public class ElementalReactionsManager : MonoBehaviour
                 return;
         }
 
-        MonoBehaviour transform = target as MonoBehaviour;
-        if (transform != null)
-        {
-            if (!transform.gameObject.activeSelf)
-                return;
-        }
-
         Vector3 WorldPosition = e.hitPosition;
         if (WorldPosition == default(Vector3))
         {
-            WorldPosition = target.GetCenterBound();
+            WorldPosition = e.target.GetCenterBound();
         }
 
-        CallOnDamageTextInvoke(sender, new DamageInfo
+        DamageManager.instance.damageMiscEvent.SendDamageInfo(new DamageInfo
         {
             DamageText = DamageTxt,
             ElementsInfoSO = currentElementsInfoSO,
@@ -165,61 +186,6 @@ public class ElementalReactionsManager : MonoBehaviour
         return null;
     }
 
-    private void OnAddElements(object sender, ElementDamageInfoEvent e)
-    {
-        IDamageable target = sender as IDamageable;
-
-        ElementsSO elementSO = e.elementsInfoSO as ElementsSO;
-
-        if (elementSO == null ||  target == null)
-            return;
-
-        Elements ExistElement = GetElements(target, elementSO);
-
-        if (ExistElement != null)
-        {
-            ExistElement.Reset();
-        }
-        else
-        {
-            if (!isImmune(target, elementSO))
-            {
-                ExistElement = elementSO.CreateElements(target.GetCharacterDataStat());
-                ExistElement.OnElementDestroy += OnDestroyElement;
-            }
-
-        }
-
-        ElementalReaction ER = CreateElementalReaction(target, e);
-
-        if (ER == null)
-            return;
-
-        if (!ElementalReactionDictionary.ContainsKey(target))
-        {
-            List<ElementalReaction> reactions = new() { ER };
-            ElementalReactionDictionary.Add(target, reactions);
-        }
-        else
-        {
-            ElementalReactionDictionary[target].Add(ER);
-        }
-
-    }
-
-    // create elemental reaction
-    private void OnElementDamageHit(object sender, ElementDamageInfoEvent e)
-    {
-        IDamageable target = sender as IDamageable;
-
-        if (target == null || isImmune(target, e.elementsInfoSO))
-            return;
-
-        target.SetCurrentHealth(target.GetCurrentHealth() - e.damageAmount);
-
-        CallAddElementInvoke(target, e);
-    }
-
     private void Update()
     {
         UpdateList();
@@ -235,11 +201,5 @@ public class ElementalReactionsManager : MonoBehaviour
                 ER.Update();
             }
         }
-    }
-    private void OnDestroy()
-    {
-        OnElementDamageEvent -= OnElementDamageHit;
-        OnElementDamageEvent -= OnElementDamageTextSpawn;
-        OnAddElementEvent -= OnAddElements;
     }
 }

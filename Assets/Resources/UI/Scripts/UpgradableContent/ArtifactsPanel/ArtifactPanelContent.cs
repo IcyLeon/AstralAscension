@@ -111,7 +111,7 @@ public class ArtifactPanelContent : MonoBehaviour
         if (IEntity == null || itemQualityDictionary.ContainsKey(IEntity))
             return;
 
-        GameObject Panel = GetPanel(IEntity.GetTypeSO());
+        GameObject Panel = GetPanel(IEntity.GetIItem().GetTypeSO());
 
         if (Panel == null)
             return;

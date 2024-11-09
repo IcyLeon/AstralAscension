@@ -33,25 +33,25 @@ public class Inventory
         return tempList;
     }
 
-    private IEntity GetItem(IItem iItem)
+    private IEntity GetItem(IEntity iEntity)
     {
-        if (iItem == null)
+        if (iEntity == null)
             return null;
 
         foreach(var itemRef in itemList)
         {
-            if (itemRef == iItem)
+            if (itemRef.GetIItem() == iEntity)
                 return itemRef;
         }
         return null;
     }
 
-    public void AddItem(IEntity item)
+    public void AddItem(IEntity iEntity)
     {
-        if (item == null)
+        if (iEntity == null)
             return;
 
-        Item existedItem = GetItem(item.GetInterfaceItemReference()) as Item;
+        Item existedItem = GetItem(iEntity) as Item;
 
         if (existedItem != null && existedItem.IsStackable())
         {
@@ -59,8 +59,8 @@ public class Inventory
             return;
         }
 
-        itemList.Add(item);
-        OnItemAdd?.Invoke(item);
+        itemList.Add(iEntity);
+        OnItemAdd?.Invoke(iEntity);
     }
 
     public void RemoveItem(IEntity iItem)
