@@ -3,69 +3,72 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlotEvent : EventArgs
-{
-    public Slot slot;
-}
-
+[DisallowMultipleComponent]
 public class SlotManager : MonoBehaviour
 {
-    [SerializeField] private SlotPopup SlotPopup;
     private Slot[] slotList;
-    public event EventHandler<SlotEvent> OnSlotSelected;
-    public event EventHandler<SlotItemEvent> OnSlotItemAdd;
-    public event EventHandler<SlotItemEvent> OnSlotItemRemove;
+    private Dictionary<IItem, Slot> slotDic;
 
-    public void SetIItemType(IItem IItem)
-    {
-        SlotPopup.SetIItemType(IItem);
-    }
+    public event Action<Slot> OnSlotSelected;
+    public event Action<Slot> OnSlotItemAdd;
+    public event Action<Slot> OnSlotChanged;
+    public event Action<IItem, Slot> OnSlotItemRemove;
 
-    public List<IEntity> GetItemList()
-    {
-        return SlotPopup.GetItemList();
-    }
+    public IItem iItem { get; private set; }
 
-    public void RemoveItems(List<IEntity> ItemEntityList)
+    public void SetIItem(IItem IItem)
     {
-        SlotPopup.RemoveItems(ItemEntityList);
+        iItem = IItem;
+        ResetAllSlots();
     }
 
     private void Awake()
     {
+        InitSlotList();
+        slotDic = new();
+
+        foreach (var slot in slotList)
+        {
+            slot.OnSlotClick += Slot_OnSlotClick;
+            slot.OnSlotItemAdd += Slot_OnSlotItemAdd;
+            slot.OnSlotItemRemove += Slot_OnSlotItemRemove;
+        }
+    }
+
+    private void InitSlotList()
+    {
         slotList = GetComponentsInChildren<Slot>();
-        SubscribeEvents();
     }
 
     public void ResetAllSlots()
     {
         foreach(var slot in slotList)
         {
-            slot.SetItemQualityButton(null);
+            slot.DeleteIItem();
         }
+
+        slotDic.Clear();
     }
 
-    private void Slot_OnSlotClick(object sender, SlotEvent e)
+    private void Slot_OnSlotClick(Slot slot)
     {
-        OnSlotSelected?.Invoke(this, new SlotEvent { 
-            slot = e.slot
-        });
+        OnSlotSelected?.Invoke(slot);
     }
 
-    public bool TryAddEntityToAvailableSlot(IEntity IEntity)
+    public bool TryAddEntityToSlot(IItem IItem)
     {
         Slot emptySlot = GetAvailableSlot();
 
         if (emptySlot == null)
         {
-            PopoutMessageManager.SendPopoutMessage(this, "Slots are fulled!");
+            PopoutMessageManager.SendPopoutMessage("Slots are fulled!");
             return false;
         }
 
-        emptySlot.SetItemQualityButton(IEntity);
-
+        emptySlot.AddIItem(IItem);
         return true;
     }
+
 
     public bool CanManualAdd(IItem iItem)
     {
@@ -76,14 +79,6 @@ public class SlotManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        UnSubscribeEvents();
-    }
-
-    private void UnSubscribeEvents()
-    {
-        if (slotList == null)
-            return;
-
         foreach (var slot in slotList)
         {
             slot.OnSlotClick -= Slot_OnSlotClick;
@@ -92,49 +87,42 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-    private void SubscribeEvents()
+    private void Slot_OnSlotItemAdd(Slot Slot)
     {
-        SlotPopup.SetSlotManager(this);
+        IItem iItem = Slot.itemQualityButton.iEntity;
 
-        foreach (var slot in slotList)
-        {
-            slot.OnSlotClick += Slot_OnSlotClick;
-            slot.OnSlotItemAdd += Slot_OnSlotItemAdd;
-            slot.OnSlotItemRemove += Slot_OnSlotItemRemove;
-        }
+        if (slotDic.TryGetValue(iItem, out Slot slot))
+            return;
+
+        slotDic.Add(iItem, Slot);
+        OnSlotItemAdd?.Invoke(Slot);
+        OnSlotChanged?.Invoke(Slot);
     }
 
-    private void Slot_OnSlotItemAdd(object sender, SlotItemEvent e)
+    private void Slot_OnSlotItemRemove(IItem IItem, Slot Slot)
     {
-        OnSlotItemAdd?.Invoke(sender, e);
+        slotDic.Remove(IItem);
+        OnSlotItemRemove?.Invoke(IItem, Slot);
+        Slot.transform.SetAsLastSibling();
+        InitSlotList();
+        OnSlotChanged?.Invoke(Slot);
     }
 
-    private void Slot_OnSlotItemRemove(object sender, SlotItemEvent e)
+    public Slot Contains(IItem IItem)
     {
-        OnSlotItemRemove?.Invoke(sender, e);
-    }
+        if (slotDic.TryGetValue(IItem, out Slot slot))
+            return slot;
 
-
-    public Slot Contains(IItem iItem)
-    {
-        foreach (var slot in slotList)
-        {
-            if (slot.itemQualityButton != null && slot.itemQualityButton.iItem == iItem)
-                return slot;
-        }
         return null;
     }
 
-    public List<IEntity> GetItemEntityList()
+    public List<IEntity> GetAllSlotEntities()
     {
         List<IEntity> ItemEntityList = new();
 
-        foreach (var slot in slotList)
+        foreach (var slot in slotDic)
         {
-            ItemQualityIEntity ItemQualityIEntity = slot.itemQualityButton;
-
-            if (ItemQualityIEntity != null)
-                ItemEntityList.Add(ItemQualityIEntity.iEntity);
+            ItemEntityList.Add(slot.Key as IEntity);
         }
 
         return ItemEntityList;
@@ -142,7 +130,7 @@ public class SlotManager : MonoBehaviour
 
     private Slot GetAvailableSlot()
     {
-        foreach (var slot in slotList)
+        foreach(var slot in slotList)
         {
             if (slot.itemQualityButton == null)
                 return slot;
@@ -151,8 +139,13 @@ public class SlotManager : MonoBehaviour
         return null;
     }
 
-    public int GetTotalSlots()
+    public int GetTotalAvailableSlots()
     {
-        return slotList.Length;
+        return slotList.Length - slotDic.Count;
+    }
+
+    public int GetTotalUsedUpSlots()
+    {
+        return slotDic.Count;
     }
 }

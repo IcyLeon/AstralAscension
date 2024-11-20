@@ -12,6 +12,7 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         public RectTransform PanelRectTransform;
         public Image TabOptionIconImage;
+        public TabOption TabOption;
     }
 
     [field: SerializeField] public RectTransform Panel { get; private set; }
@@ -19,7 +20,7 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     [SerializeField] private Image IconImage;
     [SerializeField] private Image BackgroundIconImage;
 
-    public event EventHandler<TabEvents> TabOptionClick;
+    public event Action<TabEvents> TabOptionClick;
     private TabGroup tabGroup;
 
     public void SetTabGroup(TabGroup tabGroup)
@@ -42,10 +43,11 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void Select()
     {
-        TabOptionClick?.Invoke(this, new TabEvents
+        TabOptionClick?.Invoke(new TabEvents
         {
             PanelRectTransform = Panel,
             TabOptionIconImage = IconImage,
+            TabOption = this
         });
 
         SelectCanvasAlpha();
@@ -58,7 +60,7 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     private void ResetCanvasAlpha()
     {
-        IconCanvasGroup.alpha = 0.35f;
+        IconCanvasGroup.alpha = 0.45f;
     }
 
     private void SelectCanvasAlpha()
@@ -76,7 +78,7 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (tabGroup.selectedTabOption == this)
+        if (IsCurrentSelected())
             return;
 
         SelectCanvasAlpha();
@@ -84,9 +86,14 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (tabGroup.selectedTabOption == this)
+        if (IsCurrentSelected())
             return;
 
         ResetCanvasAlpha();
+    }
+
+    private bool IsCurrentSelected()
+    {
+        return tabGroup.selectedTabOption == this;
     }
 }

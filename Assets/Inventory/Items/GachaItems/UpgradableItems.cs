@@ -7,6 +7,7 @@ public abstract class UpgradableItems : Item, IEXP
 {
     public CharactersSO equipByCharacter { get; private set; }
     private ItemEXPCostManagerSO expCostManagerSO;
+    private int totalEXP;
     private int currentEXP;
     public bool locked { get; private set; }
     protected int maxLevel;
@@ -18,7 +19,7 @@ public abstract class UpgradableItems : Item, IEXP
         OnCreateUpgradableItem();
         expCostManagerSO = InitItemEXPCostManagerSO();
         locked = false;
-        maxLevel = 20;
+        maxLevel = GetExpCostSO().GetMaxLevel(GetRaritySO());
     }
     protected virtual void OnCreateUpgradableItem()
     {
@@ -99,14 +100,31 @@ public abstract class UpgradableItems : Item, IEXP
         return expCostManagerSO;
     }
 
-    public void SetCurrentExp(int exp)
-    {
-        currentEXP = exp;
-        currentEXP = Mathf.Max(currentEXP, 0);
-    }
-
     public IEntity GetIEntity()
     {
         return this;
+    }
+
+    public int GetTotalExp()
+    {
+        return totalEXP;
+    }
+
+    public void AddExp(int exp)
+    {
+        currentEXP += exp;
+        AddTotalExp(exp);
+        currentEXP = Mathf.Max(currentEXP, 0);
+    }
+
+    public void RemoveExp(int exp)
+    {
+        currentEXP -= exp;
+        currentEXP = Mathf.Max(currentEXP, 0);
+    }
+
+    public void AddTotalExp(int exp)
+    {
+        totalEXP += exp;
     }
 }

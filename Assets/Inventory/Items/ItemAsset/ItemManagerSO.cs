@@ -10,21 +10,16 @@ public class ItemManagerSO : ScriptableObject
     [field: SerializeField] public GameObject StarPrefab { get; private set; }
     [field: SerializeField] public ItemRaritySO[] ItemRaritySOList { get; private set; }
 
-    public ItemRaritySO GetItemRarityInfomation(Rarity rarity)
+    public ItemQualityIEntity CreateItemQualityItem(IItem IItem, Transform ParentTransform)
     {
-        foreach(var itemRarity in ItemRaritySOList)
-        {
-            if (itemRarity.Rarity == rarity)
-                return itemRarity;
-        }
-        return null;
+        ItemQualityIEntity itemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityIEntity>();
+        itemQualityItem.SetIItem(IItem);
+        return itemQualityItem;
     }
 
-    public ItemQualityItem CreateItemQualityItem(IEntity IEntity, Transform ParentTransform)
+    public ObjectPool<ItemQualityIEntity> CreateItemQualityItem(Transform ParentTransform, int amt)
     {
-        ItemQualityItem itemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityItem>();
-        itemQualityItem.SetIItem(IEntity);
-        return itemQualityItem;
+        return new ObjectPool<ItemQualityIEntity>(ItemQualityItemPrefab, ParentTransform, amt);
     }
 
 }

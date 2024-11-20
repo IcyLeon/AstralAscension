@@ -2,15 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoblessObligeEffect_FourPiece : NoblessObligeEffect
+public class NoblessObligeEffect_FourPiece : ArtifactEffect
 {
-    public NoblessObligeEffect_FourPiece(ArtifactFamilySO ArtifactFamilySO) : base(ArtifactFamilySO)
+    public NoblessObligeEffect_FourPiece() : base()
     {
 
-    }
-
-    public override ArtifactEffect Clone()
-    {
-        return new NoblessObligeEffect_FourPiece(artifactFamilySO);
     }
 }

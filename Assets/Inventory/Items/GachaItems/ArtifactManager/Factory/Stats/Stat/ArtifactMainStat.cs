@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static ArtifactManagerSO;
 
@@ -9,7 +10,7 @@ public class ArtifactMainStat : ArtifactStat
 
     public float PreviewMainStat(int level)
     {
-        AnimationCurve animationCurve = statInfo.GetArtifactStatsValue(artifact.GetRarity()).ArtifactCurveStats;
+        AnimationCurve animationCurve = statInfo.GetArtifactStatsValue(artifact.GetRaritySO()).ArtifactCurveStats;
         Keyframe endKeyFrame = animationCurve[animationCurve.length - 1];
         float endValue = endKeyFrame.value;
         float firstValue = animationCurve[0].value;
@@ -26,7 +27,7 @@ public class ArtifactMainStat : ArtifactStat
     public ArtifactMainStat(Artifact Artifact) : base(Artifact)
     {
         artifactMainStatsTypeInfo = artifact.artifactManagerSO.GetArtifactMainStatsTypeInfo(artifact.GetIItem().GetTypeSO());
-        statInfo = artifactMainStatsTypeInfo.GetRandomMainStats();
+        statInfo = artifact.artifactManagerSO.GetRandomStats(artifactMainStatsTypeInfo.ArtifactStatsInfo.ToList());
         Upgrade();
     }
 }

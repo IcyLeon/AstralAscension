@@ -19,11 +19,11 @@ public class ArtifactTabGroup : TabGroup
         TabScrollBar.size = 1f / tabOptions.Length;
     }
 
-    protected override void OnSelectedPanel(TabOption tabOption, TabOption.TabEvents e)
+    protected override void OnSelectedPanel(TabOption.TabEvents e)
     {
-        base.OnSelectedPanel(tabOption, e);
+        base.OnSelectedPanel(e);
 
-        int index = Array.IndexOf(tabOptions, tabOption);
+        int index = Array.IndexOf(tabOptions, e.TabOption);
 
         float targetValue = (float)index / (tabOptions.Length - 1);
 

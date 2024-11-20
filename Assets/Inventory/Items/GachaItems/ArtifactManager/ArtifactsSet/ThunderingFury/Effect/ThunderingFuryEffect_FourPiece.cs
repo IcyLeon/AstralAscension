@@ -2,15 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThunderingFuryEffect_FourPiece : ThunderingFuryEffect
+public class ThunderingFuryEffect_FourPiece : ArtifactEffect
 {
-    public ThunderingFuryEffect_FourPiece(ArtifactFamilySO ArtifactFamilySO) : base(ArtifactFamilySO)
+    public ThunderingFuryEffect_FourPiece() : base()
     {
 
-    }
-
-    public override ArtifactEffect Clone()
-    {
-        return new ThunderingFuryEffect_FourPiece(artifactFamilySO);
     }
 }

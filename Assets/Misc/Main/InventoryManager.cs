@@ -7,7 +7,6 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance { get; private set; }
-    private AssetManager assetManager;
 
     public Inventory inventory { get; private set; }
 
@@ -21,6 +20,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] ArtifactSO artifactSOtest3;
     [SerializeField] ArtifactSO artifactSOtest4;
     [SerializeField] ArtifactSO artifactSOtest5;
+    [SerializeField] ArtifactSO artifactSOtest6;
     private void Awake()
     {
         instance = this;
@@ -30,7 +30,6 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        assetManager = AssetManager.instance;
         SetInventory(new Inventory(1000));
     }
 
@@ -38,14 +37,15 @@ public class InventoryManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            inventory.AddItem(new Artifact(Rarity.FIVE_STAR, artifactSOtest));
-            inventory.AddItem(new Artifact(Rarity.THREE_STAR, artifactSOtest));
-            inventory.AddItem(new Artifact(Rarity.FOUR_STAR, artifactSOtest));
-            inventory.AddItem(new Artifact(Rarity.FOUR_STAR, artifactSOtest));
-            inventory.AddItem(new Artifact(Rarity.FOUR_STAR, artifactSOtest2));
-            inventory.AddItem(new Artifact(Rarity.FOUR_STAR, artifactSOtest3));
-            inventory.AddItem(new Artifact(Rarity.FOUR_STAR, artifactSOtest4));
-            inventory.AddItem(new Artifact(Rarity.THREE_STAR, artifactSOtest5));
+            inventory.AddItem(artifactSOtest.CreateItem());
+            inventory.AddItem(artifactSOtest2.CreateItem());
+            inventory.AddItem(artifactSOtest3.CreateItem());
+            inventory.AddItem(artifactSOtest4.CreateItem());
+            inventory.AddItem(artifactSOtest5.CreateItem());
+            inventory.AddItem(artifactSOtest6.CreateItem());
+            inventory.AddItem(artifactSOtest2.CreateItem());
+            inventory.AddItem(artifactSOtest3.CreateItem());
+            inventory.AddItem(artifactSOtest4.CreateItem());
         }
     }
 
@@ -91,7 +91,7 @@ public class InventoryManager : MonoBehaviour
         PlayableCharacterDataStat playableCharacter = characterStorage.playableCharacterStatList[characterSO];
 
         // get the existing artifact equipped from characterSO
-        UpgradableItems currentItemEquipped = playableCharacter.GetItem(upgradableItems.GetIItem().GetTypeSO()) as UpgradableItems;
+        UpgradableItems currentItemEquipped = playableCharacter.GetItem(upgradableItems.GetTypeSO()) as UpgradableItems;
 
         CharactersSO previousOwnerSO = upgradableItems.equipByCharacter;
 
@@ -99,7 +99,7 @@ public class InventoryManager : MonoBehaviour
         UnequipItem(characterSO, currentItemEquipped);
 
         playableCharacter.EquipItem(upgradableItems); // set the new owner of the artifact
-
+        
         EquipItem(previousOwnerSO, currentItemEquipped); // set the previous owner to the artifact equipped from characterSO 
     }
 

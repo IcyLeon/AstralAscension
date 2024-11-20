@@ -16,20 +16,20 @@ public class ItemEXPCostManagerSO : ScriptableObject
 
     [SerializeField] private ItemEXP[] ItemEXPList;
 
-    private ItemEXP GetItemEXP(Rarity rarity)
+    private ItemEXP GetItemEXP(ItemRaritySO ItemRaritySO)
     {
         foreach(var itemEXP in ItemEXPList)
         {
-            if (itemEXP.ItemRaritySO.Rarity == rarity)
+            if (itemEXP.ItemRaritySO == ItemRaritySO)
                 return itemEXP;
         }
 
         return null;
     }
 
-    public int GetMaxLevel(Rarity rarity)
+    public int GetMaxLevel(ItemRaritySO ItemRaritySO)
     {
-        ItemEXP itemEXP = GetItemEXP(rarity);
+        ItemEXP itemEXP = GetItemEXP(ItemRaritySO);
 
         if (itemEXP == null)
         {
@@ -39,9 +39,9 @@ public class ItemEXPCostManagerSO : ScriptableObject
         return itemEXP.EXP.Length;
     }
 
-    public int GetRequiredEXP(int currentlevel, Rarity rarity)
+    public int GetRequiredEXP(int currentlevel, ItemRaritySO ItemRaritySO)
     {
-        ItemEXP itemEXP = GetItemEXP(rarity);
+        ItemEXP itemEXP = GetItemEXP(ItemRaritySO);
 
         if (currentlevel >= itemEXP.EXP.Length)
             return 0;
@@ -49,11 +49,11 @@ public class ItemEXPCostManagerSO : ScriptableObject
         return itemEXP.EXP[currentlevel];
     }
 
-    public int GetTotalExpRequired(int currentlevel, Rarity rarity)
+    public int GetTotalExpRequired(int currentlevel, ItemRaritySO ItemRaritySO)
     {
         int totalExp = 0;
 
-        ItemEXP itemEXP = GetItemEXP(rarity);
+        ItemEXP itemEXP = GetItemEXP(ItemRaritySO);
 
         if (itemEXP == null)
         {
@@ -68,9 +68,9 @@ public class ItemEXPCostManagerSO : ScriptableObject
         return totalExp;
     }
 
-    public int GetBaseEnhancementEXP(Rarity rarity)
+    public int GetBaseEnhancementEXP(ItemRaritySO ItemRaritySO)
     {
-        ItemEXP itemEXP = GetItemEXP(rarity);
+        ItemEXP itemEXP = GetItemEXP(ItemRaritySO);
 
         if (itemEXP == null)
         {

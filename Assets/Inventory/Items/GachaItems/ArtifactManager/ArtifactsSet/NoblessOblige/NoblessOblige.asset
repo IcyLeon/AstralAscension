@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: NoblessOblige
   m_EditorClassIdentifier: 
   <ArtifactSetName>k__BackingField: Nobless Oblige
-  ArtifactType: 1
-  <ArtifactSetsList>k__BackingField:
-  - {fileID: 11400000, guid: 92d2f3b44d46abd4bb57c69c818c2f73, type: 2}
-  - {fileID: 11400000, guid: 33df293da2ea4244f8adf316a5bd55e5, type: 2}
-  - {fileID: 11400000, guid: d7ecc49d3b5e7ff438e3165cd99c3c46, type: 2}
-  - {fileID: 11400000, guid: 3ef51df195a7c994ab50dfd11e2935c2, type: 2}
-  - {fileID: 11400000, guid: 7805a2b5cade58e45a4095fe2bf90b03, type: 2}
-  <TwoPieceDescription>k__BackingField: Elemental Burst DMG +20%
-  <FourPieceDescription>k__BackingField: Using an Elemental Burst increases all party
-    members' ATK by 20% for 12s. This effect cannot stack.
+  <TwoPieceBuff>k__BackingField:
+    BuffFactoryPrefab: {fileID: 7017848018152037901, guid: 7c329b6f7e3d03440b5ce5640ba6eae0,
+      type: 3}
+    <NoOfPiece>k__BackingField: 2
+    <Description>k__BackingField: Elemental Burst DMG +20%
+  <FourPieceBuff>k__BackingField:
+    BuffFactoryPrefab: {fileID: 5621029752006473329, guid: 9c82cfe3bd47ca347ab2d178ffde22bf,
+      type: 3}
+    <NoOfPiece>k__BackingField: 4
+    <Description>k__BackingField: Using an Elemental Burst increases all party members'
+      ATK by 20% for 12s. This effect cannot stack.

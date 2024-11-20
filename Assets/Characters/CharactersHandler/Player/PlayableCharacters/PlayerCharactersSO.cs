@@ -12,7 +12,6 @@ public class PlayerCharactersSO : DamageableEntitySO
         public AnimationCurve BaseDEF;
     }
 
-    [field: SerializeField] public ItemRaritySO CharacterRaritySO { get; private set; }
     [field: SerializeField] public AscensionInfo[] AscensionInformation { get; private set; }
     [field: SerializeField] public PlayableCharacterAnimationSO PlayableCharacterAnimationSO { get; private set; }
     [field: SerializeField] public PlayableCharacterVoicelinesSO PlayableCharacterVoicelinesSO { get; private set; }
@@ -24,13 +23,4 @@ public class PlayerCharactersSO : DamageableEntitySO
 
     [field: SerializeField] public int BurstEnergyCost { get; private set; }
 
-    public override Rarity GetRarity()
-    {
-        if (CharacterRaritySO == null)
-        {
-            return Rarity.ONE_STAR;
-        }
-
-        return CharacterRaritySO.Rarity;
-    }
 }

@@ -32,7 +32,7 @@ public abstract class ItemQualityIEntity : ItemQualityButton
         iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
     }
 
-    private void IEntity_OnIEntityChanged(IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntity entity)
     {
         if (this == null)
             return;
@@ -55,7 +55,7 @@ public abstract class ItemQualityIEntity : ItemQualityButton
 
     }
 
-    private void ItemQualityItem_OnItemQualityClick(object sender, EventArgs e)
+    private void ItemQualityItem_OnItemQualityClick(ItemQualityButton ItemQualityButton)
     {
         HideNewStatus();
     }

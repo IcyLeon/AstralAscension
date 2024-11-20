@@ -6,9 +6,9 @@ using UnityEngine;
 public class Inventory
 {
     public int mora { get; private set; }
-    public List<IEntity> itemList { get; private set; }
+    public Dictionary<IItem, IItem> itemList { get; private set; }
 
-    public delegate void OnItemChanged(IEntity item);
+    public delegate void OnItemChanged(IItem item);
     public event OnItemChanged OnItemAdd, OnItemRemove;
     public event Action<int> OnMoraChanged;
 
@@ -19,39 +19,20 @@ public class Inventory
         OnMoraChanged?.Invoke(mora);
     }
 
-    public List<T> GetItemListOfType<T>()
+    private IItem GetItem(IItem IItem)
     {
-        List<T> tempList = new();
-
-        foreach (var item in itemList)
-        {
-            if (item is T typedItem)
-            {
-                tempList.Add(typedItem);
-            }
-        }
-        return tempList;
-    }
-
-    private IEntity GetItem(IEntity iEntity)
-    {
-        if (iEntity == null)
+        if (!itemList.TryGetValue(IItem, out var item))
             return null;
 
-        foreach(var itemRef in itemList)
-        {
-            if (itemRef.GetIItem() == iEntity)
-                return itemRef;
-        }
-        return null;
+        return item;
     }
 
-    public void AddItem(IEntity iEntity)
+    public void AddItem(IItem IItem)
     {
-        if (iEntity == null)
+        if (IItem == null)
             return;
 
-        Item existedItem = GetItem(iEntity) as Item;
+        Item existedItem = GetItem(IItem) as Item;
 
         if (existedItem != null && existedItem.IsStackable())
         {
@@ -59,17 +40,17 @@ public class Inventory
             return;
         }
 
-        itemList.Add(iEntity);
-        OnItemAdd?.Invoke(iEntity);
+        itemList.Add(IItem, IItem);
+        OnItemAdd?.Invoke(IItem);
     }
 
-    public void RemoveItem(IEntity iItem)
+    public void RemoveItem(IEntity IEntity)
     {
-        if (iItem == null)
+        if (IEntity == null)
             return;
 
-        itemList.Remove(iItem);
-        OnItemRemove?.Invoke(iItem);
+        itemList.Remove(IEntity);
+        OnItemRemove?.Invoke(IEntity);
     }
 
     public Inventory(int StartingMora = 0)

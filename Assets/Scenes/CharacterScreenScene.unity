@@ -285,7 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 37143368}
   - component: {fileID: 37143369}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CharacterSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1100,7 +1100,7 @@ GameObject:
   - component: {fileID: 125911358}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7019,7 +7019,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 868117870}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LookAtTargetParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9486,7 +9486,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1175384423}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FreeLookTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9645,7 +9645,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1198804987}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CharacterProfileTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11159,7 +11159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1402126619}
   - component: {fileID: 1402126620}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CameraHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11498,6 +11498,37 @@ MonoBehaviour:
   colliders: []
   debug: 1
   threshold: 0.01
+--- !u!1 &1455965394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1455965395}
+  m_Layer: 8
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1455965395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455965394}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1712268401}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1464130966
 GameObject:
   m_ObjectHideFlags: 0
@@ -14084,7 +14115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1712268401}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CharacterPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14104,6 +14135,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 322519463}
+  - {fileID: 1455965395}
   m_Father: {fileID: 37143368}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}

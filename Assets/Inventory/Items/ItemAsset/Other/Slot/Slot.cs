@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,89 +6,70 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SlotItemEvent : SlotEvent
+public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public IEntity iEntity;
-}
-
-public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
-{
-    [SerializeField] private ItemManagerSO ItemManagerSO;
-    public event EventHandler<SlotEvent> OnSlotClick;
-    public event EventHandler<SlotItemEvent> OnSlotItemAdd;
-    public event EventHandler<SlotItemEvent> OnSlotItemRemove;
+    private ItemManagerSO ItemAssetManagerSO;
+    public event Action<Slot> OnSlotClick;
+    public event Action<Slot> OnSlotItemAdd;
+    public event Action<IItem, Slot> OnSlotItemRemove;
 
     public ItemQualityIEntity itemQualityButton { get; private set; }
+
+    private void Start()
+    {
+        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
+    }
 
     public void OnDrop(PointerEventData eventData)
     {
     }
 
-    private void Awake()
+    public void AddIItem(IItem IItem)
     {
-        OnSlotItemAdd += Slot_OnSlotItemAdd;
-    }
-
-    private void Slot_OnSlotItemAdd(object sender, SlotItemEvent e)
-    {
-        HideNewStatus(itemQualityButton);
-    }
-
-    private void HideNewStatus(ItemQualityIEntity ItemQualityIEntity)
-    {
-        ItemQualityItem itemQualityItem = ItemQualityIEntity as ItemQualityItem;
-
-        if (itemQualityItem == null)
+        if (IItem == null || itemQualityButton != null)
             return;
 
-        itemQualityItem.HideNewStatus();
-    }
-
-    public void SetItemQualityButton(IEntity entity)
-    {
-        if (entity == null || itemQualityButton != null)
-        {
-            DestroyItemQualityButton();
-
-            if (entity == null)
-            {
-                return;
-            }
-        }
-
-        itemQualityButton = ItemManagerSO.CreateItemQualityItem(entity, transform);
-        itemQualityButton.RaycastImage.raycastTarget = false;
+        ItemQualityIEntity ItemQualityIEntity = ItemAssetManagerSO.CreateItemQualityItem(IItem, transform);
+        ItemQualityIEntity.RaycastImage.raycastTarget = false;
+        itemQualityButton = ItemQualityIEntity;
+        itemQualityButton.Select();
         SubscribeEvents();
-        OnSlotItemAdd?.Invoke(this, new SlotItemEvent
-        {
-            slot = this,
-            iEntity = entity
-        });
+        OnSlotItemAdd?.Invoke(this);
     }
+
+
+    public void DeleteIItem()
+    {
+        if (itemQualityButton == null)
+            return;
+
+        IEntity entity = itemQualityButton.iEntity;
+        UnsubscribeEvents();
+        Destroy(itemQualityButton.gameObject);
+        OnSlotItemRemove?.Invoke(entity, this);
+    }
+
     private void SubscribeEvents()
     {
-        if (itemQualityButton == null || itemQualityButton.iEntity == null)
+        if (itemQualityButton == null)
             return;
 
         itemQualityButton.iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
     }
 
-    private void IEntity_OnIEntityChanged(IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntity IEntity)
     {
-        UpgradableItems upgradableItem = e.iEntity as UpgradableItems;
+        UpgradableItems upgradableItem = IEntity as UpgradableItems;
 
-        if (upgradableItem == null)
+        if (upgradableItem == null || (upgradableItem.locked || upgradableItem.equipByCharacter != null))
             return;
 
-        if (upgradableItem.locked || upgradableItem.equipByCharacter != null)
-        {
-            SetItemQualityButton(null);
-        }
+        DeleteIItem();
     }
 
     private void UnsubscribeEvents()
     {
-        if (itemQualityButton == null || itemQualityButton.iEntity == null)
+        if (itemQualityButton == null)
             return;
 
         itemQualityButton.iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
@@ -95,28 +77,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private void OnDestroy()
     {
-        OnSlotItemAdd -= Slot_OnSlotItemAdd;
         UnsubscribeEvents();
-    }
-
-
-    private void DestroyItemQualityButton()
-    {
-        if (itemQualityButton == null)
-            return;
-
-        UnsubscribeEvents();
-
-        IEntity iEntity = itemQualityButton.iItem as IEntity;
-
-        Destroy(itemQualityButton.gameObject);
-        itemQualityButton = null;
-
-        OnSlotItemRemove?.Invoke(this, new SlotItemEvent
-        {
-            slot = this,
-            iEntity = iEntity
-        });
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -124,6 +85,16 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
-        OnSlotClick?.Invoke(this, new SlotEvent { slot = this });
+        OnSlotClick?.Invoke(this);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        transform.DOScale(1.05f, 0.075f).SetEase(Ease.InOutSine);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        transform.DOScale(1f, 0.075f).SetEase(Ease.InOutSine);
     }
 }

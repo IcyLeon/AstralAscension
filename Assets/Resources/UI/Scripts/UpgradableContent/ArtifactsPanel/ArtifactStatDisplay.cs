@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +20,17 @@ public abstract class ArtifactStatDisplay : MonoBehaviour
         ArtifactStatValueTxt.text = UpdateStatValue();
     }
 
-    protected abstract string UpdateStatName();
+    protected abstract ArtifactStatSO GetArtifactStatSO();
+    private string UpdateStatName()
+    {
+        ArtifactStatSO artifactStatSO = GetArtifactStatSO();
+
+        if (artifactStatSO == null)
+            return "??";
+
+        return artifactStatSO.ArtifactStat;
+    }
+
     protected abstract string UpdateStatValue();
 
     public virtual void UpdateStatDisplayVisiblity(Artifact Artifact)

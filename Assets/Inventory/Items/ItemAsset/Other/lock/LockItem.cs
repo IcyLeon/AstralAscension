@@ -40,7 +40,7 @@ public abstract class LockItem : MonoBehaviour
         UpdateVisual();
     }
 
-    private void UpgradableItems_OnIEntityChanged(IEntityEvents e)
+    private void UpgradableItems_OnIEntityChanged(IEntity e)
     {
         if (this == null)
             return;

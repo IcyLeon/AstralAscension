@@ -8,42 +8,27 @@ using UnityEngine.UI;
 public class ItemQualitySelection : MonoBehaviour
 {
     [SerializeField] private Button RemoveBtn;
-    public ItemQualityIEntity itemQualityIEntity { get; private set; }
-    public event EventHandler<ItemQualityEvents> OnRemoveClick;
+    public ItemQualityButton itemQualityButton { get; private set; }
+    public event Action<ItemQualityButton> OnRemoveClick;
 
     private void Awake()
     {
-        Init();
+        itemQualityButton = GetComponentInParent<ItemQualityButton>(true);
         RemoveBtn.onClick.AddListener(OnRemove);
-    }
-
-    private void Init()
-    {
-        if (itemQualityIEntity != null)
-            return;
-
-        itemQualityIEntity = GetComponentInParent<ItemQualityIEntity>(true);
     }
 
     private void OnRemove()
     {
-        OnRemoveClick?.Invoke(this, new ItemQualityEvents
-        {
-            ItemQualityButton = itemQualityIEntity
-        });
+        OnRemoveClick?.Invoke(itemQualityButton);
     }
 
-    public void RevealSelection()
+    public void Select()
     {
-        Init();
         gameObject.SetActive(true);
-
-        itemQualityIEntity.HideNewStatus();
     }
 
-    public void HideSelection()
+    public void UnSelect()
     {
-        Init();
         gameObject.SetActive(false);
     }
 }

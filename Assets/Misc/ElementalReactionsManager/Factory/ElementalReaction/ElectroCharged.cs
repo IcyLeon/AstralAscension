@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ElementalReactionsManager;
 
 public class ElectroCharged : ElementalReaction
 {
@@ -21,7 +20,7 @@ public class ElectroCharged : ElementalReaction
         if (source == null)
             return 0f;
 
-        float EMBonus = 2.78f * (source.GetEM() / (source.GetEM() + 1400)) * 0.01f;
+        float EMBonus = 2.78f * (source.GetEM() / (source.GetEM() + 1400f)) * 0.01f;
 
         return DamageAmount * GetReactionMultiplier(EMBonus);
     }

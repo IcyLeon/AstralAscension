@@ -4,15 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static DamageManager;
 
-public class MessageEvent : EventArgs
-{
-    public string Message;
-}
 
 [DisallowMultipleComponent]
 public class PopoutMessageManager : MonoBehaviour
 {
-    public static event EventHandler<MessageEvent> OnMessageSend;
+    public static event Action<string> OnMessageSend;
 
     [SerializeField] private GameObject PopOutMessagePrefab;
     [SerializeField] private Transform PopoutParentTransform;
@@ -26,17 +22,14 @@ public class PopoutMessageManager : MonoBehaviour
         OnMessageSend += PopoutMessageManager_OnMessageSend;
     }
 
-    private void PopoutMessageManager_OnMessageSend(object sender, MessageEvent e)
+    private void PopoutMessageManager_OnMessageSend(string Message)
     {
-        popoutMessage.SetMessage(e.Message);
+        popoutMessage.SetMessage(Message);
     }
 
-    public static void SendPopoutMessage(object sender, string Message)
+    public static void SendPopoutMessage(string Message)
     {
-        OnMessageSend?.Invoke(sender, new MessageEvent
-        {
-            Message = Message
-        });
+        OnMessageSend?.Invoke(Message);
     }
 
     private void OnDestroy()

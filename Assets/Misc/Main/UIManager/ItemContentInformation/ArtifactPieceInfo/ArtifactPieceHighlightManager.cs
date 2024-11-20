@@ -17,11 +17,11 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 {
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
 
-    [SerializeField] private ArtifactPieceSetsDisplayManager ArtifactPieceSetsDisplayManager;
-
     [SerializeField] private StatsHighlightContent StatsHighlightContent;
 
     [SerializeField] private CharactersSO charactersSO;
+
+    private ArtifactPieceSetsDisplayManager ArtifactPieceSetsDisplayManager;
 
     private CharacterStorage characterStorage;
 
@@ -33,6 +33,8 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
 
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
+
+        ArtifactPieceSetsDisplayManager = GetComponent<ArtifactPieceSetsDisplayManager>();
     }
 
     private void Start()
@@ -67,7 +69,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         UpdateVisuals();
     }
 
-    private void IEntity_OnIEntityChanged(IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntity e)
     {
         UpdateVisuals();
     }
@@ -87,12 +89,12 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         if (characterStorage == null)
             return;
 
-        CharacterDataStat c = characterStorage.HasObtainedCharacter(charactersSO);
+        PlayableCharacterDataStat c = characterStorage.HasObtainedCharacter(charactersSO) as PlayableCharacterDataStat;
 
         if (c == null)
             return;
 
-        int eventCount = c.artifactEffectManager.GetPieceEventCount(iItem);
+        int eventCount = c.characterArtifactManager.GetPieceEventCount(iItem);
 
         for (int i = 0; i < eventCount; i++)
         {

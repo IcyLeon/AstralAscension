@@ -7,6 +7,6 @@ public class ArtifactTwoPieceInfoDisplay : ArtifactPieceInfoDisplay
 {
     protected override void UpdateVisual()
     {
-        ArtifactPieceTxt.text = "2-Piece Set: " + artifactFamilySO.TwoPieceDescription;
+        ArtifactPieceTxt.text = "2-Piece Set: " + artifactFamilySO.TwoPieceBuff.Description;
     }
 }

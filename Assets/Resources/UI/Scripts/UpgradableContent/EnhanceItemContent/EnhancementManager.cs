@@ -10,19 +10,23 @@ public class EnhancementManager : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonMask;
 
-    [Header("Enhancement Reference")]
-    [SerializeField] private EnhancementMaterialContainer EnhancementMaterialContainer;
-    [SerializeField] private EnhanceStatsPanel EnhanceStatsPanel;
+    private EnhancementMaterialContainer EnhancementMaterialContainer;
+    private EnhanceStatsPanel EnhanceStatsPanel;
     public IEXP iEXPEntity { get; private set; }
     private EnhancePanel enhancePanel;
     private Coroutine enhancingCoroutine;
 
-    public event EventHandler OnEnhanceItemChanged;
-    public event EventHandler OnItemUpgrade;
-    public event EventHandler<UpgradeEvents> OnSlotItemChanged;
+    public event Action OnEnhanceItemChanged;
+    public event Action OnItemUpgrade;
+    public event Action<int> OnSlotItemChanged;
+    public int requiredEXP { get; private set; }
 
     private void Awake()
     {
+        requiredEXP = 0;
+        EnhanceStatsPanel = GetComponentInChildren<EnhanceStatsPanel>();
+
+        EnhancementMaterialContainer = GetComponentInChildren<EnhancementMaterialContainer>();
         EnhancementMaterialContainer.OnUpgradeClick += EnhancementMaterialContainer_OnUpgradeClick;
 
         enhancePanel = GetComponentInParent<EnhancePanel>(true);
@@ -35,22 +39,43 @@ public class EnhancementManager : MonoBehaviour
         EnhancementMaterialContainer.OnSlotItemChanged += EnhancementMaterialContainer_OnSlotItemChanged;
     }
 
+    public int GetIncreasedPreviewLevel(int addExp)
+    {
+        int levelIncrease = 0;
+        int totalExp = iEXPEntity.GetCurrentExp() + addExp;
+
+        ItemRaritySO itemRaritySO = iEXPEntity.GetIEntity().GetRaritySO();
+
+        for (int i = iEXPEntity.GetLevel(); i < iEXPEntity.GetExpCostSO().GetMaxLevel(itemRaritySO); i++)
+        {
+            int requiredAmt = iEXPEntity.GetExpCostSO().GetRequiredEXP(i, itemRaritySO);
+            if (totalExp >= requiredAmt)
+            {
+                totalExp -= requiredAmt;
+                levelIncrease++;
+            }
+        }
+
+        return levelIncrease;
+    }
+
+
     private bool IsUpgrading()
     {
         return enhancingCoroutine != null;
     }
 
-    private void EnhancementMaterialContainer_OnSlotItemChanged(object sender, UpgradeEvents e)
+    private void EnhancementMaterialContainer_OnSlotItemChanged(int Exp)
     {
-        OnSlotItemChanged?.Invoke(sender, e);
+        OnSlotItemChanged?.Invoke(Exp);
     }
 
-    private void EnhancementMaterialContainer_OnUpgradeClick(object sender, UpgradeEvents e)
+    private void EnhancementMaterialContainer_OnUpgradeClick(int Exp)
     {
         if (IsUpgrading())
             return;
 
-        enhancingCoroutine = StartCoroutine(UpgradingEnumerator(e.Exp));
+        enhancingCoroutine = StartCoroutine(UpgradingEnumerator(Exp));
     }
 
     private IEnumerator UpgradingEnumerator(int addExpAmount)
@@ -66,13 +91,13 @@ public class EnhancementManager : MonoBehaviour
             yield break;
         }
 
-        iEXPEntity.SetCurrentExp(iEXPEntity.GetCurrentExp() + addExpAmount);
+        iEXPEntity.AddExp(addExpAmount);
 
         do
         {
-            UpdateEnhancingItem(iEXPEntity);
+            UpdateEnhancingItem();
 
-            EnhanceStatsPanel.SetExpSliderValue(Mathf.Lerp(EnhanceStatsPanel.GetExpSliderValue(), iEXPEntity.GetCurrentExp(),
+            EnhanceStatsPanel.SetCurrentEXP(Mathf.Lerp(EnhanceStatsPanel.GetCurrentEXP(), iEXPEntity.GetCurrentExp(),
                 elapseTime / (duration * 2f)));
 
             elapseTime += Time.unscaledDeltaTime;
@@ -81,28 +106,26 @@ public class EnhancementManager : MonoBehaviour
 
         } while (elapseTime <= duration);
 
-        UpdateEnhancingItem(iEXPEntity);
+        UpdateEnhancingItem();
 
-        OnItemUpgrade?.Invoke(this, EventArgs.Empty);
+        OnItemUpgrade?.Invoke();
         ButtonMask.SetActive(false);
         enhancingCoroutine = null;
     }
 
-    private void UpdateEnhancingItem(IEXP iEXPEntity)
+    private void UpdateEnhancingItem()
     {
-        int requiredEXP = iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iEXPEntity.GetIEntity().GetRarity());
-
         if (GetDisplayExpSliderValue() < requiredEXP)
             return;
 
-        iEXPEntity.SetCurrentExp(iEXPEntity.GetCurrentExp() - requiredEXP);
+        iEXPEntity.RemoveExp(requiredEXP);
         iEXPEntity.Upgrade();
     }
 
 
     private int GetDisplayExpSliderValue()
     {
-        return Mathf.RoundToInt(EnhanceStatsPanel.GetExpSliderValue());
+        return Mathf.RoundToInt(EnhanceStatsPanel.GetCurrentEXP());
     }
 
     private void EnhancePanel_OnUpgradableItemChanged(object sender, System.EventArgs e)
@@ -112,12 +135,42 @@ public class EnhancementManager : MonoBehaviour
 
     private void UpdateVisual()
     {
+        UnsubscribeEvents();
         iEXPEntity = enhancePanel.iEXPEntity;
-        OnEnhanceItemChanged?.Invoke(this, EventArgs.Empty);
+        SubscribeEvents();
+    }
+
+    private void UnsubscribeEvents()
+    {
+        if (iEXPEntity == null)
+            return;
+
+        iEXPEntity.OnUpgradeIEXP -= IEXPEntity_OnUpgradeIEXP;
+    }
+
+    private void SubscribeEvents()
+    {
+        if (iEXPEntity == null)
+            return;
+
+        iEXPEntity.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
+        UpdateEXPRequirement();
+        OnEnhanceItemChanged?.Invoke();
+    }
+
+    private void IEXPEntity_OnUpgradeIEXP()
+    {
+        UpdateEXPRequirement();
+    }
+
+    private void UpdateEXPRequirement()
+    {
+        requiredEXP = iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iEXPEntity.GetIEntity().GetRaritySO());
     }
 
     private void OnDestroy()
     {
+        UnsubscribeEvents();
         EnhancementMaterialContainer.OnUpgradeClick -= EnhancementMaterialContainer_OnUpgradeClick;
         EnhancementMaterialContainer.OnSlotItemChanged -= EnhancementMaterialContainer_OnSlotItemChanged;
         if (enhancePanel != null)

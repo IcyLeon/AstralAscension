@@ -26,24 +26,25 @@ public class ArtifactSubStatDisplay : ArtifactStatDisplay
         return index >= Artifact.subStats.Count;
     }
 
-    protected override string UpdateStatName()
+    protected override ArtifactStatSO GetArtifactStatSO()
     {
         if (IsOutOfRange(artifact))
-            return "";
+            return null;
 
-        return artifact.subStats.ElementAt(index).Value.statInfo.ArtifactStatSO.ArtifactStat;
+        return artifact.subStats.ElementAt(index).Key;
     }
 
     protected string GetRawStatValueDisplay()
     {
-        if (IsOutOfRange(artifact))
+        ArtifactStatSO artifactStatSO = GetArtifactStatSO();
+
+        if (IsOutOfRange(artifact) || artifactStatSO == null)
             return "";
 
-        ArtifactStatSO artifactStatSO = artifact.subStats.ElementAt(index).Key;
         float statsValue = artifact.subStats[artifactStatSO].statsValue;
         float statsPercentage = statsValue * 0.01f;
 
-        string StatsValueText = ArtifactManager.instance.ArtifactManagerSO.IsPercentageStat(artifactStatSO)
+        string StatsValueText = artifact.artifactManagerSO.IsPercentageStat(artifactStatSO)
         ? statsPercentage.ToString("P1")
         : Mathf.Round(statsValue).ToString("N0");
 

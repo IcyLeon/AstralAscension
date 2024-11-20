@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1354565da96937548bdf8dbb6d141e4e, type: 3}
+  m_Name: NoblessObligeSands
+  m_EditorClassIdentifier: 
+  <ItemName>k__BackingField: Royal Pocket Watch
+  <ItemSprite>k__BackingField: {fileID: 21300000, guid: 7709d406a40e27946b1487995802bce5,
+    type: 3}
+  <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+    type: 2}
+  <ItemDescription>k__BackingField: A pocket watch that once belonged to the old
+    aristocrats of Mondstadt. Passed down from generation to generation, it has witnessed
+    many years of history.
+  <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516,
+    type: 2}
+  <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7,
+    type: 2}

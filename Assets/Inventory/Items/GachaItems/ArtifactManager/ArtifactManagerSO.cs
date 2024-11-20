@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,16 +15,17 @@ public class ArtifactManagerSO : ScriptableObject
         [field: SerializeField] public ItemRaritySO ItemRaritySO { get; private set; }
     }
 
-    public abstract class ArtifactStatsInfo
+    [Serializable]
+    public class ArtifactStatsInfo
     {
         [field: SerializeField] public ArtifactStatSO ArtifactStatSO { get; private set; }
         [field: SerializeField] public ArtifactStatsValue[] ArtifactStatsValue { get; private set; }
-
-        public ArtifactStatsValue GetArtifactStatsValue(Rarity Rarity)
+        [field: SerializeField] public float Weight { get; private set; }
+        public ArtifactStatsValue GetArtifactStatsValue(ItemRaritySO ItemRaritySO)
         {
             foreach (var statInfo in ArtifactStatsValue)
             {
-                if (statInfo.ItemRaritySO.Rarity == Rarity)
+                if (statInfo.ItemRaritySO == ItemRaritySO)
                     return statInfo;
             }
             return null;
@@ -33,44 +35,8 @@ public class ArtifactManagerSO : ScriptableObject
     [Serializable]
     public class ArtifactMainStatsTypeInfo
     {
-        [field: SerializeField] public ArtifactMainStatsInfo[] ArtifactStatsInfo { get; private set; }
+        [field: SerializeField] public ArtifactStatsInfo[] ArtifactStatsInfo { get; private set; }
         [field: SerializeField] public ItemTypeSO ArtifactTypeSO { get; private set; }
-
-        public ArtifactMainStatsInfo GetRandomMainStats()
-        {
-            float sumofProbability = 0f;
-            foreach (var ArtifactStat in ArtifactStatsInfo)
-            {
-                sumofProbability += ArtifactStat.ProbabilityRange;
-            }
-
-            float cumalativeProbabilty = 0f;
-            float randomValue = Random.Range(0, sumofProbability);
-            foreach (var ArtifactStat in ArtifactStatsInfo)
-            {
-                if (randomValue < ArtifactStat.ProbabilityRange + cumalativeProbabilty)
-                {
-                    return ArtifactStat;
-                }
-
-                cumalativeProbabilty += ArtifactStat.ProbabilityRange;
-            }
-
-            return null;
-        }
-    }
-
-    [Serializable]
-    public class ArtifactSubStatsInfo : ArtifactStatsInfo
-    {
-        [field: SerializeField] public float Weight { get; private set; }
-    }
-
-
-    [Serializable]
-    public class ArtifactMainStatsInfo : ArtifactStatsInfo
-    {
-        [field: SerializeField, Range(0, 1)] public float ProbabilityRange { get; private set; }
     }
 
 
@@ -84,7 +50,7 @@ public class ArtifactManagerSO : ScriptableObject
 
     [field: SerializeField, Header("All Artifacts Set")] public ArtifactFamilySO[] ArtifactFamilyList { get; private set; }
     [field: SerializeField, Header("Main Stats Information")] public ArtifactMainStatsTypeInfo[] MainArtifactStatsInfoList { get; private set; }
-    [field: SerializeField, Header("Sub Stats Information")] public ArtifactSubStatsInfo[] SubArtifactStatsInfoList { get; private set; }
+    [field: SerializeField, Header("Sub Stats Information")] public ArtifactStatsInfo[] SubArtifactStatsInfoList { get; private set; }
     [SerializeField] private ArtifactNumberofStat[] ArtifactNumberOfStatList;
 
     [Header("Chance of Getting Max Stat")]
@@ -95,13 +61,13 @@ public class ArtifactManagerSO : ScriptableObject
     [field: SerializeField, Header("Artifact Upgrade EXP")] public ItemEXPCostManagerSO ArtifactEXPManagerSO { get; private set; }
 
     /// <summary>
-    /// Get the Artifact Family of the Artifacts. Eg; Thundering Fury
+    /// Get the Artifact Family of the Artifacts.Eg; Thundering Fury
     /// </summary>
     //public ArtifactFamilySO GetArtifactFamilySO(IItem iItem)
     //{
-    //    foreach(var family in ArtifactFamilyList)
+    //    foreach (var family in ArtifactFamilyList)
     //    {
-    //        foreach(var artifact in family.ArtifactSetsList)
+    //        foreach (var artifact in family.ArtifactSetsList)
     //        {
     //            ArtifactSO artifactSO = iItem as ArtifactSO;
     //            if (artifact == artifactSO)
@@ -111,9 +77,9 @@ public class ArtifactManagerSO : ScriptableObject
     //    return null;
     //}
 
-    public int GetArtifactRandomNumberofSubStat(Rarity Rarity)
+    public int GetArtifactRandomNumberofSubStat(ItemRaritySO ItemRaritySO)
     {
-        ArtifactNumberofStat artifactNumberofStat = GetArtifactNumberofSubStat(Rarity);
+        ArtifactNumberofStat artifactNumberofStat = GetArtifactNumberofSubStat(ItemRaritySO);
 
         if (artifactNumberofStat == null)
             return 1;
@@ -128,11 +94,11 @@ public class ArtifactManagerSO : ScriptableObject
 
         return noOfStats;
     }
-    public ArtifactNumberofStat GetArtifactNumberofSubStat(Rarity Rarity)
+    public ArtifactNumberofStat GetArtifactNumberofSubStat(ItemRaritySO ItemRaritySO)
     {
         foreach (var ArtifactNumberOfStat in ArtifactNumberOfStatList)
         {
-            if (ArtifactNumberOfStat.ItemRaritySO.Rarity == Rarity)
+            if (ArtifactNumberOfStat.ItemRaritySO == ItemRaritySO)
                 return ArtifactNumberOfStat;
         }
         return null;
@@ -155,6 +121,37 @@ public class ArtifactManagerSO : ScriptableObject
             if (ArtifactStatsInfo.ArtifactTypeSO == ArtifactTypeSO)
                 return ArtifactStatsInfo;
         }
+        return null;
+    }
+
+
+    public ArtifactStatsInfo GetRandomStats(List<ArtifactStatsInfo> statsInfos)
+    {
+        float sumofProbability = 0f;
+
+        List<ArtifactStatsInfo> ArtifactStatsInfoList = new(statsInfos);
+        for (int i = 0; i < ArtifactStatsInfoList.Count; i++)
+        {
+            int tempindex = Random.Range(i, ArtifactStatsInfoList.Count - 1);
+            ArtifactStatsInfo temp = ArtifactStatsInfoList[i];
+            ArtifactStatsInfoList[i] = ArtifactStatsInfoList[tempindex];
+            ArtifactStatsInfoList[tempindex] = temp;
+
+            sumofProbability += ArtifactStatsInfoList[i].Weight;
+        }
+
+        float cumalativeProbabilty = 0f;
+        float randomValue = Random.Range(0, sumofProbability);
+        foreach (var ArtifactStat in ArtifactStatsInfoList)
+        {
+            if (randomValue < ArtifactStat.Weight + cumalativeProbabilty)
+            {
+                return ArtifactStat;
+            }
+
+            cumalativeProbabilty += ArtifactStat.Weight;
+        }
+
         return null;
     }
 }

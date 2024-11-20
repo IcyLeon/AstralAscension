@@ -18,10 +18,9 @@ public class CharacterDataStat : IEntity, IEXP
     public event OnElementChange OnElementEnter;
     public event OnElementChange OnElementExit;
     public event Action OnUpgradeIEXP;
-    public event Action<IEntityEvents> OnIEntityChanged;
+    public event Action<IEntity> OnIEntityChanged;
 
     public EffectManager effectManager { get; }
-    public ArtifactEffectManager artifactEffectManager { get; private set; }
 
     public DamageableEntitySO damageableEntitySO { get; protected set; }
     private float maxHealth;
@@ -29,11 +28,11 @@ public class CharacterDataStat : IEntity, IEXP
     private int level;
     private int maxlevel;
     private int currentEXP;
+    private int totalEXP;
 
     public CharacterDataStat(CharactersSO charactersSO)
     {
         effectManager = new();
-        artifactEffectManager = new(this, effectManager);
 
         inflictElementList = new();
         equippeditemList = new();
@@ -154,14 +153,14 @@ public class CharacterDataStat : IEntity, IEXP
         return GetIItem().GetDescription();
     }
 
-    public Rarity GetRarity()
+    public ItemRaritySO GetRaritySO()
     {
-        return GetIItem().GetRarity();
+        return GetIItem().GetRaritySO();
     }
 
     public IItem GetIItem()
     {
-        return damageableEntitySO.GetIItem();
+        return GetIItem().GetIItem();
     }
 
     public bool IsNew()
@@ -194,10 +193,6 @@ public class CharacterDataStat : IEntity, IEXP
         return null;
     }
 
-    public void SetCurrentExp(int exp)
-    {
-    }
-
     public void Upgrade()
     {
         OnUpgradeIEXP?.Invoke();
@@ -210,5 +205,29 @@ public class CharacterDataStat : IEntity, IEXP
     public IEntity GetIEntity()
     {
         return this;
+    }
+
+    public int GetTotalExp()
+    {
+        return totalEXP;
+    }
+
+    public void AddExp(int exp)
+    {
+        currentEXP += exp;
+        AddTotalExp(exp);
+        currentEXP = Mathf.Max(currentEXP, 0);
+    }
+
+
+    public void RemoveExp(int exp)
+    {
+        currentEXP -= exp;
+        currentEXP = Mathf.Max(currentEXP, 0);
+    }
+
+    public void AddTotalExp(int exp)
+    {
+        totalEXP += exp;
     }
 }

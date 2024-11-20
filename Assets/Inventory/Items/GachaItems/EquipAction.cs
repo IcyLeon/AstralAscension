@@ -91,7 +91,7 @@ public class EquipAction : MonoBehaviour
         UpdateVisuals();
     }
 
-    private void UpgradableItems_OnIEntityChanged(IEntityEvents e)
+    private void UpgradableItems_OnIEntityChanged(IEntity e)
     {
         UpdateVisuals();
     }

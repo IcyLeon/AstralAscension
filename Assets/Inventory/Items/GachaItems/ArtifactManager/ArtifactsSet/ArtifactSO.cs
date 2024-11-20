@@ -11,4 +11,9 @@ public class ArtifactSO : ItemSO
     {
         return ArtifactFamilySO == artifactSO.ArtifactFamilySO;
     }
+
+    public override Item CreateItem()
+    {
+        return new Artifact(this);
+    }
 }

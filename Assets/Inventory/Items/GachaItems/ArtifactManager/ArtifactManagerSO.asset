@@ -98,7 +98,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 1
+      <Weight>k__BackingField: 100
     <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b,
       type: 2}
   - <ArtifactStatsInfo>k__BackingField:
@@ -183,7 +183,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 1
+      <Weight>k__BackingField: 100
     <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
       type: 2}
   - <ArtifactStatsInfo>k__BackingField:
@@ -268,7 +268,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.2668
+      <Weight>k__BackingField: 26.68
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -350,7 +350,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.2666
+      <Weight>k__BackingField: 26.68
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -432,7 +432,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.2668
+      <Weight>k__BackingField: 26.68
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -514,7 +514,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.1
+      <Weight>k__BackingField: 10
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c371dba63bb801443ab3a9a1277335a0,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -596,7 +596,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.1
+      <Weight>k__BackingField: 10
     <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516,
       type: 2}
   - <ArtifactStatsInfo>k__BackingField:
@@ -681,7 +681,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.1925
+      <Weight>k__BackingField: 19.25
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -763,7 +763,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.1925
+      <Weight>k__BackingField: 19.25
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -845,7 +845,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.19
+      <Weight>k__BackingField: 19
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -927,7 +927,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.025
+      <Weight>k__BackingField: 2.5
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: ed5566e1a7c18f84696ac97cbdfbabde,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -1009,7 +1009,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.05
+      <Weight>k__BackingField: 5
     <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: b85f86fbd679a314c823ed5373ef4ae9,
       type: 2}
   - <ArtifactStatsInfo>k__BackingField:
@@ -1094,7 +1094,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.22
+      <Weight>k__BackingField: 22
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 08959fd955be5b542ba4f6998e5f2e3d,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -1176,7 +1176,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.22
+      <Weight>k__BackingField: 22
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: e417c92881ddd2e4e82a1b7d05ce9147,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -1258,89 +1258,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.22
-    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
-        type: 2}
-      <ArtifactStatsValue>k__BackingField:
-      - <ArtifactCurveStats>k__BackingField:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 21
-            inSlope: 5.941667
-            outSlope: 5.941667
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 12
-            value: 92.3
-            inSlope: 5.941667
-            outSlope: 5.941667
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 0
-        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
-          type: 2}
-      - <ArtifactCurveStats>k__BackingField:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 25.2
-            inSlope: 7.1312504
-            outSlope: 7.1312504
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 16
-            value: 139.3
-            inSlope: 7.1312504
-            outSlope: 7.1312504
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 0
-        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
-          type: 2}
-      - <ArtifactCurveStats>k__BackingField:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 28
-            inSlope: 7.925
-            outSlope: 7.925
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 20
-            value: 186.5
-            inSlope: 7.925
-            outSlope: 7.925
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 0
-        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
-          type: 2}
-      <ProbabilityRange>k__BackingField: 0.04
+      <Weight>k__BackingField: 22
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 779ccf0402367f44892a2e36f363f218,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -1422,7 +1340,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.1
+      <Weight>k__BackingField: 10
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: 53467cce7b34e0e449ae64d3bfde97be,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -1504,7 +1422,7 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.1
+      <Weight>k__BackingField: 10
     - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: a22c45a7d205df54b8c655de99863a35,
         type: 2}
       <ArtifactStatsValue>k__BackingField:
@@ -1586,7 +1504,89 @@ MonoBehaviour:
           m_RotationOrder: 0
         <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
           type: 2}
-      <ProbabilityRange>k__BackingField: 0.1
+      <Weight>k__BackingField: 10
+    - <ArtifactStatSO>k__BackingField: {fileID: 11400000, guid: c004fb1108bcacf4eb8baf8d35911b72,
+        type: 2}
+      <ArtifactStatsValue>k__BackingField:
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 21
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 12
+            value: 92.3
+            inSlope: 5.941667
+            outSlope: 5.941667
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 25.2
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 16
+            value: 139.3
+            inSlope: 7.1312504
+            outSlope: 7.1312504
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+          type: 2}
+      - <ArtifactCurveStats>k__BackingField:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 28
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 20
+            value: 186.5
+            inSlope: 7.925
+            outSlope: 7.925
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+        <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+          type: 2}
+      <Weight>k__BackingField: 4
     <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1,
       type: 2}
   <SubArtifactStatsInfoList>k__BackingField:
@@ -2162,5 +2162,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 779ccf0402367f44892a2e36f363f218, type: 2}
   - {fileID: 11400000, guid: a22c45a7d205df54b8c655de99863a35, type: 2}
   - {fileID: 11400000, guid: c371dba63bb801443ab3a9a1277335a0, type: 2}
+  - {fileID: 11400000, guid: ed5566e1a7c18f84696ac97cbdfbabde, type: 2}
   <ArtifactEXPManagerSO>k__BackingField: {fileID: 11400000, guid: b2acf8e06d6aef945ac779da25ec0886,
     type: 2}

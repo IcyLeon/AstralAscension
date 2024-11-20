@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static DamageManager;
 using static ElementalReactionsManager;
 
 public abstract class ElementalReaction
@@ -10,8 +10,7 @@ public abstract class ElementalReaction
     public IDamageable target { get; private set; }
     public ElementalReactionSO elementalReactionSO { get; protected set; }
 
-    public delegate void OnEREvent(ElementalReaction ER);
-    public event OnEREvent OnERDestroy;
+    public event Action<ElementalReaction> OnERDestroy;
 
     protected ElementDamageInfoEvent ElementDamageInfoEvent;
 

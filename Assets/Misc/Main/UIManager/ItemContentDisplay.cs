@@ -127,7 +127,9 @@ public class ItemContentDisplay : MonoBehaviour
         InitAssets();
         starPool.ResetAll();
 
-        for (int i = 0; i <= (int)iItem.GetRarity(); i++)
+        ItemRaritySO itemRaritySO = iItem.GetRaritySO();
+
+        for (int i = 0; i <= (int)itemRaritySO.Rarity; i++)
         {
             starPool.GetPooledObject();
         }
@@ -171,12 +173,12 @@ public class ItemContentDisplay : MonoBehaviour
         UpdateUpgradableItemsVisual();
     }
 
-    private void UpgradableItem_OnIEntityChanged(IEntityEvents e)
+    private void UpgradableItem_OnIEntityChanged(IEntity e)
     {
         UpdateUpgradableItemsVisual();
     }
 
-    private void IEntity_OnIEntityChanged(IEntityEvents e)
+    private void IEntity_OnIEntityChanged(IEntity e)
     {
         UpdateSubInformationVisuals();
     }
