@@ -7,7 +7,7 @@ public class PartyEvents : EventArgs
 {
     public int PartyIndex;
     public int PartyCharacterLocation;
-    public CharacterDataStat CharacterDataStat;
+    public CharactersSO CharactersSO;
 }
 
 public class PartySetupManager
@@ -15,14 +15,14 @@ public class PartySetupManager
     public const int MAX_EQUIP_CHARACTERS = 4;
     public const int MAX_PARTY = 4;
 
-    private List<CharacterDataStat>[] PartySetupList;
+    private Dictionary<int, List<CharactersSO>> PartySetupList;
 
     private int currentPartyIndex;
 
     public CharacterStorage characterStorage { get; private set; }
 
     public event EventHandler<PartyEvents> OnPartyAdd, OnPartyRemove;
-    public event EventHandler OnCurrentPartyChanged;
+    public event Action OnCurrentPartyChanged;
 
     public PartySetupManager(CharacterStorage CharacterStorage)
     {
@@ -31,12 +31,11 @@ public class PartySetupManager
         characterStorage.OnCharacterAdd += CharacterStorage_OnCharacterAdd;
         characterStorage.OnCharacterRemove += CharacterStorage_OnCharacterRemove;
 
-        PartySetupList = new List<CharacterDataStat>[MAX_PARTY];
-
+        PartySetupList = new();
         // init all party as null
         for (int i = 0; i < MAX_PARTY; i++)
         {
-            PartySetupList[i] = new List<CharacterDataStat>();
+            PartySetupList.Add(i, new List<CharactersSO>());
 
             for (int j = 0; j < MAX_EQUIP_CHARACTERS; j++) {
                 PartySetupList[i].Add(null);
@@ -44,6 +43,11 @@ public class PartySetupManager
         }
 
         SetCurrentParty(0);
+    }
+
+    public PlayableCharacterDataStat GetPlayableCharacterDataStat(CharactersSO CharactersSO)
+    {
+        return characterStorage.GetPlayableCharacterDataStat(CharactersSO);
     }
 
     public void OnDestroy()
@@ -54,7 +58,7 @@ public class PartySetupManager
 
     private void CharacterStorage_OnCharacterRemove(CharacterDataStat c)
     {
-        RemoveAllMembers(c);
+        RemoveAllMembers(c.damageableEntitySO);
     }
 
     private void CharacterStorage_OnCharacterAdd(CharacterDataStat c)
@@ -63,22 +67,22 @@ public class PartySetupManager
 
     public void SetCurrentParty(int index)
     {
-        if (index < 0 || index >= PartySetupList.Length)
+        if (index < 0 || index >= PartySetupList.Count)
             return;
 
         currentPartyIndex = index;
 
-        OnCurrentPartyChanged?.Invoke(this, EventArgs.Empty);
+        OnCurrentPartyChanged?.Invoke();
     }
 
-    public List<CharacterDataStat> GetCurrentPartyLayout()
+    public List<CharactersSO> GetCurrentPartyLayout()
     {
         return PartySetupList[currentPartyIndex];
     }
 
-    public List<CharacterDataStat> GetCurrentPartyMembers()
+    public List<CharactersSO> GetCurrentPartyMembers()
     {
-        List<CharacterDataStat> PartyLayout = new(GetCurrentPartyLayout());
+        List<CharactersSO> PartyLayout = new(GetCurrentPartyLayout());
 
         for(int i = PartyLayout.Count - 1; i >= 0; i--)
         {
@@ -91,30 +95,30 @@ public class PartySetupManager
         return PartyLayout;
     }
 
-    public void AddMember(CharacterDataStat characterDataStat, int partySetupIndex, int PartyLocation)
+    public void AddMember(CharactersSO charactersSO, int partySetupIndex, int PartyLocation)
     {
-        if (characterDataStat == null || characterStorage.HasObtainedCharacter(characterDataStat.damageableEntitySO) == null)
+        if (charactersSO == null || characterStorage.HasObtainedCharacter(charactersSO) == null)
             return;
 
-        CharacterDataStat CharacterInSlot = PartySetupList[partySetupIndex][PartyLocation];
+        CharactersSO CharacterInSlot = PartySetupList[partySetupIndex][PartyLocation];
 
-        if (CharacterAlreadyExist(characterDataStat.damageableEntitySO, partySetupIndex))
+        if (CharacterAlreadyExist(charactersSO, partySetupIndex))
         {
-            Debug.Log(characterDataStat.damageableEntitySO.GetName() + " is already existed!");
+            Debug.Log(charactersSO.GetName() + " is already existed!");
             return;
         }
 
         if (CharacterInSlot != null)
         {
-            Debug.Log(CharacterInSlot.damageableEntitySO.GetName() + " is currently taking this slot!");
+            Debug.Log(CharacterInSlot.GetName() + " is currently taking this slot!");
             return;
         }
 
-        PartySetupList[partySetupIndex][PartyLocation] = characterDataStat;
+        PartySetupList[partySetupIndex][PartyLocation] = charactersSO;
 
         OnPartyAdd?.Invoke(this, new PartyEvents
         {
-            CharacterDataStat = characterDataStat,
+            CharactersSO = charactersSO,
             PartyIndex = partySetupIndex,
             PartyCharacterLocation = PartyLocation
         });
@@ -126,9 +130,9 @@ public class PartySetupManager
         }
     }
 
-    public void AddMember(CharacterDataStat characterDataStat, int partySetupIndex)
+    public void AddMember(CharactersSO charactersSO, int partySetupIndex)
     {
-        if (characterDataStat == null && characterStorage.HasObtainedCharacter(characterDataStat.damageableEntitySO) == null)
+        if (charactersSO == null || characterStorage.HasObtainedCharacter(charactersSO) == null)
             return;
 
         int emptySlot = GetEmptySlot(partySetupIndex);
@@ -136,19 +140,22 @@ public class PartySetupManager
         if (emptySlot == -1)
             return;
 
-        AddMember(characterDataStat, partySetupIndex, emptySlot);
+        AddMember(charactersSO, partySetupIndex, emptySlot);
     }
 
     public void RemoveMember(int partySetupIndex, int partyLocation)
     {
+        CharactersSO charactersSO = PartySetupList[partySetupIndex][partyLocation];
+
+        PartySetupList[partySetupIndex][partyLocation] = null;
+
         OnPartyRemove?.Invoke(this, new PartyEvents
         {
-            CharacterDataStat = PartySetupList[partySetupIndex][partyLocation],
+            CharactersSO = charactersSO,
             PartyCharacterLocation = partyLocation,
             PartyIndex = partySetupIndex
         });
 
-        PartySetupList[partySetupIndex][partyLocation] = null;
 
         // update the current party if there is any change
         if (partySetupIndex == currentPartyIndex)
@@ -157,25 +164,25 @@ public class PartySetupManager
         }
     }
 
-    public void RemoveMember(CharacterDataStat characterDataStat, int partySetupIndex)
+    public void RemoveMember(CharactersSO charactersSO, int partySetupIndex)
     {
-        if (partySetupIndex < 0 || partySetupIndex >= PartySetupList.Length)
+        if (partySetupIndex < 0 || partySetupIndex >= PartySetupList.Count)
             return;
 
         for (int j = 0; j < PartySetupList[partySetupIndex].Count; j++)
         {
-            CharacterDataStat c = PartySetupList[partySetupIndex][j];
+            CharactersSO c = PartySetupList[partySetupIndex][j];
 
-            if (c != null && c.damageableEntitySO == characterDataStat.damageableEntitySO)
+            if (c != null && c == charactersSO)
             {
                 RemoveMember(partySetupIndex, j);
             }
         }
     }
 
-    public void RemoveAllMembers(CharacterDataStat characterDataStat)
+    public void RemoveAllMembers(CharactersSO charactersSO)
     {
-        List<int>[] CharacterInParties = FindCharacterInParties(characterDataStat);
+        List<int>[] CharacterInParties = FindCharacterInParties(charactersSO);
 
         // CharacterInParties[i][j] gets the character location
 
@@ -192,10 +199,10 @@ public class PartySetupManager
     {
         int slot = -1;
 
-        if (partySetupIndex < 0 || partySetupIndex >= PartySetupList.Length)
+        if (partySetupIndex < 0 || partySetupIndex >= PartySetupList.Count)
             return slot;
 
-        List<CharacterDataStat> PartyMemberList = PartySetupList[partySetupIndex];
+        List<CharactersSO> PartyMemberList = PartySetupList[partySetupIndex];
 
         for (int i = 0; i < PartyMemberList.Count; i++)
         {
@@ -209,22 +216,22 @@ public class PartySetupManager
         return slot;
     }
 
-    private List<int>[] FindCharacterInParties(CharacterDataStat CharacterDataStat)
+    private List<int>[] FindCharacterInParties(CharactersSO CharactersSO)
     {
-        List<int>[] PartyList = new List<int>[PartySetupList.Length];
+        List<int>[] PartyList = new List<int>[PartySetupList.Count];
 
-        if (CharacterDataStat == null)
+        if (CharactersSO == null)
             return PartyList;
 
 
-        for (int i = 0; i < PartySetupList.Length; i++)
+        for (int i = 0; i < PartySetupList.Count; i++)
         {
             PartyList[i] = new List<int>();
 
             for (int j = 0; j < PartySetupList[i].Count; j++)
             {
                 if (PartySetupList[i][j] != null &&
-                    PartySetupList[i][j].damageableEntitySO == CharacterDataStat.damageableEntitySO)
+                    PartySetupList[i][j] == CharactersSO)
                 {
                     PartyList[i].Add(j);
                 }
@@ -236,12 +243,12 @@ public class PartySetupManager
 
     private bool CharacterAlreadyExist(CharactersSO charactersSO, int partySetupIndex)
     {
-        if (charactersSO == null || partySetupIndex < 0 || partySetupIndex >= PartySetupList.Length)
+        if (charactersSO == null || partySetupIndex < 0 || partySetupIndex >= PartySetupList.Count)
             return false;
 
         foreach (var PartyMember in PartySetupList[partySetupIndex])
         {
-            if (PartyMember != null && PartyMember.damageableEntitySO == charactersSO)
+            if (PartyMember != null && PartyMember == charactersSO)
                 return true;
         }
 

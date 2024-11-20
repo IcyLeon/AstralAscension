@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static DamageManager;
 
 [DisallowMultipleComponent]
 public class ElementalReactionsManager : MonoBehaviour
@@ -29,7 +28,6 @@ public class ElementalReactionsManager : MonoBehaviour
         elementalReactionMiscEvents.OnAddElementEvent += OnAddElementToTarget;
         elementalReactionMiscEvents.OnElementDamageEvent += OnElementDamageOnTarget;
         elementalReactionMiscEvents.OnElementDamageEvent += OnElementDamageTextSpawn;
-        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
     }
 
     private void OnDisable()
@@ -37,7 +35,6 @@ public class ElementalReactionsManager : MonoBehaviour
         elementalReactionMiscEvents.OnAddElementEvent -= OnAddElementToTarget;
         elementalReactionMiscEvents.OnElementDamageEvent -= OnElementDamageOnTarget;
         elementalReactionMiscEvents.OnElementDamageEvent -= OnElementDamageTextSpawn;
-        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
     }
 
     private void OnElementDamageOnTarget(ElementDamageInfoEvent e)
@@ -89,10 +86,6 @@ public class ElementalReactionsManager : MonoBehaviour
         }
     }
 
-    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
-    {
-        ElementalReactionDictionary.Clear();
-    }
 
     public bool isImmune(IDamageable target, ElementsInfoSO incomingElementIsnfoSO)
     {

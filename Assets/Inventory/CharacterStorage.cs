@@ -22,6 +22,14 @@ public class CharacterStorage
         OnCharacterAdd?.Invoke(c);
     }
 
+    public PlayableCharacterDataStat GetPlayableCharacterDataStat(CharactersSO CharactersSO)
+    {
+        if (!playableCharacterStatList.TryGetValue(CharactersSO, out PlayableCharacterDataStat playableCharacterDataStat))
+            return null;
+
+        return playableCharacterDataStat;
+    }
+
     public void RemoveCharacterData(CharactersSO c)
     {
         if (c == null)

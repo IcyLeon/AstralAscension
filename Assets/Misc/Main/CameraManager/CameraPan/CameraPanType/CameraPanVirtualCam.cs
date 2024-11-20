@@ -14,7 +14,7 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
     public CinemachineVirtualCamera VirtualCamera { get; private set; }
     public Cinemachine3rdPersonFollow Cinemachine3rdPersonFollow { get; private set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         cameraPanManager = GetComponentInParent<CameraPanManager>();
 

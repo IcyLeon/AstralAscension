@@ -4,13 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static InventoryManager;
 using Random = UnityEngine.Random;
-
-public class UpgradeEvents : EventArgs
-{
-    public int Exp;
-}
 
 [DisallowMultipleComponent]
 public class EnhancementMaterialContainer : MonoBehaviour
@@ -18,11 +12,11 @@ public class EnhancementMaterialContainer : MonoBehaviour
     [SerializeField] private TMP_Dropdown dropdown;
     [SerializeField] private Button AutoAddBtn;
     [SerializeField] private Button EnhanceBtn;
+    [SerializeField] private SlotPopup SlotPopup;
     private Rarity raritySelection;
     private EnhancementManager enhancementManager;
-    private SlotManager slotManager;
-    public event EventHandler<UpgradeEvents> OnUpgradeClick;
-    public event EventHandler<UpgradeEvents> OnSlotItemChanged;
+    public event Action<int> OnUpgradeClick;
+    public event Action<int> OnSlotItemChanged;
     private IEXP iEXPEntity;
     private int AddExpAmount;
 
@@ -30,15 +24,10 @@ public class EnhancementMaterialContainer : MonoBehaviour
     {
         AddExpAmount = 0;
 
-        OnInventoryNew += InventoryManager_OnInventoryNew;
-
         enhancementManager = GetComponentInParent<EnhancementManager>();
         enhancementManager.OnEnhanceItemChanged += EnhancePanel_OnEnhanceItemChanged;
 
-        slotManager = GetComponentInChildren<SlotManager>();
-
-        slotManager.OnSlotItemAdd += SlotManager_OnSlotItemAdd;
-        slotManager.OnSlotItemRemove += SlotManager_OnSlotItemRemove;
+        SlotPopup.OnSlotChanged += SlotManager_OnSlotChanged;
 
         AutoAddBtn.onClick.AddListener(OnAutoAdd);
         EnhanceBtn.onClick.AddListener(OnEnhance);
@@ -49,53 +38,38 @@ public class EnhancementMaterialContainer : MonoBehaviour
         });
     }
 
-    private void SlotManager_OnSlotItemRemove(object sender, SlotItemEvent e)
+    private void Start()
     {
-        CallOnSlotItemChanged(this);
+        UpdateVisual();
     }
 
-    private void SlotManager_OnSlotItemAdd(object sender, SlotItemEvent e)
+    private void SlotManager_OnSlotChanged(Slot Slot)
     {
-        CallOnSlotItemChanged(this);
+        AddExpAmount = GetAddTotalExp();
+        OnSlotItemChanged?.Invoke(AddExpAmount);
     }
 
-    private void CallOnSlotItemChanged(object sender)
+    private int GetAddTotalExp()
     {
-        List<IEntity> itemEntityList = slotManager.GetItemEntityList();
-
-        AddExpAmount = GetTotalExp(itemEntityList);
-
-        OnSlotItemChanged?.Invoke(sender, new UpgradeEvents
-        {
-            Exp = AddExpAmount
-
-        });
-    }
-
-    private int GetTotalExp(List<IEntity> entitiesList)
-    {
+        List<IEntity> entitiesList = SlotPopup.GetAllSlotEntities();
         int total = 0;
 
-        for(int i = 0; i < entitiesList.Count; i++)
+        for (int i = 0; i < entitiesList.Count; i++)
         {
-            IEXP iexpEntity = entitiesList[i] as IEXP;
-            if (iexpEntity == null)
+            IEXP iExpEntity = entitiesList[i] as IEXP;
+
+            if (iExpEntity == null)
             {
-                continue;
+                return 0;
             }
 
-            int baseExp = iexpEntity.GetExpCostSO().GetBaseEnhancementEXP(entitiesList[i].GetRarity());
-            float enhancedEXP = 0.8f * (iexpEntity.GetCurrentExp() + iexpEntity.GetExpCostSO().GetTotalExpRequired(iexpEntity.GetLevel(), entitiesList[i].GetRarity()));
-
-
+            int baseExp = iExpEntity.GetExpCostSO().GetBaseEnhancementEXP(iExpEntity.GetIEntity().GetRaritySO());
+            float enhancedEXP = 0.8f * GetTotalEXP(iExpEntity);
             total += baseExp + Mathf.RoundToInt(enhancedEXP);
-
         }
 
         int totalEnhancementRequired = GetTotalEnhancementEXP();
-        int totalCurrentEXP = GetCurrentTotalEnhancementEXP();
-        int totalEnhancementEXP = totalCurrentEXP + total;
-
+        int totalEnhancementEXP = GetTotalEXP(iEXPEntity) + total;
         if (totalEnhancementEXP >= totalEnhancementRequired)
         {
             int diff = totalEnhancementEXP - totalEnhancementRequired;
@@ -105,6 +79,14 @@ public class EnhancementMaterialContainer : MonoBehaviour
         return total;
     }
 
+    private int GetTotalEXP(IEXP IExpEntity)
+    {
+        if (IExpEntity == null)
+            return 0;
+
+        return IExpEntity.GetCurrentExp() + IExpEntity.GetExpCostSO().GetTotalExpRequired(IExpEntity.GetLevel(), IExpEntity.GetIEntity().GetRaritySO());
+    }
+
     private int GetTotalEnhancementEXP()
     {
         if (iEXPEntity == null)
@@ -112,31 +94,16 @@ public class EnhancementMaterialContainer : MonoBehaviour
             return 0;
         }
 
-        return iEXPEntity.GetExpCostSO().GetTotalExpRequired(iEXPEntity.GetMaxLevel(), iEXPEntity.GetIEntity().GetRarity());
+        return iEXPEntity.GetExpCostSO().GetTotalExpRequired(iEXPEntity.GetMaxLevel(), iEXPEntity.GetIEntity().GetRaritySO());
     }
 
-    private int GetCurrentTotalEnhancementEXP()
-    {
-        if (iEXPEntity == null)
-        {
-            return 0;
-        }
-
-        return iEXPEntity.GetCurrentExp() + iEXPEntity.GetExpCostSO().GetTotalExpRequired(iEXPEntity.GetLevel(), iEXPEntity.GetIEntity().GetRarity());
-    }
-
-
-    private void Start()
-    {
-        Init();
-    }
 
     private void OnDropdown(TMP_Dropdown dropdown)
     {
         raritySelection = (Rarity)dropdown.value;
     }
 
-    private void EnhancePanel_OnEnhanceItemChanged(object sender, System.EventArgs e)
+    private void EnhancePanel_OnEnhanceItemChanged()
     {
         UpdateVisual();
     }
@@ -144,140 +111,48 @@ public class EnhancementMaterialContainer : MonoBehaviour
     private void UpdateVisual()
     {
         iEXPEntity = enhancementManager.iEXPEntity;
-        ResetSlots();
-        slotManager.SetIItemType(iEXPEntity.GetIEntity());
-    }
-
-    private void Init()
-    {
-        if (instance == null)
-        {
-            Debug.LogError("Inventory Manager  not found!");
-            return;
-        }
-
-        UpdateVisual();
-
-        InventoryManager_OnInventoryNew(instance.inventory);
-    }
-
-    private void ResetSlots()
-    {
-        slotManager.ResetAllSlots();
-    }
-
-    private void InventoryManager_OnInventoryNew(Inventory Inventory)
-    {
-        ResetSlots();
-    }
-
-    private void QuickSort(List<IEntity> list, int left, int right)
-    {
-        if (left < right)
-        {
-            int pivot = Partition(list, left, right);
-
-            QuickSort(list, left, pivot - 1);
-            QuickSort(list, pivot + 1, right);
-        }
-    }
-
-    private int Partition(List<IEntity> list, int left, int right)
-    {
-        Rarity pivot = list[right].GetRarity();
-        int i = left - 1;
-
-        for (int j = left; j < right; j++)
-        {
-            if (list[j].GetRarity() <= pivot)
-            {
-                i++;
-                Swap(ref list, i, j);
-            }
-        }
-
-        Swap(ref list, i + 1, right);
-
-        return i + 1;
-    }
-
-    private void Swap(ref List<IEntity> list, int first, int second)
-    {
-        var temp = list[first];
-        list[first] = list[second];
-        list[second] = temp;
-    }
-
-    private List<IEntity> GetRelatedItemList(List<IEntity> list)
-    {
-        List<IEntity> IEntityList = new();
-
-        foreach(var item in list)
-        {
-            if (item != null &&
-                item.GetRarity() <= raritySelection
-                && slotManager.CanManualAdd(item))
-            {
-                IEntityList.Add(item);
-            }
-        }
-
-        return IEntityList;
+        SlotPopup.SetIItem(iEXPEntity.GetIEntity());
     }
 
     private void OnAutoAdd()
     {
-        List<IEntity> allrelatedItems = GetRelatedItemList(slotManager.GetItemList());
-
-        if (allrelatedItems.Count == 0)
-        {
-            PopoutMessageManager.SendPopoutMessage(this, "No Consumables Found!");
-            return;
-        }
+        List<IItem> allrelatedItems = SlotPopup.GetEntityList(raritySelection, SlotPopup.slotManager.GetTotalAvailableSlots());
 
         for (int i = 0; i < allrelatedItems.Count; i++)
         {
-            int randomValue = i + Random.Range(0, allrelatedItems.Count - i);
-            Swap(ref allrelatedItems, i, randomValue);
-        }
+            IItem IEntity = allrelatedItems[i];
 
-        QuickSort(allrelatedItems, 0, allrelatedItems.Count - 1);
-
-        for (int i = 0; i < slotManager.GetTotalSlots(); i++)
-        {
-            if (i < allrelatedItems.Count && !slotManager.TryAddEntityToAvailableSlot(allrelatedItems[i]))
+            if (!SlotPopup.AddEntityToSlot(IEntity))
             {
                 return;
             }
+        }
+
+        if (allrelatedItems.Count == 0)
+        {
+            PopoutMessageManager.SendPopoutMessage("No Consumables Found!");
+            return;
         }
     }
 
     private void OnEnhance()
     {
-        List<IEntity> itemEntityList = slotManager.GetItemEntityList();
-
-        if (itemEntityList.Count == 0)
+        if (SlotPopup.slotManager.GetTotalUsedUpSlots() == 0)
         {
             return;
         }
 
-        OnUpgradeClick?.Invoke(this, new UpgradeEvents
-        {
-            Exp = AddExpAmount
-        });
+        OnUpgradeClick?.Invoke(AddExpAmount);
 
-        ResetSlots();
+        SlotPopup.RemoveItems(SlotPopup.GetAllSlotEntities());
 
-        slotManager.RemoveItems(itemEntityList);
+        SlotPopup.slotManager.ResetAllSlots();
     }
 
     // Update is called once per frame
     private void OnDestroy()
     {
-        OnInventoryNew -= InventoryManager_OnInventoryNew;
-
-        slotManager.OnSlotItemAdd -= SlotManager_OnSlotItemAdd;
-        slotManager.OnSlotItemRemove -= SlotManager_OnSlotItemRemove;
+        SlotPopup.slotManager.OnSlotChanged -= SlotManager_OnSlotChanged;
 
         if (enhancementManager != null)
         {

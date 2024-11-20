@@ -30,14 +30,7 @@ public class ElementalSkillCombatUI : SkillCombatUI
 
     protected override void UpdateUsageAlpha()
     {
-        if (CanUseSkill())
-        {
-            BackgroundCanvasGroup.alpha = 0.5f;
-        }
-        else
-        {
-            BackgroundCanvasGroup.alpha = 0.3f;
-        }
+        BackgroundCanvasGroup.alpha = CanUseSkill() ? 0.5f : 0.3f;
     }
 
     protected override bool CanUseSkill()

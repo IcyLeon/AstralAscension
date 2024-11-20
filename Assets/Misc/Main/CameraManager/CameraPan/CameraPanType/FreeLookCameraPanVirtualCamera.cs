@@ -8,14 +8,22 @@ public class FreeLookCameraPanVirtualCamera : CameraPanVirtualCam
     private float targetCameraDistance;
     private float cameraZoomSpeed;
     private float cameraZoomSmoothingSpeed;
+    private float originalCameraDistance;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        originalCameraDistance = Cinemachine3rdPersonFollow.CameraDistance;
+        cameraZoomSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraZoomSpeed;
+        cameraZoomSmoothingSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraZoomSmoothingSpeed;
+    }
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        targetCameraDistance = cameraPanManager.CameraPanSelectionDataSO.CameraDistance;
-        cameraZoomSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraZoomSpeed;
-        cameraZoomSmoothingSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraZoomSmoothingSpeed;
+        targetCameraDistance = originalCameraDistance;
     }
 
     protected override void Update()

@@ -38,7 +38,7 @@ public class PartyMembersUIManager : MonoBehaviour
         }
     }
 
-    private void PartySetupManager_OnCurrentPartyChanged(object sender, System.EventArgs e)
+    private void PartySetupManager_OnCurrentPartyChanged()
     {
         UpdateVisual();
     }
@@ -58,11 +58,14 @@ public class PartyMembersUIManager : MonoBehaviour
             if (partyMemberContent == null)
                 continue;
 
-            partyMemberContent.SetCharacterDataStat(characterDataStat as PlayableCharacterDataStat);
 
-            if (!PartyMemberContentDictionary.ContainsKey(characterDataStat))
+            PlayableCharacterDataStat pc = PartySetupManager.GetPlayableCharacterDataStat(characterDataStat);
+
+            partyMemberContent.SetCharacterDataStat(pc);
+
+            if (!PartyMemberContentDictionary.ContainsKey(pc))
             {
-                PartyMemberContentDictionary.Add(characterDataStat, partyMemberContent);
+                PartyMemberContentDictionary.Add(pc, partyMemberContent);
             }
         }
     }
@@ -76,11 +79,5 @@ public class PartyMembersUIManager : MonoBehaviour
         {
             PartySetupManager.OnCurrentPartyChanged -= PartySetupManager_OnCurrentPartyChanged;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

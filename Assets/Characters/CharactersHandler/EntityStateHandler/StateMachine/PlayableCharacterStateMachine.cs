@@ -36,6 +36,12 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         return StateMachineManager.IsInState<PlayerCharacterAttackState>();
     }
 
+    public bool IsAirborne()
+    {
+        return StateMachineManager.IsInState<PlayerAirborneState>();
+    }
+
+
     public override void Update()
     {
         if (playerStateMachine != null)

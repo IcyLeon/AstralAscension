@@ -6,19 +6,22 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using static ArtifactManager;
 
-public class Artifact : GachaItem
+public class Artifact : UpgradableItems
 {
     public ArtifactManagerSO artifactManagerSO { get; private set; }
     public ArtifactMainStat mainStat { get; private set; }
     public Dictionary<ArtifactStatSO, ArtifactSubStat> subStats { get; private set; }
+    public ArtifactSO artifactSO { get; private set; }
 
-    public Artifact(Rarity rarity, IItem iItem) : base(rarity, iItem)
+    public Artifact(IItem iItem) : base(iItem)
     {
         if (artifactManagerSO == null)
         {
             Debug.LogError("ArtifactManagerSO not found!");
             return;
         }
+
+        artifactSO = GetIItem() as ArtifactSO;
 
         subStats = new();
         GenerateMainStat();
@@ -50,7 +53,7 @@ public class Artifact : GachaItem
 
     private void GenerateRandomSubStat()
     {
-        int randomNoSubStats = artifactManagerSO.GetArtifactRandomNumberofSubStat(GetRarity());
+        int randomNoSubStats = artifactManagerSO.GetArtifactRandomNumberofSubStat(GetRaritySO());
 
         for (int i = 0; i < randomNoSubStats; i++)
         {
@@ -66,7 +69,7 @@ public class Artifact : GachaItem
 
     private bool HasMaxedOutSubStats()
     {
-        return subStats.Count >= artifactManagerSO.GetArtifactNumberofSubStat(GetRarity()).MaxNoOfStats;
+        return subStats.Count >= artifactManagerSO.GetArtifactNumberofSubStat(GetRaritySO()).MaxNoOfStats;
     }
 
     protected override void UpgradeItemAction()

@@ -23,7 +23,7 @@ public class EquipIcon : MonoBehaviour
         UpdateVisual();
     }
 
-    private void UpgradableItem_OnIEntityChanged(IEntityEvents e)
+    private void UpgradableItem_OnIEntityChanged(IEntity e)
     {
         if (this == null)
             return;

@@ -13,6 +13,7 @@ public class PlayableCharacterVoicelinesSO : ScriptableObject
     [SerializeField] private AudioClip[] ElementalSkill_RecastVOClips;
     [SerializeField] private AudioClip[] ElementalBurstVOClips;
     [SerializeField] private AudioClip[] LightInjuredVOClips;
+    [SerializeField] private AudioClip[] HeavyInjuredVOClips;
 
     private AudioClip GetRandomAudioClip(AudioClip[] clip, bool ignoreProbability = false)
     {

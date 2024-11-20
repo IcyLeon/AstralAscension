@@ -11,14 +11,11 @@ public class TabGroup : MonoBehaviour
     protected TabOption[] tabOptions;
 
     public TabOption selectedTabOption { get; private set; }
-    public event EventHandler<TabOption.TabEvents> OnTabGroupChanged;
+    public event Action<TabOption.TabEvents> OnTabGroupChanged;
 
     protected virtual void Awake()
     {
         tabOptions = GetComponentsInChildren<TabOption>(true);
-
-        if (tabOptions == null)
-            return;
 
         foreach(var tabOption in tabOptions)
         {
@@ -42,23 +39,24 @@ public class TabGroup : MonoBehaviour
         }
     }
 
-    protected virtual void OnSelectedPanel(TabOption tabOption, TabOption.TabEvents e)
+    protected virtual void OnSelectedPanel(TabOption.TabEvents e)
     {
         if (e.TabOptionIconImage != null)
             e.TabOptionIconImage.color = SelectedTabColor;
 
-        OnTabGroupChanged?.Invoke(this, new TabOption.TabEvents
+        selectedTabOption = e.TabOption;
+
+        OnTabGroupChanged?.Invoke(new TabOption.TabEvents
         {
-            PanelRectTransform = tabOption.Panel,
+            PanelRectTransform = e.PanelRectTransform,
             TabOptionIconImage = e.TabOptionIconImage
         });
     }
 
-    private void TabOption_TabOptionClick(object sender, TabOption.TabEvents e)
+    private void TabOption_TabOptionClick(TabOption.TabEvents e)
     {
         ResetAllTabOption();
-        selectedTabOption = sender as TabOption;
-        OnSelectedPanel(selectedTabOption, e);
+        OnSelectedPanel(e);
     }
 
     private void OnDestroy()

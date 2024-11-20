@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CameraPanSelectionDataSO
   m_EditorClassIdentifier: 
   <CameraDistance>k__BackingField: 2.5
-  <CameraDistanceRange>k__BackingField: {x: 1.25, y: 3}
+  <CameraDistanceRange>k__BackingField: {x: 1.25, y: 2.5}
   <CameraRotationSpeed>k__BackingField: 10
   <CameraRotationSmoothingSpeed>k__BackingField: 10
   <CameraZoomSmoothingSpeed>k__BackingField: 12

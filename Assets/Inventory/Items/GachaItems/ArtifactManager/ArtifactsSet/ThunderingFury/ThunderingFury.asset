@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: ThunderingFury
   m_EditorClassIdentifier: 
   <ArtifactSetName>k__BackingField: Thundering Fury
-  <ArtifactSetsList>k__BackingField:
-  - {fileID: 11400000, guid: 966490d848437ad4d84a969035b8d42e, type: 2}
-  - {fileID: 11400000, guid: 877d66ca2e989cc49be37e2d7e809b7c, type: 2}
-  - {fileID: 11400000, guid: b0cfee783ab5ade4ba5d09e8d052ae8b, type: 2}
-  - {fileID: 11400000, guid: d15773c3778b28d45a0683960c9453e1, type: 2}
-  - {fileID: 11400000, guid: 915385dfc6e0cbb428a058d0cc203edc, type: 2}
-  <TwoPieceDescription>k__BackingField: Electro DMG Bonus +15%
-  <FourPieceDescription>k__BackingField: Increases DMG caused by Overloaded, Electro-Charged,
-    Superconduct, and Hyperbloom by 40%, and the DMG Bonus conferred by Aggravate
-    is increased by 20%. When Quicken or the aforementioned Elemental Reactions are
-    triggered, Elemental Skill CD is decreased by 1s. Can only occur once every 0.8s.
+  <TwoPieceBuff>k__BackingField:
+    BuffFactoryPrefab: {fileID: 148587858360583009, guid: eb9a6e269177d8c4caddfc1d5aeb454b,
+      type: 3}
+    <NoOfPiece>k__BackingField: 2
+    <Description>k__BackingField: Electro DMG Bonus +15%
+  <FourPieceBuff>k__BackingField:
+    BuffFactoryPrefab: {fileID: 5632983845248879547, guid: 92a695e6b55f7f14aaf64e00dc097c72,
+      type: 3}
+    <NoOfPiece>k__BackingField: 4
+    <Description>k__BackingField: Increases DMG caused by Overloaded, Electro-Charged,
+      Superconduct, and Hyperbloom by 40%, and the DMG Bonus conferred by Aggravate
+      is increased by 20%. When Quicken or the aforementioned Elemental Reactions
+      are triggered, Elemental Skill CD is decreased by 1s. Can only occur once every
+      0.8s.

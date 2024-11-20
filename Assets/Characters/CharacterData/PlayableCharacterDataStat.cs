@@ -6,16 +6,18 @@ using UnityEngine;
 
 public class PlayableCharacterDataStat : CharacterDataStat
 {
+    public CharacterArtifactManager characterArtifactManager { get; private set; }
     public float currentElementalSkillCooldownElapsed { get; private set; }
     public float currentElementalBurstCooldownElapsed { get; private set; }
 
     private float currentEnergy;
     private int currentAscension;
 
-    public event EventHandler OnEnergyChanged;
+    public event Action OnEnergyChanged;
 
     public PlayableCharacterDataStat(CharactersSO charactersSO, int currentAscension = 0) : base(charactersSO)
     {
+        characterArtifactManager = new(this, effectManager);
         this.currentAscension = currentAscension;
         currentEnergy = 0;
         currentElementalSkillCooldownElapsed = currentElementalBurstCooldownElapsed = 0;
@@ -47,7 +49,7 @@ public class PlayableCharacterDataStat : CharacterDataStat
     {
         currentEnergy += amount;
         currentEnergy = Mathf.Min(currentEnergy, playerCharactersSO.BurstEnergyCost);
-        OnEnergyChanged?.Invoke(this, EventArgs.Empty);
+        OnEnergyChanged?.Invoke();
     }
 
     private void UpdateElementalSkillsCooldown()
@@ -99,6 +101,6 @@ public class PlayableCharacterDataStat : CharacterDataStat
     public override void OnDestroy()
     {
         base.OnDestroy();
-        artifactEffectManager.OnDestroy();
+        characterArtifactManager.OnDestroy();
     }
 }

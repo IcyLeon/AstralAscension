@@ -72,7 +72,7 @@ public class ElementalBurstCombatUI : SkillCombatUI
         }
     }
 
-    private void CurrentPlayableCharacterData_OnEnergyChanged(object sender, System.EventArgs e)
+    private void CurrentPlayableCharacterData_OnEnergyChanged()
     {
         UpdateEnergyVisual();
     }

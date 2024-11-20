@@ -7,12 +7,12 @@ using UnityEngine;
 
 public class ArtifactMainStatDisplay : ArtifactStatDisplay
 {
-    protected override string UpdateStatName()
+    protected override ArtifactStatSO GetArtifactStatSO()
     {
         if (artifact.mainStat == null)
-            return "??";
+            return null;
 
-        return artifact.mainStat.statInfo.ArtifactStatSO.ArtifactStat;
+        return artifact.mainStat.statInfo.ArtifactStatSO;
     }
 
     protected override string UpdateStatValue()

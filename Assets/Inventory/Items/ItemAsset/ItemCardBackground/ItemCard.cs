@@ -32,7 +32,7 @@ public class ItemCard : MonoBehaviour
 
         InitAssetManager();
 
-        ItemRaritySO itemRaritySO = ItemAssetManagerSO.GetItemRarityInfomation(iItem.GetRarity());
+        ItemRaritySO itemRaritySO = iItem.GetRaritySO();
 
         CardImage.sprite = itemRaritySO.ItemCardBackground;
         ItemContentDisplay.SetIItem(iItem);

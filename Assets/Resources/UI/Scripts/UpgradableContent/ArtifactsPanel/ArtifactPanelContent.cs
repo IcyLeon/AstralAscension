@@ -21,7 +21,7 @@ public class ArtifactPanelContent : MonoBehaviour
     [SerializeField] private TabGroup TabGroup;
     [SerializeField] private ArtifactPanel[] ArtifactPanelList;
     private ItemManagerSO ItemAssetManagerSO;
-    private Dictionary<IEntity, ItemQualityButton> itemQualityDictionary;
+    private Dictionary<IItem, ItemQualityButton> itemQualityDictionary;
     private Inventory inventory;
 
     private void Awake()
@@ -29,14 +29,6 @@ public class ArtifactPanelContent : MonoBehaviour
         TabGroup.OnTabGroupChanged += TabGroup_OnTabGroupChanged;
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
-    }
-
-    private void InitAssetManager()
-    {
-        if (ItemAssetManagerSO != null)
-            return;
-
-        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
     }
 
     private void Init()
@@ -52,16 +44,16 @@ public class ArtifactPanelContent : MonoBehaviour
             return;
         }
 
-        InitAssetManager();
         InventoryManager_OnInventoryNew(instance.inventory);
     }
 
     private void Start()
     {
+        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
         Init();
     }
 
-    private void TabGroup_OnTabGroupChanged(object sender, TabOption.TabEvents e)
+    private void TabGroup_OnTabGroupChanged(TabOption.TabEvents e)
     {
         ScrollRect.content = e.PanelRectTransform;
     }
@@ -86,13 +78,13 @@ public class ArtifactPanelContent : MonoBehaviour
         }
     }
 
-    private void Inventory_OnItemRemove(IEntity IEntity)
+    private void Inventory_OnItemRemove(IItem IItem)
     {
-        if (itemQualityDictionary.TryGetValue(IEntity, out ItemQualityButton itemQualityButton))
+        if (itemQualityDictionary.TryGetValue(IItem, out ItemQualityButton itemQualityButton))
         {
             itemQualityButton.OnItemQualityClick -= OnSelectedItemQualityClick;
             Destroy(itemQualityButton.gameObject);
-            itemQualityDictionary.Remove(IEntity);
+            itemQualityDictionary.Remove(IItem);
         }
     }
 
@@ -106,24 +98,24 @@ public class ArtifactPanelContent : MonoBehaviour
         return null;
     }
 
-    private void Inventory_OnItemAdd(IEntity IEntity)
+    private void Inventory_OnItemAdd(IItem IItem)
     {
-        if (IEntity == null || itemQualityDictionary.ContainsKey(IEntity))
+        if (IItem == null || itemQualityDictionary.ContainsKey(IItem))
             return;
 
-        GameObject Panel = GetPanel(IEntity.GetIItem().GetTypeSO());
+        GameObject Panel = GetPanel(IItem.GetTypeSO());
 
         if (Panel == null)
             return;
 
-        ItemQualityItem itemQualityItem = ItemAssetManagerSO.CreateItemQualityItem(IEntity, Panel.transform);
-        itemQualityItem.OnItemQualityClick += OnSelectedItemQualityClick;
-        itemQualityDictionary.Add(IEntity, itemQualityItem);
+        ItemQualityButton ItemQualityIEntity = ItemAssetManagerSO.CreateItemQualityItem(IItem, Panel.transform);
+        ItemQualityIEntity.OnItemQualityClick += OnSelectedItemQualityClick;
+        itemQualityDictionary.Add(IItem, ItemQualityIEntity);
     }
 
-    private void OnSelectedItemQualityClick(object sender, ItemQualityEvents e)
+    private void OnSelectedItemQualityClick(ItemQualityButton ItemQualityButton)
     {
-        ItemContentDisplay.SetIItem(e.ItemQualityButton.iItem);
+        ItemContentDisplay.SetIItem(ItemQualityButton.ItemQuality.iItem);
     }
 
     private void UpdateVisual()
@@ -140,7 +132,7 @@ public class ArtifactPanelContent : MonoBehaviour
 
         foreach (var item in inventory.itemList)
         {
-            Inventory_OnItemAdd(item);
+            Inventory_OnItemAdd(item.Key);
         }
     }
 

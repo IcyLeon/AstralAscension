@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Sands
   m_EditorClassIdentifier: 
   <ItemType>k__BackingField: Sands of Eon
+  <ItemFamilyTypeSO>k__BackingField: {fileID: 11400000, guid: 0ab520dd19427964692298e658ef7257,
+    type: 2}

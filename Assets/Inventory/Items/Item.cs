@@ -6,16 +6,16 @@ using UnityEngine;
 public abstract class Item : IEntity
 {
     public bool newStatus { get; private set; }
-    public event Action<IEntityEvents> OnIEntityChanged;
+    public event Action<IEntity> OnIEntityChanged;
 
     public IItem iItem { get; private set; }
     public int amount { get; protected set; }
 
-    public Item(IItem iItem)
+    public Item(IItem IItem)
     {
         newStatus = true;
         amount = 0;
-        this.iItem = iItem;
+        iItem = IItem;
     }
 
     public void SetNewStatus(bool status)
@@ -32,17 +32,14 @@ public abstract class Item : IEntity
 
     public abstract bool IsStackable();
 
-    protected void CallOnItemChanged()
+    public void CallOnItemChanged()
     {
-        OnIEntityChanged?.Invoke(new IEntityEvents
-        {
-            iEntity = this,
-        });
+        OnIEntityChanged?.Invoke(this);
     }
 
-    public virtual Rarity GetRarity()
+    public ItemRaritySO GetRaritySO()
     {
-        return GetIItem().GetRarity();
+        return GetIItem().GetRaritySO();
     }
 
     public IItem GetIItem()

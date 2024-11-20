@@ -40,43 +40,25 @@ public class EnhanceStatsPanel : MonoBehaviour
         enhancementManager.OnEnhanceItemChanged += EnhancementManager_OnEnhanceItemChanged;
         enhancementManager.OnSlotItemChanged += EnhancementManager_OnSlotItemChanged;
 
-        UpdateIItem();
+        UpdateVisual();
     }
 
-    private void EnhancementManager_OnSlotItemChanged(object sender, UpgradeEvents e)
+    private void EnhancementManager_OnSlotItemChanged(int Exp)
     {
-        UpdatePreviewExpSliderValue(e.Exp);
-        UpdateIncreasedLevel(e.Exp);
-        UpdateIncreasedExp(e.Exp);
+        SetPreviewEXP(Exp);
+        UpdateIncreasedLevel(Exp);
+        UpdateIncreasedExp(Exp);
     }
 
-    private void UpdateIncreasedLevel(int addExp)
+    private void UpdateIncreasedLevel(int AddExp)
     {
         if (iEXPEntity == null)
             return;
 
-        int levelIncrease = GetIncreasedPreviewLevel(iEXPEntity, addExp);
+        int levelIncrease = enhancementManager.GetIncreasedPreviewLevel(AddExp);
 
         AddPreviewLevelTxt.gameObject.SetActive(levelIncrease != 0);
         AddPreviewLevelTxt.text = "+" + levelIncrease;
-    }
-
-    private int GetIncreasedPreviewLevel(IEXP iExpItem, int addExp)
-    {
-        int levelIncrease = 0;
-        int totalExp = iExpItem.GetCurrentExp() + addExp;
-
-        for (int i = iExpItem.GetLevel(); i < iExpItem.GetExpCostSO().GetMaxLevel(iEXPEntity.GetIEntity().GetRarity()); i++)
-        {
-            int requiredAmt = iExpItem.GetExpCostSO().GetRequiredEXP(i, iEXPEntity.GetIEntity().GetRarity());
-            if (totalExp >= requiredAmt)
-            {
-                totalExp -= requiredAmt;
-                levelIncrease++;
-            }
-        }
-
-        return levelIncrease;
     }
 
     private void UpdateIncreasedExp(int addExp)
@@ -88,81 +70,86 @@ public class EnhanceStatsPanel : MonoBehaviour
         AddPreviewExpTxt.text = "+" + addExp.ToString();
     }
 
-    public void SetExpSliderValue(float value)
+    public void SetCurrentEXP(float value)
     {
         ExpSlider.value = value;
     }
 
-    public float GetExpSliderValue()
+    private void ResetEXP()
+    {
+        SetCurrentEXP(0);
+    }
+
+    public float GetCurrentEXP()
     {
         return ExpSlider.value;
     }
 
-    private void UpdatePreviewExpSliderValue(int AddExp = 0)
+    private float GetRequiredEXP()
+    {
+        return ExpSlider.maxValue;
+    }
+
+    private void UpdateRequiredEXP()
+    {
+        if (iEXPEntity == null || iEXPEntity.GetExpCostSO() == null)
+            return;
+
+        ExpSlider.maxValue = enhancementManager.requiredEXP;
+    }
+
+    private void SetPreviewEXP(int AddExp = 0)
     {
         if (iEXPEntity == null)
             return;
 
-        PreviewExpSlider.maxValue = ExpSlider.maxValue;
+        PreviewExpSlider.maxValue = GetRequiredEXP();
 
         PreviewExpSlider.value = AddExp + iEXPEntity.GetCurrentExp();
     }
 
-    private void EnhancementManager_OnEnhanceItemChanged(object sender, System.EventArgs e)
+    private void EnhancementManager_OnEnhanceItemChanged()
     {
-        UpdateIItem();
+        UpdateVisual();
     }
 
-    private void UpdateIItem()
+    private void UpdateVisual()
     {
         if (iEXPEntity == enhancementManager.iEXPEntity)
             return;
 
-        Init();
-        UnsubscribeIEXPEvents();
+        UnsubscribeEvents();
         iEXPEntity = enhancementManager.iEXPEntity;
-        SubscribeIEXPEvents();
-        UpdateVisual();
+        SubscribeEvents();
+
+        UpdateRequiredEXP();
+        SetCurrentEXP(iEXPEntity.GetCurrentExp());
+        SetPreviewEXP();
+
+        UpdateItemInformationDisplay();
     }
 
-    private void SubscribeIEXPEvents()
+    private void SubscribeEvents()
     {
         if (iEXPEntity == null)
             return;
 
         iEXPEntity.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
-
-        UpdateExpMaxSliderValue();
-        SetExpSliderValue(iEXPEntity.GetCurrentExp());
-        UpdatePreviewExpSliderValue();
-    }
-
-    private void UpdateExpMaxSliderValue()
-    {
-        if (iEXPEntity == null || iEXPEntity.GetExpCostSO() == null)
-            return;
-
-        ExpSlider.maxValue = iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iEXPEntity.GetIEntity().GetRarity());
     }
 
     private void IEXPEntity_OnUpgradeIEXP()
     {
-        ResetEXPSlider();
-        UpdateExpMaxSliderValue();
-        UpdatePreviewExpSliderValue();
+        ResetEXP();
+        UpdateRequiredEXP();
+        SetPreviewEXP();
     }
 
-    private void EnhancementManager_OnItemUpgrade(object sender, System.EventArgs e)
+    private void EnhancementManager_OnItemUpgrade()
     {
-        UpdateVisual();
+        UpdateItemInformationDisplay();
     }
 
-    private void ResetEXPSlider()
-    {
-        SetExpSliderValue(0);
-    }
-
-    private void UnsubscribeIEXPEvents()
+    private void UnsubscribeEvents()
     {
         if (iEXPEntity == null)
             return;
@@ -172,7 +159,7 @@ public class EnhanceStatsPanel : MonoBehaviour
 
     private void OnDestroy()
     {
-        UnsubscribeIEXPEvents();
+        UnsubscribeEvents();
         if (enhancementManager != null)
         {
             enhancementManager.OnEnhanceItemChanged -= EnhancementManager_OnItemUpgrade;
@@ -189,11 +176,11 @@ public class EnhanceStatsPanel : MonoBehaviour
             return;
 
         LevelTxt.text = "+" + iEXPEntity.GetLevel();
-        ExpRequirementTxt.text = iEXPEntity.GetCurrentExp() + "/" + iEXPEntity.GetExpCostSO().GetRequiredEXP(iEXPEntity.GetLevel(), iEXPEntity.GetIEntity().GetRarity());
+        ExpRequirementTxt.text = iEXPEntity.GetCurrentExp() + "/" + enhancementManager.requiredEXP;
     }
 
 
-    private void UpdateVisual()
+    private void UpdateItemInformationDisplay()
     {
         foreach (var ItemContentInformation in ItemContentInformations)
         {
@@ -202,10 +189,10 @@ public class EnhanceStatsPanel : MonoBehaviour
 
         UpdateEXPEntityDisplay();
 
-        ResetIncreasedPreviewVisual();
+        ResetPreviewStatsVisual();
     }
 
-    private void ResetIncreasedPreviewVisual()
+    private void ResetPreviewStatsVisual()
     {
         AddPreviewExpTxt.gameObject.SetActive(false);
         AddPreviewLevelTxt.gameObject.SetActive(false);

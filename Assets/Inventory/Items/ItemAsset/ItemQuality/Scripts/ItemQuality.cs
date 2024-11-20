@@ -62,9 +62,9 @@ public class ItemQuality : MonoBehaviour
         InitAssets();
         starPool.ResetAll();
 
-        ItemRaritySO itemRaritySO = ItemAssetManagerSO.GetItemRarityInfomation(iItem.GetRarity());
+        ItemRaritySO itemRaritySO = iItem.GetRaritySO();
 
-        for (int i = 0; i <= (int)iItem.GetRarity(); i++)
+        for (int i = 0; i <= (int)itemRaritySO.Rarity; i++)
         {
             starPool.GetPooledObject();
         }

@@ -1,100 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 public class ArtifactEffectManager
 {
     private EffectManager effectManager;
-    private CharacterDataStat characterDataStat;
+    private CharacterArtifactManager characterArtifactManager;
 
-    public ArtifactEffectManager(CharacterDataStat CharacterDataStat, EffectManager EffectManager)
+    public ArtifactEffectManager(CharacterArtifactManager CharacterArtifactManager, EffectManager EffectManager)
     {
-        characterDataStat = CharacterDataStat;
+        characterArtifactManager = CharacterArtifactManager;
         effectManager = EffectManager;
-        characterDataStat.OnItemRemove += PlayableCharacterDataStat_OnItemRemove;
-        characterDataStat.OnItemAdd += PlayableCharacterDataStat_OnItemAdd;
+        characterArtifactManager.OnArtifactAdd += CharacterArtifactManager_OnArtifactAdd;
+        characterArtifactManager.OnArtifactRemove += CharacterArtifactManager_OnArtifactRemove;
     }
 
-    private int CountArtifactPiece(ArtifactSO ArtifactSO)
+    private void CharacterArtifactManager_OnArtifactRemove(Artifact artifact)
     {
-        int count = 0;
-
-        foreach (var artifactKeyPair in characterDataStat.equippeditemList)
-        {
-            ArtifactSO artifactSO = artifactKeyPair.Value.GetIItem() as ArtifactSO;
-
-            if (artifactSO != null && artifactSO.IsSameFamily(ArtifactSO))
-            {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
-    private void PlayableCharacterDataStat_OnItemAdd(IItem IItem)
-    {
-        if (!IsWithinPieceEvent(IItem))
+        if (IsWithinPieceEvent(artifact))
             return;
 
-        ArtifactSO artifactSO = IItem.GetIItem() as ArtifactSO;
+        int eventCount = GetPieceEventCount(artifact);
 
-        if (artifactSO == null)
-            return;
+        ArtifactEffectFactoryManager factoryManager = ArtifactManager.instance.ArtifactEffectFactories[artifact.artifactSO.ArtifactFamilySO];
 
-        int eventCount = GetPieceEventCount(IItem);
-
-        ArtifactEffectPieceFactory artifactEffectPieceFactory = artifactSO.ArtifactFamilySO.CreateArtifactEffectPieceFactory();
-
-        ArtifactEffect ArtifactEffect = artifactEffectPieceFactory.CreatePieceEffect(eventCount - 1);
-
-        effectManager.AddEffect(ArtifactEffect);
-    }
-
-    private void PlayableCharacterDataStat_OnItemRemove(IItem IItem)
-    {
-        if (IsWithinPieceEvent(IItem))
-            return;
-
-        ArtifactSO artifactSO = IItem.GetIItem() as ArtifactSO;
-
-        if (artifactSO == null)
-            return;
-
-        int eventCount = GetPieceEventCount(IItem);
-
-        ArtifactEffectPieceFactory artifactEffectPieceFactory = artifactSO.ArtifactFamilySO.CreateArtifactEffectPieceFactory();
-
-        ArtifactEffect ArtifactEffectInfo = artifactEffectPieceFactory.GetArtifactEffectInformation(eventCount);
+        ArtifactEffect ArtifactEffectInfo = factoryManager.GetArtifactEffectInformation(eventCount).CreateArtifactEffect();
 
         BuffEffect ExistBuffEffect = effectManager.GetBuffTypeAlreadyExist(ArtifactEffectInfo);
 
         effectManager.RemoveEffect(ExistBuffEffect);
     }
 
-    private int GetTotalPiece(IItem IItem)
+    private void CharacterArtifactManager_OnArtifactAdd(Artifact artifact)
     {
-        ArtifactSO artifactSO = IItem.GetIItem() as ArtifactSO;
+        if (!IsWithinPieceEvent(artifact))
+            return;
 
-        if (artifactSO == null)
-            return 0;
+        int eventCount = GetPieceEventCount(artifact);
 
-        return CountArtifactPiece(artifactSO);
+        ArtifactEffectFactoryManager factoryManager = ArtifactManager.instance.ArtifactEffectFactories[artifact.artifactSO.ArtifactFamilySO];
+
+        ArtifactEffect ArtifactEffect = factoryManager.CreatePieceEffect(eventCount - 1);
+
+        effectManager.AddEffect(ArtifactEffect);
     }
 
-    private bool IsWithinPieceEvent(IItem IItem)
+    private bool IsWithinPieceEvent(Artifact artifact)
     {
-        return (GetTotalPiece(IItem) % ArtifactManager.PIECE_COUNT_EVENT) == 0;
+        return (characterArtifactManager.GetTotalPiece(artifact.artifactSO) % ArtifactManager.PIECE_COUNT) == 0;
     }
 
-    public int GetPieceEventCount(IItem IItem)
+    public int GetPieceEventCount(Artifact artifact)
     {
-        return (GetTotalPiece(IItem) / ArtifactManager.PIECE_COUNT_EVENT);
+        return characterArtifactManager.GetTotalPiece(artifact.artifactSO) / ArtifactManager.PIECE_COUNT;
     }
 
     public void OnDestroy()
     {
-        characterDataStat.OnItemRemove -= PlayableCharacterDataStat_OnItemRemove;
-        characterDataStat.OnItemAdd -= PlayableCharacterDataStat_OnItemAdd;
+        characterArtifactManager.OnArtifactAdd -= CharacterArtifactManager_OnArtifactAdd;
+        characterArtifactManager.OnArtifactRemove -= CharacterArtifactManager_OnArtifactRemove;
     }
 }
