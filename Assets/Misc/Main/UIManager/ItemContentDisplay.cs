@@ -8,14 +8,10 @@ using static AssetManager;
 
 public class ItemContentDisplay : MonoBehaviour
 {
-    public class ItemContentEvent : EventArgs
-    {
-        public IItem iItem;
-    }
 
     private ObjectPool<MonoBehaviour> starPool;
     private ItemManagerSO ItemAssetManagerSO;
-    public event EventHandler<ItemContentEvent> OnItemContentDisplayChanged;
+    public event Action OnItemContentDisplayChanged;
 
     [Header("Base Item Information")]
     [SerializeField] private TextMeshProUGUI ItemNameTxt;
@@ -28,7 +24,6 @@ public class ItemContentDisplay : MonoBehaviour
     [SerializeField] private GameObject LevelContent;
     [SerializeField] private LockItem LockItem;
     [SerializeField] private TextMeshProUGUI LevelTxt;
-    [SerializeField] private ItemEquipDisplay ItemEquipDisplay;
 
     public IItem iItem { get; private set; }
 
@@ -91,19 +86,13 @@ public class ItemContentDisplay : MonoBehaviour
         if (ItemImage)
             ItemImage.sprite = iItem.GetIcon();
 
-        OnItemContentDisplayChanged?.Invoke(this, new ItemContentEvent
-        {
-            iItem = iItem,
-        });
+        OnItemContentDisplayChanged?.Invoke();
     }
 
     private void UpdateUpgradableItemsVisual()
     {
         UpgradableItems UpgradableItems = iItem as UpgradableItems;
         LevelContent.SetActive(UpgradableItems != null);
-
-        if (ItemEquipDisplay != null)
-            ItemEquipDisplay.UpdateVisual(UpgradableItems);
 
         if (UpgradableItems == null)
             return;
@@ -142,7 +131,6 @@ public class ItemContentDisplay : MonoBehaviour
         Init();
         UnsubscribeItemEvent();
         iItem = IItem;
-
         UpdateIItemVisual();
         UpdateSubInformationVisuals();
 

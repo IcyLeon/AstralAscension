@@ -26,13 +26,13 @@ public class KeqingAimState : KeqingElementalSkillState
     public override void OnEnable()
     {
         base.OnEnable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
     }
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)

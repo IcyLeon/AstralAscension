@@ -37,7 +37,6 @@ public class EquipAction : MonoBehaviour
     private void Start()
     {
         inventoryManager = InventoryManager.instance;
-        SetIItem(ItemContentDisplay.iItem);
     }
 
     public void SetCharacterSO(CharactersSO charactersSO)
@@ -53,17 +52,13 @@ public class EquipAction : MonoBehaviour
         characterStorage = CharacterStorage;
     }
 
-    private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
-    {
-        SetIItem(e.iItem);
-    }
-
-    private void SetIItem(IItem IItem)
+    private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
         UnsubscribeEvents();
-        upgradableItems = IItem as UpgradableItems;
+        upgradableItems = ItemContentDisplay.iItem as UpgradableItems;
         SubscribeEvents();
     }
+
 
     private void OnDestroy()
     {

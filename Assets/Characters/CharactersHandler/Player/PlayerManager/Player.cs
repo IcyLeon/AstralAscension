@@ -20,12 +20,10 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerInteractSensor PlayerInteractSensor { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
     public PlayerData playerData { get; private set; }
-    public PlayerController PlayerController { get; private set; }
 
     // Start is called before the first frame update
     private void Awake()
     {
-        PlayerController = GetComponent<PlayerController>();
         playerData = new PlayerData(this);
     }
 

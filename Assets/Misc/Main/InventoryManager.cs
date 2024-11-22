@@ -26,10 +26,7 @@ public class InventoryManager : MonoBehaviour
         instance = this;
         CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
         CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
-    }
 
-    private void Start()
-    {
         SetInventory(new Inventory(1000));
     }
 

@@ -5,13 +5,11 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PartyMemberContent : MonoBehaviour, IPointerClickHandler
+public class PartyMemberContent : MonoBehaviour
 {
     [SerializeField] private PartyMemberInfo PartyMemberInfo;
     [SerializeField] private TextMeshProUGUI IndexTxt;
     private CharacterDataStat characterDataStat;
-    public delegate void OnPartyInfo(CharacterDataStat characterDataStat);
-    public static event OnPartyInfo PartyMemberClick;
 
     public void SetCharacterDataStat(CharacterDataStat CharacterDataStat)
     {
@@ -22,14 +20,5 @@ public class PartyMemberContent : MonoBehaviour, IPointerClickHandler
     public void SetIndexKeyText(int idx)
     {
         IndexTxt.text = idx.ToString();
-    }
-
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (characterDataStat == null || eventData.button != PointerEventData.InputButton.Left)
-            return;
-
-        PartyMemberClick?.Invoke(characterDataStat);
     }
 }

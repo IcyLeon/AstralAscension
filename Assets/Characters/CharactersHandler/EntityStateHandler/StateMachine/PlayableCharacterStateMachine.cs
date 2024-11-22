@@ -9,7 +9,7 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
     public PlayableCharacterPlungeAttackState playableCharacterPlungeAttackState { get; protected set; }
     public ElementalBurstStateMachine playerElementalBurstStateMachine { get; protected set; }
     public ElementalSkillStateMachine playerElementalSkillStateMachine { get; protected set; }
-
+    public PlayerController playerController { get; private set; }
     public PlayableCharacters playableCharacters
     {
         get
@@ -23,6 +23,7 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
             return playableCharacters.player;
         }
     }
+
     public PlayableCharacterReuseableData playableCharacterReuseableData
     {
         get
@@ -63,6 +64,7 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
     protected override void InitState()
     {
         base.InitState();
+        playerController = PlayerController.instance;
         InitSkills();
     }
 

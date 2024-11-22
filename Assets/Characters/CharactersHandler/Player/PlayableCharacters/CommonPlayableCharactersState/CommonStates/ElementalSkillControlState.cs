@@ -8,17 +8,17 @@ public abstract class ElementalSkillControlState : ElementalControlBaseState
     public override void OnEnable()
     {
         base.OnEnable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
     }
 
     private bool CanTransitToElementalSkillState()

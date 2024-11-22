@@ -128,7 +128,7 @@ public class EnhancementManager : MonoBehaviour
         return Mathf.RoundToInt(EnhanceStatsPanel.GetCurrentEXP());
     }
 
-    private void EnhancePanel_OnUpgradableItemChanged(object sender, System.EventArgs e)
+    private void EnhancePanel_OnUpgradableItemChanged()
     {
         UpdateVisual();
     }
@@ -138,6 +138,7 @@ public class EnhancementManager : MonoBehaviour
         UnsubscribeEvents();
         iEXPEntity = enhancePanel.iEXPEntity;
         SubscribeEvents();
+        OnEnhanceItemChanged?.Invoke();
     }
 
     private void UnsubscribeEvents()
@@ -155,7 +156,6 @@ public class EnhancementManager : MonoBehaviour
 
         iEXPEntity.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
         UpdateEXPRequirement();
-        OnEnhanceItemChanged?.Invoke();
     }
 
     private void IEXPEntity_OnUpgradeIEXP()

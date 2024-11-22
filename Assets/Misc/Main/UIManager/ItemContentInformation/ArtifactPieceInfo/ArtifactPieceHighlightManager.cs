@@ -43,20 +43,15 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
             return;
 
         characterStorage = CharacterManager.instance.characterStorage;
-        SetIItem(ItemContentDisplay.iItem);
     }
 
-    private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
-    {
-        SetIItem(e.iItem);
-    }
-
-    private void SetIItem(IItem IItem)
+    private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
         UnsubscribeEvents();
-        iItem = IItem;
+        iItem = ItemContentDisplay.iItem;
         SubscribeEvents();
     }
+
 
     private void SubscribeEvents()
     {

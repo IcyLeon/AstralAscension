@@ -11,7 +11,9 @@ public abstract class ItemQualityButton : MonoBehaviour, IPointerClickHandler, I
 {
     public Image RaycastImage { get; private set; }
     [field: SerializeField] public ItemQuality ItemQuality { get; private set; }
-    public event Action<ItemQualityButton> OnItemQualityClick;
+    public event Action<ItemQualityButton> OnItemQualitySelect;
+    public event Action<ItemQualityButton> OnItemQualityDestroyed;
+
     public IItem iItem { get; private set; }
 
     protected virtual void Awake()
@@ -27,7 +29,7 @@ public abstract class ItemQualityButton : MonoBehaviour, IPointerClickHandler, I
 
     protected virtual void OnDestroy()
     {
-        OnItemQualityClick = null;
+        OnItemQualitySelect = null;
     }
 
     protected void UpdateDisplayText(string txt)
@@ -48,7 +50,22 @@ public abstract class ItemQualityButton : MonoBehaviour, IPointerClickHandler, I
 
     public void Select()
     {
-        OnItemQualityClick?.Invoke(this);
+        OnItemQualitySelect?.Invoke(this);
+    }
+
+    public void Destroy()
+    {
+        OnItemQualityDestroyed?.Invoke(this);
+        Destroy(gameObject);
+    }
+
+    public virtual void OnSelect()
+    {
+    }
+
+    public virtual void OnDeSelect()
+    {
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)

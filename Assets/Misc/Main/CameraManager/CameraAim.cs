@@ -21,11 +21,11 @@ public class CameraAim : MonoBehaviour
         aimTargetYaw = GetAngle(cameraManager.CameraMain.transform.eulerAngles.y);
         aimTargetPitch = GetAngle(cameraManager.CameraMain.transform.eulerAngles.x);
 
-        cameraManager.Player.PlayerController.playerInputAction.Look.performed += Look_performed;
+        cameraManager.playerController.playerInputAction.Look.performed += Look_performed;
     }
     private void OnDisable()
     {
-        cameraManager.Player.PlayerController.playerInputAction.Look.performed -= Look_performed;
+        cameraManager.playerController.playerInputAction.Look.performed -= Look_performed;
     }
 
     private void Look_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

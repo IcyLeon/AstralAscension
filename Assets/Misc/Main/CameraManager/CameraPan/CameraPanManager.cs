@@ -11,8 +11,8 @@ public class CameraPanManager : MonoBehaviour
 
     private void Awake()
     {
-        freeLookCameraPanVirtualCamera = GetComponentInChildren<FreeLookCameraPanVirtualCamera>();
-        characterProfileCameraPanVirtualCamera = GetComponentInChildren<CharacterProfileCameraPanVirtualCamera>();
+        freeLookCameraPanVirtualCamera = GetComponentInChildren<FreeLookCameraPanVirtualCamera>(true);
+        characterProfileCameraPanVirtualCamera = GetComponentInChildren<CharacterProfileCameraPanVirtualCamera>(true);
 
         DisableAllVirtualCams();
     }

@@ -8,31 +8,25 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private ItemManagerSO ItemAssetManagerSO;
     public event Action<Slot> OnSlotClick;
     public event Action<Slot> OnSlotItemAdd;
     public event Action<IItem, Slot> OnSlotItemRemove;
 
-    public ItemQualityIEntity itemQualityButton { get; private set; }
-
-    private void Start()
+    public ItemQualityIEntity itemQualityButton
     {
-        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
+        get
+        {
+            return GetComponentInChildren<ItemQualityIEntity>();
+        }
     }
+
 
     public void OnDrop(PointerEventData eventData)
     {
     }
 
-    public void AddIItem(IItem IItem)
+    public void Init()
     {
-        if (IItem == null || itemQualityButton != null)
-            return;
-
-        ItemQualityIEntity ItemQualityIEntity = ItemAssetManagerSO.CreateItemQualityItem(IItem, transform);
-        ItemQualityIEntity.RaycastImage.raycastTarget = false;
-        itemQualityButton = ItemQualityIEntity;
-        itemQualityButton.Select();
         SubscribeEvents();
         OnSlotItemAdd?.Invoke(this);
     }
@@ -61,7 +55,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
     {
         UpgradableItems upgradableItem = IEntity as UpgradableItems;
 
-        if (upgradableItem == null || (upgradableItem.locked || upgradableItem.equipByCharacter != null))
+        if (upgradableItem == null || (!upgradableItem.locked || upgradableItem.equipByCharacter != null))
             return;
 
         DeleteIItem();

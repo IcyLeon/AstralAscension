@@ -23,15 +23,10 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
     {
         if (characterDataStat == null)
         {
-            SetCharacterDataStat(CreateCharacterDataStat());
+            SetCharacterDataStat(damageableCharactersSO.CreateCharacterDataStat());
         }
 
         return characterDataStat;
-    }
-
-    protected virtual CharacterDataStat CreateCharacterDataStat()
-    {
-        return new CharacterDataStat(CharacterSO);
     }
 
     protected override void Awake()

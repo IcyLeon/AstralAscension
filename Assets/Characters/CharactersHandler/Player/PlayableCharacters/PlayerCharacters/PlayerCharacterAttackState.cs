@@ -22,11 +22,11 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void OnEnable()
     {
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed += Attack_performed;
     }
     public virtual void OnDisable()
     {
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
     private void Reset()

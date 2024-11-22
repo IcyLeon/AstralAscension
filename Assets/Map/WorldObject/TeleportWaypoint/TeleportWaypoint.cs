@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeleportWaypoint : InteractiveMapObject, IInteractable
 {
-    public void Interact(Transform sourceTransform)
+    public void Interact(Player Player)
     {
     }
 

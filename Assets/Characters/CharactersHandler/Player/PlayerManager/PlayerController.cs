@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     private PlayerInputSystem playerInputSystem;
 
     public PlayerInputSystem.PlayerActions playerInputAction
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        instance = this;
         playerInputSystem = new PlayerInputSystem();
     }
 

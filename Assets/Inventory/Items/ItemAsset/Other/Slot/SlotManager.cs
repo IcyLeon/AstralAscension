@@ -6,6 +6,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class SlotManager : MonoBehaviour
 {
+    private ItemManagerSO ItemAssetManagerSO;
     private Slot[] slotList;
     private Dictionary<IItem, Slot> slotDic;
 
@@ -35,6 +36,11 @@ public class SlotManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
+    }
+
     private void InitSlotList()
     {
         slotList = GetComponentsInChildren<Slot>();
@@ -57,15 +63,19 @@ public class SlotManager : MonoBehaviour
 
     public bool TryAddEntityToSlot(IItem IItem)
     {
-        Slot emptySlot = GetAvailableSlot();
+        Slot slot = GetAvailableSlot();
 
-        if (emptySlot == null)
+        if (slot == null)
         {
             PopoutMessageManager.SendPopoutMessage("Slots are fulled!");
             return false;
         }
 
-        emptySlot.AddIItem(IItem);
+        ItemQualityButton ItemQualityButton = ItemAssetManagerSO.CreateItemQualityItem(IItem, slot.transform);
+        ItemQualityButton.RaycastImage.raycastTarget = false;
+        ItemQualityButton.Select();
+        slot.Init();
+
         return true;
     }
 

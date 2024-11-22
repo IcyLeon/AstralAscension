@@ -13,18 +13,12 @@ public class PlaceMarker : MonoBehaviour, IPointerClickHandler
     private void Awake()
     {
         worldMapUI = GetComponent<WorldMapUI>();
-
-        if (worldMapUI == null)
-        {
-            Debug.LogError("World Map UI not found!");
-            return;
-        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left || worldMapUI.worldMapBackground == null 
-            || worldMapUI.dragnDrop.dragObject != null)
+            || eventData.pointerDrag != null)
             return;
 
         WorldMapBackground worldMapBackground = worldMapUI.worldMapBackground;
