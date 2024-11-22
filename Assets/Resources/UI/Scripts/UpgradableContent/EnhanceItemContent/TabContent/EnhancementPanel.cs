@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class EnhancementPanel : MonoBehaviour
 {
     private UpgradeItemContent UpgradeItemContent;
-    public event EventHandler OnUpgradableItemChanged;
+    public event Action OnUpgradableItemChanged;
     public IEXP iEXPEntity { get; private set; }
 
     private void Awake()
@@ -30,7 +30,7 @@ public abstract class EnhancementPanel : MonoBehaviour
     protected virtual void UpdateVisual()
     {
         iEXPEntity = UpgradeItemContent.iEXPEntity;
-        OnUpgradableItemChanged?.Invoke(this, EventArgs.Empty);
+        OnUpgradableItemChanged?.Invoke();
     }
 
     private void OnDestroy()

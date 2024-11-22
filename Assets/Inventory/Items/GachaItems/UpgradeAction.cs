@@ -30,8 +30,9 @@ public class UpgradeAction : MonoBehaviour
         UpgradeItemContent = mainUI.UpgradeItemContent;
     }
 
-    private void ItemContentDisplay_OnItemContentDisplayChanged(object sender, ItemContentDisplay.ItemContentEvent e)
+    private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
+        iEXPEntity = ItemContentDisplay.iItem as IEXP;
         UpdateVisuals();
     }
 
@@ -43,7 +44,6 @@ public class UpgradeAction : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        iEXPEntity = ItemContentDisplay.iItem as IEXP;
         gameObject.SetActive(iEXPEntity != null);
     }
 

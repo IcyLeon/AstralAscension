@@ -12,6 +12,7 @@ public class ActiveCharacter : MonoBehaviour
     public static event OnPlayerCharacterEvent OnPlayerCharacterSwitch;
 
     private Player player;
+    private PlayerController playerController;
 
     private Dictionary<CharactersSO, PlayableCharacters> charactersList;
     private CharactersSO currentPlayableCharacterSO;
@@ -26,7 +27,6 @@ public class ActiveCharacter : MonoBehaviour
         CharacterManager.OnCharacterStorageNew += ActiveCharacter_OnCharacterStorageNew;
         CharacterManager.OnCharacterStorageOld += ActiveCharacter_OnCharacterStorageOld;
 
-        player = GetComponentInParent<Player>();
     }
 
     private void ActiveCharacter_OnCharacterStorageOld(CharacterStorage CharacterStorage)
@@ -50,10 +50,29 @@ public class ActiveCharacter : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        player.PlayerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
+        Init();
+        playerController = PlayerController.instance;
+        playerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
         TestExistingCharacters();
     }
 
+    private void Init()
+    {
+        if (partySetupManager != null)
+        {
+            Debug.Log("tt");
+            return;
+        }
+
+        ActiveCharacter_OnCharacterStorageNew(CharacterManager.instance.characterStorage);
+    }
+
+    private IEnumerator test()
+    {
+        yield return null;
+        TestExistingCharacters();
+
+    }
 
     private void TestExistingCharacters()
     {
@@ -66,7 +85,7 @@ public class ActiveCharacter : MonoBehaviour
 
             dc.gameObject.SetActive(false);
             partySetupManager.characterStorage.AddCharacterData(dc.GetCharacterDataStat());
-            partySetupManager.AddMember(dc.GetCharacterDataStat().damageableEntitySO, 0);
+            partySetupManager.AddMember(TestCharacters[i], 0);
             charactersList.Add(dc.CharacterSO, dc);
         }
 
@@ -147,7 +166,7 @@ public class ActiveCharacter : MonoBehaviour
             partySetupManager.OnCurrentPartyChanged -= P_OnCurrentPartyChanged;
         }
 
-        player.PlayerController.playerInputAction.SwitchCharacters.performed -= SwitchCharacters_performed;
+        playerController.playerInputAction.SwitchCharacters.performed -= SwitchCharacters_performed;
     }
 
 }

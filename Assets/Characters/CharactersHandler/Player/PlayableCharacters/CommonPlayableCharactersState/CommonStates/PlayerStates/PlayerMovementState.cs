@@ -5,10 +5,11 @@ using UnityEngine;
 public abstract class PlayerMovementState : IState
 {
     protected PlayerStateMachine playerStateMachine;
-
+    protected PlayerController playerController;
     public PlayerMovementState(PlayerStateMachine PS)
     {
         playerStateMachine = PS;
+        playerController = playerStateMachine.playerController;
         InitBaseRotation();
     }
 
@@ -177,7 +178,7 @@ public abstract class PlayerMovementState : IState
     }
     private void ReadMovement()
     {
-        playerStateMachine.playerData.movementInput = playerStateMachine.player.PlayerController.playerInputAction.Movement.ReadValue<Vector2>();
+        playerStateMachine.playerData.movementInput = playerController.playerInputAction.Movement.ReadValue<Vector2>();
         
         if (playerStateMachine.playerData.movementInput != Vector2.zero)
             Movement_performed(playerStateMachine.playerData.movementInput);

@@ -23,4 +23,9 @@ public class PlayerCharactersSO : DamageableEntitySO
 
     [field: SerializeField] public int BurstEnergyCost { get; private set; }
 
+    public override CharacterDataStat CreateCharacterDataStat()
+    {
+        return new PlayableCharacterDataStat(this);
+    }
+
 }

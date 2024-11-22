@@ -4,28 +4,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragEvent : EventArgs
-{
-    public PointerEventData eventData;
-}
-
 public class DragnDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    public GameObject dragObject { get; private set; }
-    public event EventHandler<DragEvent> OnDragEvent;
+    public event Action<PointerEventData> OnBeginDragEvent;
+    public event Action<PointerEventData> OnDragEvent;
+    public event Action<PointerEventData> OnEndDragEvent;
+    private Transform originalParent;
+    private RectTransform RT;
+    private Canvas canvas;
+
+    private void Awake()
+    {
+        canvas = GetComponentInParent<Canvas>();
+        RT = GetComponent<RectTransform>();
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        dragObject = eventData.pointerDrag;
+        originalParent = transform.parent;
+        transform.SetParent(canvas.transform);
+        OnBeginDragEvent?.Invoke(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        OnDragEvent?.Invoke(this, new DragEvent { eventData = eventData });
+        RT.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        
+        OnDragEvent?.Invoke(eventData);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        dragObject = null;
+        transform.SetParent(originalParent);
+        OnEndDragEvent?.Invoke(eventData);
     }
 }

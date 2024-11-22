@@ -40,11 +40,6 @@ public abstract class PlayableCharacters : DamageableCharacters
         }
     }
 
-    protected override CharacterDataStat CreateCharacterDataStat()
-    {
-        return new PlayableCharacterDataStat(CharacterSO);
-    }
-
     protected override void Awake()
     {
         base.Awake();

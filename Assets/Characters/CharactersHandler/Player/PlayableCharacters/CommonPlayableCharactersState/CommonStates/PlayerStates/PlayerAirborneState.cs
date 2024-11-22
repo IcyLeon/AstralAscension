@@ -17,12 +17,12 @@ public class PlayerAirborneState : PlayerMovementState
     public override void OnEnable()
     {
         base.OnEnable();
-        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed += Attack_performed;
+        playerController.playerInputAction.Attack.performed += Attack_performed;
     }
     public override void OnDisable()
     {
         base.OnDisable();
-        playerStateMachine.player.PlayerController.playerInputAction.Attack.performed -= Attack_performed;
+        playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
 

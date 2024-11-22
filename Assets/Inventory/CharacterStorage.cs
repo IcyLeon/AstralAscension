@@ -8,7 +8,7 @@ public class CharacterStorage
 {
     public Dictionary<CharactersSO, PlayableCharacterDataStat> playableCharacterStatList { get; }
     public PartySetupManager PartySetupManager { get; }
-    public delegate void OnCharacterStatChanged(CharacterDataStat c);
+    public delegate void OnCharacterStatChanged(CharactersSO CharactersSO);
     public event OnCharacterStatChanged OnCharacterAdd, OnCharacterRemove;
 
     public void AddCharacterData(CharacterDataStat c)
@@ -19,7 +19,7 @@ public class CharacterStorage
             return;
 
         playableCharacterStatList.Add(playableCharacterDataStat.playerCharactersSO, playableCharacterDataStat);
-        OnCharacterAdd?.Invoke(c);
+        OnCharacterAdd?.Invoke(c.damageableEntitySO);
     }
 
     public PlayableCharacterDataStat GetPlayableCharacterDataStat(CharactersSO CharactersSO)
@@ -40,7 +40,7 @@ public class CharacterStorage
         {
             CharacterDataStat.OnDestroy();
             playableCharacterStatList.Remove(c);
-            OnCharacterRemove?.Invoke(CharacterDataStat);
+            OnCharacterRemove?.Invoke(c);
         }
     }
 

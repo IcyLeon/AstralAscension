@@ -13,7 +13,7 @@ public abstract class ItemQualityIEntity : ItemQualityButton
     protected override void Awake()
     {
         base.Awake();
-        OnItemQualityClick += ItemQualityItem_OnItemQualityClick;
+        OnItemQualitySelect += ItemQualityItem_OnItemQualitySelect;
     }
 
     private void UnSubscribeEvents()
@@ -55,7 +55,7 @@ public abstract class ItemQualityIEntity : ItemQualityButton
 
     }
 
-    private void ItemQualityItem_OnItemQualityClick(ItemQualityButton ItemQualityButton)
+    private void ItemQualityItem_OnItemQualitySelect(ItemQualityButton ItemQualityButton)
     {
         HideNewStatus();
     }
@@ -80,5 +80,16 @@ public abstract class ItemQualityIEntity : ItemQualityButton
     {
         base.OnDestroy();
         UnSubscribeEvents();
+    }
+
+    public override void OnSelect()
+    {
+        base.OnSelect();
+    }
+
+    public override void OnDeSelect()
+    {
+        base.OnDeSelect();
+        HideNewStatus();
     }
 }

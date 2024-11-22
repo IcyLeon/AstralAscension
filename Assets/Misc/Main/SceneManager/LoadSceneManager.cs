@@ -7,7 +7,7 @@ public class LoadSceneManager : MonoBehaviour
 {
     [SerializeField] private SceneField[] AwakeSceneNames;
 
-    void Awake()
+    private void Awake()
     {
         LoadScenes(AwakeSceneNames);
     }

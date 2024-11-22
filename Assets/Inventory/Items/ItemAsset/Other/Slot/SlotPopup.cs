@@ -19,7 +19,6 @@ public class SlotPopup : MonoBehaviour
     public List<IItem> sortedEntities { get; private set; }
     private IItem iItem;
     private Inventory inventory;
-
     public event Action<Slot> OnSlotChanged;
 
     private void Awake()
@@ -103,9 +102,10 @@ public class SlotPopup : MonoBehaviour
         if (!itemQualityDictionary.TryGetValue(IItem, out ItemQualityIEntity itemQualityIEntity))
             return;
 
-        itemQualityIEntity.OnItemQualityClick -= OnSelectedItemQualityButton;
+        //itemQualityIEntity.OnItemQualityClick -= OnSelectedItemQualityButton;
         itemQualityIEntity.ItemQualitySelection.OnRemoveClick -= OnItemQualityRemove;
-        Destroy(itemQualityIEntity.gameObject);
+        //Destroy(itemQualityIEntity.gameObject);
+        itemQualityIEntity.Destroy();
         //itemQualityPool.Reset(itemQualityIEntity);
         itemQualityDictionary.Remove(IItem);
         sortedEntities.Remove(IItem);
@@ -129,15 +129,14 @@ public class SlotPopup : MonoBehaviour
     private void Inventory_OnItemAdd(IItem IItem)
     {
         if (IItem == iItem || (iItem != null &&
-            iItem.GetIItem().GetTypeSO().ItemFamilyTypeSO == IItem.GetIItem().GetTypeSO().ItemFamilyTypeSO &&
-            (itemQualityDictionary.TryGetValue(IItem, out ItemQualityIEntity g) ||
+            (iItem.GetIItem().GetTypeSO().ItemFamilyTypeSO != IItem.GetIItem().GetTypeSO().ItemFamilyTypeSO ||
             IsEquippedByCharacter(IItem))))
             return;
 
         //ItemQualityIEntity itemQualityIEntity = itemQualityPool.GetPooledObject();
         //itemQualityIEntity.SetIItem(IItem);
         ItemQualityIEntity itemQualityIEntity = ItemManagerSO.CreateItemQualityItem(IItem, ScrollRect.content);
-        itemQualityIEntity.OnItemQualityClick += OnSelectedItemQualityButton;
+        itemQualityIEntity.OnItemQualitySelect += OnSelectedItemQualityButton;
         itemQualityIEntity.ItemQualitySelection.OnRemoveClick += OnItemQualityRemove;
         itemQualityDictionary.Add(IItem, itemQualityIEntity);
         AddSorted(itemQualityIEntity);
@@ -210,7 +209,7 @@ public class SlotPopup : MonoBehaviour
 
     private void OnItemQualityRemove(ItemQualityButton ItemQualityButton)
     {
-        Slot slot = slotManager.Contains(ItemQualityButton.ItemQuality.iItem);
+        Slot slot = slotManager.Contains(GetIItem(ItemQualityButton));
 
         if (slot != null)
         {

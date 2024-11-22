@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static CharacterManager;
 using static PartySetupManager;
 
 [DisallowMultipleComponent]
@@ -9,7 +8,7 @@ public class PartyMembersUIManager : MonoBehaviour
 {
     private ObjectPool<PartyMemberContent> objectPool;
     [SerializeField] private GameObject PartyInfoPrefab;
-    private PartySetupManager PartySetupManager;
+    private PartySetupManager partySetupManager;
     private Dictionary<CharacterDataStat, PartyMemberContent> PartyMemberContentDictionary;
 
     //Start is called before the first frame update
@@ -17,9 +16,9 @@ public class PartyMembersUIManager : MonoBehaviour
     {
         objectPool = new ObjectPool<PartyMemberContent>(PartyInfoPrefab, transform, MAX_EQUIP_CHARACTERS);
         objectPool.CallbackPoolObject((p, i) => p.SetIndexKeyText(i + 1));
-        PartyMemberContentDictionary = new(); // for add and remove events
-        OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
-        OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
+        PartyMemberContentDictionary = new();
+        CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
+        CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
     }
 
     private void CharacterManager_OnCharacterStorageOld(CharacterStorage CharacterStorage)
@@ -27,15 +26,27 @@ public class PartyMembersUIManager : MonoBehaviour
         CharacterStorage.PartySetupManager.OnCurrentPartyChanged -= PartySetupManager_OnCurrentPartyChanged;
     }
 
-
     private void CharacterManager_OnCharacterStorageNew(CharacterStorage CharacterStorage)
     {
         if (CharacterStorage != null)
         {
-            PartySetupManager = CharacterStorage.PartySetupManager;
-            PartySetupManager.OnCurrentPartyChanged += PartySetupManager_OnCurrentPartyChanged;
+            partySetupManager = CharacterStorage.PartySetupManager;
+            partySetupManager.OnCurrentPartyChanged += PartySetupManager_OnCurrentPartyChanged;
             UpdateVisual();
         }
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void Init()
+    {
+        if (partySetupManager != null)
+            return;
+
+        CharacterManager_OnCharacterStorageNew(CharacterManager.instance.characterStorage);
     }
 
     private void PartySetupManager_OnCurrentPartyChanged()
@@ -48,7 +59,7 @@ public class PartyMembersUIManager : MonoBehaviour
         PartyMemberContentDictionary.Clear();
         objectPool.ResetAll();
 
-        foreach (var characterDataStat in PartySetupManager.GetCurrentPartyMembers())
+        foreach (var characterDataStat in partySetupManager.GetCurrentPartyMembers())
         {
             if (characterDataStat == null)
                 continue;
@@ -58,8 +69,7 @@ public class PartyMembersUIManager : MonoBehaviour
             if (partyMemberContent == null)
                 continue;
 
-
-            PlayableCharacterDataStat pc = PartySetupManager.GetPlayableCharacterDataStat(characterDataStat);
+            PlayableCharacterDataStat pc = partySetupManager.GetPlayableCharacterDataStat(characterDataStat);
 
             partyMemberContent.SetCharacterDataStat(pc);
 
@@ -73,11 +83,11 @@ public class PartyMembersUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
-        OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
-        if (PartySetupManager != null)
+        CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
+        CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
+        if (partySetupManager != null)
         {
-            PartySetupManager.OnCurrentPartyChanged -= PartySetupManager_OnCurrentPartyChanged;
+            partySetupManager.OnCurrentPartyChanged -= PartySetupManager_OnCurrentPartyChanged;
         }
     }
 }

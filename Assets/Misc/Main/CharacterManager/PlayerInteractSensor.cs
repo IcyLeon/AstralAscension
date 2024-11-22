@@ -6,17 +6,19 @@ using UnityEngine;
 public class PlayerInteractSensor : InteractSensor
 {
     private Player player;
+    private PlayerController playerController;
 
     protected override void Start()
     {
         base.Start();
+        playerController = PlayerController.instance;
         player = GetComponentInParent<Player>();
-        player.PlayerController.playerInputAction.Interact.started += Interact_started;
+        playerController.playerInputAction.Interact.started += Interact_started;
     }
 
     private void OnDestroy()
     {
-        player.PlayerController.playerInputAction.Interact.started -= Interact_started;
+        playerController.playerInputAction.Interact.started -= Interact_started;
     }
 
 
@@ -28,7 +30,7 @@ public class PlayerInteractSensor : InteractSensor
 
         if (collider.TryGetComponent(out IInteractable interactable))
         {
-            interactable.Interact(player.transform);
+            interactable.Interact(player);
             Debug.Log("Interact " + interactable);
         }
     }

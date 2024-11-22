@@ -56,12 +56,12 @@ public class PartySetupManager
         characterStorage.OnCharacterRemove -= CharacterStorage_OnCharacterRemove;
     }
 
-    private void CharacterStorage_OnCharacterRemove(CharacterDataStat c)
+    private void CharacterStorage_OnCharacterRemove(CharactersSO c)
     {
-        RemoveAllMembers(c.damageableEntitySO);
+        RemoveAllMembers(c);
     }
 
-    private void CharacterStorage_OnCharacterAdd(CharacterDataStat c)
+    private void CharacterStorage_OnCharacterAdd(CharactersSO c)
     {
     }
 

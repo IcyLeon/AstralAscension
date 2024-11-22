@@ -13603,7 +13603,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   POITargetTransform: {fileID: 0}
   <Animator>k__BackingField: {fileID: 0}
-  <CharacterSO>k__BackingField: {fileID: 0}
+  <CharacterSO>k__BackingField: {fileID: 11400000, guid: fe054ffa3c0236b4bab5fbb1df399c87,
+    type: 2}
   VoiceSource: {fileID: 0}
 --- !u!65 &1515350920
 BoxCollider:

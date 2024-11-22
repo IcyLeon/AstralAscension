@@ -8,12 +8,16 @@ public class PlayerCanvas : MonoBehaviour
 
     private void Awake()
     {
-        InitCamera();
 
         Player = GetComponentInParent<Player>();
 
         Player.PlayerInteractSensor.OnInteractEnter += OnInteractEnter;
         Player.PlayerInteractSensor.OnInteractExit += OnInteractExit;
+    }
+
+    private void Start()
+    {
+        InitCamera();
     }
 
     private void InitCamera()
@@ -39,11 +43,6 @@ public class PlayerCanvas : MonoBehaviour
     {
     }
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     private void Update()

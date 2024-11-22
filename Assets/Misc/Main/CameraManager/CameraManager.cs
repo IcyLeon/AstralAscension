@@ -7,7 +7,7 @@ public class CameraManager : MonoBehaviour
 {
     [field: SerializeField] public Transform CameraTarget { get; private set; }
     [field: SerializeField] public CameraSO CameraSO { get; private set; }
-    [field: SerializeField] public Player Player { get; private set; }
+    public PlayerController playerController { get; private set; }
 
     [Header("Cinemachine Camera Components")]
     [SerializeField] CinemachineVirtualCamera PlayerCamera;
@@ -24,9 +24,16 @@ public class CameraManager : MonoBehaviour
     private void Awake()
     {
         CameraMain = Camera.main;
-
+        m_TargetZoom = CameraSO.maxZoom;
         playerTransposerCameras = PlayerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         playerPOV = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
+    }
+
+    private void Start()
+    {
+        playerController = PlayerController.instance;
+        transform.SetParent(null);
+        playerController.playerInputAction.Zoom.performed += Zoom_performed;
     }
 
     private IEnumerator ToggleAimCameraDelayCoroutine(bool enable, float time)
@@ -63,16 +70,10 @@ public class CameraManager : MonoBehaviour
         return AimCamera.gameObject.activeSelf;
     }
 
-    private void Start()
-    {
-        m_TargetZoom = CameraSO.maxZoom;
-        transform.SetParent(null);
-        Player.PlayerController.playerInputAction.Zoom.performed += Zoom_performed;
-    }
 
     private void OnDestroy()
     {
-        Player.PlayerController.playerInputAction.Zoom.performed -= Zoom_performed;
+        playerController.playerInputAction.Zoom.performed -= Zoom_performed;
     }
 
     private void UpdateZoomCamera()
@@ -82,7 +83,7 @@ public class CameraManager : MonoBehaviour
 
     private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        m_TargetZoom += Player.PlayerController.playerInputAction.Zoom.ReadValue<Vector2>().y;
+        m_TargetZoom += playerController.playerInputAction.Zoom.ReadValue<Vector2>().y;
         m_TargetZoom = Mathf.Clamp(m_TargetZoom, CameraSO.minZoom, CameraSO.maxZoom);
     }
 

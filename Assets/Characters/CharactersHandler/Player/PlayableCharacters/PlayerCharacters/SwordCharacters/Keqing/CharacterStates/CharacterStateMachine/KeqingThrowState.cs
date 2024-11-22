@@ -13,7 +13,7 @@ public class KeqingThrowState : KeqingElementalSkillState
     {
         base.Enter();
         stellarRestoration.stellarRestorationReusableData.OnHairPinShoot += KeqingAnimationEvents_OnHairPinShoot;
-        playableCharacterStateMachine.playerStateMachine.player.PlayerController.playerInputAction.Look.Disable();
+        playableCharacterStateMachine.playerStateMachine.playerController.playerInputAction.Look.Disable();
         SetAnimationTrigger(stellarRestoration.keqingAnimationSO.throwParameter);
 
     }
@@ -29,7 +29,7 @@ public class KeqingThrowState : KeqingElementalSkillState
     public override void Exit()
     {
         base.Exit();
-        playableCharacters.player.PlayerController.playerInputAction.Look.Enable();
+        playableCharacterStateMachine.playerController.playerInputAction.Look.Enable();
         stellarRestoration.stellarRestorationReusableData.OnHairPinShoot -= KeqingAnimationEvents_OnHairPinShoot;
     }
 

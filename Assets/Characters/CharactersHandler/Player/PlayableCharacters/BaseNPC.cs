@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseNPC : Characters, IInteractable
 {
-    public void Interact(Transform sourceTransform)
+    public void Interact(Player Player)
     {
 
     }

@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class WorldMapUI : MapUI
+public class WorldMapUI : MapUI, IDragHandler
 {
     private MapPopupPanel mapPopupPanel;
     private Canvas canvas;
 
-    public DragnDrop dragnDrop { get; private set; }
-
     // Zoom
-    private Player player;
+    private PlayerController playerController;
     private float m_TargetZoom;
     private float m_Zoom;
     private float zoomScale;
@@ -23,15 +21,10 @@ public class WorldMapUI : MapUI
     {
         base.Init();
 
-        if (canvas != null)
-            return;
-
         canvas = GetComponentInParent<Canvas>();
 
         m_TargetZoom = m_Zoom = 1.75f;
         zoomScale = 0.5f;
-
-        dragnDrop = GetComponent<DragnDrop>();
 
         mapPopupPanel = GetComponentInChildren<MapPopupPanel>(true);
         mapPopupPanel.SetMapUI(this);
@@ -40,9 +33,9 @@ public class WorldMapUI : MapUI
 
     private void Start()
     {
-        player = worldMapBackground.player;
+        playerController = PlayerController.instance;
 
-        player.PlayerController.mapInputAction.Zoom.performed += Zoom_performed;
+        playerController.mapInputAction.Zoom.performed += Zoom_performed;
 
         UpdateVisual();
     }
@@ -61,7 +54,7 @@ public class WorldMapUI : MapUI
 
     private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        m_TargetZoom += player.PlayerController.mapInputAction.Zoom.ReadValue<Vector2>().y * zoomScale;
+        m_TargetZoom += playerController.mapInputAction.Zoom.ReadValue<Vector2>().y * zoomScale;
         m_TargetZoom = Mathf.Clamp(m_TargetZoom, 0.8f, 3.5f);
     }
 
@@ -89,21 +82,10 @@ public class WorldMapUI : MapUI
         mapPopupPanel.SetMapIcon(MapIconEvent.MapIcon);
     }
 
-    private void OnEnable()
-    {
-        dragnDrop.OnDragEvent += DragnDrop_OnDragEvent;
-    }
-
-    private void OnDisable()
-    {
-        dragnDrop.OnDragEvent -= DragnDrop_OnDragEvent;
-    }
-
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        player.PlayerController.uiInputAction.Map.performed -= Zoom_performed;
-        dragnDrop.OnDragEvent -= DragnDrop_OnDragEvent;
+        playerController.uiInputAction.Map.performed -= Zoom_performed;
     }
 
     private void Update()
@@ -111,14 +93,10 @@ public class WorldMapUI : MapUI
         UpdateZoom();
     }
 
-    private void DragnDrop_OnDragEvent(object sender, DragEvent DE)
+    public void OnDrag(PointerEventData eventData)
     {
-        if (DE.eventData.button != PointerEventData.InputButton.Left)
-            return;
-
         RectTransform rt = worldMapBackground.MapRT;
-        rt.anchoredPosition += DE.eventData.delta / canvas.scaleFactor;
-
+        rt.anchoredPosition += eventData.delta / canvas.scaleFactor;
 
         Vector2 clampedanchoredPosition = rt.anchoredPosition + worldMapBackground.OffsetPositionCenter();
         Vector2 Position = (clampedanchoredPosition - worldMapBackground.GetMapSize() * 0.5f) * -1f;

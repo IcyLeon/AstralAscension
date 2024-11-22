@@ -56,7 +56,7 @@ public abstract class PlayerCharacterState : DamageableEntityState
         if (playableCharacterStateMachine.playerElementalBurstStateMachine != null)
             playableCharacterStateMachine.playerElementalBurstStateMachine.OnEnable();
 
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started += Attack_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.Attack.started += Attack_performed;
     }
 
     public override void OnDisable()
@@ -69,7 +69,7 @@ public abstract class PlayerCharacterState : DamageableEntityState
         if (playableCharacterStateMachine.playerElementalBurstStateMachine != null)
             playableCharacterStateMachine.playerElementalBurstStateMachine.OnDisable();
 
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.Attack.started -= Attack_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.Attack.started -= Attack_performed;
     }
 
     protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

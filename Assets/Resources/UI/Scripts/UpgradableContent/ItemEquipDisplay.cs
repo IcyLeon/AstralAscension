@@ -9,10 +9,29 @@ public class ItemEquipDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI EquipTxt;
     [SerializeField] private Image PartyIconImage;
+    private ItemContentDisplay ItemContentDisplay;
+    private UpgradableItems upgradableItem;
 
-    public void UpdateVisual(UpgradableItems upgradableItems)
+    private void Awake()
     {
-        PlayerCharactersSO playerCharactersSO = upgradableItems.equipByCharacter as PlayerCharactersSO;
+        ItemContentDisplay = GetComponentInParent<ItemContentDisplay>();
+        ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
+    }
+
+    private void ItemContentDisplay_OnItemContentDisplayChanged()
+    {
+        upgradableItem = ItemContentDisplay.iItem as UpgradableItems;
+        UpdateVisual();
+    }
+
+    private void OnDestroy()
+    {
+        ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
+    }
+
+    public void UpdateVisual()
+    {
+        PlayerCharactersSO playerCharactersSO = upgradableItem.equipByCharacter as PlayerCharactersSO;
 
         gameObject.SetActive(playerCharactersSO != null);
 

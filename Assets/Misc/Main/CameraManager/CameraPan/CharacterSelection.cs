@@ -12,7 +12,6 @@ public class CharacterSelection : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
         cameraPanManager = GetComponentInChildren<CameraPanManager>();
         CharacterManager.OnCharacterStorageNew += DisplayCharacterSelection_OnCharacterStorageNew;
         CharacterManager.OnCharacterStorageOld += DisplayCharacterSelection_OnCharacterStorageOld;
@@ -38,7 +37,7 @@ public class CharacterSelection : MonoBehaviour
 
     }
 
-    private void CharacterStorage_OnCharacterAdd(CharacterDataStat c)
+    private void CharacterStorage_OnCharacterAdd(CharactersSO c)
     {
 
     }

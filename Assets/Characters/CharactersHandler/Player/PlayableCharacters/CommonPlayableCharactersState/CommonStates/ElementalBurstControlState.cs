@@ -7,7 +7,7 @@ public abstract class ElementalBurstControlState : ElementalControlBaseState
     public override void OnEnable()
     {
         base.OnEnable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
     private bool CanTransitToElementalBurstState()
@@ -32,7 +32,7 @@ public abstract class ElementalBurstControlState : ElementalControlBaseState
     public override void OnDisable()
     {
         base.OnDisable();
-        playableCharacterStateMachine.player.PlayerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
+        playableCharacterStateMachine.playerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
     }
 
     public ElementalBurstStateMachine elementalBurst

@@ -21,6 +21,7 @@ public class PlayerStateMachine
     public PlayerAimState playerAimState { get; }
     public PlayerAttackState playerAttackState { get; }
     public PlayerDeadState playerDeadState { get; }
+    public PlayerController playerController { get; }
     public Player player
     {
         get
@@ -127,6 +128,7 @@ public class PlayerStateMachine
     public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
         PlayableCharacterStateMachine = PCS;
+        playerController = PlayerController.instance;
         StateMachineManager = new StateMachineManager();
         playerAimState = new PlayerAimState(this);
         playerIdleState = new PlayerIdleState(this);
