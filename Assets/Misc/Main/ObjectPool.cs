@@ -19,6 +19,11 @@ public class ObjectPool<T> where T : MonoBehaviour
         }
     }
 
+    public int GetTotalAmount()
+    {
+        return amountToPool;
+    }
+
     private ObjectPool(int amountToPool)
     {
         pooledObjects = new();
@@ -27,13 +32,13 @@ public class ObjectPool<T> where T : MonoBehaviour
 
     public ObjectPool(string objectPoolPrefabName, Transform ParentTransform = null, int amountToPool = 1) : this(amountToPool)
     {
-        GameObject objectPool = Resources.Load<GameObject>(objectPoolPrefabName);
+        T objectPool = Resources.LoadAll<T>(objectPoolPrefabName)[0];
 
         for (int i = 0; i < this.amountToPool; i++)
         {
-            GameObject go = Object.Instantiate(objectPool, ParentTransform);
-            go.SetActive(false);
-            pooledObjects.Add(go.GetComponent<T>());
+            T go = Object.Instantiate(objectPool, ParentTransform);
+            go.gameObject.SetActive(false);
+            pooledObjects.Add(go);
         }
     }
 
@@ -57,6 +62,14 @@ public class ObjectPool<T> where T : MonoBehaviour
         {
             action(pooledObjects[i], i);
         }
+    }
+
+    public T At(int i)
+    {
+        int index = i;
+        index = Mathf.Clamp(index, 0, pooledObjects.Count);
+
+        return pooledObjects[index];
     }
 
     public void ResetAll()

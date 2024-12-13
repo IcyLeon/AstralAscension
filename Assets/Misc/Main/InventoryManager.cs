@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 [DisallowMultipleComponent]
 public class InventoryManager : MonoBehaviour
@@ -28,6 +30,19 @@ public class InventoryManager : MonoBehaviour
         CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
 
         SetInventory(new Inventory(1000));
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void Init()
+    {
+        if (characterStorage != null)
+            return;
+
+        CharacterManager_OnCharacterStorageNew(CharacterManager.instance.characterStorage);
     }
 
     private void Update()
@@ -70,11 +85,11 @@ public class InventoryManager : MonoBehaviour
         if (UpgradableItems == null || characterSO == null)
             return;
 
-        if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
+        if (characterStorage == null || !characterStorage.characterStatList.ContainsKey(characterSO))
             return;
 
-        PlayableCharacterDataStat playableCharacter = characterStorage.playableCharacterStatList[characterSO];
-        playableCharacter.UnequipItem(UpgradableItems.GetIItem().GetTypeSO());
+        CharacterDataStat CharacterDataStat = characterStorage.characterStatList[characterSO];
+        CharacterDataStat.UnequipItem(UpgradableItems.GetIItem().GetTypeSO());
     }
 
     public void EquipItem(CharactersSO characterSO, UpgradableItems upgradableItems)
@@ -82,20 +97,20 @@ public class InventoryManager : MonoBehaviour
         if (upgradableItems == null || characterSO == null)
             return;
 
-        if (characterStorage == null || !characterStorage.playableCharacterStatList.ContainsKey(characterSO))
+        if (characterStorage == null || !characterStorage.characterStatList.ContainsKey(characterSO))
             return;
 
-        PlayableCharacterDataStat playableCharacter = characterStorage.playableCharacterStatList[characterSO];
+        CharacterDataStat CharacterDataStat = characterStorage.characterStatList[characterSO];
 
         // get the existing artifact equipped from characterSO
-        UpgradableItems currentItemEquipped = playableCharacter.GetItem(upgradableItems.GetTypeSO()) as UpgradableItems;
+        UpgradableItems currentItemEquipped = CharacterDataStat.GetItem(upgradableItems.GetTypeSO()) as UpgradableItems;
 
         CharactersSO previousOwnerSO = upgradableItems.equipByCharacter;
 
         UnequipItem(previousOwnerSO, upgradableItems); // remove previous owner of the artifact
         UnequipItem(characterSO, currentItemEquipped);
 
-        playableCharacter.EquipItem(upgradableItems); // set the new owner of the artifact
+        CharacterDataStat.EquipItem(upgradableItems); // set the new owner of the artifact
         
         EquipItem(previousOwnerSO, currentItemEquipped); // set the previous owner to the artifact equipped from characterSO 
     }

@@ -17,8 +17,7 @@ public class PlaceMarker : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left || worldMapUI.worldMapBackground == null 
-            || eventData.pointerDrag != null)
+        if (eventData.button != PointerEventData.InputButton.Left || worldMapUI.worldMapBackground == null)
             return;
 
         WorldMapBackground worldMapBackground = worldMapUI.worldMapBackground;

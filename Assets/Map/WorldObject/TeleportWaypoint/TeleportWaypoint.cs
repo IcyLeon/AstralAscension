@@ -22,4 +22,9 @@ public class TeleportWaypoint : InteractiveMapObject, IInteractable
     {
         player.transform.position = GetMapIconTransform().position;
     }
+
+    public Transform GetIPointOfInterestTransform()
+    {
+        return transform;
+    }
 }

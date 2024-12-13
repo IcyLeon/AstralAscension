@@ -36,14 +36,14 @@ public class FreeLookCameraPanVirtualCamera : CameraPanVirtualCam
             return;
         }
 
-        Cinemachine3rdPersonFollow.CameraDistance = Mathf.SmoothStep(Cinemachine3rdPersonFollow.CameraDistance, targetCameraDistance, Time.deltaTime * cameraZoomSmoothingSpeed);
+        Cinemachine3rdPersonFollow.CameraDistance = Mathf.SmoothStep(Cinemachine3rdPersonFollow.CameraDistance, targetCameraDistance, Time.unscaledDeltaTime * cameraZoomSmoothingSpeed);
     }
 
     public override void OnScroll(float delta)
     {
         base.OnScroll(delta);
 
-        targetCameraDistance += Time.deltaTime * cameraZoomSpeed * delta * -1f;
+        targetCameraDistance += Time.unscaledDeltaTime * cameraZoomSpeed * delta * -1f;
         targetCameraDistance = Mathf.Clamp(targetCameraDistance, cameraPanManager.CameraPanSelectionDataSO.CameraDistanceRange.x, cameraPanManager.CameraPanSelectionDataSO.CameraDistanceRange.y);
     }
 }

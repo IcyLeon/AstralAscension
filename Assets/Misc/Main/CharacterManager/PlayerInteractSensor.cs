@@ -5,33 +5,54 @@ using UnityEngine;
 
 public class PlayerInteractSensor : InteractSensor
 {
+    private Dictionary<Transform, IPointOfInterest> interactable_List;
+
     private Player player;
     private PlayerController playerController;
+    public event OnInteractEvent OnInteractableEnter;
+    public event OnInteractEvent OnInteractableExit;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        interactable_List = new();
+        player = GetComponentInParent<Player>();
+        OnPOIInteractEnter += PlayerInteractSensor_OnPOIInteractEnter;
+        OnPOIInteractExit += PlayerInteractSensor_OnPOIInteractExit;
+    }
+
+    private void PlayerInteractSensor_OnPOIInteractEnter(Collider Collider)
+    {
+    }
+
+    private void PlayerInteractSensor_OnPOIInteractExit(Collider Collider)
+    {
+    }
+
 
     protected override void Start()
     {
         base.Start();
         playerController = PlayerController.instance;
-        player = GetComponentInParent<Player>();
         playerController.playerInputAction.Interact.started += Interact_started;
     }
 
     private void OnDestroy()
     {
+        OnPOIInteractEnter -= PlayerInteractSensor_OnPOIInteractEnter;
+        OnPOIInteractExit -= PlayerInteractSensor_OnPOIInteractExit;
         playerController.playerInputAction.Interact.started -= Interact_started;
     }
 
 
     private void Interact_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        Collider collider = GetObject(closestInteractionTransform);
-        if (collider == null)
+        IInteractable interactable = currentClosestPOI as IInteractable;
+
+        if (interactable == null)
             return;
 
-        if (collider.TryGetComponent(out IInteractable interactable))
-        {
-            interactable.Interact(player);
-            Debug.Log("Interact " + interactable);
-        }
+        interactable.Interact(player);
+        Debug.Log("Interact " + interactable);
     }
 }

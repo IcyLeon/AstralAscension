@@ -11,8 +11,8 @@ public class PlayerCanvas : MonoBehaviour
 
         Player = GetComponentInParent<Player>();
 
-        Player.PlayerInteractSensor.OnInteractEnter += OnInteractEnter;
-        Player.PlayerInteractSensor.OnInteractExit += OnInteractExit;
+        Player.PlayerInteractSensor.OnInteractableEnter += OnInteractableEnter;
+        Player.PlayerInteractSensor.OnInteractableExit += OnInteractableExit;
     }
 
     private void Start()
@@ -32,14 +32,14 @@ public class PlayerCanvas : MonoBehaviour
 
     private void OnDestroy()
     {
-        Player.PlayerInteractSensor.OnInteractEnter -= OnInteractEnter;
-        Player.PlayerInteractSensor.OnInteractExit -= OnInteractExit;
+        Player.PlayerInteractSensor.OnInteractableEnter -= OnInteractableEnter;
+        Player.PlayerInteractSensor.OnInteractableExit -= OnInteractableExit;
     }
 
-    private void OnInteractEnter(Collider collider)
+    private void OnInteractableEnter(Collider collider)
     {
     }
-    private void OnInteractExit(Collider collider)
+    private void OnInteractableExit(Collider collider)
     {
     }
 

@@ -17,6 +17,15 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
 
     protected virtual void Awake()
     {
+        Init();
+        VirtualCamera = GetComponent<CinemachineVirtualCamera>();
+        Cinemachine3rdPersonFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        originalRotation = Cinemachine3rdPersonFollow.FollowTargetRotation;
+        ResetRotation();
+    }
+
+    private void Init()
+    {
         cameraPanManager = GetComponentInParent<CameraPanManager>();
 
         if (cameraPanManager == null)
@@ -25,12 +34,8 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
             return;
         }
 
-        VirtualCamera = GetComponent<CinemachineVirtualCamera>();
-        Cinemachine3rdPersonFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-        originalRotation = Cinemachine3rdPersonFollow.FollowTargetRotation;
         cameraRotationSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraRotationSpeed;
         cameraRotationSmoothingSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraRotationSmoothingSpeed;
-        ResetRotation();
     }
 
     protected virtual void OnEnable()
@@ -46,8 +51,8 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
     {
         Vector3 rotationAngles = currentRotation.eulerAngles;
 
-        rotationAngles.x += Time.deltaTime * cameraRotationSpeed * delta.y * -1f; 
-        rotationAngles.y += Time.deltaTime * cameraRotationSpeed * delta.x;       
+        rotationAngles.x += Time.unscaledDeltaTime * cameraRotationSpeed * delta.y * -1f; 
+        rotationAngles.y += Time.unscaledDeltaTime * cameraRotationSpeed * delta.x;       
 
         if (rotationAngles.x > 180f)
             rotationAngles.x -= 360f;
@@ -72,6 +77,6 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
 
     protected virtual void Update()
     {
-        VirtualCamera.Follow.rotation = Quaternion.Lerp(VirtualCamera.Follow.rotation, currentRotation, Time.deltaTime * cameraRotationSmoothingSpeed);
+        VirtualCamera.Follow.rotation = Quaternion.Lerp(VirtualCamera.Follow.rotation, currentRotation, Time.unscaledDeltaTime * cameraRotationSmoothingSpeed);
     }
 }

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ItemEquipDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI EquipTxt;
+    [SerializeField] private GameObject MainPanel;
     [SerializeField] private Image PartyIconImage;
     private ItemContentDisplay ItemContentDisplay;
     private UpgradableItems upgradableItem;
@@ -20,20 +21,47 @@ public class ItemEquipDisplay : MonoBehaviour
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
+        UnsubscribeEvents();
         upgradableItem = ItemContentDisplay.iItem as UpgradableItems;
+        SubscribeEvents();
         UpdateVisual();
+    }
+
+    private void UnsubscribeEvents()
+    {
+        if (upgradableItem == null)
+            return;
+
+        upgradableItem.OnIEntityChanged -= UpgradableItem_OnIEntityChanged;
+    }
+
+    private void UpgradableItem_OnIEntityChanged(IEntity IEntity)
+    {
+        UpdateVisual();
+    }
+
+    private void SubscribeEvents()
+    {
+        if (upgradableItem == null)
+            return;
+
+        upgradableItem.OnIEntityChanged += UpgradableItem_OnIEntityChanged;
     }
 
     private void OnDestroy()
     {
+        UnsubscribeEvents();
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
     }
 
-    public void UpdateVisual()
+    private void UpdateVisual()
     {
-        PlayerCharactersSO playerCharactersSO = upgradableItem.equipByCharacter as PlayerCharactersSO;
+        MainPanel.SetActive(upgradableItem != null && upgradableItem.equipByCharacter);
 
-        gameObject.SetActive(playerCharactersSO != null);
+        if (upgradableItem == null)
+            return;
+
+        PlayerCharactersSO playerCharactersSO = upgradableItem.equipByCharacter as PlayerCharactersSO;
 
         if (playerCharactersSO == null)
             return;

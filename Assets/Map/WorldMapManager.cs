@@ -12,8 +12,6 @@ public class WorldMapManager : MonoBehaviour
 
     public static WorldMapManager instance { get; private set; }
 
-    private Camera BirdEyeCamera;
-
     [SerializeField] private Transform UpperLeft;
     [SerializeField] private Transform BottomRight;
 
@@ -21,11 +19,16 @@ public class WorldMapManager : MonoBehaviour
     public event OnMapIconEvent OnMapObjectAdd;
     public event OnMapIconEvent OnMapObjectRemove;
 
+    private WorldMapCamera worldMapCamera;
+
     private void Awake()
     {
         instance = this;
-        Init();
+    }
 
+    private void Start()
+    {
+        Init();
         CenterCamera();
     }
 
@@ -44,27 +47,16 @@ public class WorldMapManager : MonoBehaviour
         return count;
     }
 
-    private void FindWorldMapCamera()
-    {
-        GameObject go = GameObject.FindGameObjectWithTag("WorldMapCamera");
-
-        if (go == null)
-            return;
-
-        BirdEyeCamera = go.GetComponent<Camera>();
-    }
 
     private void CenterCamera()
     {
-        FindWorldMapCamera();
-
-        if (BirdEyeCamera == null)
+        if (worldMapCamera == null)
             return;
 
         float x = UpperLeft.transform.position.x + (BottomRight.transform.position.x - UpperLeft.transform.position.x) * 0.5f;
         float z = BottomRight.transform.position.z - (BottomRight.transform.position.z - UpperLeft.transform.position.z) * 0.5f;
 
-        BirdEyeCamera.gameObject.transform.position = new Vector3(x, 999f, z);
+        worldMapCamera.transform.position = new Vector3(x, worldMapCamera.transform.position.y, z);
     }
 
     private void Init()
@@ -73,6 +65,9 @@ public class WorldMapManager : MonoBehaviour
             return;
 
         MapObjectList = new();
+
+        worldMapCamera = GetComponentInChildren<WorldMapCamera>();
+        worldMapCamera.SetWorldMap(this);
     }
 
     /// <summary>
@@ -81,9 +76,17 @@ public class WorldMapManager : MonoBehaviour
     /// <returns></returns>
     public float GetWorldMapWidthRatio(float MapWidth)
     {
-        float x = Mathf.Abs(BottomRight.transform.position.x - UpperLeft.transform.position.x);
+        return GetWorldMapWidth() / MapWidth;
+    }
 
-        return x / MapWidth;
+    public float GetWorldMapWidth()
+    {
+        return Mathf.Abs(BottomRight.transform.position.x - UpperLeft.transform.position.x);
+    }
+
+    public float GetWorldMapHeight()
+    {
+        return Mathf.Abs(BottomRight.transform.position.z - UpperLeft.transform.position.z);
     }
 
     /// <summary>
@@ -92,9 +95,7 @@ public class WorldMapManager : MonoBehaviour
     /// <returns></returns>
     public float GetWorldMapHeightRatio(float MapHeight)
     {
-        float z = Mathf.Abs(BottomRight.transform.position.z - UpperLeft.transform.position.z);
-
-        return z / MapHeight;
+        return GetWorldMapHeight() / MapHeight;
     }
 
     public Vector3 GetMapLocation(Transform transform)

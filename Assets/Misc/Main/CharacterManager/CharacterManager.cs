@@ -10,10 +10,13 @@ public class CharacterManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
 
+    private Dictionary<CharactersSO, CharacterDataStat> allplayableCharactersDic;
+
     public CharacterStorage characterStorage { get; private set; }
 
     public delegate void OnCharacterStorageChanged(CharacterStorage CharacterStorage);
     public static event OnCharacterStorageChanged OnCharacterStorageOld, OnCharacterStorageNew;
+
 
     private void SetCharacterStorage(CharacterStorage CharacterStorage)
     {
@@ -23,11 +26,43 @@ public class CharacterManager : MonoBehaviour
         characterStorage = CharacterStorage;
         OnCharacterStorageNew?.Invoke(characterStorage);
     }
+
     private void Awake()
     {
         instance = this;
 
+        LoadCharactersSO();
         SetCharacterStorage(new CharacterStorage());
+
+        TestCharacters();
+    }
+
+    public CharacterDataStat GetPlayableCharacterDataStat(CharactersSO CharactersSO)
+    {
+        if (!allplayableCharactersDic.TryGetValue(CharactersSO, out CharacterDataStat characterDataStat))
+            return null;
+
+        return characterDataStat;
+    }
+
+    private void LoadCharactersSO()
+    {
+        allplayableCharactersDic = new();
+
+        PlayerCharactersSO[] playableCharactersSOList = Resources.LoadAll<PlayerCharactersSO>("Characters");
+
+        foreach (var pc in playableCharactersSOList)
+        {
+            allplayableCharactersDic.Add(pc, pc.CreateCharacterDataStat());
+        }
+    }
+
+    private void TestCharacters()
+    {
+        foreach(var c in allplayableCharactersDic)
+        {
+            characterStorage.AddCharacterData(c.Key);
+        }
     }
 
     private void Update()
