@@ -9,13 +9,11 @@ public class CameraManager : MonoBehaviour
     [field: SerializeField] public CameraSO CameraSO { get; private set; }
     public PlayerController playerController { get; private set; }
 
-    [Header("Cinemachine Camera Components")]
-    [SerializeField] CinemachineVirtualCamera PlayerCamera;
-    [SerializeField] CinemachineVirtualCamera AimCamera;
-    private CinemachineFramingTransposer playerTransposerCameras;
-    public CinemachinePOV playerPOV { get; private set; }
+    private GameplayCamera gameplayPlayerCamera;
+    private GameplayCamera gameplayAimCamera;
+    private GameplayCamera[] GameplayCameralist;
+    private GameplayCamera currentCamera;
 
-    private float m_TargetZoom;
     public Camera CameraMain { get; private set; }
 
 
@@ -24,16 +22,39 @@ public class CameraManager : MonoBehaviour
     private void Awake()
     {
         CameraMain = Camera.main;
-        m_TargetZoom = CameraSO.maxZoom;
-        playerTransposerCameras = PlayerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        playerPOV = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
+        gameplayPlayerCamera = GetComponentInChildren<GameplayPlayerCamera>(true);
+        gameplayAimCamera = GetComponentInChildren<GameplayAimCamera>(true);
+        DisableAllCamera();
+    }
+
+    private void DisableAllCamera()
+    {
+        GameplayCamera[] GameplayCameralist = GetComponentsInChildren<GameplayPlayerCamera>(true);
+
+        foreach (var camera in GameplayCameralist)
+        {
+            camera.gameObject.SetActive(false);
+        }
+    }
+
+    public void ChangeCamera(GameplayCamera cam)
+    {
+        if (currentCamera != null)
+        {
+            currentCamera.gameObject.SetActive(false);
+        }
+
+        currentCamera = cam;
+
+        currentCamera.gameObject.SetActive(true);
     }
 
     private void Start()
     {
         playerController = PlayerController.instance;
         transform.SetParent(null);
-        playerController.playerInputAction.Zoom.performed += Zoom_performed;
+
+        ChangeCamera(gameplayPlayerCamera);
     }
 
     private IEnumerator ToggleAimCameraDelayCoroutine(bool enable, float time)
@@ -62,35 +83,17 @@ public class CameraManager : MonoBehaviour
 
     private void EnableAimCamera(bool enable)
     {
-        AimCamera.gameObject.SetActive(enable);
+        if (enable)
+        {
+            ChangeCamera(gameplayAimCamera);
+            return;
+        }
+
+        ChangeCamera(gameplayPlayerCamera);
     }
 
     public bool IsAimCameraActive()
     {
-        return AimCamera.gameObject.activeSelf;
+        return currentCamera == gameplayAimCamera;
     }
-
-
-    private void OnDestroy()
-    {
-        playerController.playerInputAction.Zoom.performed -= Zoom_performed;
-    }
-
-    private void UpdateZoomCamera()
-    {
-        playerTransposerCameras.m_CameraDistance = Mathf.SmoothStep(playerTransposerCameras.m_CameraDistance, m_TargetZoom, Time.deltaTime * CameraSO.zoomSoothing);
-    }
-
-    private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        m_TargetZoom += playerController.playerInputAction.Zoom.ReadValue<Vector2>().y;
-        m_TargetZoom = Mathf.Clamp(m_TargetZoom, CameraSO.minZoom, CameraSO.maxZoom);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        UpdateZoomCamera();
-    }
-
 }

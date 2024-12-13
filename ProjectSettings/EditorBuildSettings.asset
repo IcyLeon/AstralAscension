@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainGameplayScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/CharacterScreenScene.unity
-    guid: 17ce5581202d087458508d7b8ac548d8
-  - enabled: 1
     path: Assets/Scenes/PersistenceGameplayScene.unity
     guid: 982af73491289e740bee2226b2ef0900
   m_configObjects: {}

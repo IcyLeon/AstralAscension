@@ -8,20 +8,23 @@ using UnityEngine;
 public abstract class InteractSensor : MonoBehaviour
 {
     [Header("Interactions Data")]
-    private Dictionary<Transform, Collider> Interact_List;
-    [SerializeField] private LayerMask InteractLayers;
+    private Dictionary<Transform, IPointOfInterest> POI_List;
+
     [SerializeField] private float InteractionRange = 1f;
     [SerializeField] private SphereCollider InteractionsCollider;
 
     public delegate void OnInteractEvent(Collider Collider);
-    public event OnInteractEvent OnInteractEnter;
-    public event OnInteractEvent OnInteractExit;
+    public event OnInteractEvent OnPOIInteractEnter;
+    public event OnInteractEvent OnPOIInteractExit;
 
-    public Transform closestInteractionTransform { get; private set; }
+    public event Action OnPOIChanged;
 
-    private void Awake()
+    private IPointOfInterest prevClosestPOI;
+    public IPointOfInterest currentClosestPOI { get; private set; }
+
+    protected virtual void Awake()
     {
-        Interact_List = new();
+        POI_List = new();
         InteractionsCollider.radius = InteractionRange;
     }
 
@@ -29,60 +32,65 @@ public abstract class InteractSensor : MonoBehaviour
     {
     }
 
-    public Collider GetObject(Transform transform)
+    protected IPointOfInterest GetPOIObject(Transform transform)
     {
-        if (transform != null && Interact_List.TryGetValue(transform, out Collider value))
+        if (transform != null && POI_List.TryGetValue(transform, out IPointOfInterest value))
             return value;
 
         return null;
     }
 
-    private Transform GetClosestTarget(Vector3 position)
+    private IPointOfInterest GetClosestTarget(Vector3 position)
     {
         float nearestDistance = Mathf.Infinity;
-        Transform targetTransform = null;
+        IPointOfInterest targetPOI = null;
 
-        for (int i = 0; i < Interact_List.Keys.Count; i++)
+        for (int i = 0; i < POI_List.Keys.Count; i++)
         {
-            Transform currentTransform = Interact_List.ElementAt(i).Key;
-            if (currentTransform == null)
-            {
-                Interact_List.Remove(currentTransform);
-                continue;
-            }
+            Transform currentTransform = POI_List.ElementAt(i).Key;
+
             float distance = (currentTransform.transform.position - position).sqrMagnitude;
+
             if (distance < nearestDistance)
             {
-                targetTransform = currentTransform.transform;
+                targetPOI = POI_List[currentTransform];
                 nearestDistance = distance;
             }
         }
 
-        return targetTransform;
+        return targetPOI;
     }
 
     private void Update()
     {
-        closestInteractionTransform = GetClosestTarget(InteractionsCollider.bounds.center);
+        currentClosestPOI = GetClosestTarget(InteractionsCollider.bounds.center);
+
+        if (prevClosestPOI != currentClosestPOI)
+        {
+            OnPOIChanged?.Invoke();
+            prevClosestPOI = currentClosestPOI;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (((1 << other.gameObject.layer) & InteractLayers) != 0)
+        IPointOfInterest POI = other.GetComponent<IPointOfInterest>();
+
+        if (POI == null)
+            return;
+
+        if (!POI_List.ContainsKey(other.transform))
         {
-            if (!Interact_List.ContainsKey(other.transform))
-            {
-                Interact_List.Add(other.transform, other);
-                OnInteractEnter?.Invoke(other);
-            }
+            POI_List.Add(other.transform, POI);
+            OnPOIInteractEnter?.Invoke(other);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (Interact_List.Remove(other.transform))
+        if (POI_List.Remove(other.transform))
         {
-            OnInteractExit?.Invoke(other);
+            OnPOIInteractExit?.Invoke(other);
         }
     }
 }

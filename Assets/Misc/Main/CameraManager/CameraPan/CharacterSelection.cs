@@ -39,7 +39,7 @@ public class CharacterSelection : MonoBehaviour
 
     private void CharacterStorage_OnCharacterAdd(CharactersSO c)
     {
-
+        Debug.Log(c);
     }
 
     private void OnDestroy()

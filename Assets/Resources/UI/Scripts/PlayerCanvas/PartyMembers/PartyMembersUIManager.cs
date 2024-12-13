@@ -9,7 +9,7 @@ public class PartyMembersUIManager : MonoBehaviour
     private ObjectPool<PartyMemberContent> objectPool;
     [SerializeField] private GameObject PartyInfoPrefab;
     private PartySetupManager partySetupManager;
-    private Dictionary<CharacterDataStat, PartyMemberContent> PartyMemberContentDictionary;
+    private Dictionary<CharactersSO, PartyMemberContent> PartyMemberContentDictionary;
 
     //Start is called before the first frame update
     private void Awake()
@@ -59,9 +59,9 @@ public class PartyMembersUIManager : MonoBehaviour
         PartyMemberContentDictionary.Clear();
         objectPool.ResetAll();
 
-        foreach (var characterDataStat in partySetupManager.GetCurrentPartyMembers())
+        foreach (var charactersSO in partySetupManager.GetCurrentPartyMembers())
         {
-            if (characterDataStat == null)
+            if (charactersSO == null)
                 continue;
 
             PartyMemberContent partyMemberContent = objectPool.GetPooledObject();
@@ -69,13 +69,13 @@ public class PartyMembersUIManager : MonoBehaviour
             if (partyMemberContent == null)
                 continue;
 
-            PlayableCharacterDataStat pc = partySetupManager.GetPlayableCharacterDataStat(characterDataStat);
+            CharacterDataStat CharacterDataStat = partySetupManager.GetCharacterDataStat(charactersSO);
 
-            partyMemberContent.SetCharacterDataStat(pc);
+            partyMemberContent.SetCharacterDataStat(CharacterDataStat);
 
-            if (!PartyMemberContentDictionary.ContainsKey(pc))
+            if (!PartyMemberContentDictionary.ContainsKey(charactersSO))
             {
-                PartyMemberContentDictionary.Add(pc, partyMemberContent);
+                PartyMemberContentDictionary.Add(charactersSO, partyMemberContent);
             }
         }
     }

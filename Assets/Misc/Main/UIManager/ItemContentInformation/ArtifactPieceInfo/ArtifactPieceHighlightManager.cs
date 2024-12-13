@@ -19,8 +19,8 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     [SerializeField] private StatsHighlightContent StatsHighlightContent;
 
-    [SerializeField] private CharactersSO charactersSO;
-
+    private OwnerCharacterUIManager ownerCharacterUIManager;
+    private CharactersSO charactersSO;
     private ArtifactPieceSetsDisplayManager ArtifactPieceSetsDisplayManager;
 
     private CharacterStorage characterStorage;
@@ -29,6 +29,9 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void Awake()
     {
+        ownerCharacterUIManager = GetComponentInParent<OwnerCharacterUIManager>();
+        ownerCharacterUIManager.OnIconSelected += OwnerCharacterUIManager_OnIconSelected;
+
         CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
         CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
 
@@ -37,12 +40,22 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         ArtifactPieceSetsDisplayManager = GetComponent<ArtifactPieceSetsDisplayManager>();
     }
 
+    private void OwnerCharacterUIManager_OnIconSelected(CharactersSO CharactersSO)
+    {
+        charactersSO = CharactersSO;
+    }
+
     private void Start()
+    {
+        Init();
+    }
+
+    private void Init()
     {
         if (characterStorage != null)
             return;
 
-        characterStorage = CharacterManager.instance.characterStorage;
+        CharacterManager_OnCharacterStorageNew(CharacterManager.instance.characterStorage);
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
@@ -71,9 +84,9 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void ResetAll()
     {
-        foreach (var ArtifactPieceInfoDisplay in ArtifactPieceSetsDisplayManager.ArtifactPieceInfoDisplayList)
+        for (int i = 0; i < ArtifactPieceSetsDisplayManager.GetTotalPieceInfo(); i++)
         {
-            ArtifactPieceInfoDisplay.SetTextColor(StatsHighlightContent.DefaultColor);
+            ArtifactPieceSetsDisplayManager.GetArtifactPieceInfoDisplay(i).SetTextColor(StatsHighlightContent.DefaultColor);
         }
     }
 
@@ -84,17 +97,27 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         if (characterStorage == null)
             return;
 
-        PlayableCharacterDataStat c = characterStorage.HasObtainedCharacter(charactersSO) as PlayableCharacterDataStat;
+        CharacterDataStat c = characterStorage.HasObtainedCharacter(charactersSO);
 
         if (c == null)
             return;
 
-        int eventCount = c.characterArtifactManager.GetPieceEventCount(iItem);
+        int index = GetArtifactBuffCurrentIndex(c);
 
-        for (int i = 0; i < eventCount; i++)
+        for (int i = 0; i <= index; i++)
         {
-            ArtifactPieceSetsDisplayManager.ArtifactPieceInfoDisplayList[i].SetTextColor(StatsHighlightContent.SuccessColor);
+            ArtifactPieceSetsDisplayManager.GetArtifactPieceInfoDisplay(i).SetTextColor(StatsHighlightContent.SuccessColor);
         }
+    }
+
+    private int GetArtifactBuffCurrentIndex(CharacterDataStat CharacterDataStat)
+    {
+        ArtifactSO artifactSO = iItem.GetIItem() as ArtifactSO;
+
+        if (artifactSO == null)
+            return -1;
+
+        return CharacterDataStat.effectManager.GetArtifactBuffCurrentIndex(artifactSO.ArtifactFamilySO);
     }
 
     private void UnsubscribeEvents()
@@ -126,5 +149,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
 
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
+
+        ownerCharacterUIManager.OnIconSelected -= OwnerCharacterUIManager_OnIconSelected;
     }
 }

@@ -5,65 +5,46 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(ToggleGroup))]
 public class TabGroup : MonoBehaviour
 {
-    [SerializeField] private Color32 SelectedTabColor;
     protected TabOption[] tabOptions;
+    public event Action<TabOption> OnTabGroupChanged;
+    public ToggleGroup toggleGroup { get; private set; }
 
-    public TabOption selectedTabOption { get; private set; }
-    public event Action<TabOption.TabEvents> OnTabGroupChanged;
 
     protected virtual void Awake()
     {
         tabOptions = GetComponentsInChildren<TabOption>(true);
-
-        foreach(var tabOption in tabOptions)
-        {
-            tabOption.TabOptionClick += TabOption_TabOptionClick;
-            tabOption.SetTabGroup(this);
-        }
-        ResetAllTabOption();
+        toggleGroup = GetComponent<ToggleGroup>();
     }
 
     private void Start()
     {
-        if (tabOptions.Length > 0)
-            tabOptions[0].Select();
-    }
-
-    private void ResetAllTabOption()
-    {
         foreach (var tabOption in tabOptions)
         {
-            tabOption.ResetTab();
+            tabOption.TabOptionSelect += TabOption_TabOptionSelect;
         }
+
+        if (tabOptions.Length > 0)
+            tabOptions[0].toggle.isOn = true;
     }
 
-    protected virtual void OnSelectedPanel(TabOption.TabEvents e)
+    protected virtual void OnSelectedPanel(TabOption TabOption)
     {
-        if (e.TabOptionIconImage != null)
-            e.TabOptionIconImage.color = SelectedTabColor;
-
-        selectedTabOption = e.TabOption;
-
-        OnTabGroupChanged?.Invoke(new TabOption.TabEvents
-        {
-            PanelRectTransform = e.PanelRectTransform,
-            TabOptionIconImage = e.TabOptionIconImage
-        });
+        OnTabGroupChanged?.Invoke(TabOption);
     }
 
-    private void TabOption_TabOptionClick(TabOption.TabEvents e)
+    private void TabOption_TabOptionSelect(TabOption TabOption)
     {
-        ResetAllTabOption();
-        OnSelectedPanel(e);
+        OnSelectedPanel(TabOption);
     }
 
     private void OnDestroy()
     {
         foreach (var tabOption in tabOptions)
         {
-            tabOption.TabOptionClick -= TabOption_TabOptionClick;
+            tabOption.TabOptionSelect -= TabOption_TabOptionSelect;
         }
     }
 }

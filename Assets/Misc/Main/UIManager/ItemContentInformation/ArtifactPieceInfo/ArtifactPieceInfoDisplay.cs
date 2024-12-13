@@ -5,24 +5,24 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-public abstract class ArtifactPieceInfoDisplay : MonoBehaviour
+public class ArtifactPieceInfoDisplay : MonoBehaviour
 {
-    protected ArtifactFamilySO artifactFamilySO;
+    private ArtifactBuffPieceStat artifactBuffPieceStat;
 
     [SerializeField] private Image CheckImage;
     [SerializeField] protected TextMeshProUGUI ArtifactPieceTxt;
 
-    protected abstract void UpdateVisual();
-
-    public void SetArtifactFamilySO(ArtifactFamilySO ArtifactFamilySO)
+    private void UpdateVisual()
     {
-        artifactFamilySO = ArtifactFamilySO;
+        ArtifactPieceTxt.text = artifactBuffPieceStat.NoOfPiece + "-Piece Set: " + artifactBuffPieceStat.Description;
+    }
 
-        if (artifactFamilySO == null)
-            return;
-
+    public void SetArtifactBuffPieceStat(ArtifactBuffPieceStat ArtifactBuffPieceStat)
+    {
+        artifactBuffPieceStat = ArtifactBuffPieceStat;
         UpdateVisual();
     }
+
 
     public void SetTextColor(Color32 color)
     {

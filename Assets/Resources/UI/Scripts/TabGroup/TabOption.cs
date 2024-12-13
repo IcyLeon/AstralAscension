@@ -1,79 +1,99 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+[RequireComponent(typeof(Toggle))]
+public class TabOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public class TabEvents : EventArgs
+    [Serializable]
+    public class CustomizeableTabOption
     {
-        public RectTransform PanelRectTransform;
-        public Image TabOptionIconImage;
-        public TabOption TabOption;
+        [field: SerializeField] public Color32 SelectedColor { get; private set; }
+        [field: SerializeField] public Color32 UnSelectedColor { get; private set; }
     }
 
     [field: SerializeField] public RectTransform Panel { get; private set; }
-    [SerializeField] private CanvasGroup IconCanvasGroup;
-    [SerializeField] private Image IconImage;
-    [SerializeField] private Image BackgroundIconImage;
-
-    public event Action<TabEvents> TabOptionClick;
+    [SerializeField] private Graphic BackgroundGraphic;
+    [SerializeField] private CustomizeableTabOption CustomizeableIconTabOption;
+    [SerializeField] private Color32 HoverColor;
+    public event Action<TabOption> TabOptionSelect;
     private TabGroup tabGroup;
+    public Toggle toggle { get; private set; }
 
-    public void SetTabGroup(TabGroup tabGroup)
+    private void Awake()
     {
-        this.tabGroup = tabGroup;
+        tabGroup = GetComponentInParent<TabGroup>();
+        toggle = GetComponent<Toggle>();
     }
 
-    public void ResetTab()
+    private void Start()
     {
-        ResetCanvasAlpha();
-
-        if (BackgroundIconImage != null)
-            BackgroundIconImage.gameObject.SetActive(false);
-
-        if (IconImage != null)
-            IconImage.color = Color.white;
-
-        Panel.gameObject.SetActive(false);
-    }
-
-    public void Select()
-    {
-        TabOptionClick?.Invoke(new TabEvents
-        {
-            PanelRectTransform = Panel,
-            TabOptionIconImage = IconImage,
-            TabOption = this
+        toggle.group = tabGroup.toggleGroup;
+        toggle.onValueChanged.AddListener(delegate {
+            ToggleValueChanged(toggle);
         });
 
-        SelectCanvasAlpha();
-
-        if (BackgroundIconImage != null)
-            BackgroundIconImage.gameObject.SetActive(true);
-
-        Panel.gameObject.SetActive(true);
+        ToggleValueChanged(toggle);
     }
 
-    private void ResetCanvasAlpha()
+    private void ToggleValueChanged(Toggle toggle)
     {
-        IconCanvasGroup.alpha = 0.45f;
-    }
+        Panel.gameObject.SetActive(toggle.isOn);
 
-    private void SelectCanvasAlpha()
-    {
-        IconCanvasGroup.alpha = 1f;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button != PointerEventData.InputButton.Left)
+        if (toggle.isOn)
+        {
+            OnSelected();
+            TabOptionSelect?.Invoke(this);
             return;
+        }
 
-        Select();
+        OnDeSelected();
+    }
+
+    private void OnSelected()
+    {
+        OnSelectedBackground();
+        OnSelectedIcon();
+    }
+
+    private void OnDeSelected()
+    {
+        OnDeselectedBackground();
+        OnUnSelectedIcon();
+    }
+
+    private void OnSelectedBackground()
+    {
+        var Color = BackgroundGraphic.color;
+        Color.a = 1f;
+        BackgroundGraphic.color = Color;
+    }
+
+    private void OnDeselectedBackground()
+    {
+        var Color = BackgroundGraphic.color;
+        Color.a = 0f;
+        BackgroundGraphic.color = Color;
+    }
+
+    private void OnHoverIcon()
+    {
+        toggle.targetGraphic.color = HoverColor;
+    }
+
+    private void OnSelectedIcon()
+    {
+        toggle.targetGraphic.color = CustomizeableIconTabOption.SelectedColor;
+    }
+
+    private void OnUnSelectedIcon()
+    {
+        toggle.targetGraphic.color = CustomizeableIconTabOption.UnSelectedColor;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -81,7 +101,7 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         if (IsCurrentSelected())
             return;
 
-        SelectCanvasAlpha();
+        OnHoverIcon();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -89,11 +109,11 @@ public class TabOption : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         if (IsCurrentSelected())
             return;
 
-        ResetCanvasAlpha();
+        OnUnSelectedIcon();
     }
 
     private bool IsCurrentSelected()
     {
-        return tabGroup.selectedTabOption == this;
+        return toggle.isOn;
     }
 }

@@ -95,10 +95,10 @@ public class EnhancementManager : MonoBehaviour
 
         do
         {
-            UpdateEnhancingItem();
-
             EnhanceStatsPanel.SetCurrentEXP(Mathf.Lerp(EnhanceStatsPanel.GetCurrentEXP(), iEXPEntity.GetCurrentExp(),
                 elapseTime / (duration * 2f)));
+
+            UpdateEnhancingItem();
 
             elapseTime += Time.unscaledDeltaTime;
 
@@ -138,6 +138,7 @@ public class EnhancementManager : MonoBehaviour
         UnsubscribeEvents();
         iEXPEntity = enhancePanel.iEXPEntity;
         SubscribeEvents();
+        UpdateEXPRequirement();
         OnEnhanceItemChanged?.Invoke();
     }
 
@@ -155,7 +156,6 @@ public class EnhancementManager : MonoBehaviour
             return;
 
         iEXPEntity.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
-        UpdateEXPRequirement();
     }
 
     private void IEXPEntity_OnUpgradeIEXP()
