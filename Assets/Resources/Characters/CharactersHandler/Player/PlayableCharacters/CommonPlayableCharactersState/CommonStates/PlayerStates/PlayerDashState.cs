@@ -66,7 +66,7 @@ public class PlayerDashState : PlayerGroundedState
         {
             playerStateMachine.playerData.consecutiveDashesUsed = 0;
 
-            playerStateMachine.player.DisableInput(playerStateMachine.playerController.playerInputAction.Dash, 
+            playerStateMachine.player.DisableInput(playerController.playerInputAction.Dash, 
                 playerStateMachine.playerData.groundedData.PlayerDashData.DashLimitReachedCooldown);
         }
 

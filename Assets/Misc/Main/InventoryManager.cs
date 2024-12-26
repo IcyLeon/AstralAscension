@@ -85,32 +85,33 @@ public class InventoryManager : MonoBehaviour
         if (UpgradableItems == null || characterSO == null)
             return;
 
-        if (characterStorage == null || !characterStorage.characterStatList.ContainsKey(characterSO))
+        CharacterDataStat CharacterDataStat = characterStorage.GetCharacterDataStat(characterSO);
+
+        if (CharacterDataStat == null)
             return;
 
-        CharacterDataStat CharacterDataStat = characterStorage.characterStatList[characterSO];
-        CharacterDataStat.UnequipItem(UpgradableItems.GetIItem().GetTypeSO());
+        CharacterDataStat.characterInventory.UnequipItem(UpgradableItems);
     }
 
     public void EquipItem(CharactersSO characterSO, UpgradableItems upgradableItems)
     {
-        if (upgradableItems == null || characterSO == null)
+        if (upgradableItems == null || characterSO == null || characterStorage == null)
             return;
 
-        if (characterStorage == null || !characterStorage.characterStatList.ContainsKey(characterSO))
-            return;
+        CharacterDataStat CharacterDataStat = characterStorage.GetCharacterDataStat(characterSO);
 
-        CharacterDataStat CharacterDataStat = characterStorage.characterStatList[characterSO];
+        if (CharacterDataStat == null)
+            return;
 
         // get the existing artifact equipped from characterSO
-        UpgradableItems currentItemEquipped = CharacterDataStat.GetItem(upgradableItems.GetTypeSO()) as UpgradableItems;
+        UpgradableItems currentItemEquipped = CharacterDataStat.characterInventory.GetItem(upgradableItems.GetTypeSO()) as UpgradableItems;
 
         CharactersSO previousOwnerSO = upgradableItems.equipByCharacter;
 
         UnequipItem(previousOwnerSO, upgradableItems); // remove previous owner of the artifact
         UnequipItem(characterSO, currentItemEquipped);
 
-        CharacterDataStat.EquipItem(upgradableItems); // set the new owner of the artifact
+        CharacterDataStat.characterInventory.EquipItem(upgradableItems); // set the new owner of the artifact
         
         EquipItem(previousOwnerSO, currentItemEquipped); // set the previous owner to the artifact equipped from characterSO 
     }

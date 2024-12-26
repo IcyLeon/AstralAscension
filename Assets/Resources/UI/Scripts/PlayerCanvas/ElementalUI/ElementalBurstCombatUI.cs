@@ -21,7 +21,7 @@ public class ElementalBurstCombatUI : SkillCombatUI
         ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
     }
 
-    private void ActiveCharacter_OnPlayerCharacterExit(CharacterDataStat playerData, PlayableCharacters playableCharacters)
+    private void ActiveCharacter_OnPlayerCharacterExit(CharacterDataStat playerData, PartyMember PartyMember)
     {
         PlayableCharacterDataStat PlayableCharacterDataStat = playerData as PlayableCharacterDataStat;
         if (PlayableCharacterDataStat == null)
@@ -30,9 +30,9 @@ public class ElementalBurstCombatUI : SkillCombatUI
         PlayableCharacterDataStat.OnEnergyChanged -= CurrentPlayableCharacterData_OnEnergyChanged;
     }
 
-    protected override void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
+    protected override void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
     {
-        base.ActiveCharacter_OnPlayerCharacterSwitch(playerData, playableCharacters);
+        base.ActiveCharacter_OnPlayerCharacterSwitch(playerData, PartyMember);
 
         if (currentPlayableCharacterData == null)
             return;

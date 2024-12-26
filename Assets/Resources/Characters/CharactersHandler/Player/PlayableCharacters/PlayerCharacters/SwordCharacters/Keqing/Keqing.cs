@@ -21,7 +21,7 @@ public class Keqing : PlayableCharacters
         }
     }
 
-    protected override CharacterStateMachine CreateCharacterStateMachine()
+    protected override CharacterStateMachine GetStateMachine()
     {
         return new KeqingStateMachine(this);
     }

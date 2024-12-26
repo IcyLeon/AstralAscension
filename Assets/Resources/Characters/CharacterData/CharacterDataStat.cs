@@ -5,12 +5,9 @@ using System.Linq;
 using UnityEngine;
 
 public class CharacterDataStat : IEntity, IEXP
-{
-    public Dictionary<ItemTypeSO, Item> equippeditemList { get; }
-    public delegate void OnItemEquippedEvent(UpgradableItems UpgradableItem);
-    public event OnItemEquippedEvent OnEquip;
-    public event OnItemEquippedEvent OnUnEquip;
-
+{    
+    public EffectManager effectManager { get; }
+    public CharacterInventory characterInventory { get; private set; }
     public Dictionary<ElementsSO, Elements> inflictElementList { get; private set; }
     public delegate void OnElementChange(Elements element);
     public event OnElementChange OnElementEnter;
@@ -18,7 +15,7 @@ public class CharacterDataStat : IEntity, IEXP
     public event Action OnUpgradeIEXP;
     public event Action<IEntity> OnIEntityChanged;
 
-    public EffectManager effectManager { get; }
+
 
     public DamageableEntitySO damageableEntitySO { get; protected set; }
     private float maxHealth;
@@ -30,60 +27,15 @@ public class CharacterDataStat : IEntity, IEXP
 
     public CharacterDataStat(CharactersSO charactersSO)
     {
-        effectManager = new(this);
-
+        characterInventory = new(charactersSO);
+        effectManager = new(characterInventory);
         inflictElementList = new();
-        equippeditemList = new();
         damageableEntitySO = charactersSO as DamageableEntitySO;
 
         level = 1;
         maxlevel = 20;
         currentEXP = 0;
         currentHealth = maxHealth = 1000;
-    }
-
-    public void UnequipItem(ItemTypeSO itemTypeSO)
-    {
-        Item existingiItem = GetItem(itemTypeSO);
-
-        UpgradableItems upgradableItem = existingiItem as UpgradableItems;
-
-        if (upgradableItem == null)
-            return;
-
-        upgradableItem.Unequip();
-    }
-
-    private void UpgradableItem_OnUnEquip(UpgradableItems UpgradableItems)
-    {
-        OnUnEquip?.Invoke(UpgradableItems);
-        equippeditemList.Remove(UpgradableItems.GetTypeSO());
-    }
-
-    private void UpgradableItem_OnEquip(UpgradableItems UpgradableItems)
-    {
-        OnEquip?.Invoke(UpgradableItems);
-        equippeditemList.Add(UpgradableItems.GetTypeSO(), UpgradableItems);
-    }
-
-    public void EquipItem(Item Item)
-    {
-        UpgradableItems upgradableItem = Item as UpgradableItems;
-
-        if (upgradableItem == null)
-            return;
-
-        upgradableItem.OnEquip += UpgradableItem_OnEquip;
-        upgradableItem.OnUnEquip += UpgradableItem_OnUnEquip;
-        upgradableItem.Equip(damageableEntitySO);
-    }
-
-    public Item GetItem(ItemTypeSO itemTypeSO)
-    {
-        if (!equippeditemList.TryGetValue(itemTypeSO, out Item item))
-            return null;
-
-        return item;
     }
 
     public void SetCurrentHealth(float health)

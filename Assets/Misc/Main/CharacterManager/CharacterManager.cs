@@ -31,13 +31,12 @@ public class CharacterManager : MonoBehaviour
     {
         instance = this;
 
-        LoadCharactersSO();
         SetCharacterStorage(new CharacterStorage());
-
+        LoadCharactersSO();
         TestCharacters();
     }
 
-    public CharacterDataStat GetPlayableCharacterDataStat(CharactersSO CharactersSO)
+    public CharacterDataStat GetCharacterDataStat(CharactersSO CharactersSO)
     {
         if (!allplayableCharactersDic.TryGetValue(CharactersSO, out CharacterDataStat characterDataStat))
             return null;
@@ -48,7 +47,6 @@ public class CharacterManager : MonoBehaviour
     private void LoadCharactersSO()
     {
         allplayableCharactersDic = new();
-
         PlayerCharactersSO[] playableCharactersSOList = Resources.LoadAll<PlayerCharactersSO>("Characters");
 
         foreach (var pc in playableCharactersSOList)
@@ -59,7 +57,7 @@ public class CharacterManager : MonoBehaviour
 
     private void TestCharacters()
     {
-        foreach(var c in allplayableCharactersDic)
+        foreach (var c in allplayableCharactersDic)
         {
             characterStorage.AddCharacterData(c.Key);
         }
@@ -81,12 +79,6 @@ public class CharacterManager : MonoBehaviour
     public float GetProbabilityPlayVO()
     {
         return ProbabilityPlayVO;
-    }
-
-    private void OnDestroy()
-    {
-        if (characterStorage != null)
-            characterStorage.OnDestroy();    
     }
 
     public static bool ContainsParam(Animator _Anim, string _ParamName)

@@ -6,8 +6,7 @@ using System.Linq;
 
 public class CharacterStorage
 {
-    public Dictionary<CharactersSO, CharacterDataStat> characterStatList { get; }
-    public PartySetupManager PartySetupManager { get; }
+    public Dictionary<CharactersSO, CharacterDataStat> characterStatList { get; private set; }
     public delegate void OnCharacterStatChanged(CharactersSO CharactersSO);
     public event OnCharacterStatChanged OnCharacterAdd, OnCharacterRemove;
 
@@ -16,16 +15,16 @@ public class CharacterStorage
         if (CharactersSO == null || HasObtainedCharacter(CharactersSO) != null)
             return;
 
-        characterStatList.Add(CharactersSO, CharacterManager.instance.GetPlayableCharacterDataStat(CharactersSO));
+        characterStatList.Add(CharactersSO, CharacterManager.instance.GetCharacterDataStat(CharactersSO));
         OnCharacterAdd?.Invoke(CharactersSO);
     }
 
     public CharacterDataStat GetCharacterDataStat(CharactersSO CharactersSO)
     {
-        if (!characterStatList.TryGetValue(CharactersSO, out CharacterDataStat playableCharacterDataStat))
+        if (CharactersSO == null || !characterStatList.TryGetValue(CharactersSO, out CharacterDataStat CharacterDataStat))
             return null;
 
-        return playableCharacterDataStat;
+        return CharacterDataStat;
     }
 
     public void RemoveCharacterData(CharactersSO c)
@@ -44,12 +43,10 @@ public class CharacterStorage
 
     public CharacterDataStat HasObtainedCharacter(CharactersSO c)
     {
-        if (c != null && characterStatList.TryGetValue(c, out CharacterDataStat pc))
-        {
-            return pc;
-        }
+        if (c == null || !characterStatList.TryGetValue(c, out CharacterDataStat pc))
+            return null;
 
-        return null;
+        return pc;
     }
 
     public void Update()
@@ -61,14 +58,8 @@ public class CharacterStorage
         }
     }
 
-    public void OnDestroy()
-    {
-        PartySetupManager.OnDestroy();
-    }
-
     public CharacterStorage()
     {
         characterStatList = new();
-        PartySetupManager = new(this);
     }
 }

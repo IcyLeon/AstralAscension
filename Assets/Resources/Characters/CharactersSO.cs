@@ -7,7 +7,7 @@ public class CharactersSO : ScriptableObject, IItem
     [field: SerializeField] public Sprite CharacterIcon { get; private set; }
     [field: SerializeField] public ItemTypeSO CharacterTypeSO { get; private set; }
     [field: SerializeField] public ItemRaritySO CharacterRaritySO { get; private set; }
-    [field: SerializeField] public GameObject CharacterPrefab { get; private set; }
+    [SerializeField] private GameObject CharacterPrefab;
 
     public string GetDescription()
     {
@@ -36,5 +36,21 @@ public class CharactersSO : ScriptableObject, IItem
     public IItem GetIItem()
     {
         return this;
+    }
+
+    public DamageableCharacters CreateCharacter(Transform transform)
+    {
+        DamageableCharacters prefab = CharacterPrefab.GetComponent<DamageableCharacters>();
+
+        if (prefab == null)
+        {
+            Debug.Log("CharacterPrefab does not have the component of DamageableCharacters");
+            return null;
+        }
+
+        DamageableCharacters DamageableCharacters = Instantiate(CharacterPrefab, transform).GetComponent<DamageableCharacters>();
+        DamageableCharacters.CreateCharacterStateMachine();
+
+        return DamageableCharacters;
     }
 }

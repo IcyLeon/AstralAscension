@@ -42,7 +42,7 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
 
     public override CharacterDataStat GetCharacterDataStat()
     {
-        return CharacterManager.instance.GetPlayableCharacterDataStat(CharacterSO);
+        return CharacterManager.instance.GetCharacterDataStat(CharacterSO);
     }
 
     protected override void Awake()

@@ -5,60 +5,27 @@ using UnityEngine;
 
 public class ArtifactEffectManager
 {
-    private CharacterDataStat characterDataStat;
-    private Dictionary<ArtifactFamilySO, ArtifactFamily> artifactList;
+    private ArtifactInventory inventory;
     private EffectManager effectManager;
 
-    public ArtifactEffectManager(CharacterDataStat CharacterDataStat, EffectManager EffectManager)
+    public ArtifactEffectManager(ArtifactInventory ArtifactInventory, EffectManager EffectManager)
     {
-        characterDataStat = CharacterDataStat;
+        inventory = ArtifactInventory;
         effectManager = EffectManager;
-        artifactList = new();
-
-        characterDataStat.OnEquip += CharacterDataStat_OnEquip;
-        characterDataStat.OnUnEquip += CharacterDataStat_OnUnEquip;
+        inventory.OnArtifactFamilyAdd += Inventory_OnArtifactFamilyAdd;
+        inventory.OnArtifactFamilyRemove += Inventory_OnArtifactFamilyRemove;
     }
 
-    private void CharacterDataStat_OnUnEquip(UpgradableItems UpgradableItems)
-    {
-        Artifact artifact = UpgradableItems as Artifact;
-
-        if (artifact == null)
-            return;
-
-        Debug.Log("Unequipped");
-        artifactList[artifact.artifactSO.ArtifactFamilySO].Remove(artifact);
-    }
-
-    private void ArtifactFamily_OnFamilyRemove(ArtifactFamily ArtifactFamily)
+    private void Inventory_OnArtifactFamilyRemove(ArtifactFamily ArtifactFamily)
     {
         ArtifactFamily.OnArtifactBuffAdd -= ArtifactFamily_OnArtifactBuffAdd;
         ArtifactFamily.OnArtifactBuffRemove -= ArtifactFamily_OnArtifactBuffRemove;
-        ArtifactFamily.OnFamilyRemove -= ArtifactFamily_OnFamilyRemove;
-        artifactList.Remove(ArtifactFamily.artifactFamilySO);
     }
 
-
-    private void CharacterDataStat_OnEquip(UpgradableItems UpgradableItems)
+    private void Inventory_OnArtifactFamilyAdd(ArtifactFamily ArtifactFamily)
     {
-        Artifact artifact = UpgradableItems as Artifact;
-
-        if (artifact == null)
-            return;
-
-        ArtifactFamilySO artifactFamilySO = artifact.artifactSO.ArtifactFamilySO;
-
-        if (!artifactList.ContainsKey(artifactFamilySO))
-        {
-            ArtifactFamily ArtifactFamily = artifactFamilySO.CreateArtifactFamily();
-            ArtifactFamily.OnArtifactBuffAdd += ArtifactFamily_OnArtifactBuffAdd;
-            ArtifactFamily.OnArtifactBuffRemove += ArtifactFamily_OnArtifactBuffRemove;
-            ArtifactFamily.OnFamilyRemove += ArtifactFamily_OnFamilyRemove;
-            artifactList.Add(artifactFamilySO, ArtifactFamily);
-        }
-
-        Debug.Log("Equipped");
-        artifactList[artifactFamilySO].Add(artifact);
+        ArtifactFamily.OnArtifactBuffAdd += ArtifactFamily_OnArtifactBuffAdd;
+        ArtifactFamily.OnArtifactBuffRemove += ArtifactFamily_OnArtifactBuffRemove;
     }
 
     private void ArtifactFamily_OnArtifactBuffRemove(ArtifactBuffInformation ArtifactBuffInformation)
@@ -78,18 +45,18 @@ public class ArtifactEffectManager
 
     public void OnDestroy()
     {
-        characterDataStat.OnEquip -= CharacterDataStat_OnEquip;
-        characterDataStat.OnUnEquip -= CharacterDataStat_OnUnEquip;
+        inventory.OnArtifactFamilyAdd -= Inventory_OnArtifactFamilyAdd;
+        inventory.OnArtifactFamilyRemove -= Inventory_OnArtifactFamilyRemove;
 
-        for(int i = artifactList.Count - 1; i >= 0; i--)
+        for (int i = inventory.artifactList.Count - 1; i >= 0; i--)
         {
-            ArtifactFamily_OnFamilyRemove(artifactList.ElementAt(i).Value);
+            Inventory_OnArtifactFamilyRemove(inventory.artifactList.ElementAt(i).Value);
         }
     }
 
     public int GetBuffCurrentIndex(ArtifactFamilySO artifactFamilySO)
     {
-        if (!artifactList.TryGetValue(artifactFamilySO, out ArtifactFamily artifactFamily))
+        if (!inventory.artifactList.TryGetValue(artifactFamilySO, out ArtifactFamily artifactFamily))
             return -1;
 
         return artifactFamily.GetBuffCurrentIndex();

@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental;
 using UnityEngine;
 
 public class ArtifactFamily
 {
-    private List<Artifact> _artifacts;
+    public List<Artifact> _artifacts { get; }
     private ArtifactEffectFactoryManager ArtifactEffectFactoryManager;
     public ArtifactFamilySO artifactFamilySO { get; private set; }
     private ArtifactBuffInformation currentBuffLocation;

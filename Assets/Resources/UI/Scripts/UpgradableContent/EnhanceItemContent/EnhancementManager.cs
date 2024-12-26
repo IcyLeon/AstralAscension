@@ -39,27 +39,6 @@ public class EnhancementManager : MonoBehaviour
         EnhancementMaterialContainer.OnSlotItemChanged += EnhancementMaterialContainer_OnSlotItemChanged;
     }
 
-    public int GetIncreasedPreviewLevel(int addExp)
-    {
-        int levelIncrease = 0;
-        int totalExp = iEXPEntity.GetCurrentExp() + addExp;
-
-        ItemRaritySO itemRaritySO = iEXPEntity.GetIEntity().GetRaritySO();
-
-        for (int i = iEXPEntity.GetLevel(); i < iEXPEntity.GetExpCostSO().GetMaxLevel(itemRaritySO); i++)
-        {
-            int requiredAmt = iEXPEntity.GetExpCostSO().GetRequiredEXP(i, itemRaritySO);
-            if (totalExp >= requiredAmt)
-            {
-                totalExp -= requiredAmt;
-                levelIncrease++;
-            }
-        }
-
-        return levelIncrease;
-    }
-
-
     private bool IsUpgrading()
     {
         return enhancingCoroutine != null;
@@ -95,10 +74,10 @@ public class EnhancementManager : MonoBehaviour
 
         do
         {
+            UpdateEnhancingItem();
+
             EnhanceStatsPanel.SetCurrentEXP(Mathf.Lerp(EnhanceStatsPanel.GetCurrentEXP(), iEXPEntity.GetCurrentExp(),
                 elapseTime / (duration * 2f)));
-
-            UpdateEnhancingItem();
 
             elapseTime += Time.unscaledDeltaTime;
 
@@ -138,7 +117,6 @@ public class EnhancementManager : MonoBehaviour
         UnsubscribeEvents();
         iEXPEntity = enhancePanel.iEXPEntity;
         SubscribeEvents();
-        UpdateEXPRequirement();
         OnEnhanceItemChanged?.Invoke();
     }
 
@@ -156,6 +134,7 @@ public class EnhancementManager : MonoBehaviour
             return;
 
         iEXPEntity.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
+        UpdateEXPRequirement();
     }
 
     private void IEXPEntity_OnUpgradeIEXP()

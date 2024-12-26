@@ -29,20 +29,18 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
         return characterDataStat;
     }
 
-    private CharacterStateMachine GetCharacterStateMachine()
+    public void CreateCharacterStateMachine()
     {
-        if (characterStateMachine == null)
-        {
-            characterStateMachine = CreateCharacterStateMachine();
-        }
+        if (characterStateMachine != null)
+            return;
 
-        return characterStateMachine;
+        characterStateMachine = GetStateMachine();
     }
 
     protected override void Start()
     {
         base.Start();
-        characterStateMachine = GetCharacterStateMachine();
+        CreateCharacterStateMachine();
     }
 
     protected override void Awake()
@@ -121,7 +119,7 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
         }
     }
 
-    protected abstract CharacterStateMachine CreateCharacterStateMachine();
+    protected abstract CharacterStateMachine GetStateMachine();
 
     protected override void OnDestroy()
     {

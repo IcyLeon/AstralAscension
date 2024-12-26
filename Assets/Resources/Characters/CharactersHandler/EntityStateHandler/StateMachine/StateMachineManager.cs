@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StateMachineManager
 {
-    public IState currentStates { get; private set; }
+    private IState currentStates;
 
     public void Update()
     {
@@ -89,5 +89,13 @@ public class StateMachineManager
 
         if (currentStates != null)
             currentStates.Enter();
+    }
+
+    public void StartState(IState newState)
+    {
+        if (currentStates != null)
+            return;
+
+        ChangeState(newState);
     }
 }
