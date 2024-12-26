@@ -19,8 +19,8 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     [SerializeField] private StatsHighlightContent StatsHighlightContent;
 
-    private OwnerCharacterUIManager ownerCharacterUIManager;
-    private CharactersSO charactersSO;
+    private CharacterScreenPanel characterScreenPanel;
+    private CharactersSO selectedCharactersSO;
     private ArtifactPieceSetsDisplayManager ArtifactPieceSetsDisplayManager;
 
     private CharacterStorage characterStorage;
@@ -29,20 +29,23 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void Awake()
     {
-        ownerCharacterUIManager = GetComponentInParent<OwnerCharacterUIManager>();
-        ownerCharacterUIManager.OnIconSelected += OwnerCharacterUIManager_OnIconSelected;
-
         CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
         CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
-
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
-
         ArtifactPieceSetsDisplayManager = GetComponent<ArtifactPieceSetsDisplayManager>();
+        characterScreenPanel = GetComponentInParent<CharacterScreenPanel>();
+        characterScreenPanel.OnIconSelected += CharacterScreenPanel_OnIconSelected;
+        UpdateOnCharacterSelected();
     }
 
-    private void OwnerCharacterUIManager_OnIconSelected(CharactersSO CharactersSO)
+    private void CharacterScreenPanel_OnIconSelected()
     {
-        charactersSO = CharactersSO;
+        UpdateOnCharacterSelected();
+    }
+
+    private void UpdateOnCharacterSelected()
+    {
+        selectedCharactersSO = characterScreenPanel.currentCharacterSelected;
     }
 
     private void Start()
@@ -97,7 +100,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         if (characterStorage == null)
             return;
 
-        CharacterDataStat c = characterStorage.HasObtainedCharacter(charactersSO);
+        CharacterDataStat c = characterStorage.HasObtainedCharacter(selectedCharactersSO);
 
         if (c == null)
             return;
@@ -130,10 +133,6 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
     }
 
-    public void SetCharacterSO(CharactersSO charactersSO)
-    {
-        this.charactersSO = charactersSO;
-    }
 
     private void CharacterManager_OnCharacterStorageOld(CharacterStorage CharacterStorage)
     {
@@ -147,9 +146,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
     {
         CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
         CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
-
+        characterScreenPanel.OnIconSelected -= CharacterScreenPanel_OnIconSelected;
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
-
-        ownerCharacterUIManager.OnIconSelected -= OwnerCharacterUIManager_OnIconSelected;
     }
 }

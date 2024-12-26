@@ -4,13 +4,27 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
+    [SerializeField] private string CameraTag = "MainCamera";
     private Camera MainCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        MainCamera = Camera.main;
         SetGlobalScale(transform.localScale);
+        CameraInit();
+    }
+    
+    private void CameraInit()
+    {
+        GameObject cameraObj = GameObject.FindGameObjectWithTag(CameraTag);
+        MainCamera = cameraObj.GetComponent<Camera>();
+
+        if (MainCamera == null)
+        {
+
+            Debug.Log("CameraTag does not have the component of Camera");
+            return;
+        }
 
         Canvas canvas = GetComponent<Canvas>();
         if (canvas != null)

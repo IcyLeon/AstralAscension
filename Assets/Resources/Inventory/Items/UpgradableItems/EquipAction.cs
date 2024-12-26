@@ -9,14 +9,14 @@ public class EquipAction : MonoBehaviour
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
     [SerializeField] private TextMeshProUGUI EquipTxt;
     private UpgradableItems upgradableItems;
-    private OwnerCharacterUIManager ownerCharacterUIManager;
+    private CharacterScreenPanel characterScreenPanel;
     private CharactersSO charactersSO;
     private Button EquipBtn;
 
     private void Awake()
     {
-        ownerCharacterUIManager = GetComponentInParent<OwnerCharacterUIManager>();
-        ownerCharacterUIManager.OnIconSelected += OwnerCharacterUIManager_OnIconSelected;
+        characterScreenPanel = GetComponentInParent<CharacterScreenPanel>();
+        characterScreenPanel.OnIconSelected += OwnerCharacterUIManager_OnIconSelected;
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
 
         EquipBtn = GetComponent<Button>();
@@ -27,9 +27,9 @@ public class EquipAction : MonoBehaviour
         EquipBtn.onClick.AddListener(OnEquip);
     }
 
-    private void OwnerCharacterUIManager_OnIconSelected(CharactersSO CharactersSO)
+    private void OwnerCharacterUIManager_OnIconSelected()
     {
-        charactersSO = CharactersSO;
+        charactersSO = characterScreenPanel.currentCharacterSelected;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
@@ -43,7 +43,7 @@ public class EquipAction : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeEvents();
-        ownerCharacterUIManager.OnIconSelected -= OwnerCharacterUIManager_OnIconSelected;
+        characterScreenPanel.OnIconSelected -= OwnerCharacterUIManager_OnIconSelected;
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
     }
 

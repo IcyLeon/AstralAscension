@@ -17,14 +17,14 @@ public abstract class PlayerGroundedState : PlayerMovementState
     public override void OnEnable()
     {
         base.OnEnable();
-        playerStateMachine.playerController.playerInputAction.Jump.started += Jump_started;
-        playerStateMachine.playerController.playerInputAction.Dash.started += Dash_started;
+        playerController.playerInputAction.Jump.started += Jump_started;
+        playerController.playerInputAction.Dash.started += Dash_started;
     }
     public override void OnDisable()
     {
         base.OnDisable();
-        playerStateMachine.playerController.playerInputAction.Jump.started -= Jump_started;
-        playerStateMachine.playerController.playerInputAction.Dash.started -= Dash_started;
+        playerController.playerInputAction.Jump.started -= Jump_started;
+        playerController.playerInputAction.Dash.started -= Dash_started;
     }
     private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {

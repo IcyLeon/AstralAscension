@@ -55,10 +55,31 @@ public class EnhanceStatsPanel : MonoBehaviour
         if (iEXPEntity == null)
             return;
 
-        int levelIncrease = enhancementManager.GetIncreasedPreviewLevel(AddExp);
+        int levelIncrease = GetIncreasedPreviewLevel(AddExp);
 
         AddPreviewLevelTxt.gameObject.SetActive(levelIncrease != 0);
         AddPreviewLevelTxt.text = "+" + levelIncrease;
+    }
+
+
+    private int GetIncreasedPreviewLevel(int addExp)
+    {
+        int levelIncrease = 0;
+        int totalExp = iEXPEntity.GetCurrentExp() + addExp;
+
+        ItemRaritySO itemRaritySO = iEXPEntity.GetIEntity().GetRaritySO();
+
+        for (int i = iEXPEntity.GetLevel(); i < iEXPEntity.GetExpCostSO().GetMaxLevel(itemRaritySO); i++)
+        {
+            int requiredAmt = iEXPEntity.GetExpCostSO().GetRequiredEXP(i, itemRaritySO);
+            if (totalExp >= requiredAmt)
+            {
+                totalExp -= requiredAmt;
+                levelIncrease++;
+            }
+        }
+
+        return levelIncrease;
     }
 
     private void UpdateIncreasedExp(int addExp)

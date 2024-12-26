@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(CinemachineVirtualCamera))]
+[DisallowMultipleComponent]
 public abstract class CameraPanVirtualCam : MonoBehaviour
 {
     protected float cameraRotationSpeed;

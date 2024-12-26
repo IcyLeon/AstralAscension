@@ -5,12 +5,7 @@ using UnityEngine;
 public class MainUI : MonoBehaviour
 {
     [field: SerializeField] public UpgradeItemContent UpgradeItemContent { get; private set; }
-    public OwnerCharacterUIManager OwnerCharacterUIManager { get; private set; }
 
-    private void Awake()
-    {
-        OwnerCharacterUIManager = GetComponentInChildren<OwnerCharacterUIManager>(true);
-    }
 
     // Start is called before the first frame update
     void Start()

@@ -50,11 +50,6 @@ public class KeqingTeleportState : StellarRestorationState
         SmoothRotateToTargetRotation();
     }
 
-    private void ResetVelocity()
-    {
-        playableCharacterStateMachine.player.Rb.velocity = Vector3.zero;
-    }
-
     public override void Update()
     {
         base.Update();
@@ -82,8 +77,6 @@ public class KeqingTeleportState : StellarRestorationState
 
     private void TransitToSlash()
     {
-        ResetVelocity();
-
         playableCharacterStateMachine.ChangeState(stellarRestoration.keqingESlashState);
     }
 

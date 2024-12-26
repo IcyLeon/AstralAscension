@@ -108,7 +108,6 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         {
             playerStateMachine.OnEnable();
         }
-        ActiveCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
     public override void OnDisable()
@@ -118,7 +117,6 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         {
             playerStateMachine.OnDisable();
         }
-        ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
     public override void OnDestroy()
@@ -139,11 +137,11 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
 
 
 
-    private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
-    {
-        ChangeState(EntityState);
-        OnDisable();
-    }
+    //private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
+    //{
+    //    ChangeState(EntityState);
+    //    OnDisable();
+    //}
 
     public bool IsSkillCasting()
     {

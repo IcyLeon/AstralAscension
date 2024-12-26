@@ -125,6 +125,11 @@ public class PlayerStateMachine
         StateMachineManager.ChangeState(newState);
     }
 
+    private void StartState(IState newState)
+    {
+        StateMachineManager.StartState(newState);
+    }
+
     public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
         PlayableCharacterStateMachine = PCS;
@@ -147,29 +152,22 @@ public class PlayerStateMachine
         playerDeadState = new PlayerDeadState(this);
 
 
-        ChangeState(playerIdleState);
+        StartState(playerIdleState);
     }
 
     public void OnEnable()
     {
         StateMachineManager.OnEnable();
-        ActiveCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterSwitch;
+        ChangeState(playerIdleState);
     }
 
     public void OnDisable()
     {
         StateMachineManager.OnDisable();
-        ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
     public void OnDestroy()
     {
-        OnDisable();
-    }
-
-    private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
-    {
-        ChangeState(playerIdleState);
         OnDisable();
     }
 }

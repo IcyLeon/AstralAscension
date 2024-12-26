@@ -18,7 +18,7 @@ public abstract class SkillCombatUI : MonoBehaviour
         ActiveCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
-    protected virtual void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
+    protected virtual void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
     {
         currentPlayableCharacterData = playerData as PlayableCharacterDataStat;
         UpdateIcon();

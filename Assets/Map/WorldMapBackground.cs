@@ -31,7 +31,7 @@ public class WorldMapBackground : MonoBehaviour
         worldMap = WorldMapManager.instance;
         if (worldMap == null)
         {
-            Debug.LogError("World Map Manager is not found!");
+            Debug.Log("World Map Manager not found!");
             return;
         }
 

@@ -31,18 +31,18 @@ public class PlayerPlungeState : PlayerAirborneState
     {
         base.Update();
 
-        if (playerStateMachine.player.Rb.useGravity)
-        {
-            playerStateMachine.player.Rb.AddForce(
-                (playerStateMachine.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down) - GetVerticalVelocity(),
-                ForceMode.VelocityChange);
-        }
+        if (!playerStateMachine.player.Rb.useGravity)
+            return;
 
         if (IsGrounded())
         {
             playerStateMachine.ChangeState(playerStateMachine.playerPlungeLandingState);
             return;
         }
+
+        playerStateMachine.player.Rb.AddForce(
+                (playerStateMachine.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down) - GetVerticalVelocity(),
+                ForceMode.VelocityChange);
     }
 
     public override void OnAnimationTransition()

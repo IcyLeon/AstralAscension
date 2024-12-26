@@ -40,6 +40,7 @@ public abstract class CharacterStateMachine
     public virtual void OnEnable()
     {
         StateMachineManager.OnEnable();
+        ChangeState(EntityState);
     }
 
     public virtual void OnDisable()
@@ -88,10 +89,11 @@ public abstract class CharacterStateMachine
     {
         StateMachineManager.ChangeState(newState);
     }
-    public IState GetCurrentState()
+    private void StartState(IState newState)
     {
-        return StateMachineManager.currentStates;
+        StateMachineManager.StartState(newState);
     }
+
 
     public CharacterStateMachine(Characters characters)
     {
@@ -99,7 +101,7 @@ public abstract class CharacterStateMachine
         this.characters = characters;
         InitState();
         InitComponent();
-        ChangeState(EntityState);
+        StartState(EntityState);
     }
 
     protected virtual void InitComponent()

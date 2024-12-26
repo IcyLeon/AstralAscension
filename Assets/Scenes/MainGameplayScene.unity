@@ -607,7 +607,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc9e98cc8eba14488126fe02c992dcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  POITargetTransform: {fileID: 18008153}
   <Animator>k__BackingField: {fileID: 1294488964}
   <CharacterSO>k__BackingField: {fileID: 11400000, guid: fe054ffa3c0236b4bab5fbb1df399c87,
     type: 2}
@@ -2073,7 +2072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5027140cf14be64fa75267fa961f5a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  POITargetTransform: {fileID: 1515350918}
   <Animator>k__BackingField: {fileID: 0}
   <CharacterSO>k__BackingField: {fileID: 11400000, guid: fe054ffa3c0236b4bab5fbb1df399c87,
     type: 2}

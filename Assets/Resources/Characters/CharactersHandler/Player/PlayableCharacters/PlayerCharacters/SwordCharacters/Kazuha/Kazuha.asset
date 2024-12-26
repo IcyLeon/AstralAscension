@@ -18,13 +18,13 @@ MonoBehaviour:
     type: 3}
   <CharacterTypeSO>k__BackingField: {fileID: 11400000, guid: 99b66ae9d6d450441841fc1e3f40622a,
     type: 2}
-  <CharacterPrefab>k__BackingField: {fileID: 3545135287976817918, guid: d7cfeecb71b8fd0468c5927ac002ce7e,
+  <CharacterRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
+    type: 2}
+  CharacterPrefab: {fileID: 3545135287976817918, guid: d7cfeecb71b8fd0468c5927ac002ce7e,
     type: 3}
   <ElementSO>k__BackingField: {fileID: 11400000, guid: bc08167fa5d1d664d97e6e683b702f22,
     type: 2}
-  <CharacterRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
-    type: 2}
-  <AscensionInformation>k__BackingField: []
+  <AscensionSO>k__BackingField: {fileID: 0}
   <PlayableCharacterAnimationSO>k__BackingField: {fileID: 11400000, guid: 9127efd820acb2e449ccf6faa1959009,
     type: 2}
   <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 11400000, guid: c8acc20ec993bde45905780d7a777141,
@@ -35,3 +35,4 @@ MonoBehaviour:
   <ElementalBurstInfo>k__BackingField: {fileID: 11400000, guid: 472f3067d8d32fa45a0f064e8b3f03cd,
     type: 2}
   <BurstEnergyCost>k__BackingField: 0
+  <SkinSO>k__BackingField: {fileID: 0}

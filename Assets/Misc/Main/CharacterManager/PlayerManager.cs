@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
         GameObject player = Instantiate(PlayerPrefab);
     }
 
-    void Awake()
+    void Start()
     {
         SpawnPlayer();
     }

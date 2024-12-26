@@ -41,7 +41,7 @@ public abstract class MapObject : MonoBehaviour
     {
         if (instance == null)
         {
-            Debug.LogError("World Map Manager not found!");
+            Debug.Log("World Map Manager not found!");
             return;
         }
         mapIconData = CreateMapIconData();

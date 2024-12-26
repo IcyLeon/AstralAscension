@@ -10,10 +10,10 @@ public class EffectManager
     private List<BuffEffect> buffEffectList;
     public event Action<BuffEvent> OnBuffRemove;
 
-    public EffectManager(CharacterDataStat characterDataStat)
+    public EffectManager(CharacterInventory characterInventory)
     {
         buffEffectList = new();
-        artifactEffectManager = new(characterDataStat, this);
+        artifactEffectManager = new ArtifactEffectManager(characterInventory.artifactInventory, this);
     }
 
     public void RemoveEffect(BuffEffect buffEffect)
@@ -28,6 +28,9 @@ public class EffectManager
 
     public int GetArtifactBuffCurrentIndex(ArtifactFamilySO artifactFamilySO)
     {
+        if (artifactEffectManager == null)
+            return -1;
+
         return artifactEffectManager.GetBuffCurrentIndex(artifactFamilySO);
     }
 

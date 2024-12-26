@@ -63,7 +63,9 @@ public abstract class Characters : MonoBehaviour
             return;
 
         if (CharacterManager.ContainsParam(animator, HashParameter))
+        {
             animator.SetBool(HashParameter, true);
+        }
     }
 
     public static void SetAnimationTrigger(Animator animator, string HashParameter)
