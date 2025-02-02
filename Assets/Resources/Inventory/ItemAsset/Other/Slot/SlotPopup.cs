@@ -51,7 +51,10 @@ public class SlotPopup : MonoBehaviour
         if (iItem == null)
             return;
 
-        Dictionary<IItem, ItemQualityIEntity> itemQualityDic = itemQualityDictionary[iItem.GetTypeSO().ItemFamilyTypeSO];
+        ItemFamilyTypeSO itemFamilyTypeSO = iItem.GetTypeSO().ItemFamilyTypeSO;
+
+        if (!itemQualityDictionary.TryGetValue(itemFamilyTypeSO, out Dictionary<IItem, ItemQualityIEntity> itemQualityDic))
+            return;
 
         foreach(var ItemQualityIEntity in itemQualityDic.Values)
         {
@@ -280,7 +283,6 @@ public class SlotPopup : MonoBehaviour
             return;
 
         ItemQualityIEntity.ItemQualitySelection.UnSelect();
-        RevealItemCard(null);
     }
 
 

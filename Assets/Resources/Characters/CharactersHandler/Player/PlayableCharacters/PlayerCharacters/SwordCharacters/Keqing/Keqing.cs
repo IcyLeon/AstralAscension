@@ -10,9 +10,9 @@ public class Keqing : PlayableCharacters
     {
         base.Awake();
     }
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
+        base.OnUpdate();
 
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -21,6 +21,7 @@ public class Keqing : PlayableCharacters
         }
     }
 
+    
     protected override CharacterStateMachine GetStateMachine()
     {
         return new KeqingStateMachine(this);

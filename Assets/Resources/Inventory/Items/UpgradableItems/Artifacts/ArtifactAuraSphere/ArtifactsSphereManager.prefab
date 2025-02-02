@@ -456,7 +456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fe102ea9273134b839d72fda0cfc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraTag: CharacterDisplayCamera
 --- !u!114 &4046872391897978041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +469,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelTxt: {fileID: 7302909441377090389}
-  ItemTypeSO: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1, type: 2}
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1,
+    type: 2}
   PlaceholderImage: {fileID: 5475146031710073400}
   ItemImage: {fileID: 556026515847171961}
 --- !u!1 &3199555271657945600
@@ -778,7 +778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fe102ea9273134b839d72fda0cfc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraTag: CharacterDisplayCamera
 --- !u!114 &3895547216375357004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,7 +791,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelTxt: {fileID: 8251002032947115942}
-  ItemTypeSO: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516, type: 2}
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516,
+    type: 2}
   PlaceholderImage: {fileID: 6497729224095522016}
   ItemImage: {fileID: 685720362006115195}
 --- !u!1 &3695736239023074964
@@ -1670,7 +1670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fe102ea9273134b839d72fda0cfc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraTag: CharacterDisplayCamera
 --- !u!114 &6435563354766029432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1684,7 +1683,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelTxt: {fileID: 4685483730422169714}
-  ItemTypeSO: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b, type: 2}
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b,
+    type: 2}
   PlaceholderImage: {fileID: 6435563356102783532}
   ItemImage: {fileID: 6435563354138613713}
 --- !u!1 &6435563354900396514
@@ -1698,6 +1698,7 @@ GameObject:
   - component: {fileID: 6435563354900396515}
   - component: {fileID: 6435563354900396512}
   - component: {fileID: 506884762413962492}
+  - component: {fileID: 8495909708729188837}
   m_Layer: 8
   m_Name: ArtifactsSphereManager
   m_TagString: Untagged
@@ -1750,6 +1751,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9338ada28ba1db24695fadfcb5721bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &8495909708729188837
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435563354900396514}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0.1
+  m_AngularDrag: 0.5
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 94
+  m_CollisionDetection: 0
 --- !u!1 &6435563356102783534
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,7 +2186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fe102ea9273134b839d72fda0cfc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraTag: CharacterDisplayCamera
 --- !u!114 &4488200035656865265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2183,7 +2199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelTxt: {fileID: 7847331749241075459}
-  ItemTypeSO: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02, type: 2}
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
+    type: 2}
   PlaceholderImage: {fileID: 771994417157243849}
   ItemImage: {fileID: 5604117406774249320}
 --- !u!1 &7841712376037560054
@@ -2302,7 +2319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fe102ea9273134b839d72fda0cfc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraTag: CharacterDisplayCamera
 --- !u!114 &3418181137026524564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2316,7 +2332,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelTxt: {fileID: 8581269943938446591}
-  ItemTypeSO: {fileID: 11400000, guid: b85f86fbd679a314c823ed5373ef4ae9, type: 2}
+  <ArtifactTypeSO>k__BackingField: {fileID: 11400000, guid: b85f86fbd679a314c823ed5373ef4ae9,
+    type: 2}
   PlaceholderImage: {fileID: 8723289223861609149}
   ItemImage: {fileID: 3043205878754939492}
 --- !u!1 &8323954790225019439

@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using static ArtifactManager;
-
 public class Artifact : UpgradableItems
 {
     public ArtifactManagerSO artifactManagerSO { get; private set; }
@@ -15,14 +13,6 @@ public class Artifact : UpgradableItems
 
     public Artifact(IItem iItem) : base(iItem)
     {
-        if (artifactManagerSO == null)
-        {
-            Debug.LogError("ArtifactManagerSO not found!");
-            return;
-        }
-
-        artifactSO = GetIItem() as ArtifactSO;
-
         subStats = new();
         GenerateMainStat();
         GenerateRandomSubStat();
@@ -31,14 +21,8 @@ public class Artifact : UpgradableItems
     protected override void OnCreateUpgradableItem()
     {
         base.OnCreateUpgradableItem();
-
-        if (instance == null)
-        {
-            Debug.LogError("Artifact Manager not found!");
-            return;
-        }
-
-        artifactManagerSO = instance.ArtifactManagerSO;
+        artifactSO = GetIItem() as ArtifactSO;
+        artifactManagerSO = artifactSO.ArtifactFamilySO.ArtifactManagerSO;
     }
 
     protected override ItemEXPCostManagerSO InitItemEXPCostManagerSO()

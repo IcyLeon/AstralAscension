@@ -6,21 +6,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerAimState : PlayerGroundedState
 {
-    private CameraManager cameraManager;
-    private float currentAngle;
+    private PlayerCameraManager playerCameraManager;
     private AimRigController aimRigController;
 
     public PlayerAimState(PlayerStateMachine PS) : base(PS)
     {
-        currentAngle = 0f;
-        cameraManager = PS.player.CameraManager;
+        playerCameraManager = PS.player.PlayerCameraManager;
         aimRigController = playableCharacters.GetComponentInChildren<AimRigController>();
     }
 
     public override void Enter()
     {
         base.Enter();
-        cameraManager.ToggleAimCamera(true);
+        playerCameraManager.ToggleAimCamera(true);
         playerStateMachine.playerData.SpeedModifier = playerStateMachine.playerData.groundedData.PlayerAimData.SpeedModifier;
         playerStateMachine.playerData.rotationTime = 0f;
 
@@ -44,20 +42,15 @@ public class PlayerAimState : PlayerGroundedState
 
     protected override void UpdateRotation()
     {
-        float angle = cameraManager.CameraMain.transform.eulerAngles.y;
-
-        if (angle != currentAngle)
-        {
-            UpdateTargetRotationData(angle);
-            currentAngle = angle;
-        }
+        float angle = playerCameraManager.CameraMain.transform.eulerAngles.y;
+        UpdateTargetRotationData(angle);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (!cameraManager.IsAimCameraActive())
+        if (!playerCameraManager.IsAimCameraActive())
         {
             ExitAimState();
             return;
@@ -66,7 +59,7 @@ public class PlayerAimState : PlayerGroundedState
 
     private void ExitAimState()
     {
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (!IsMovementKeyPressed())
         {
             playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
             return;
@@ -83,7 +76,7 @@ public class PlayerAimState : PlayerGroundedState
     {
         base.Exit();
         UpdateTargetWeight(0f);
-        cameraManager.ToggleAimCamera(false);
+        playerCameraManager.ToggleAimCamera(false);
         InitBaseRotation();
     }
 

@@ -14,6 +14,8 @@ public class DamageText : MonoBehaviour
     private Vector2 vel;
     private RectTransform rt;
 
+    private Camera mainCamera;
+
     private void Awake()
     {
         originlocalScale = Vector3.one * 3.5f;
@@ -23,6 +25,7 @@ public class DamageText : MonoBehaviour
     }
     private void Start()
     {
+        mainCamera = GetMainCamera();
         ResetOffset();
     }
 
@@ -107,8 +110,23 @@ public class DamageText : MonoBehaviour
 
     private void Move()
     {
-        Vector2 pos = Camera.main.WorldToScreenPoint(originPosition);
+        if (mainCamera == null)
+            return;
+
+        Vector2 pos = mainCamera.WorldToScreenPoint(originPosition);
         offsetPosition += vel * Time.deltaTime; 
         rt.anchoredPosition = pos + offsetPosition;
+    }
+
+    private Camera GetMainCamera()
+    {
+        CameraManager cameraManager = CameraManager.instance;
+
+        MainCamera mainCamera = cameraManager.GetMainCamera(gameObject.scene);
+
+        if (mainCamera == null)
+            return null;
+
+        return mainCamera.Camera;
     }
 }

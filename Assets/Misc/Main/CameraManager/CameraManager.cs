@@ -1,99 +1,56 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager
 {
-    [field: SerializeField] public Transform CameraTarget { get; private set; }
-    [field: SerializeField] public CameraSO CameraSO { get; private set; }
-    public PlayerController playerController { get; private set; }
-
-    private GameplayCamera gameplayPlayerCamera;
-    private GameplayCamera gameplayAimCamera;
-    private GameplayCamera[] GameplayCameralist;
-    private GameplayCamera currentCamera;
-
-    public Camera CameraMain { get; private set; }
-
-
-    private Coroutine toggleAimCameraCoroutine;
-
-    private void Awake()
+    private static CameraManager cameraManagerInstance;
+    private Dictionary<Scene, MainCamera> mainCameras;
+    public static CameraManager instance
     {
-        CameraMain = Camera.main;
-        gameplayPlayerCamera = GetComponentInChildren<GameplayPlayerCamera>(true);
-        gameplayAimCamera = GetComponentInChildren<GameplayAimCamera>(true);
-        DisableAllCamera();
-    }
-
-    private void DisableAllCamera()
-    {
-        GameplayCamera[] GameplayCameralist = GetComponentsInChildren<GameplayPlayerCamera>(true);
-
-        foreach (var camera in GameplayCameralist)
+        get
         {
-            camera.gameObject.SetActive(false);
+            return GetInstance();
         }
     }
 
-    public void ChangeCamera(GameplayCamera cam)
+    private CameraManager()
     {
-        if (currentCamera != null)
+        mainCameras = new();
+    }
+
+    private static CameraManager GetInstance()
+    {
+        if (cameraManagerInstance == null)
         {
-            currentCamera.gameObject.SetActive(false);
+            cameraManagerInstance = new CameraManager();
         }
 
-        currentCamera = cam;
-
-        currentCamera.gameObject.SetActive(true);
+        return cameraManagerInstance;
     }
 
-    private void Start()
+    public void Register(MainCamera newMainCamera)
     {
-        playerController = PlayerController.instance;
-        transform.SetParent(null);
+        Scene scene = newMainCamera.Camera.scene;
 
-        ChangeCamera(gameplayPlayerCamera);
-    }
-
-    private IEnumerator ToggleAimCameraDelayCoroutine(bool enable, float time)
-    {
-        yield return new WaitForSeconds(time);
-        EnableAimCamera(enable);
-        toggleAimCameraCoroutine = null;
-    }
-
-    public void ToggleAimCamera(bool enable, float time = 0f)
-    {
-        if (toggleAimCameraCoroutine != null)
-        {
-            StopCoroutine(toggleAimCameraCoroutine);
-        }
-
-        if (time == 0f)
-        {
-            EnableAimCamera(enable);
+        if (GetMainCamera(scene) != null)
             return;
-        }
 
-        toggleAimCameraCoroutine = StartCoroutine(ToggleAimCameraDelayCoroutine(enable, time));
+        newMainCamera.OnCameraDestroy += NewMainCamera_OnCameraDestroy;
+        mainCameras.Add(scene, newMainCamera);
     }
 
-
-    private void EnableAimCamera(bool enable)
+    private void NewMainCamera_OnCameraDestroy(MainCamera MainCamera)
     {
-        if (enable)
-        {
-            ChangeCamera(gameplayAimCamera);
-            return;
-        }
-
-        ChangeCamera(gameplayPlayerCamera);
+        mainCameras.Remove(MainCamera.Camera.scene);
     }
 
-    public bool IsAimCameraActive()
+    public MainCamera GetMainCamera(Scene Scene)
     {
-        return currentCamera == gameplayAimCamera;
+        if (mainCameras.TryGetValue(Scene, out MainCamera MainCamera))
+            return MainCamera;
+
+        return null;
     }
 }

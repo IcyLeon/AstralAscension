@@ -4,24 +4,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RenderTextureRaycaster : GraphicRaycaster
+public class RenderTextureRaycaster : MonoBehaviour, IPointerClickHandler
 {
-    // Called by Unity when a Raycaster should raycast because it extends BaseRaycaster.
-    public override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
+    private GraphicRaycaster GraphicRaycaster;
+
+    private void Awake()
     {
-        Ray ray = eventCamera.ScreenPointToRay(eventData.position); // Mouse
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            OnRaycastHit(hit, resultAppendList);
-        }
+        GraphicRaycaster = GetComponentInParent<GraphicRaycaster>();
     }
 
-    private void OnRaycastHit(RaycastHit OriginHit, List<RaycastResult> resultAppendList)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        Vector3 virtualPos = new Vector3(OriginHit.textureCoord.x, OriginHit.textureCoord.y);
-        Ray ray = eventCamera.ViewportPointToRay(virtualPos);
-
-        Debug.Log(OriginHit.collider);
+        Debug.Log(GraphicRaycaster.eventCamera);
     }
 }

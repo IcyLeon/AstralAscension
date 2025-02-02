@@ -56,14 +56,9 @@ public class WorldMapBackground : MonoBehaviour
 
     private void UpdateVisual()
     {
-        for (int i = IconsDictionary.Count - 1; i >= 0; i--)
+        foreach (var IMapIconWidget in worldMap.MapObjectList.Keys)
         {
-            WorldMap_OnMapObjectRemove(IconsDictionary.ElementAt(i).Key);
-        }
-
-        foreach (var IMapIconWidget in worldMap.MapObjectList)
-        {
-            WorldMap_OnMapObjectAdd(IMapIconWidget.Key);
+            WorldMap_OnMapObjectAdd(IMapIconWidget);
         }
     }
 

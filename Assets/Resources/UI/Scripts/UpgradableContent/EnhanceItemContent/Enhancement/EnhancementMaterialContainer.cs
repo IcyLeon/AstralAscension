@@ -111,6 +111,10 @@ public class EnhancementMaterialContainer : MonoBehaviour
     private void UpdateVisual()
     {
         iEXPEntity = enhancementManager.iEXPEntity;
+
+        if (iEXPEntity == null)
+            return;
+
         SlotPopup.SetIItem(iEXPEntity.GetIEntity());
     }
 
@@ -158,5 +162,9 @@ public class EnhancementMaterialContainer : MonoBehaviour
         {
             enhancementManager.OnEnhanceItemChanged -= EnhancePanel_OnEnhanceItemChanged;
         }
+
+        AutoAddBtn.onClick.RemoveAllListeners();
+        EnhanceBtn.onClick.RemoveAllListeners();
+
     }
 }

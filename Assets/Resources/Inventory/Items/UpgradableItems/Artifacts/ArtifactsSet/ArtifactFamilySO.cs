@@ -26,6 +26,7 @@ public class ArtifactFamilySO : ScriptableObject
 {
     [field: SerializeField] public string ArtifactSetName { get; private set; }
     [field: SerializeField] public ArtifactBuffPieceStat[] PieceBuffs { get; private set; }
+    [field: SerializeField] public ArtifactManagerSO ArtifactManagerSO { get; private set; }
 
     public ArtifactFamily CreateArtifactFamily()
     {

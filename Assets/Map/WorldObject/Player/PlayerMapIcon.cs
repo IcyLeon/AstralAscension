@@ -31,7 +31,7 @@ public class PlayerMapIcon : MapIcon
         if (player == null)
             return;
 
-        playerCamera = player.CameraManager.CameraMain;
+        playerCamera = player.PlayerCameraManager.CameraMain;
 
         worldMapBackground.OnMapIconAdd -= OnPlayerMapIconAdd;
     }

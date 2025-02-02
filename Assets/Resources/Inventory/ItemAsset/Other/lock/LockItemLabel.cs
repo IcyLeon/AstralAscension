@@ -13,6 +13,6 @@ public class LockItemLabel : LockItem
         if (upgradableItems == null)
             return;
 
-        gameObject.SetActive(upgradableItems.locked);
+        this.gameObject.SetActive(upgradableItems.locked);
     }
 }

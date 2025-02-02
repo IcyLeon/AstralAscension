@@ -54,11 +54,8 @@ public class Inventory
             }
         }
 
-        for (int i = 0; i < Item.amount; i++)
-        {
-            itemList.Add(Item, Item);
-            OnItemAdd?.Invoke(Item);
-        }
+        itemList.Add(Item, Item);
+        OnItemAdd?.Invoke(Item);
     }
 
     public void RemoveItem(Item Item)

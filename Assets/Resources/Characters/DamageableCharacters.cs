@@ -54,9 +54,9 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
         return damageableCharactersSO.ElementSO;
     }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
+        base.OnUpdate();
         if (characterStateMachine != null)
         {
             characterStateMachine.Update();
@@ -78,16 +78,20 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
         }
     }
 
-    protected override void FixedUpdate()
+    protected override void OnFixedUpdate()
     {
+        base.OnFixedUpdate();
+
         if (characterStateMachine != null)
         {
             characterStateMachine.FixedUpdate();
         }
     }
 
-    protected override void LateUpdate()
+    protected override void OnLateUpdate()
     {
+        base.OnLateUpdate();
+
         if (characterStateMachine != null)
         {
             characterStateMachine.LateUpdate();

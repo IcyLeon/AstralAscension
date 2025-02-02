@@ -35,4 +35,12 @@ public class NavigationMarkerContent : MarkerPinContent
     {
         return playerMarkerIconData.IsConfirmedPlaced();
     }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        DeleteButton.onClick.RemoveAllListeners();
+        NavigationButton.onClick.RemoveAllListeners();
+    }
 }

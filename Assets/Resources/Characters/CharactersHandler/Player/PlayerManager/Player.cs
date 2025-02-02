@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     #endregion
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
-    [field: SerializeField] public CameraManager CameraManager { get; private set; }
+    public PlayerCameraManager PlayerCameraManager { get; private set; }
     [field: SerializeField] public PlayerInteractSensor PlayerInteractSensor { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
     public PlayerData playerData { get; private set; }
@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         playerData = new PlayerData(this);
+        PlayerCameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
 
     public void PlayPlayerSoundEffect(AudioClip clip)

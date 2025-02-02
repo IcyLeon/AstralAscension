@@ -4,23 +4,35 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PartySystem : MonoBehaviour
+public class PartySystem
 {
-    public static PartySystem instance { get; private set; }
-
+    private static PartySystem partySystemInstance;
     private PartySetupManager mainPartySetupManager;
     public event Action OnActivePartyChanged;
     public PartySetup activePartySetup { get; private set; }
 
-    private void Awake()
+    public static PartySystem instance
     {
-        instance = this;
+        get
+        {
+            return GetInstance();
+        }
     }
 
-    private void Start()
+    private PartySystem()
     {
         CreateMainGameplayParties();
         SetFirstActiveParty();
+    }
+
+    private static PartySystem GetInstance()
+    {
+        if (partySystemInstance == null)
+        {
+            partySystemInstance = new PartySystem();
+        }
+
+        return partySystemInstance;
     }
 
     private void CreateMainGameplayParties()
@@ -48,7 +60,7 @@ public class PartySystem : MonoBehaviour
         CharacterStorage c = CharacterManager.instance.characterStorage;
         for (int i = 0; i < c.characterStatList.Count; i++)
         {
-            mainPartySetupManager.AddMember(c.characterStatList.ElementAt(i).Key, 0);
+            mainPartySetupManager.AddMember(c.characterStatList.ElementAt(i).Value, 0);
         }
     }
 

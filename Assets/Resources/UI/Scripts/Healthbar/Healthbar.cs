@@ -20,11 +20,6 @@ public abstract class Healthbar : MonoBehaviour
     {
         characterDataStat = c;
     }
-    public CharacterDataStat GetCharacterDataStat()
-    {
-        return characterDataStat;
-    }
-
 
     private void Update()
     {

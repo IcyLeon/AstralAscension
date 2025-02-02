@@ -33,6 +33,7 @@ MonoBehaviour:
     <hardLandParameter>k__BackingField: HardLand
     <plungeLandingParameter>k__BackingField: PlungeLand
     <weakStopParameter>k__BackingField: WeakStop
+    <dashStopParameter>k__BackingField: DashStop
     <strongStopParameter>k__BackingField: StrongStop
   <aimParameter>k__BackingField: isAiming
   <throwParameter>k__BackingField: Throw

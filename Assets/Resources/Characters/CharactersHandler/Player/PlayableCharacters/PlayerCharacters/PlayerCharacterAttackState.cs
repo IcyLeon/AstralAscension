@@ -135,7 +135,7 @@ public class PlayerCharacterAttackState : IState
                 return;
 
             if (playableCharacterStateMachine.playableCharacterReuseableData.CanTransitBackToIdleState() 
-                || playableCharacterStateMachine.playerStateMachine.playerData.movementInput != Vector2.zero)
+                || playableCharacterStateMachine.playerStateMachine.playerData.IsMovementKeyPressed())
             {
                 Reset();
             }

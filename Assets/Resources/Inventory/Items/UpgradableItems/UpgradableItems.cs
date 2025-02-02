@@ -23,6 +23,7 @@ public abstract class UpgradableItems : Item, IEXP
     {
         level = 0;
         OnCreateUpgradableItem();
+        ResetEXP();
         expCostManagerSO = InitItemEXPCostManagerSO();
         locked = false;
         maxLevel = GetExpCostSO().GetMaxLevel(GetRaritySO());

@@ -6,48 +6,44 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ArtifactSphere : MonoBehaviour, IPointerClickHandler
+public class ArtifactBubble : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private TextMeshProUGUI LevelTxt;
-    [SerializeField] private ItemTypeSO ItemTypeSO;
+    [field: SerializeField] public ItemTypeSO ArtifactTypeSO { get; private set; }
     [SerializeField] private Image PlaceholderImage;
     [SerializeField] private Image ItemImage;
-    public event Action<ArtifactSphere> OnArtifactSphereSelect;
-    private ArtifactSphereManager artifactSphereManager;
+    public event Action<ArtifactBubble> OnArtifactSphereSelect;
+    private ArtifactBubbleManager artifactBubbleManager;
     private Artifact artifact;
 
     private void Awake()
     {
-        artifactSphereManager = GetComponentInParent<ArtifactSphereManager>();
-        artifactSphereManager.OnArtifactInventoryChanged += ArtifactSphereManager_OnArtifactInventoryChanged;
-        artifactSphereManager.OnArtifactEquip += ArtifactSphereManager_OnArtifactEquip;
-        artifactSphereManager.OnArtifactUnEquip += ArtifactSphereManager_OnArtifactUnEquip;
+        artifactBubbleManager = GetComponentInParent<ArtifactBubbleManager>();
+        artifactBubbleManager.OnArtifactInventoryChanged += ArtifactBubbleManager_OnArtifactInventoryChanged;
+        artifactBubbleManager.OnArtifactEquip += ArtifactBubbleManager_OnArtifactEquip;
+        artifactBubbleManager.OnArtifactUnEquip += ArtifactBubbleManager_OnArtifactUnEquip;
+        ResetArtifact();
     }
 
-    private void ArtifactSphereManager_OnArtifactInventoryChanged()
+    private void ArtifactBubbleManager_OnArtifactInventoryChanged()
     {
         ResetArtifact();
     }
 
-    private void ArtifactSphereManager_OnArtifactUnEquip(Artifact Artifact)
+    private void ArtifactBubbleManager_OnArtifactUnEquip(Artifact Artifact)
     {
-        if (Artifact.GetIItem().GetTypeSO() != ItemTypeSO)
+        if (Artifact.GetIItem().GetTypeSO() != ArtifactTypeSO)
             return;
 
         ResetArtifact();
     }
 
-    private void ArtifactSphereManager_OnArtifactEquip(Artifact Artifact)
+    private void ArtifactBubbleManager_OnArtifactEquip(Artifact Artifact)
     {
-        if (artifact != null || Artifact.GetIItem().GetTypeSO() != ItemTypeSO)
+        if (artifact != null || Artifact.GetIItem().GetTypeSO() != ArtifactTypeSO)
             return;
 
         SetArtifact(Artifact);
-    }
-
-    private void Start()
-    {
-        ResetArtifact();
     }
 
     private void SetArtifact(Artifact Artifact)
@@ -121,8 +117,8 @@ public class ArtifactSphere : MonoBehaviour, IPointerClickHandler
     private void OnDestroy()
     {
         UnsubscribeEvents();
-        artifactSphereManager.OnArtifactEquip -= ArtifactSphereManager_OnArtifactEquip;
-        artifactSphereManager.OnArtifactUnEquip -= ArtifactSphereManager_OnArtifactUnEquip;
-        artifactSphereManager.OnArtifactInventoryChanged -= ArtifactSphereManager_OnArtifactInventoryChanged;
+        artifactBubbleManager.OnArtifactEquip -= ArtifactBubbleManager_OnArtifactEquip;
+        artifactBubbleManager.OnArtifactUnEquip -= ArtifactBubbleManager_OnArtifactUnEquip;
+        artifactBubbleManager.OnArtifactInventoryChanged -= ArtifactBubbleManager_OnArtifactInventoryChanged;
     }
 }

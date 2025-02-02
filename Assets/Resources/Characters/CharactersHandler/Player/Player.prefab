@@ -9525,7 +9525,6 @@ MonoBehaviour:
   <PlayerSO>k__BackingField: {fileID: 11400000, guid: 444f561b1892f3d46bc1ccaad19b471d,
     type: 2}
   <Rb>k__BackingField: {fileID: 8489295494363605638}
-  <CameraManager>k__BackingField: {fileID: 8489295495052446741}
   <PlayerInteractSensor>k__BackingField: {fileID: 8489295495762639488}
   PlayerSoundSource: {fileID: 8489295494363605639}
 --- !u!114 &5989743886429433576

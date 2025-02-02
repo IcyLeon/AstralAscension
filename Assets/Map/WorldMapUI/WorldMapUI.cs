@@ -66,14 +66,9 @@ public class WorldMapUI : MapUI, IDragHandler
 
     private void UpdateVisual()
     {
-        foreach (var iconDictionaryKeyPair in worldMapBackground.IconsDictionary)
+        foreach (var mapIcon in worldMapBackground.IconsDictionary.Values)
         {
-            OnMapIconRemove(iconDictionaryKeyPair.Value);
-        }
-
-        foreach (var iconDictionaryKeyPair in worldMapBackground.IconsDictionary)
-        {
-            OnMapIconAdd(iconDictionaryKeyPair.Value);
+            OnMapIconAdd(mapIcon);
         }
     }
 
@@ -99,13 +94,10 @@ public class WorldMapUI : MapUI, IDragHandler
         rt.anchoredPosition += eventData.delta / canvas.scaleFactor;
 
         Vector2 clampedanchoredPosition = rt.anchoredPosition + worldMapBackground.OffsetPositionCenter();
-        Vector2 Position = (clampedanchoredPosition - worldMapBackground.GetMapSize() * 0.5f) * -1f;
+        Vector2 Position = (worldMapBackground.GetMapSize() * 0.5f) - clampedanchoredPosition;
         PivotPoint = Position / worldMapBackground.GetMapSize();
         worldMapBackground.MapRT.pivot = PivotPoint;
-
-
-        clampedanchoredPosition.x = Mathf.Clamp(clampedanchoredPosition.x, -worldMapBackground.GetMapSize().x / 2f, worldMapBackground.GetMapSize().x / 2f);
-        clampedanchoredPosition.y = Mathf.Clamp(clampedanchoredPosition.y, -worldMapBackground.GetMapSize().y / 2f, worldMapBackground.GetMapSize().y / 2f);
+        clampedanchoredPosition = Vector3Handler.Vector3Clamp(clampedanchoredPosition, -worldMapBackground.GetMapSize() * 0.5f, worldMapBackground.GetMapSize() * 0.5f);
         rt.anchoredPosition = clampedanchoredPosition - worldMapBackground.OffsetPositionCenter();
     }
 }

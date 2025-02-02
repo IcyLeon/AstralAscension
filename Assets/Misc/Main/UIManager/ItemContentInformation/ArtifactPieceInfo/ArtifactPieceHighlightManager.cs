@@ -16,21 +16,15 @@ public class StatsHighlightContent
 public class ArtifactPieceHighlightManager : MonoBehaviour
 {
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
-
     [SerializeField] private StatsHighlightContent StatsHighlightContent;
-
     private CharacterScreenPanel characterScreenPanel;
-    private CharactersSO selectedCharactersSO;
+    private CharacterDataStat selectedCharacterDataStat;
     private ArtifactPieceSetsDisplayManager ArtifactPieceSetsDisplayManager;
-
-    private CharacterStorage characterStorage;
 
     private IItem iItem;
 
     private void Awake()
     {
-        CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
-        CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
         ArtifactPieceSetsDisplayManager = GetComponent<ArtifactPieceSetsDisplayManager>();
         characterScreenPanel = GetComponentInParent<CharacterScreenPanel>();
@@ -45,20 +39,7 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void UpdateOnCharacterSelected()
     {
-        selectedCharactersSO = characterScreenPanel.currentCharacterSelected;
-    }
-
-    private void Start()
-    {
-        Init();
-    }
-
-    private void Init()
-    {
-        if (characterStorage != null)
-            return;
-
-        CharacterManager_OnCharacterStorageNew(CharacterManager.instance.characterStorage);
+        selectedCharacterDataStat = characterScreenPanel.currentCharacterSelected;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
@@ -97,15 +78,10 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
     {
         ResetAll();
 
-        if (characterStorage == null)
+        if (selectedCharacterDataStat == null)
             return;
 
-        CharacterDataStat c = characterStorage.HasObtainedCharacter(selectedCharactersSO);
-
-        if (c == null)
-            return;
-
-        int index = GetArtifactBuffCurrentIndex(c);
+        int index = GetArtifactBuffCurrentIndex(selectedCharacterDataStat);
 
         for (int i = 0; i <= index; i++)
         {
@@ -133,19 +109,8 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
     }
 
-
-    private void CharacterManager_OnCharacterStorageOld(CharacterStorage CharacterStorage)
-    {
-    }
-    private void CharacterManager_OnCharacterStorageNew(CharacterStorage CharacterStorage)
-    {
-        characterStorage = CharacterStorage;
-    }
-
     private void OnDestroy()
     {
-        CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
-        CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
         characterScreenPanel.OnIconSelected -= CharacterScreenPanel_OnIconSelected;
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
     }

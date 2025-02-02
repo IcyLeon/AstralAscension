@@ -26,3 +26,5 @@ MonoBehaviour:
       is increased by 20%. When Quicken or the aforementioned Elemental Reactions
       are triggered, Elemental Skill CD is decreased by 1s. Can only occur once every
       0.8s.
+  <ArtifactManagerSO>k__BackingField: {fileID: 11400000, guid: a44a0b6f76c19f04c91a931ce5cd24f2,
+    type: 2}

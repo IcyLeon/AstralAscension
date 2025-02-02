@@ -20,7 +20,7 @@ public class PlayerLandingState : PlayerGroundedState
     {
         base.Update();
 
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (!IsMovementKeyPressed())
         {
             return;
         }

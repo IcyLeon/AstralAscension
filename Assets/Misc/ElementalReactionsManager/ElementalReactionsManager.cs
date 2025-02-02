@@ -181,16 +181,24 @@ public class ElementalReactionsManager : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
+        OnUpdate();
+    }
+
+    private void OnUpdate()
+    {
         UpdateList();
     }
 
     private void UpdateList()
     {
-        for (int i = 0; i < ElementalReactionDictionary.Count; i++)
+        foreach(var ElementalReactionList in ElementalReactionDictionary.Values)
         {
-            for (int j = 0; j < ElementalReactionDictionary.ElementAt(i).Value.Count; j++)
+            for (int i = 0; i < ElementalReactionList.Count; i++)
             {
-                ElementalReaction ER = ElementalReactionDictionary.ElementAt(i).Value.ElementAt(j);
+                ElementalReaction ER = ElementalReactionList[i];
                 ER.Update();
             }
         }

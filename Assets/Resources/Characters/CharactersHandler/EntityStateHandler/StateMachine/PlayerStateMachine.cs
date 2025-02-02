@@ -9,6 +9,7 @@ public class PlayerStateMachine
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
     public PlayerWeakStopState playerWeakStopState { get; }
+    public PlayerDashStopState playerDashStopState { get; }
     public PlayerDashState playerDashState { get; }
     public PlayerStrongStopState playerStrongStopState { get; }
     public PlayerJumpState playerJumpState { get; }
@@ -55,6 +56,11 @@ public class PlayerStateMachine
     }
     public void UpdateTargetRotationData(float angle)
     {
+        float currentAngle = playerData.targetYawRotation;
+
+        if (currentAngle == angle)
+            return;
+
         playerData.targetYawRotation = angle;
         playerData.dampedTargetRotationPassedTime = 0f;
     }
@@ -139,6 +145,7 @@ public class PlayerStateMachine
         playerIdleState = new PlayerIdleState(this);
         playerRunState = new PlayerRunState(this);
         playerWeakStopState = new PlayerWeakStopState(this);
+        playerDashStopState = new PlayerDashStopState(this);
         playerJumpState = new PlayerJumpState(this);
         playerDashState = new PlayerDashState(this);
         playerStrongStopState = new PlayerStrongStopState(this);
@@ -158,7 +165,7 @@ public class PlayerStateMachine
     public void OnEnable()
     {
         StateMachineManager.OnEnable();
-        ChangeState(playerIdleState);
+        StateMachineManager.ResetState();
     }
 
     public void OnDisable()

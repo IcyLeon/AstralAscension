@@ -9,8 +9,8 @@ public class OwnedCharacterIconButton : MonoBehaviour
     [SerializeField] private Image ImageIcon;
     private Graphic mainBackgroundGraphic;
     private Toggle toggle;
-    private PlayerCharactersSO playerCharactersSO;
-    public event Action<PlayerCharactersSO> OnCharacterIconSelected;
+    public CharacterDataStat characterDataStat { get; private set; }
+    public event Action<OwnedCharacterIconButton> OnCharacterIconSelected;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class OwnedCharacterIconButton : MonoBehaviour
         if (toggle.isOn)
         {
             OnSelectedIcon();
-            OnCharacterIconSelected?.Invoke(playerCharactersSO);
+            OnCharacterIconSelected?.Invoke(this);
             return;
         }
 
@@ -50,13 +50,23 @@ public class OwnedCharacterIconButton : MonoBehaviour
         mainBackgroundGraphic.color = Color;
     }
 
-    public void SetPlayableCharacterSO(CharactersSO CharactersSO)
+    public void SetCharacterDataStat(CharacterDataStat CharacterDataStat)
     {
-        playerCharactersSO = CharactersSO as PlayerCharactersSO;
+        characterDataStat = CharacterDataStat;
+        ImageIcon.sprite = GetIcon();
+    }
 
-        if (playerCharactersSO == null)
-            return;
+    private Sprite GetIcon()
+    {
+        if (characterDataStat == null)
+            return null;
 
-        ImageIcon.sprite = playerCharactersSO.PartyCharacterIcon;
+        PlayerCharactersSO PlayerCharactersSO = characterDataStat.damageableEntitySO as PlayerCharactersSO;
+        if (PlayerCharactersSO != null)
+        {
+            return PlayerCharactersSO.PartyCharacterIcon;
+        }
+
+        return characterDataStat.damageableEntitySO.CharacterIcon;
     }
 }

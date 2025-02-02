@@ -23,7 +23,7 @@ public class KeqingTeleportState : StellarRestorationState
         TimeToReach = dir.magnitude / Speed;
         MaxTimeToReach = (Range + Range * OffsetTime) / Speed;
 
-        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        float angle = Vector3Handler.FindAngleByDirection(Vector2.zero, new Vector2(dir.x, dir.z));
         UpdateTargetRotationData(angle);
 
         playableCharacterStateMachine.player.Rb.useGravity = false;

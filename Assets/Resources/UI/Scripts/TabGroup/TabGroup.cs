@@ -8,43 +8,49 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ToggleGroup))]
 public class TabGroup : MonoBehaviour
 {
-    protected TabOption[] tabOptions;
-    public event Action<TabOption> OnTabGroupChanged;
+    public TabOption[] tabOptions { get; private set; }
+    public event Action<TabOption> OnTabOptionChanged;
     public ToggleGroup toggleGroup { get; private set; }
+    public TabOption currentTabOption { get; private set; }
 
-
-    protected virtual void Awake()
+    private void Awake()
     {
         tabOptions = GetComponentsInChildren<TabOption>(true);
         toggleGroup = GetComponent<ToggleGroup>();
+
+        foreach (var tabOption in tabOptions)
+        {
+            tabOption.OnTabOptionSelect += TabOption_TabOptionSelect;
+        }
     }
 
     private void Start()
     {
-        foreach (var tabOption in tabOptions)
-        {
-            tabOption.TabOptionSelect += TabOption_TabOptionSelect;
-        }
-
-        if (tabOptions.Length > 0)
-            tabOptions[0].toggle.isOn = true;
+        InitTabOptions();
     }
 
-    protected virtual void OnSelectedPanel(TabOption TabOption)
+    private void InitTabOptions()
     {
-        OnTabGroupChanged?.Invoke(TabOption);
+        if (toggleGroup.AnyTogglesOn())
+            return;
+
+        if (tabOptions.Length > 0)
+        {
+            tabOptions[0].toggle.isOn = true;
+        }
     }
 
     private void TabOption_TabOptionSelect(TabOption TabOption)
     {
-        OnSelectedPanel(TabOption);
+        currentTabOption = TabOption;
+        OnTabOptionChanged?.Invoke(TabOption);
     }
 
     private void OnDestroy()
     {
         foreach (var tabOption in tabOptions)
         {
-            tabOption.TabOptionSelect -= TabOption_TabOptionSelect;
+            tabOption.OnTabOptionSelect -= TabOption_TabOptionSelect;
         }
     }
 }

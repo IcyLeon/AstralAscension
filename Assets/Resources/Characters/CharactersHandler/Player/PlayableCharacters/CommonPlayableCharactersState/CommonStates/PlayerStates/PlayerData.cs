@@ -27,10 +27,16 @@ public class PlayerData
         airborneData = player.PlayerSO.AirborneData;
         SpeedModifier = 0f;
         DecelerateForce = 0f;
+        movementInput = Vector2.zero;
         currentJumpForceMagnitudeXZ = 0f;
         dampedTargetRotationPassedTime = 0;
         consecutiveDashesUsed = 0;
         targetYawRotation = 0;
         rotationTime = 0.14f;
+    }
+
+    public bool IsMovementKeyPressed()
+    {
+        return movementInput != Vector2.zero;
     }
 }

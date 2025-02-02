@@ -26,7 +26,7 @@ public abstract class ItemQualityButton : MonoBehaviour, IPointerClickHandler, I
 
     protected virtual void OnDestroy()
     {
-        OnItemQualitySelect = null;
+        OnItemQualitySelect = OnItemQualityDestroyed = null;
     }
 
     protected void UpdateDisplayText(string txt)

@@ -21,7 +21,7 @@ public class PlayerDeadState : PlayerMovementState
         if (playableCharacters.IsDead())
             return;
 
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (!IsMovementKeyPressed())
         {
             playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
             return;

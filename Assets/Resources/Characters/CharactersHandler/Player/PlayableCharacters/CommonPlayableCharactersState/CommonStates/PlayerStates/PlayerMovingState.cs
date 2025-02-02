@@ -29,7 +29,7 @@ public class PlayerMovingState : PlayerGroundedState
     {
         base.Update();
 
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (!IsMovementKeyPressed())
         {
             OnStop();
             return;

@@ -9,17 +9,11 @@ using static InventoryManager;
 [DisallowMultipleComponent]
 public class ArtifactPanelContent : MonoBehaviour
 {
-    [Serializable]
-    public class ArtifactPanel
-    {
-        [field: SerializeField] public TabOption tabOption { get; private set; }
-        [field: SerializeField] public ItemTypeSO ItemTypeSO { get; private set; }
-    }
-
     [SerializeField] private ScrollRect ScrollRect;
-    [SerializeField] private ItemContentDisplay ItemContentDisplay;
-    [SerializeField] private TabGroup TabGroup;
-    [SerializeField] private ArtifactPanel[] ArtifactPanelList;
+    private TabGroup TabGroup;
+    public ItemTypeTabGroup ItemTypeTabGroup { get; private set; }
+    private Dictionary<ItemTypeSO, Transform> tabPanelDic;
+    public event Action<ItemQualityButton> OnItemQualitySelect;
     private ItemManagerSO ItemAssetManagerSO;
     private Dictionary<IItem, ItemQualityButton> itemQualityDictionary;
     private Inventory inventory;
@@ -27,9 +21,50 @@ public class ArtifactPanelContent : MonoBehaviour
     private void Awake()
     {
         itemQualityDictionary = new();
-        TabGroup.OnTabGroupChanged += TabGroup_OnTabGroupChanged;
+        TabGroup = GetComponentInChildren<TabGroup>();
+        TabGroup.OnTabOptionChanged += TabGroup_OnTabOptionChanged;
+        ItemTypeTabGroup = TabGroup.GetComponent<ItemTypeTabGroup>();
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
+    }
+    private void Start()
+    {
+        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
+        InitTabPanelDic();
+        Init();
+    }
+
+    private void InitTabPanelDic()
+    {
+        if (tabPanelDic != null)
+            return;
+
+        tabPanelDic = new();
+
+        ItemTypeTabOption[] itemTypeTabOptions = GetComponentsInChildren<ItemTypeTabOption>(true);
+
+        foreach(var itemTypeTabOption in itemTypeTabOptions)
+        {
+            ItemTypeSO ItemTypeSO = itemTypeTabOption.ItemTypeSO;
+
+            if (GetPanel(ItemTypeSO) != null)
+                continue;
+
+            tabPanelDic.Add(ItemTypeSO, itemTypeTabOption.GetPanel());
+        }
+    }
+
+    private Transform GetPanel(ItemTypeSO ItemTypeSO)
+    {
+        if (tabPanelDic.TryGetValue(ItemTypeSO, out Transform transform))
+            return transform;
+
+        return null;
+    }
+
+    private void TabGroup_OnTabOptionChanged(TabOption TabOption)
+    {
+        ScrollRect.content = TabOption.Panel;
     }
 
     private void Init()
@@ -43,16 +78,6 @@ public class ArtifactPanelContent : MonoBehaviour
         InventoryManager_OnInventoryNew(instance.inventory);
     }
 
-    private void Start()
-    {
-        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
-        Init();
-    }
-
-    private void TabGroup_OnTabGroupChanged(TabOption TabOption)
-    {
-        ScrollRect.content = TabOption.Panel;
-    }
 
     private void InventoryManager_OnInventoryOld(Inventory Inventory)
     {
@@ -83,22 +108,9 @@ public class ArtifactPanelContent : MonoBehaviour
         }
     }
 
-    private GameObject GetPanel(ItemTypeSO itemTypeSO)
-    {
-        foreach(var ArtifactPanel in ArtifactPanelList)
-        {
-            if (ArtifactPanel.ItemTypeSO == itemTypeSO)
-                return ArtifactPanel.tabOption.Panel.gameObject;
-        }
-        return null;
-    }
-
     private void Inventory_OnItemAdd(Item Item)
     {
-        if (Item == null)
-            return;
-
-        GameObject Panel = GetPanel(Item.GetIItem().GetTypeSO());
+        Transform Panel = GetPanel(Item.GetIItem().GetTypeSO());
 
         if (Panel == null)
             return;
@@ -110,7 +122,7 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void OnSelectedItemQuality(ItemQualityButton ItemQualityButton)
     {
-        ItemContentDisplay.SetIItem(ItemQualityButton.ItemQuality.iItem);
+        OnItemQualitySelect?.Invoke(ItemQualityButton);
     }
 
     private void UpdateVisual()
@@ -133,7 +145,7 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void OnDestroy()
     {
-        TabGroup.OnTabGroupChanged -= TabGroup_OnTabGroupChanged;
+        TabGroup.OnTabOptionChanged -= TabGroup_OnTabOptionChanged;
         OnInventoryOld -= InventoryManager_OnInventoryOld;
         OnInventoryNew -= InventoryManager_OnInventoryNew;
 

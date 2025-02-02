@@ -24,7 +24,7 @@ public abstract class MarkerPinContent : MonoBehaviour
         UpdateMapIconInformation();
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         UnSubscribeEvents();
         if (markerSelectedMapIcon)

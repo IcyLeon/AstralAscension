@@ -32,14 +32,6 @@ public abstract class PlayerMovementState : IState
         }
     }
 
-    public virtual void OnEnable()
-    {
-    }
-
-    public virtual void OnDisable()
-    {
-
-    }
 
     protected void InitBaseRotation()
     {
@@ -52,10 +44,6 @@ public abstract class PlayerMovementState : IState
         position.y += playableCharacters.MainCollider.radius / 2f;
 
         return Physics.CheckSphere(position, playableCharacters.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
-    }
-
-    protected virtual void Movement_performed(Vector2 movementInput)
-    {
     }
 
     public virtual void Enter()
@@ -121,7 +109,7 @@ public abstract class PlayerMovementState : IState
 
     private bool IsNotMoving()
     {
-        return playerStateMachine.playerData.movementInput == Vector2.zero
+        return !IsMovementKeyPressed()
             || playerStateMachine.playerData.SpeedModifier == 0f
             || IsSkillCasting() 
             || playerStateMachine.PlayableCharacterStateMachine.IsAttacking();
@@ -134,12 +122,25 @@ public abstract class PlayerMovementState : IState
         playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirectionXZ(playerStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
+    protected bool IsMovementKeyPressed()
+    {
+        return playerStateMachine.playerData.IsMovementKeyPressed();
+    }
+
     protected virtual void UpdateRotation()
     {
         if (IsNotMoving())
             return;
 
-        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playerStateMachine.playerData.movementInput) + playerStateMachine.player.CameraManager.CameraMain.transform.eulerAngles.y;
+        RotateToMovementInputDirection();
+    }
+
+    protected void RotateToMovementInputDirection()
+    {
+        if (!IsMovementKeyPressed())
+            return;
+
+        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playerStateMachine.playerData.movementInput) + playerStateMachine.player.PlayerCameraManager.CameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
     }
 
@@ -171,7 +172,7 @@ public abstract class PlayerMovementState : IState
         PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
         float val = playerStateMachine.playerData.SpeedModifier / playerStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
         
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (!IsMovementKeyPressed())
         {
             val = 0f;
         }
@@ -181,9 +182,24 @@ public abstract class PlayerMovementState : IState
     private void ReadMovement()
     {
         playerStateMachine.playerData.movementInput = playerController.playerInputAction.Movement.ReadValue<Vector2>();
-        
-        if (playerStateMachine.playerData.movementInput != Vector2.zero)
-            Movement_performed(playerStateMachine.playerData.movementInput);
+
+        if (IsMovementKeyPressed())
+        {
+            OnMovementKeyPerformed();
+        }    
+    }
+
+    protected virtual void OnMovementKeyPerformed()
+    {
+
+    }
+
+    public virtual void OnEnable()
+    {
+    }
+
+    public virtual void OnDisable()
+    {
     }
 
     public virtual void OnAnimationTransition()

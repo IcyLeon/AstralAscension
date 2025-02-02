@@ -50,5 +50,6 @@ public class UpgradeAction : MonoBehaviour
     private void OnDestroy()
     {
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
+        UpgradeBtn.onClick.RemoveAllListeners();
     }
 }

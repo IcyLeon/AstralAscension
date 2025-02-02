@@ -28,4 +28,10 @@ public class PlacedMarkerContent : MarkerPinContent
     {
         return !playerMarkerIconData.IsConfirmedPlaced();
     }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        ConfirmedButton.onClick.RemoveAllListeners();
+    }
 }

@@ -8,7 +8,7 @@ public class ArtifactFamily
     public List<Artifact> _artifacts { get; }
     private ArtifactEffectFactoryManager ArtifactEffectFactoryManager;
     public ArtifactFamilySO artifactFamilySO { get; private set; }
-    private ArtifactBuffInformation currentBuffLocation;
+    private ArtifactBuffInformation current;
 
     public delegate void OnArtifactBuffChanged(ArtifactBuffInformation ArtifactBuffInformation);
     public event OnArtifactBuffChanged OnArtifactBuffAdd;
@@ -32,45 +32,23 @@ public class ArtifactFamily
     {
         _artifacts.Add(artifact);
 
-        ArtifactBuffInformation nextBuff = GetNextNode();
+        ArtifactBuffInformation nextBuff = ArtifactEffectFactoryManager.GetNextNode(current);
 
-        if (IsEnoughAmount(nextBuff))
+        if (nextBuff.IsEnough(GetTotalAmount()))
         {
-            currentBuffLocation = nextBuff;
-            OnArtifactBuffAdd?.Invoke(currentBuffLocation);
+            current = nextBuff;
+            OnArtifactBuffAdd?.Invoke(current);
         }
-    }
-
-    private ArtifactBuffInformation GetNextNode()
-    {
-        if (currentBuffLocation == null)
-        {
-            return ArtifactEffectFactoryManager.GetStartingNode();
-        }
-
-        return currentBuffLocation.nextNode;
-    }
-
-
-    private bool IsEnoughAmount(ArtifactBuffInformation node)
-    {
-        if (node == null)
-            return false;
-
-        return GetTotalAmount() >= node.buffPieceInfo.NoOfPiece; 
     }
 
     public void Remove(Artifact artifact)
     {
         _artifacts.Remove(artifact);
 
-        while (currentBuffLocation != null)
+        if (current != null && current.IsEnough(GetTotalAmount()))
         {
-            if (IsEnoughAmount(currentBuffLocation))
-                break;
-
-            ArtifactBuffInformation prevBuff = currentBuffLocation;
-            currentBuffLocation = currentBuffLocation.prevNode;
+            ArtifactBuffInformation prevBuff = current;
+            current = current.parentNode;
             OnArtifactBuffRemove?.Invoke(prevBuff);
         }
 
@@ -84,12 +62,12 @@ public class ArtifactFamily
     {
         int index = -1;
 
-        ArtifactBuffInformation currentNode = currentBuffLocation;
+        ArtifactBuffInformation currentNode = current;
 
         while (currentNode != null)
         {
             index++;
-            currentNode = currentNode.prevNode;
+            currentNode = currentNode.parentNode;
         }
 
         return index;

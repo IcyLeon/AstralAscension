@@ -37,6 +37,9 @@ public class ItemEquipDisplay : MonoBehaviour
 
     private void UpgradableItem_OnIEntityChanged(IEntity IEntity)
     {
+        if (this == null)
+            return;
+
         UpdateVisual();
     }
 
@@ -46,6 +49,7 @@ public class ItemEquipDisplay : MonoBehaviour
             return;
 
         upgradableItem.OnIEntityChanged += UpgradableItem_OnIEntityChanged;
+        UpdateVisual();
     }
 
     private void OnDestroy()
