@@ -23,6 +23,13 @@ public class ActiveCharacter : MonoBehaviour
     {
         charactersList = new();
         player = GetComponentInParent<Player>();
+        playerController = PlayerController.instance;
+        playerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
+    }
+
+    private void Start()
+    {
+        InitPartySetup();
     }
 
     private void UnsubscribePartyEvents()
@@ -91,7 +98,7 @@ public class ActiveCharacter : MonoBehaviour
 
     private void AddMember(PartyMember PartyMember)
     {
-        DamageableCharacters DamageableCharacters = PartyMember.charactersSO.CreateCharacter(transform);
+        DamageableCharacters DamageableCharacters = PartyMember.characterDataStat.damageableEntitySO.CreateCharacter(transform);
 
         if (DamageableCharacters == null)
             return;
@@ -116,14 +123,6 @@ public class ActiveCharacter : MonoBehaviour
         }
 
         SwitchCharacter(currentPartySetup.GetSelectedPartyMemberSlotIndex(), false);
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        InitPartySetup();
-        playerController = PlayerController.instance;
-        playerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
     }
 
     private void SwitchCharacters_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

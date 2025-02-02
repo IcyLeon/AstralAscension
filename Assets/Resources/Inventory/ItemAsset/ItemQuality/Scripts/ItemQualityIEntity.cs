@@ -30,6 +30,7 @@ public abstract class ItemQualityIEntity : ItemQualityButton
             return;
 
         iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
+        UpdateVisual();
     }
 
     private void IEntity_OnIEntityChanged(IEntity entity)
@@ -47,7 +48,6 @@ public abstract class ItemQualityIEntity : ItemQualityButton
         iEntity = iItem as IEntity;
         InitIEntity();
         SubscribeEvents();
-        UpdateVisual();
     }
 
     protected virtual void InitIEntity()

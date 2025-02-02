@@ -19,9 +19,9 @@ public class FreeLookCameraPanVirtualCamera : CameraPanVirtualCam
         cameraZoomSmoothingSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraZoomSmoothingSpeed;
     }
 
-    protected override void OnEnable()
+    public override void OnEnter()
     {
-        base.OnEnable();
+        base.OnEnter();
 
         targetCameraDistance = originalCameraDistance;
     }
@@ -29,12 +29,6 @@ public class FreeLookCameraPanVirtualCamera : CameraPanVirtualCam
     protected override void Update()
     {
         base.Update();
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            cameraPanManager.ChangeCamera(cameraPanManager.characterProfileCameraPanVirtualCamera);
-            return;
-        }
 
         Cinemachine3rdPersonFollow.CameraDistance = Mathf.SmoothStep(Cinemachine3rdPersonFollow.CameraDistance, targetCameraDistance, Time.unscaledDeltaTime * cameraZoomSmoothingSpeed);
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,7 +22,7 @@ public class TabOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField] private Graphic BackgroundGraphic;
     [SerializeField] private CustomizeableTabOption CustomizeableIconTabOption;
     [SerializeField] private Color32 HoverColor;
-    public event Action<TabOption> TabOptionSelect;
+    public event Action<TabOption> OnTabOptionSelect;
     private TabGroup tabGroup;
     public Toggle toggle { get; private set; }
 
@@ -48,11 +49,17 @@ public class TabOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (toggle.isOn)
         {
             OnSelected();
-            TabOptionSelect?.Invoke(this);
+            OnClick();
+            OnTabOptionSelect?.Invoke(this);
             return;
         }
 
         OnDeSelected();
+    }
+
+    public void OnClick()
+    {
+        toggle.isOn = true;
     }
 
     private void OnSelected()

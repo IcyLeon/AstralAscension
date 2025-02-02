@@ -23,3 +23,5 @@ MonoBehaviour:
     <NoOfPiece>k__BackingField: 4
     <Description>k__BackingField: Using an Elemental Burst increases all party members'
       ATK by 20% for 12s. This effect cannot stack.
+  <ArtifactManagerSO>k__BackingField: {fileID: 11400000, guid: a44a0b6f76c19f04c91a931ce5cd24f2,
+    type: 2}

@@ -10,7 +10,6 @@ public class PartyMembersUIManager : MonoBehaviour
     [SerializeField] private GameObject PartyInfoPrefab;
     private PartySystem partySystem;
     private PartySetup currentPartySetup;
-    private CharacterStorage characterStorage;
     private Dictionary<PartyMember, PartyMemberContent> PartyMemberContentDictionary;
 
     //Start is called before the first frame update
@@ -19,22 +18,10 @@ public class PartyMembersUIManager : MonoBehaviour
         objectPool = new ObjectPool<PartyMemberContent>(PartyInfoPrefab, transform, 5);
         objectPool.CallbackPoolObject((p, i) => p.SetIndexKeyText(i + 1));
         PartyMemberContentDictionary = new();
-        CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
-        CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
-    }
-
-    private void CharacterManager_OnCharacterStorageOld(CharacterStorage CharacterStorage)
-    {
-    }
-
-    private void CharacterManager_OnCharacterStorageNew(CharacterStorage CharacterStorage)
-    {
-        characterStorage = CharacterStorage;
     }
 
     private void Start()
     {
-        InitCharacterStorage();
         InitPartySetup();
     }
 
@@ -55,14 +42,6 @@ public class PartyMembersUIManager : MonoBehaviour
         UpdateVisual();
     }
 
-    private void InitCharacterStorage()
-    {
-        if (characterStorage != null)
-            return;
-
-        CharacterManager_OnCharacterStorageNew(CharacterManager.instance.characterStorage);
-    }
-
 
     private void PartySystem_OnActivePartyChanged()
     {
@@ -81,9 +60,7 @@ public class PartyMembersUIManager : MonoBehaviour
             if (partyMemberPoolObject == null)
                 continue;
 
-            CharacterDataStat CharacterDataStat = characterStorage.GetCharacterDataStat(partySlot.partyMember.charactersSO);
-
-            partyMemberPoolObject.SetCharacterDataStat(CharacterDataStat);
+            partyMemberPoolObject.SetCharacterDataStat(partySlot.partyMember.characterDataStat);
 
             if (!PartyMemberContentDictionary.TryGetValue(partySlot.partyMember, out PartyMemberContent partyMemberContent))
             {
@@ -95,9 +72,6 @@ public class PartyMembersUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
-        CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
-
         if (partySystem == null)
         {
             partySystem.OnActivePartyChanged -= PartySystem_OnActivePartyChanged;

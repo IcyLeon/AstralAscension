@@ -4,98 +4,108 @@ using UnityEngine;
 
 public class StateMachineManager
 {
-    private IState currentStates;
-
+    private IState currentState;
+    private IState startState;
     public void Update()
     {
-        //Debug.Log(currentStates);
-        if (currentStates != null)
-            currentStates.Update();
+        //Debug.Log(currentState);
+        if (currentState != null)
+            currentState.Update();
     }
     public void FixedUpdate()
     {
-        if (currentStates != null)
-            currentStates.FixedUpdate();
+        if (currentState != null)
+            currentState.FixedUpdate();
     }
 
     public void OnEnable()
     {
-        if (currentStates != null)
-            currentStates.OnEnable();
+        if (currentState != null)
+            currentState.OnEnable();
     }
     public void OnDisable()
     {
-        if (currentStates != null)
-            currentStates.OnDisable();
+        if (currentState != null)
+            currentState.OnDisable();
     }
 
     public void LateUpdate()
     {
-        if (currentStates != null)
-            currentStates.LateUpdate();
+        if (currentState != null)
+            currentState.LateUpdate();
     }
 
     public void OnAnimationTransition()
     {
-        if (currentStates != null)
-            currentStates.OnAnimationTransition();
+        if (currentState != null)
+            currentState.OnAnimationTransition();
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionEnter(collision);
+        if (currentState != null)
+            currentState.OnCollisionEnter(collision);
     }
 
     public void OnCollisionExit(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionExit(collision);
+        if (currentState != null)
+            currentState.OnCollisionExit(collision);
     }
 
     public void OnCollisionStay(Collision collision)
     {
-        if (currentStates != null)
-            currentStates.OnCollisionStay(collision);
+        if (currentState != null)
+            currentState.OnCollisionStay(collision);
     }
     public void OnTriggerEnter(Collider Collider)
     {
-        if (currentStates != null)
-            currentStates.OnTriggerEnter(Collider);
+        if (currentState != null)
+            currentState.OnTriggerEnter(Collider);
     }
 
     public void OnTriggerExit(Collider Collider)
     {
-        if (currentStates != null)
-            currentStates.OnTriggerExit(Collider);
+        if (currentState != null)
+            currentState.OnTriggerExit(Collider);
     }
 
     public void OnTriggerStay(Collider Collider)
     {
-        if (currentStates != null)
-            currentStates.OnTriggerStay(Collider);
+        if (currentState != null)
+            currentState.OnTriggerStay(Collider);
     }
 
     public bool IsInState<T>()
     {
-        return currentStates is T;
+        return currentState is T;
     }
     public void ChangeState(IState newState)
     {
-        if (currentStates != null)
-            currentStates.Exit();
+        if (currentState != null)
+            currentState.Exit();
 
-        currentStates = newState;
+        currentState = newState;
 
-        if (currentStates != null)
-            currentStates.Enter();
+        if (currentState != null)
+            currentState.Enter();
     }
 
     public void StartState(IState newState)
     {
-        if (currentStates != null)
+        if (currentState != null)
             return;
 
         ChangeState(newState);
+
+        startState = currentState;
+    }
+
+    public void ResetState()
+    {
+        if (startState == null)
+            return;
+
+        ChangeState(startState);
     }
 }

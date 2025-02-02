@@ -22,7 +22,7 @@ public class PlayerJumpState : PlayerAirborneState
 
         playerStateMachine.playerData.DecelerateForce = playerStateMachine.playerData.airborneData.PlayerJumpData.JumpDecelerationForce;
         playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.airborneData.PlayerJumpData.RotationTime;
-        canRotate = playerStateMachine.playerData.movementInput != Vector2.zero;
+        canRotate = !IsMovementKeyPressed();
 
         Jump();
     }

@@ -1,19 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraPanManager : MonoBehaviour
 {
     [field: SerializeField] public CameraPanSelectionDataSO CameraPanSelectionDataSO { get; private set; }
-    public FreeLookCameraPanVirtualCamera freeLookCameraPanVirtualCamera { get; private set; }
-    public CharacterProfileCameraPanVirtualCamera characterProfileCameraPanVirtualCamera { get; private set; }
     private CameraPanVirtualCam currentPanVirtualCam;
+    private PlayerController playerController;
 
     private void Awake()
     {
-        freeLookCameraPanVirtualCamera = GetComponentInChildren<FreeLookCameraPanVirtualCamera>(true);
-        characterProfileCameraPanVirtualCamera = GetComponentInChildren<CharacterProfileCameraPanVirtualCamera>(true);
-
         DisableAllVirtualCams();
     }
 
@@ -23,13 +20,31 @@ public class CameraPanManager : MonoBehaviour
 
         foreach (var Cam in CameraPanVirtualCamList)
         {
-            Cam.gameObject.SetActive(false);
+            Cam.OnExit();
         }
     }
 
     private void Start()
     {
-        ChangeCamera(freeLookCameraPanVirtualCamera);
+        playerController = PlayerController.instance;
+        playerController.characterDisplayInputAction.Zoom.performed += Zoom_performed;
+        playerController.characterDisplayInputAction.Look.performed += Look_performed;
+    }
+
+    private void Look_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (currentPanVirtualCam == null)
+            return;
+
+        currentPanVirtualCam.OnDrag(obj.ReadValue<Vector2>());
+    }
+
+    private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (currentPanVirtualCam == null)
+            return;
+
+        currentPanVirtualCam.OnScroll(obj.ReadValue<Vector2>().y);
     }
 
     public void OnDrag(Vector2 delta)
@@ -50,13 +65,19 @@ public class CameraPanManager : MonoBehaviour
 
     public void ChangeCamera(CameraPanVirtualCam CameraPanVirtualCam)
     {
+        if (CameraPanVirtualCam == currentPanVirtualCam)
+            return;
+
         if (currentPanVirtualCam != null)
         {
-            currentPanVirtualCam.gameObject.SetActive(false);
+            currentPanVirtualCam.OnExit();
         }
 
         currentPanVirtualCam = CameraPanVirtualCam;
 
-        currentPanVirtualCam.gameObject.SetActive(true);
+        if (currentPanVirtualCam == null)
+            return;
+
+        currentPanVirtualCam.OnEnter();
     }
 }

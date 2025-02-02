@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ArtifactFamilySO;
 
 public class ArtifactEffectFactoryManager
 {
-    private ArtifactBuffInformation head;
-    private ArtifactBuffInformation tail;
+    private ArtifactBuffInformation root;
 
     public ArtifactEffectFactoryManager(ArtifactFamilySO ArtifactFamilySO)
     {
@@ -18,24 +16,25 @@ public class ArtifactEffectFactoryManager
         }
     }
 
-    public ArtifactBuffInformation GetStartingNode()
+    public ArtifactBuffInformation GetNextNode(ArtifactBuffInformation currentNode)
     {
-        return head;
+        if (currentNode == null)
+        {
+            return root;
+        }
+
+        return currentNode.nextNode;
     }
 
     private void CreateNode(ArtifactBuffPieceStat ArtifactBuffPieceStat)
     {
-        ArtifactBuffInformation newNode = new(ArtifactBuffPieceStat);
-
-        if (head == null)
+        if (root == null)
         {
-            head = tail = newNode;
+            root = new(ArtifactBuffPieceStat, root);
             return;
         }
 
-        tail.SetNextNode(newNode);
-        newNode.SetPrevNode(tail);
+        root.AddBuffInformation(ArtifactBuffPieceStat);
 
-        tail = newNode;
     }
 }

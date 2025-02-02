@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController
 {
-    public static PlayerController instance;
+    private static PlayerController playerControllerInstance;
     private PlayerInputSystem playerInputSystem;
+
+    public static PlayerController instance
+    {
+        get
+        {
+            return GetInstance();
+        }
+    }
 
     public PlayerInputSystem.PlayerActions playerInputAction
     {
@@ -31,50 +39,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    private void Awake()
+    public PlayerInputSystem.CharacterDisplayActions characterDisplayInputAction
     {
-        instance = this;
-        CreateInputSystem();
-    }
-
-    private void CreateInputSystem()
-    {
-        playerInputSystem = new PlayerInputSystem();
-    }
-
-    private void Start()
-    {
-        uiInputAction.ReviewCursor.performed += ReviewCursor_performed;
-        uiInputAction.ReviewCursor.canceled += ReviewCursor_canceled;
-        //ToggleCursor(false);
-    }
-
-    private void ReviewCursor_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        //ToggleCursor(false);
-    }
-    private void ReviewCursor_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        //ToggleCursor(true);
-    }
-
-    public void ToggleCursor(bool val)
-    {
-        Cursor.visible = val;
-        if (!val)
+        get
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            return;
+            return playerInputSystem.CharacterDisplay;
         }
-        Cursor.lockState = CursorLockMode.None;
     }
 
-    private void OnDestroy()
+    // Start is called before the first frame update
+    private PlayerController()
     {
-        uiInputAction.ReviewCursor.performed -= ReviewCursor_performed;
-        uiInputAction.ReviewCursor.canceled -= ReviewCursor_canceled;
+        CreateInputSystem();
+        OnEnable();
     }
+
     private void OnEnable()
     {
         playerInputSystem.Enable();
@@ -87,9 +66,19 @@ public class PlayerController : MonoBehaviour
         uiInputAction.Disable();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CreateInputSystem()
     {
-        
+        playerInputSystem = new PlayerInputSystem();
+    }
+
+    private static PlayerController GetInstance()
+    {
+        if (playerControllerInstance == null)
+        {
+            playerControllerInstance = new PlayerController();
+        }
+
+        return playerControllerInstance;
     }
 }
+

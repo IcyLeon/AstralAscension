@@ -16,4 +16,4 @@ MonoBehaviour:
   <CameraRotationSpeed>k__BackingField: 10
   <CameraRotationSmoothingSpeed>k__BackingField: 10
   <CameraZoomSmoothingSpeed>k__BackingField: 12
-  <CameraZoomSpeed>k__BackingField: 1
+  <CameraZoomSpeed>k__BackingField: 5

@@ -20,10 +20,10 @@ MonoBehaviour:
     <SwitchClip>k__BackingField: {fileID: 8300000, guid: 2b529ff640693b549a21cce2b88b0b02,
       type: 3}
   <GroundedData>k__BackingField:
-    <BaseSpeed>k__BackingField: 4.5
+    <BaseSpeed>k__BackingField: 4.8
     <BaseRotationTime>k__BackingField: 0.14
     <PlayerDashData>k__BackingField:
-      <BaseDashSpeed>k__BackingField: 10
+      <BaseDashSpeed>k__BackingField: 12
       <RotationTime>k__BackingField: 0.02
       <ConsecutiveDashesLimitAmount>k__BackingField: 2
       <TimeToBeConsideredConsecutive>k__BackingField: 1
@@ -34,7 +34,7 @@ MonoBehaviour:
     <PlayerRunData>k__BackingField:
       <SpeedModifier>k__BackingField: 1
     <PlayerSprintData>k__BackingField:
-      <SpeedModifier>k__BackingField: 1.5
+      <SpeedModifier>k__BackingField: 1.55
     <PlayerAimData>k__BackingField:
       <SpeedModifier>k__BackingField: 0.65
     <PlayerAttackData>k__BackingField:

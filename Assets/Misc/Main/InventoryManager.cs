@@ -9,7 +9,6 @@ using UnityEngine.TextCore.Text;
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance { get; private set; }
-
     public Inventory inventory { get; private set; }
 
     public delegate void OnInventoryChanged(Inventory inventory);

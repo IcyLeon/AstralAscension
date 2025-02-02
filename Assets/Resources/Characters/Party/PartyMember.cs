@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PartyMember
 {
-    public CharactersSO charactersSO { get; }
+    public CharacterDataStat characterDataStat { get; }
 
-    public PartyMember(CharactersSO CharactersSO)
+    public PartyMember(CharacterDataStat CharacterDataStat)
     {
-        charactersSO = CharactersSO;
+        characterDataStat = CharacterDataStat;
     }
 }

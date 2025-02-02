@@ -26,4 +26,9 @@ public class LockItemButton : LockItem
         UpdateVisual();
     }
 
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        lockButton.onClick.RemoveAllListeners();
+    }
 }

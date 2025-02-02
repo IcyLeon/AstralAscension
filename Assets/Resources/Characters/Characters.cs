@@ -45,16 +45,43 @@ public abstract class Characters : MonoBehaviour
     }
 
     // Update is called once per frame
-    protected virtual void Update()
+    private void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
+        OnUpdate();
     }
 
-    protected virtual void FixedUpdate()
+    protected virtual void OnUpdate()
     {
+
     }
 
-    protected virtual void LateUpdate()
+    protected virtual void OnFixedUpdate()
     {
+
+    }
+
+    protected virtual void OnLateUpdate()
+    {
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (Time.timeScale == 0)
+            return;
+
+        OnFixedUpdate();
+    }
+
+    private void LateUpdate()
+    {
+        if (Time.timeScale == 0)
+            return;
+
+        OnLateUpdate();
     }
 
     public static void StartAnimation(Animator animator, string HashParameter)

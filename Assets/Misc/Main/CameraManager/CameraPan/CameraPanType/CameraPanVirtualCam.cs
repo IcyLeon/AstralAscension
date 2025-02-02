@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(CinemachineVirtualCamera))]
 [DisallowMultipleComponent]
@@ -15,12 +16,14 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
 
     public CinemachineVirtualCamera VirtualCamera { get; private set; }
     public Cinemachine3rdPersonFollow Cinemachine3rdPersonFollow { get; private set; }
+    private CinemachineCameraOffset cinemachineCameraOffset;
 
     protected virtual void Awake()
     {
         Init();
         VirtualCamera = GetComponent<CinemachineVirtualCamera>();
         Cinemachine3rdPersonFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        cinemachineCameraOffset = VirtualCamera.AddComponent<CinemachineCameraOffset>();
         originalRotation = Cinemachine3rdPersonFollow.FollowTargetRotation;
         ResetRotation();
     }
@@ -39,13 +42,15 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
         cameraRotationSmoothingSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraRotationSmoothingSpeed;
     }
 
-    protected virtual void OnEnable()
+    public virtual void OnEnter()
     {
         ResetRotation();
+        gameObject.SetActive(true);
     }
 
-    protected virtual void OnDisable()
+    public virtual void OnExit()
     {
+        gameObject.SetActive(false);
     }
 
     public virtual void OnDrag(Vector2 delta)

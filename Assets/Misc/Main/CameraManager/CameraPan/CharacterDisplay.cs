@@ -8,8 +8,8 @@ public class CharacterDisplay : MonoBehaviour
 {
     private CharacterStorage characterStorage;
     private CharacterSelection characterSelection;
-    private Dictionary<CharactersSO, GameObject> characterObjectsDic;
-    public CharactersSO currentCharacterSelected { get; private set; }
+    private Dictionary<CharacterDataStat, GameObject> characterObjectsDic;
+    public CharacterDataStat currentCharacterSelected { get; private set; }
     public event Action OnCharacterActive;
 
     // Start is called before the first frame update
@@ -25,20 +25,21 @@ public class CharacterDisplay : MonoBehaviour
 
     private void CharacterSelection_OnIconSelected()
     {
-        CharactersSO CharactersSO = characterSelection.currentCharacterSelected;
+        CharacterDataStat CharacterDataStat = characterSelection.currentCharacterSelected;
 
-        if (CharactersSO == null)
+        if (CharacterDataStat == null)
             return;
 
-        SwitchCharacter(CharactersSO);
+        SwitchCharacter(CharacterDataStat);
     }
 
-    private void CharacterStorage_OnCharacterAdd(CharactersSO c)
+    private void CharacterStorage_OnCharacterAdd(CharactersSO CharactersSO)
     {
+        CharacterDataStat c = characterStorage.GetCharacterDataStat(CharactersSO);
         characterObjectsDic.Add(c, null);
     }
 
-    private void SwitchCharacter(CharactersSO CharactersSO)
+    private void SwitchCharacter(CharacterDataStat CharacterDataStat)
     {
         //if (CharactersSO == null)
         //    return;
@@ -54,14 +55,13 @@ public class CharacterDisplay : MonoBehaviour
         //gameObject = GetGameObject(currentCharacterSelected);
         //gameObject.SetActive(true);
         //OnCharacterSelected?.Invoke();
-
-        currentCharacterSelected = CharactersSO;
+        currentCharacterSelected = CharacterDataStat;
         OnCharacterActive?.Invoke();
     }
 
-    private GameObject GetGameObject(CharactersSO CharactersSO)
+    private GameObject GetGameObject(CharacterDataStat CharacterDataStat)
     {
-        if (CharactersSO == null || !characterObjectsDic.TryGetValue(CharactersSO, out GameObject obj))
+        if (CharacterDataStat == null || !characterObjectsDic.TryGetValue(CharacterDataStat, out GameObject obj))
             return null;
 
         return obj;
@@ -104,8 +104,29 @@ public class CharacterDisplay : MonoBehaviour
         if (characterStorage != null)
         {
             characterStorage.OnCharacterAdd += CharacterStorage_OnCharacterAdd;
+            InitCharacterObjects();
         }
     }
+
+
+    private void InitCharacterObjects()
+    {
+        if (characterStorage == null)
+            return;
+
+        foreach(var characterObject in characterObjectsDic)
+        {
+            Destroy(characterObject.Value.gameObject);
+        }
+
+        characterObjectsDic.Clear();
+
+        foreach (var characterStat in characterStorage.characterStatList)
+        {
+            CharacterStorage_OnCharacterAdd(characterStat.Key);
+        }
+    }
+
 
     private void OnDestroy()
     {

@@ -54,5 +54,6 @@ public class MapIconActionButton : MonoBehaviour
     private void OnDestroy()
     {
         MapPopupPanel.OnMapIconChanged -= CurrentSelectMapIcon_OnMapIconChanged;
+        ActionButton.onClick.RemoveAllListeners();
     }
 }

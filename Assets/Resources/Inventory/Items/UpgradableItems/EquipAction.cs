@@ -12,6 +12,7 @@ public class EquipAction : MonoBehaviour
     private CharacterScreenPanel characterScreenPanel;
     private CharactersSO charactersSO;
     private Button EquipBtn;
+    private InventoryManager inventoryManager;
 
     private void Awake()
     {
@@ -20,16 +21,28 @@ public class EquipAction : MonoBehaviour
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
 
         EquipBtn = GetComponent<Button>();
-
-        if (EquipBtn == null)
-            return;
-
         EquipBtn.onClick.AddListener(OnEquip);
+        UpdateIconSelected();
+    }
+
+    private void Start()
+    {
+        inventoryManager = InventoryManager.instance;
     }
 
     private void OwnerCharacterUIManager_OnIconSelected()
     {
-        charactersSO = characterScreenPanel.currentCharacterSelected;
+        UpdateIconSelected();
+    }
+
+    private void UpdateIconSelected()
+    {
+        CharacterDataStat characterDataStat = characterScreenPanel.currentCharacterSelected;
+
+        if (characterDataStat == null)
+            return;
+
+        charactersSO = characterDataStat.damageableEntitySO;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
@@ -45,6 +58,8 @@ public class EquipAction : MonoBehaviour
         UnsubscribeEvents();
         characterScreenPanel.OnIconSelected -= OwnerCharacterUIManager_OnIconSelected;
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
+
+        EquipBtn.onClick.RemoveAllListeners();
     }
 
 
@@ -101,10 +116,10 @@ public class EquipAction : MonoBehaviour
 
         if (upgradableItems.equipByCharacter == null || upgradableItems.equipByCharacter != charactersSO)
         {
-            InventoryManager.instance.EquipItem(charactersSO, upgradableItems);
+            inventoryManager.EquipItem(charactersSO, upgradableItems);
             return;
         }
 
-        InventoryManager.instance.UnequipItem(charactersSO, upgradableItems);
+        inventoryManager.UnequipItem(charactersSO, upgradableItems);
     }
 }

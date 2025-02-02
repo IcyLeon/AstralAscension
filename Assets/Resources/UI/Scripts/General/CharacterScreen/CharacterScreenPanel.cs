@@ -7,14 +7,13 @@ using UnityEngine.UI;
 public class CharacterScreenPanel : MonoBehaviour
 {
     private OwnedCharactersIconManager OwnedCharactersIconManager;
-    public CharactersSO currentCharacterSelected { get; private set; }
+    public CharacterDataStat currentCharacterSelected { get; private set; }
     public event Action OnIconSelected;
 
     private void Awake()
     {
         OwnedCharactersIconManager = GetComponentInChildren<OwnedCharactersIconManager>();
         OwnedCharactersIconManager.OnIconSelected += OwnedCharactersIconManager_OnIconSelected;
-        UpdateVisual();
     }
 
     private void InitCharacterDisplayManager()
@@ -34,7 +33,7 @@ public class CharacterScreenPanel : MonoBehaviour
 
     private void UpdateVisual()
     {
-        currentCharacterSelected = OwnedCharactersIconManager.selectedIcon;
+        currentCharacterSelected = OwnedCharactersIconManager.selectedIcon.characterDataStat;
         OnIconSelected?.Invoke();
     }
 

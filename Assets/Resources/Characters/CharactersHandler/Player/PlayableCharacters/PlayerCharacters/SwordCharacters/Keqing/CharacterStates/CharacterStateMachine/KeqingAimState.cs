@@ -57,7 +57,7 @@ public class KeqingAimState : StellarRestorationState
 
     private float GetOffSet(Vector3 EmitterPos)
     {
-        return (playableCharacterStateMachine.player.CameraManager.CameraMain.transform.position - EmitterPos).magnitude;
+        return (playableCharacterStateMachine.player.PlayerCameraManager.CameraMain.transform.position - EmitterPos).magnitude;
     }
 
     public override void Exit()

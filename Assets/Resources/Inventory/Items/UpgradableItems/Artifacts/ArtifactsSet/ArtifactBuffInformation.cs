@@ -6,10 +6,11 @@ public class ArtifactBuffInformation
 {
     public ArtifactBuffPieceStat buffPieceInfo { get; private set; }
     public ArtifactBuffInformation nextNode { get; private set; }
-    public ArtifactBuffInformation prevNode { get; private set; }
-    public ArtifactBuffInformation(ArtifactBuffPieceStat ArtifactBuffPieceStat)
+    public ArtifactBuffInformation parentNode { get; private set; }
+    public ArtifactBuffInformation(ArtifactBuffPieceStat ArtifactBuffPieceStat, ArtifactBuffInformation Parent)
     {
         buffPieceInfo = ArtifactBuffPieceStat;
+        parentNode = Parent;
     }
 
     public void SetNextNode(ArtifactBuffInformation NextNode)
@@ -17,8 +18,19 @@ public class ArtifactBuffInformation
         nextNode = NextNode;
     }
 
-    public void SetPrevNode(ArtifactBuffInformation PrevNode)
+    public void AddBuffInformation(ArtifactBuffPieceStat ArtifactBuffPieceStat)
     {
-        prevNode = PrevNode;
+        if (nextNode != null)
+        {
+            nextNode.AddBuffInformation(ArtifactBuffPieceStat);
+            return;
+        }
+
+        nextNode = new(ArtifactBuffPieceStat, this);
+    }
+
+    public bool IsEnough(int totalAmt)
+    {
+        return totalAmt >= buffPieceInfo.NoOfPiece;
     }
 }

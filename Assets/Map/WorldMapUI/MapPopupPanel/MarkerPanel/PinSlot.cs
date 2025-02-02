@@ -30,4 +30,9 @@ public class PinSlot : MonoBehaviour
     {
         PinSlotClick?.Invoke(this, EventArgs.Empty);
     }
+
+    private void OnDestroy()
+    {
+        PinButton.onClick.RemoveAllListeners();
+    }
 }

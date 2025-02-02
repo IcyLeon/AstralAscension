@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameplayCamera : MonoBehaviour
 {
     public CinemachineVirtualCamera VirtualCamera { get; private set; }
-    protected CameraManager cameraManager;
+    protected PlayerCameraManager playerCameraManager;
 
     private void Awake()
     {
@@ -20,10 +20,10 @@ public class GameplayCamera : MonoBehaviour
 
     private void Init()
     {
-        if (cameraManager != null)
+        if (playerCameraManager != null)
             return;
 
-        cameraManager = GetComponentInParent<CameraManager>();
+        playerCameraManager = GetComponentInParent<PlayerCameraManager>();
         VirtualCamera = GetComponent<CinemachineVirtualCamera>();
     }
 

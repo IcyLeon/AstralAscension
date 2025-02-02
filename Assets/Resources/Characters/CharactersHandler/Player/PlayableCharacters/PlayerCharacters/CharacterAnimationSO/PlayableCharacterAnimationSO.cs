@@ -36,6 +36,7 @@ public class PlayableCharacterAnimationSO : ScriptableObject
         [field: SerializeField] public string hardLandParameter { get; private set; }
         [field: SerializeField] public string plungeLandingParameter { get; private set; }
         [field: SerializeField] public string weakStopParameter { get; private set; }
+        [field: SerializeField] public string dashStopParameter { get; private set; }
         [field: SerializeField] public string strongStopParameter { get; private set; }
     }
 

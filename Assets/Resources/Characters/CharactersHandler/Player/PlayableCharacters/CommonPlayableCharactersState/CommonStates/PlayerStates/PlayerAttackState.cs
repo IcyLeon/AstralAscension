@@ -23,7 +23,7 @@ public class PlayerAttackState : PlayerGroundedState
         if (playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
             return;
 
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (!IsMovementKeyPressed())
         {
             playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
             return;

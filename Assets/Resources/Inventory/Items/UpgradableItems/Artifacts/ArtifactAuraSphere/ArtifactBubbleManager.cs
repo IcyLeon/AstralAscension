@@ -1,19 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class ArtifactSphereManager : MonoBehaviour
+public class ArtifactBubbleManager : MonoBehaviour
 {
     [Range(0.25f, 1f)]
     [SerializeField] private float distanceFromCharacter = 0.5f;
-    private ArtifactSphere[] artifactSphereList;
     public ArtifactInventory currentArtifactInventory { get; private set; }
     public event Action OnArtifactInventoryChanged;
     public delegate void OnArtifactEquippedEvent(Artifact Artifact);
     public event OnArtifactEquippedEvent OnArtifactEquip;
     public event OnArtifactEquippedEvent OnArtifactUnEquip;
+    public event Action<ArtifactBubble> OnArtifactBubbleSelected;
+
+    private Dictionary<ItemTypeSO, ArtifactBubble> artifactBubbleDic;
 
     private void Awake()
     {
@@ -48,20 +51,21 @@ public class ArtifactSphereManager : MonoBehaviour
         currentArtifactInventory.OnArtifactEquip += ArtifactInventory_OnArtifactEquip;
         currentArtifactInventory.OnArtifactUnEquip += ArtifactInventory_OnArtifactUnEquip;
         OnArtifactInventoryChanged?.Invoke();
-
         InitEquipAllArtifacts();
     }
 
     private void InitEquipAllArtifacts()
     {
+        if (currentArtifactInventory == null)
+            return;
+
         Dictionary<ArtifactFamilySO, ArtifactFamily> artifactList = currentArtifactInventory.artifactList;
 
-        foreach (var artifactFamilyKeys in artifactList)
+        foreach (var artifactFamily in artifactList.Values)
         {
-            ArtifactFamily ArtifactFamily = artifactFamilyKeys.Value;
-            for (int i = 0; i < ArtifactFamily._artifacts.Count; i++)
+            for (int i = 0; i < artifactFamily._artifacts.Count; i++)
             {
-                Artifact artifact = ArtifactFamily._artifacts[i];
+                Artifact artifact = artifactFamily._artifacts[i];
                 ArtifactInventory_OnArtifactEquip(artifact);
             }
         }
@@ -80,36 +84,72 @@ public class ArtifactSphereManager : MonoBehaviour
 
     private void InitSpheres()
     {
-        artifactSphereList = GetComponentsInChildren<ArtifactSphere>(true);
+        if (artifactBubbleDic != null)
+            return;
 
-        for (int i = 0; i < artifactSphereList.Length; i++)
+        artifactBubbleDic = new();
+
+        ArtifactBubble[] artifactBubbleList = GetComponentsInChildren<ArtifactBubble>(true);
+
+        for (int i = 0; i < artifactBubbleList.Length; i++)
         {
-            Vector3 vec = GetVectorXZ(GetAngle(i));
-            artifactSphereList[i].transform.localPosition = vec * distanceFromCharacter;
+            ArtifactBubble artifactBubble = artifactBubbleList[i];
+
+            if (Contains(artifactBubble.ArtifactTypeSO))
+                continue;
+
+            artifactBubbleDic.Add(artifactBubble.ArtifactTypeSO, artifactBubble);
         }
 
         SubscribeEvents();
     }
 
+    private bool Contains(ItemTypeSO ArtifactTypeSO)
+    {
+        return artifactBubbleDic.ContainsKey(ArtifactTypeSO);
+    }
+
     private void SubscribeEvents()
     {
-        for (int i = 0; i < artifactSphereList.Length; i++)
+        for (int i = 0; i < artifactBubbleDic.Values.Count; i++)
         {
-            artifactSphereList[i].OnArtifactSphereSelect += ArtifactSphereManager_OnArtifactSphereSelect;
+            ArtifactBubble artifactBubble = artifactBubbleDic.ElementAt(i).Value;
+            Vector3 vec = GetVectorXZ(GetAngle(i));
+            artifactBubble.transform.localPosition = vec * distanceFromCharacter;
+            artifactBubble.OnArtifactSphereSelect += ArtifactSphereManager_OnArtifactSphereSelect;
         }
     }
 
     private void UnsubscribeEvents()
     {
-        for (int i = 0; i < artifactSphereList.Length; i++)
+        OnArtifactInventoryUnsubscribeEvents();
+
+        foreach (var artifactBubble in artifactBubbleDic.Values)
         {
-            artifactSphereList[i].OnArtifactSphereSelect -= ArtifactSphereManager_OnArtifactSphereSelect;
+            artifactBubble.OnArtifactSphereSelect -= ArtifactSphereManager_OnArtifactSphereSelect;
         }
+
+        artifactBubbleDic.Clear();
     }
 
-    private void ArtifactSphereManager_OnArtifactSphereSelect(ArtifactSphere obj)
+    private void ArtifactSphereManager_OnArtifactSphereSelect(ArtifactBubble ArtifactBubble)
     {
-        Debug.Log(obj);
+        SelectArtifactBubble(ArtifactBubble);
+    }
+
+    public void SelectArtifactBubble(ItemTypeSO ItemTypeSO)
+    {
+        InitSpheres();
+
+        if (!Contains(ItemTypeSO))
+            return;
+
+        SelectArtifactBubble(artifactBubbleDic[ItemTypeSO]);
+    }
+
+    private void SelectArtifactBubble(ArtifactBubble ArtifactBubble)
+    {
+        OnArtifactBubbleSelected?.Invoke(ArtifactBubble);
     }
 
     private Vector3 GetVectorXZ(float angle)
@@ -118,13 +158,12 @@ public class ArtifactSphereManager : MonoBehaviour
     }
     private float GetAngle(int noOfSlice)
     {
-        float angle = 360f / artifactSphereList.Length;
+        float angle = 360f / artifactBubbleDic.Count;
         return angle * noOfSlice;
     }
 
     private void OnDestroy()
     {
-        OnArtifactInventoryUnsubscribeEvents();
         UnsubscribeEvents();
     }
 }

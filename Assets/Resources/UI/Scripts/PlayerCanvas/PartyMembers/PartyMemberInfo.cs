@@ -14,28 +14,26 @@ public class PartyMemberInfo : MonoBehaviour
     public void SetCharacterDataStat(CharacterDataStat CharacterDataStat)
     {
         characterDataStat = CharacterDataStat;
-        if (characterDataStat != null)
+
+        if (characterDataStat == null)
         {
-            PlayableCharacterDataStat playableCharacterDataStat = characterDataStat as PlayableCharacterDataStat;
-            if (playableCharacterDataStat == null)
-                return;
-
-            NameTxt.text = characterDataStat.damageableEntitySO.GetName();
-            PartyIconImage.sprite = playableCharacterDataStat.playerCharactersSO.PartyCharacterIcon;
-
-            Healthbar_Characters.SetCharacterDataStat(characterDataStat);
+            return;
         }
+
+        NameTxt.text = characterDataStat.damageableEntitySO.GetName();
+        PartyIconImage.sprite = GetCharacterIcon();
+        Healthbar_Characters.SetCharacterDataStat(characterDataStat);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private Sprite GetCharacterIcon()
     {
-        
-    }
+        PlayableCharacterDataStat playableCharacterDataStat = characterDataStat as PlayableCharacterDataStat;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (playableCharacterDataStat != null)
+        {
+            return playableCharacterDataStat.playerCharactersSO.PartyCharacterIcon;
+        }
+
+        return characterDataStat.damageableEntitySO.CharacterIcon;
     }
 }

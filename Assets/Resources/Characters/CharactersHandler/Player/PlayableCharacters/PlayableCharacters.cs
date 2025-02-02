@@ -64,9 +64,9 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
     }
 
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
+        base.OnUpdate();
     }
 
     public override Vector3 GetCenterBound()

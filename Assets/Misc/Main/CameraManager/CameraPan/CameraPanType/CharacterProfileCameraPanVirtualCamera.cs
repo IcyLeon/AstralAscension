@@ -5,22 +5,6 @@ using UnityEngine;
 
 public class CharacterProfileCameraPanVirtualCamera : CameraPanVirtualCam
 {
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            cameraPanManager.ChangeCamera(cameraPanManager.freeLookCameraPanVirtualCamera);
-            return;
-        }
-    }
-
     public override void OnScroll(float delta)
     {
     }

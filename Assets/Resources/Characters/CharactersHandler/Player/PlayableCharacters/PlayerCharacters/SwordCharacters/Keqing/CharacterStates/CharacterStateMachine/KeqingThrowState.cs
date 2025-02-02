@@ -37,7 +37,7 @@ public class KeqingThrowState : StellarRestorationState
     {
         base.OnAnimationTransition();
 
-        playableCharacterStateMachine.player.CameraManager.ToggleAimCamera(false, 0.08f);
+        playableCharacterStateMachine.player.PlayerCameraManager.ToggleAimCamera(false, 0.08f);
 
         playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
     }

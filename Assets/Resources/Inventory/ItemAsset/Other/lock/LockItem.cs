@@ -65,7 +65,7 @@ public abstract class LockItem : MonoBehaviour
         BackgroundImage.color = lockInfo.LockBackgroundColor;
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         UnsubscribeEvents();
     }

@@ -31,4 +31,9 @@ public class ItemQualitySelection : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    private void OnDestroy()
+    {
+        RemoveBtn.onClick.RemoveAllListeners();
+    }
 }

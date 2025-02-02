@@ -51,11 +51,6 @@ public class PartySetup
         });
     }
 
-    public void AddMember(CharactersSO charactersSO)
-    {
-        AddMember(charactersSO, GetEmptySlot());
-    }
-
     public void SelectPartyMemberSlot(int PartyLocation)
     {
         selectedPartyMemberSlot = GetPartySlot(PartyLocation);
@@ -129,9 +124,14 @@ public class PartySetup
         partyMemberSlots[PartyLocation].RemoveMember();
     }
 
-    public void AddMember(CharactersSO charactersSO, int PartyLocation)
+    public void AddMember(CharacterDataStat CharacterDataStat)
     {
-        int existCharacterInSlot = Find(charactersSO);
+        AddMember(CharacterDataStat, GetEmptySlot());
+    }
+
+    public void AddMember(CharacterDataStat CharacterDataStat, int PartyLocation)
+    {
+        int existCharacterInSlot = Find(CharacterDataStat.damageableEntitySO);
 
         if (existCharacterInSlot != -1)
         {
@@ -139,7 +139,7 @@ public class PartySetup
         }
 
         PartySlot partySlot = GetPartySlot(PartyLocation);
-        partySlot.AddMember(charactersSO);
+        partySlot.AddMember(CharacterDataStat);
     }
 
     private int Find(CharactersSO charactersSO)
@@ -152,7 +152,7 @@ public class PartySetup
         for(int i = 0; i < partyMemberSlots.Length; i++)
         {
             PartyMember PartyMember = GetPartySlot(i).partyMember;
-            if (PartyMember != null && PartyMember.charactersSO == charactersSO)
+            if (PartyMember != null && PartyMember.characterDataStat.damageableEntitySO == charactersSO)
             {
                 slot = i;
                 return slot;

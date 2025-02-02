@@ -10,7 +10,7 @@ public class OwnedCharactersIconManager : MonoBehaviour
     [SerializeField] private Transform ParentTransform;
     private Dictionary<CharactersSO, OwnedCharacterIconButton> characterSOIcons;
     public event Action OnIconSelected;
-    public CharactersSO selectedIcon { get; private set; }
+    public OwnedCharacterIconButton selectedIcon { get; private set; }
     private CharacterStorage characterStorage;
 
     private void Awake()
@@ -80,17 +80,17 @@ public class OwnedCharactersIconManager : MonoBehaviour
     private void CharacterStorage_OnCharacterAdd(CharactersSO CharactersSO)
     {
         OwnedCharacterIconButton OwnedCharacterIconButton = Instantiate(CharacterIconPrefab, ParentTransform).GetComponent<OwnedCharacterIconButton>();
-        OwnedCharacterIconButton.SetPlayableCharacterSO(CharactersSO);
+        OwnedCharacterIconButton.SetCharacterDataStat(characterStorage.GetCharacterDataStat(CharactersSO));
         OwnedCharacterIconButton.OnCharacterIconSelected += OwnedCharacterIconButton_OnCharacterIconSelected;
         characterSOIcons.Add(CharactersSO, OwnedCharacterIconButton);
     }
 
-    private void OwnedCharacterIconButton_OnCharacterIconSelected(CharactersSO CharactersSO)
+    private void OwnedCharacterIconButton_OnCharacterIconSelected(OwnedCharacterIconButton OwnedCharacterIconButton)
     {
-        if (selectedIcon == CharactersSO)
+        if (selectedIcon == OwnedCharacterIconButton)
             return;
 
-        selectedIcon = CharactersSO;
+        selectedIcon = OwnedCharacterIconButton;
         OnIconSelected?.Invoke();
     }
 

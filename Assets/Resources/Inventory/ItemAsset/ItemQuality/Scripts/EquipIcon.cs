@@ -14,6 +14,7 @@ public class EquipIcon : MonoBehaviour
         upgradableItem = IItem as UpgradableItems;
         SubscribeEvents();
     }
+
     private void SubscribeEvents()
     {
         if (upgradableItem == null)

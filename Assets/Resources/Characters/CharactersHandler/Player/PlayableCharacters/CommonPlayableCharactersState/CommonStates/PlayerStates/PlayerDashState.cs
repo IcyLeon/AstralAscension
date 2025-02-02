@@ -34,7 +34,7 @@ public class PlayerDashState : PlayerGroundedState
         playerStateMachine.playerData.SpeedModifier = 0f;
         playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.groundedData.PlayerDashData.RotationTime;
         playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
-        canRotate = playerStateMachine.playerData.movementInput != Vector2.zero;
+        canRotate = IsMovementKeyPressed();
         Dash();
         StartTime = Time.time;
     }
@@ -51,6 +51,8 @@ public class PlayerDashState : PlayerGroundedState
         {
             playerStateMachine.SmoothRotateToTargetRotation();
         }
+
+        //playerStateMachine.SmoothRotateToTargetRotation();
     }
 
     private void UpdateConsecutiveDash()
@@ -84,7 +86,15 @@ public class PlayerDashState : PlayerGroundedState
         UpdateConsecutiveDash();
     }
 
-    protected override void Movement_performed(Vector2 movementInput)
+    //public override void Update()
+    //{
+    //    base.Update();
+    //    RotateToMovementInputDirection();
+    //    Vector3 dir = playerStateMachine.player.transform.forward;
+    //    playerStateMachine.player.Rb.velocity = playerStateMachine.player.Rb.velocity.magnitude * dir;
+    //}
+
+    protected override void OnMovementKeyPerformed()
     {
         playerStateMachine.playerData.canSprint = true;
     }
@@ -93,9 +103,9 @@ public class PlayerDashState : PlayerGroundedState
     {
         base.OnAnimationTransition();
 
-        if (playerStateMachine.playerData.movementInput == Vector2.zero)
+        if (!IsMovementKeyPressed())
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerStrongStopState);
+            playerStateMachine.ChangeState(playerStateMachine.playerDashStopState);
             return;
         }
 
