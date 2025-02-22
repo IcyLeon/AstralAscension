@@ -34,6 +34,6 @@ public class PartyMemberInfo : MonoBehaviour
             return playableCharacterDataStat.playerCharactersSO.PartyCharacterIcon;
         }
 
-        return characterDataStat.damageableEntitySO.CharacterIcon;
+        return characterDataStat.damageableEntitySO.GetIcon();
     }
 }

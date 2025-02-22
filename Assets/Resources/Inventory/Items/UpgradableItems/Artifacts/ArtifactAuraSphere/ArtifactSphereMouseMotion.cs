@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ArtifactSphereMouseMotion : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
     private ArtifactsRingRotation artifactsRingRotation;
     private Vector2 deltaMouseDirection;
     private Vector2 previousMousePos;
+    private bool validPosition;
 
     private void Awake()
     {
@@ -22,13 +24,21 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
 
     private void ArtifactSpin_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        StopRotation();
+        validPosition = IsValid();
+
+        if (!validPosition)
+            return;
+
         previousMousePos = obj.ReadValue<Vector2>();
+        DisableRotation();
     }
 
     private void ArtifactSpin_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        StartRotation();
+        if (!validPosition)
+            return;
+
+        EnableRotation();
         artifactsRingRotation.AddRotateTorqueForce(deltaMouseDirection * Time.unscaledDeltaTime);
     }
 
@@ -39,28 +49,40 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
 
     private void ArtifactSpin_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (!validPosition)
+            return;
+
         Vector2 mousePos = obj.ReadValue<Vector2>();
-        deltaMouseDirection = mousePos - previousMousePos;
-        Vector2 delta = deltaMouseDirection;
-        delta.x *= -1;
-        artifactsRingRotation.Rotate(delta.x * Time.unscaledDeltaTime * 2f);
+        Vector2 delta = mousePos - previousMousePos;
+
+        if (delta.magnitude <= 0)
+            return;
+
+        deltaMouseDirection = delta;
+
+        artifactsRingRotation.Rotate(-deltaMouseDirection.x * Time.unscaledDeltaTime * 1.5f);
         previousMousePos = mousePos;
     }
 
-    private void StopRotation()
+    private void DisableRotation()
     {
         if (artifactsRingRotation == null)
             return;
 
-        artifactsRingRotation.enabled = false;
+        artifactsRingRotation.DisableRotation();
     }
 
-    private void StartRotation()
+    private void EnableRotation()
     {
         if (artifactsRingRotation == null)
             return;
 
-        artifactsRingRotation.enabled = true;
+        artifactsRingRotation.EnableRotation();
+    }
+
+    private bool IsValid()
+    {
+        return !EventSystem.current.IsPointerOverGameObject();
     }
 
     private void OnSubscribeEvents()

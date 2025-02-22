@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,30 +6,31 @@ using UnityEngine;
 public class ArtifactInformation : MonoBehaviour
 {
     private ArtifactPanelContent artifactPanelContent;
-    //public ItemTypeTabGroup itemTypeTabGroup { get; private set; }
+    [SerializeField] private GameObject MainPanel;
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
+    public event Action OnClose;
 
     private void Awake()
     {
         artifactPanelContent = GetComponentInChildren<ArtifactPanelContent>(true);
     }
-
-    //private void Start()
-    //{
-    //    itemTypeTabGroup = artifactPanelContent.ItemTypeTabGroup;
-    //}
-
     public ItemTypeTabGroup itemTypeTabGroup
     {
         get
         {
-            return artifactPanelContent.ItemTypeTabGroup;
+            return artifactPanelContent.itemTypeTabGroup;
         }
+    }
+
+    public void ClosePanel()
+    {
+        OnClose?.Invoke();
+        MainPanel.SetActive(false);
     }
 
     public void OpenPanel()
     {
-        gameObject.SetActive(true); // temp
+        MainPanel.SetActive(true); // temp
     }
 
     private void OnEnable()

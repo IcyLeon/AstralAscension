@@ -35,7 +35,7 @@ public class ItemQualityItem : ItemQualityIEntity
         switch (item)
         {
             case UpgradableItems upgradableItems:
-                return "+" + upgradableItems.GetLevel().ToString();
+                return "+" + upgradableItems.level;
             default:
                 return item.amount.ToString();
         }

@@ -1,65 +1,106 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ArtifactPanelController
 {
-    private ArtifactAction artifactAction;
+    public ArtifactAction artifactAction { get; }
     private ArtifactInformation artifactInformationUI;
-    private ItemTypeTabGroup itemTypeTabGroup;
+
+    public ArtifactActionBaseController artifactBubbleSelectionController;
+    public ArtifactActionBaseController artifactBubbleTabSelectedController;
+    private List<ArtifactActionBaseController> artifactActionBaseControllerlist;
+    private ArtifactActionBaseController currentController;
+
+    public event Action OnPanelClose;
+
     public ArtifactPanelController(ArtifactAction ArtifactAction, CharacterScreenPanel CharacterScreenPanel)
     {
+        artifactActionBaseControllerlist = new();
         artifactAction = ArtifactAction;
         artifactInformationUI = CharacterScreenPanel.GetComponentInChildren<ArtifactInformation>(true);
-        artifactAction.OnArtifactBubbleSelected += ArtifactAction_OnArtifactBubbleSelected;
+        artifactInformationUI.OnClose += ArtifactInformationUI_OnClose;
+
+        artifactBubbleSelectionController = new ArtifactBubbleSelectionController(this);
+        artifactBubbleTabSelectedController = new ArtifactBubbleTabSelectedController(this);
     }
 
-    private void InitTabGroup()
+    public void AddState(ArtifactActionBaseController ArtifactActionBaseController)
     {
-        if (itemTypeTabGroup != null)
-            return;
-
-        itemTypeTabGroup = artifactInformationUI.itemTypeTabGroup;
-        SubscribeTabGroupEvents();
+        artifactActionBaseControllerlist.Add(ArtifactActionBaseController);
     }
 
-    private void SubscribeTabGroupEvents()
+    public ItemTypeTabGroup itemTypeTabGroup
     {
-        if (itemTypeTabGroup == null)
-            return;
-
-        itemTypeTabGroup.OnItemTypeTabOptionSelect += ItemTypeTabGroup_OnItemTypeTabOptionSelect;
+        get
+        {
+            return artifactInformationUI.itemTypeTabGroup;
+        }
     }
 
-    private void UnsubscribeTabGroupEvents()
+    private void ArtifactInformationUI_OnClose()
     {
-        if (itemTypeTabGroup == null)
-            return;
-
-        itemTypeTabGroup.OnItemTypeTabOptionSelect -= ItemTypeTabGroup_OnItemTypeTabOptionSelect;
+        OnPanelClose?.Invoke();
     }
 
-    private void ItemTypeTabGroup_OnItemTypeTabOptionSelect(ItemTypeTabOption ItemTypeTabOption)
-    {
-        artifactAction.SelectArtifactBubble(ItemTypeTabOption.ItemTypeSO);
-    }
-
-
-    private void ArtifactAction_OnArtifactBubbleSelected(ArtifactBubble ArtifactBubble)
+    public void OpenPanel()
     {
         artifactInformationUI.OpenPanel();
+    }
 
-        InitTabGroup();
+    public void ChangeController(ArtifactActionBaseController ArtifactActionBaseController)
+    {
+        if (currentController != null)
+        {
+            currentController.OnExit();
+        }
 
-        if (itemTypeTabGroup == null)
+        currentController = ArtifactActionBaseController;
+
+        if (currentController != null)
+        {
+            currentController.OnEnter();
+        }
+    }
+
+    public void ResetControllerState()
+    {
+        if (currentController == artifactBubbleSelectionController)
             return;
 
-        itemTypeTabGroup.SelectItemTypeTabOption(ArtifactBubble.ArtifactTypeSO);
+        ChangeController(artifactBubbleSelectionController);
+    }
+
+    public void DestroyControllerState()
+    {
+        ChangeController(null);
     }
 
     public void OnDestroy()
     {
-        UnsubscribeTabGroupEvents();
-        artifactAction.OnArtifactBubbleSelected -= ArtifactAction_OnArtifactBubbleSelected;
+        artifactInformationUI.OnClose -= ArtifactInformationUI_OnClose;
+        ExitCurrentController();
+        DestroyAllController();
+    }
+
+    private void ExitCurrentController()
+    {
+        if (currentController == null)
+            return;
+
+        currentController.OnExit();
+    }
+
+    private void DestroyAllController()
+    {
+        if (artifactActionBaseControllerlist == null)
+            return;
+
+        for(int i = 0; i < artifactActionBaseControllerlist.Count; i++)
+        {
+            ArtifactActionBaseController artifactActionBaseController = artifactActionBaseControllerlist[i];
+
+            artifactActionBaseController.OnDestroy();
+        }
     }
 }

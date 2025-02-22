@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84aec40edc18fbc408f229e7d6ac2d3a, type: 3}
   m_Name: Keqing
   m_EditorClassIdentifier: 
-  <CharacterName>k__BackingField: Keqing
-  <CharacterDescription>k__BackingField: 
-  <CharacterIcon>k__BackingField: {fileID: 21300000, guid: 99e7f15e899f7754fbb2a87530f1e3cd,
-    type: 3}
+  <CharacterProfileSO>k__BackingField: {fileID: 11400000, guid: adba7cac16373044fa7551ccc3f0c175,
+    type: 2}
   <CharacterTypeSO>k__BackingField: {fileID: 11400000, guid: 99b66ae9d6d450441841fc1e3f40622a,
     type: 2}
   <CharacterRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
@@ -24,7 +22,8 @@ MonoBehaviour:
     type: 3}
   <ElementSO>k__BackingField: {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab,
     type: 2}
-  <AscensionSO>k__BackingField: {fileID: 0}
+  <AscensionSO>k__BackingField: {fileID: 11400000, guid: b88e1586725badf47b9a2aa9c92e4399,
+    type: 2}
   <PlayableCharacterAnimationSO>k__BackingField: {fileID: 11400000, guid: 9127efd820acb2e449ccf6faa1959009,
     type: 2}
   <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 11400000, guid: c8acc20ec993bde45905780d7a777141,

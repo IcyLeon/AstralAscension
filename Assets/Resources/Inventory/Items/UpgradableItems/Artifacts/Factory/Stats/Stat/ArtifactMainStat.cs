@@ -20,7 +20,7 @@ public class ArtifactMainStat : ArtifactStat
 
     public override void Upgrade()
     {
-        statsValue = PreviewMainStat(artifact.GetLevel());
+        statsValue = PreviewMainStat(artifact.level);
     }
 
     protected override void InitStatsInfo()

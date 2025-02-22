@@ -7,7 +7,7 @@ public abstract class EnhancementPanel : MonoBehaviour
 {
     private UpgradeItemContent UpgradeItemContent;
     public event Action OnUpgradableItemChanged;
-    public IEXP iEXPEntity { get; private set; }
+    public UpgradableItems upgradableItem { get; private set; }
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public abstract class EnhancementPanel : MonoBehaviour
     }
     protected virtual void UpdateVisual()
     {
-        iEXPEntity = UpgradeItemContent.iEXPEntity;
+        upgradableItem = UpgradeItemContent.upgradableItem;
         OnUpgradableItemChanged?.Invoke();
     }
 

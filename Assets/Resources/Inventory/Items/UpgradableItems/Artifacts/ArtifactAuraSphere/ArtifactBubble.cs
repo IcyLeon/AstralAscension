@@ -103,7 +103,7 @@ public class ArtifactBubble : MonoBehaviour, IPointerClickHandler
         if (artifact == null)
             return;
 
-        LevelTxt.text = "+" + artifact.GetLevel();
+        LevelTxt.text = "+" + artifact.level;
     }
 
     public void OnPointerClick(PointerEventData eventData)

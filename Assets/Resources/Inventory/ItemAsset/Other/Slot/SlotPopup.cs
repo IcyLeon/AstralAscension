@@ -12,7 +12,7 @@ public class SlotPopup : MonoBehaviour
     private ItemManagerSO ItemManagerSO;
     [SerializeField] private ScrollRect ScrollRect;
     [SerializeField] private ItemCard itemCard;
-    [field: SerializeField] public SlotManager slotManager { get; private set; }
+    private SlotManager slotManager;
 
     private Dictionary<ItemFamilyTypeSO, Dictionary<IItem, ItemQualityIEntity>> itemQualityDictionary;
     private List<ItemQualityButton> sortedEntities;
@@ -26,13 +26,19 @@ public class SlotPopup : MonoBehaviour
         sortedEntities = new();
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
+    }
 
+    public void SetSlotManager(SlotManager SlotManager)
+    {
+        if (slotManager != null)
+            return;
+
+        slotManager = SlotManager;
         slotManager.OnSlotChanged += SlotManager_OnSlotChanged;
         slotManager.OnSlotSelected += SlotManager_OnSlotSelected;
         slotManager.OnSlotItemAdd += SlotManager_OnSlotItemAdd;
         slotManager.OnSlotItemRemove += SlotManager_OnSlotItemRemove;
     }
-
 
     private void SlotManager_OnSlotChanged(Slot Slot)
     {

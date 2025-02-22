@@ -2,26 +2,24 @@ using UnityEngine;
 
 public class CharactersSO : ScriptableObject, IItem
 {
-    [field: SerializeField, Header("Base Character Infomation")] public string CharacterName { get; private set; }
-    [field: SerializeField] public string CharacterDescription { get; private set; }
-    [field: SerializeField] public Sprite CharacterIcon { get; private set; }
+    [field: SerializeField] public CharacterProfileSO CharacterProfileSO { get; private set; }
     [field: SerializeField] public ItemTypeSO CharacterTypeSO { get; private set; }
     [field: SerializeField] public ItemRaritySO CharacterRaritySO { get; private set; }
     [SerializeField] private GameObject CharacterPrefab;
 
     public string GetDescription()
     {
-        return CharacterDescription;
+        return CharacterProfileSO.CharacterDescription;
     }
 
     public Sprite GetIcon()
     {
-        return CharacterIcon;
+        return CharacterProfileSO.CharacterIcon;
     }
 
     public string GetName()
     {
-        return CharacterName;
+        return CharacterProfileSO.CharacterName;
     }
     public ItemTypeSO GetTypeSO()
     {

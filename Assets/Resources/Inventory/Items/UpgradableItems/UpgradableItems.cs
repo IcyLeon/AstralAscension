@@ -3,39 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UpgradableItems : Item, IEXP
+public abstract class UpgradableItems : Item
 {
     public CharactersSO equipByCharacter { get; private set; }
     public delegate void OnItemEquippedEvent(UpgradableItems UpgradableItems);
     public event OnItemEquippedEvent OnEquip;
     public event OnItemEquippedEvent OnUnEquip;
 
-    private ItemEXPCostManagerSO expCostManagerSO;
-    private int totalEXP;
-    private int currentEXP;
+    public ItemEXPCostManagerSO expCostManagerSO { get; private set; }
+    public int currentEXP { get; private set; }
+    private int requiredEXP;
     public bool locked { get; private set; }
-    protected int maxLevel;
+    public int maxLevel { get; private set; }
 
     public event Action OnUpgradeIEXP;
-    private int level;
+    public int level { get; private set; }
 
     public UpgradableItems(IItem iItem) : base(iItem)
     {
         level = 0;
+        currentEXP = 0;
         OnCreateUpgradableItem();
-        ResetEXP();
         expCostManagerSO = InitItemEXPCostManagerSO();
         locked = false;
-        maxLevel = GetExpCostSO().GetMaxLevel(GetRaritySO());
+        maxLevel = expCostManagerSO.GetMaxLevel(GetRaritySO());
+        UpdateEXPRequirement();
     }
 
     protected virtual void OnCreateUpgradableItem()
     {
-    }
-
-    public int GetMaxLevel()
-    {
-        return maxLevel;
     }
 
     protected virtual ItemEXPCostManagerSO InitItemEXPCostManagerSO()
@@ -66,10 +62,10 @@ public abstract class UpgradableItems : Item, IEXP
 
     public bool IsMax()
     {
-        return GetLevel() >= GetMaxLevel();
+        return level >= maxLevel;
     }
 
-    public void Upgrade()
+    private void Upgrade()
     {
         if (IsMax())
             return;
@@ -83,6 +79,13 @@ public abstract class UpgradableItems : Item, IEXP
     public override void AddAmount(int amount)
     {
 
+    }
+    private void UpdateEXPRequirement()
+    {
+        if (!expCostManagerSO)
+            return;
+
+        requiredEXP = expCostManagerSO.GetRequiredEXP(level, GetRaritySO());
     }
 
     public override bool IsStackable()
@@ -98,52 +101,21 @@ public abstract class UpgradableItems : Item, IEXP
 
     protected virtual void UpgradeItemAction()
     {
-        if (!IsMax())
+        UpdateEXPRequirement();
+    }
+
+    public void IncreaseEXP(int exp)
+    {
+        if (IsMax())
             return;
 
-        ResetEXP();
-    }
-
-    public int GetLevel()
-    {
-        return level;
-    }
-
-    public int GetCurrentExp()
-    {
-        return currentEXP;
-    }
-
-    public void ResetEXP()
-    {
-        currentEXP = 0;
-    }
-
-    public ItemEXPCostManagerSO GetExpCostSO()
-    {
-        return expCostManagerSO;
-    }
-
-    public IEntity GetIEntity()
-    {
-        return this;
-    }
-
-    public int GetTotalExp()
-    {
-        return totalEXP;
-    }
-
-    public void AddExp(int exp)
-    {
         currentEXP += exp;
-        totalEXP += exp;
         currentEXP = Mathf.Max(currentEXP, 0);
-    }
 
-    public void RemoveExp(int exp)
-    {
-        currentEXP -= exp;
-        currentEXP = Mathf.Max(currentEXP, 0);
+        while (currentEXP >= requiredEXP && !IsMax())
+        {
+            currentEXP -= requiredEXP;
+            Upgrade();
+        }
     }
 }

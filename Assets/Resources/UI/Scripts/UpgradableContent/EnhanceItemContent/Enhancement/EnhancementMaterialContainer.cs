@@ -13,19 +13,23 @@ public class EnhancementMaterialContainer : MonoBehaviour
     [SerializeField] private Button AutoAddBtn;
     [SerializeField] private Button EnhanceBtn;
     [SerializeField] private SlotPopup SlotPopup;
+    private SlotManager slotManager;
     private Rarity raritySelection;
     private EnhancementManager enhancementManager;
+    private UpgradableItems upgradableItem;
+    private int TotalExpAmount;
     public event Action<int> OnUpgradeClick;
-    public event Action<int> OnSlotItemChanged;
-    private IEXP iEXPEntity;
-    private int AddExpAmount;
+    public event Action<int> OnSlotChanged;
 
     private void Awake()
     {
-        AddExpAmount = 0;
+        TotalExpAmount = 0;
 
         enhancementManager = GetComponentInParent<EnhancementManager>();
         enhancementManager.OnEnhanceItemChanged += EnhancePanel_OnEnhanceItemChanged;
+
+        slotManager = GetComponentInChildren<SlotManager>();
+        SlotPopup.SetSlotManager(slotManager);
 
         SlotPopup.OnSlotChanged += SlotManager_OnSlotChanged;
 
@@ -45,31 +49,31 @@ public class EnhancementMaterialContainer : MonoBehaviour
 
     private void SlotManager_OnSlotChanged(Slot Slot)
     {
-        AddExpAmount = GetAddTotalExp();
-        OnSlotItemChanged?.Invoke(AddExpAmount);
+        TotalExpAmount = GetIncreaseTotalExp();
+        OnSlotChanged?.Invoke(TotalExpAmount);
     }
 
-    private int GetAddTotalExp()
+    private int GetIncreaseTotalExp()
     {
-        List<IEntity> entitiesList = SlotPopup.GetAllSlotEntities();
         int total = 0;
+
+        if (upgradableItem == null)
+        {
+            return total;
+        }
+
+        List<IEntity> entitiesList = SlotPopup.GetAllSlotEntities();
 
         for (int i = 0; i < entitiesList.Count; i++)
         {
-            IEXP iExpEntity = entitiesList[i] as IEXP;
-
-            if (iExpEntity == null)
-            {
-                return 0;
-            }
-
-            int baseExp = iExpEntity.GetExpCostSO().GetBaseEnhancementEXP(iExpEntity.GetIEntity().GetRaritySO());
-            float enhancedEXP = 0.8f * GetTotalEXP(iExpEntity);
+            UpgradableItems upgradableItem = entitiesList[i] as UpgradableItems;
+            int baseExp = upgradableItem.expCostManagerSO.GetBaseEnhancementEXP(upgradableItem.GetRaritySO());
+            float enhancedEXP = 0.8f * GetTotalEXP(upgradableItem, upgradableItem.level);
             total += baseExp + Mathf.RoundToInt(enhancedEXP);
         }
 
-        int totalEnhancementRequired = GetTotalEnhancementEXP();
-        int totalEnhancementEXP = GetTotalEXP(iEXPEntity) + total;
+        int totalEnhancementRequired = GetTotalEXP(upgradableItem, upgradableItem.maxLevel) - upgradableItem.currentEXP;
+        int totalEnhancementEXP = GetTotalEXP(upgradableItem, upgradableItem.level) + total;
         if (totalEnhancementEXP >= totalEnhancementRequired)
         {
             int diff = totalEnhancementEXP - totalEnhancementRequired;
@@ -79,22 +83,12 @@ public class EnhancementMaterialContainer : MonoBehaviour
         return total;
     }
 
-    private int GetTotalEXP(IEXP IExpEntity)
+    private int GetTotalEXP(UpgradableItems UpgradableItems, int level)
     {
-        if (IExpEntity == null)
+        if (UpgradableItems == null)
             return 0;
 
-        return IExpEntity.GetCurrentExp() + IExpEntity.GetExpCostSO().GetTotalExpRequired(IExpEntity.GetLevel(), IExpEntity.GetIEntity().GetRaritySO());
-    }
-
-    private int GetTotalEnhancementEXP()
-    {
-        if (iEXPEntity == null)
-        {
-            return 0;
-        }
-
-        return iEXPEntity.GetExpCostSO().GetTotalExpRequired(iEXPEntity.GetMaxLevel(), iEXPEntity.GetIEntity().GetRaritySO());
+        return UpgradableItems.currentEXP + UpgradableItems.expCostManagerSO.GetTotalExpRequired(level, UpgradableItems.GetRaritySO());
     }
 
 
@@ -110,17 +104,17 @@ public class EnhancementMaterialContainer : MonoBehaviour
 
     private void UpdateVisual()
     {
-        iEXPEntity = enhancementManager.iEXPEntity;
+        upgradableItem = enhancementManager.upgradableItem;
 
-        if (iEXPEntity == null)
+        if (upgradableItem == null)
             return;
 
-        SlotPopup.SetIItem(iEXPEntity.GetIEntity());
+        SlotPopup.SetIItem(upgradableItem);
     }
 
     private void OnAutoAdd()
     {
-        List<IItem> allrelatedItems = SlotPopup.GetEntityList(raritySelection, SlotPopup.slotManager.GetTotalAvailableSlots());
+        List<IItem> allrelatedItems = SlotPopup.GetEntityList(raritySelection, slotManager.GetTotalAvailableSlots());
 
         for (int i = 0; i < allrelatedItems.Count; i++)
         {
@@ -141,22 +135,22 @@ public class EnhancementMaterialContainer : MonoBehaviour
 
     private void OnEnhance()
     {
-        if (SlotPopup.slotManager.GetTotalUsedUpSlots() == 0)
+        if (upgradableItem == null || slotManager.GetTotalUsedUpSlots() == 0)
         {
             return;
         }
 
-        OnUpgradeClick?.Invoke(AddExpAmount);
+        OnUpgradeClick?.Invoke(TotalExpAmount);
 
         SlotPopup.RemoveItems(SlotPopup.GetAllSlotEntities());
 
-        SlotPopup.slotManager.ResetAllSlots();
+        slotManager.ResetAllSlots();
     }
 
     // Update is called once per frame
     private void OnDestroy()
     {
-        SlotPopup.slotManager.OnSlotChanged -= SlotManager_OnSlotChanged;
+        slotManager.OnSlotChanged -= SlotManager_OnSlotChanged;
 
         if (enhancementManager != null)
         {

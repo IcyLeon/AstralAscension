@@ -8,10 +8,14 @@ public class Billboard : MonoBehaviour
     //[SerializeField] private string CameraTag = "MainCamera";
     private Camera MainCamera;
 
+    private void Awake()
+    {
+        SetGlobalScale(transform.localScale);
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
-        SetGlobalScale(transform.localScale);
         CameraInit();
     }
     
@@ -53,6 +57,7 @@ public class Billboard : MonoBehaviour
         else
         {
             Vector3 parentGlobalScale = transform.parent.localScale;
+
             transform.localScale = new Vector3(
                 globalScale.x / parentGlobalScale.x,
                 globalScale.y / parentGlobalScale.y,

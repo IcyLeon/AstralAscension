@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CharacterDataStat : IEntity, IEXP
+public class CharacterDataStat : IEntity
 {    
     public EffectManager effectManager { get; }
     public CharacterInventory characterInventory { get; private set; }
@@ -16,14 +16,12 @@ public class CharacterDataStat : IEntity, IEXP
     public event Action<IEntity> OnIEntityChanged;
 
 
-
     public DamageableEntitySO damageableEntitySO { get; protected set; }
     private float maxHealth;
     private float currentHealth;
     private int level;
     private int maxlevel;
     private int currentEXP;
-    private int totalEXP;
 
     public CharacterDataStat(CharactersSO charactersSO)
     {
@@ -160,15 +158,9 @@ public class CharacterDataStat : IEntity, IEXP
         return this;
     }
 
-    public int GetTotalExp()
-    {
-        return totalEXP;
-    }
-
     public void AddExp(int exp)
     {
         currentEXP += exp;
-        totalEXP += exp;
         currentEXP = Mathf.Max(currentEXP, 0);
     }
 

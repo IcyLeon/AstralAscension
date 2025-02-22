@@ -11,7 +11,7 @@ public class ArtifactPanelContent : MonoBehaviour
 {
     [SerializeField] private ScrollRect ScrollRect;
     private TabGroup TabGroup;
-    public ItemTypeTabGroup ItemTypeTabGroup { get; private set; }
+    public ItemTypeTabGroup itemTypeTabGroup { get; private set; }
     private Dictionary<ItemTypeSO, Transform> tabPanelDic;
     public event Action<ItemQualityButton> OnItemQualitySelect;
     private ItemManagerSO ItemAssetManagerSO;
@@ -23,7 +23,7 @@ public class ArtifactPanelContent : MonoBehaviour
         itemQualityDictionary = new();
         TabGroup = GetComponentInChildren<TabGroup>();
         TabGroup.OnTabOptionChanged += TabGroup_OnTabOptionChanged;
-        ItemTypeTabGroup = TabGroup.GetComponent<ItemTypeTabGroup>();
+        itemTypeTabGroup = TabGroup.GetComponent<ItemTypeTabGroup>();
         OnInventoryOld += InventoryManager_OnInventoryOld;
         OnInventoryNew += InventoryManager_OnInventoryNew;
     }

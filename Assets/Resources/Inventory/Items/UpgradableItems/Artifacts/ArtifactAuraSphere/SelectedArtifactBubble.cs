@@ -17,20 +17,20 @@ public class SelectedArtifactBubble : MonoBehaviour
         artifactsRingRotation = artifactBubbleManager.GetComponent<ArtifactsRingRotation>();
     }
 
-    private void StopRotation()
+    private void DisableRotation()
     {
         if (artifactsRingRotation == null)
             return;
 
-        artifactsRingRotation.enabled = false;
+        artifactsRingRotation.DisableRotation();
     }
 
-    private void StartRotation()
+    private void EnableRotation()
     {
         if (artifactsRingRotation == null)
             return;
 
-        artifactsRingRotation.enabled = true;
+        artifactsRingRotation.EnableRotation();
     }
 
     private void ArtifactBubbleManager_OnArtifactBubbleSelected(ArtifactBubble artifactBubble)
@@ -45,7 +45,7 @@ public class SelectedArtifactBubble : MonoBehaviour
             StopCoroutine(RotateRingCoroutine);
         }
 
-        StopRotation();
+        DisableRotation();
 
         RotateRingCoroutine = StartCoroutine(RotateTowardsSelectedBubbleCoroutine(ArtifactBubble));
     }
@@ -85,7 +85,7 @@ public class SelectedArtifactBubble : MonoBehaviour
 
     private void OnDisable()
     {
-        StartRotation();
+        EnableRotation();
         UnsubscribeEvents();
     }
 

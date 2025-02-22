@@ -97,7 +97,7 @@ public class ItemContentDisplay : MonoBehaviour
         if (UpgradableItems == null)
             return;
 
-        LevelTxt.text = "+" + UpgradableItems.GetLevel();
+        LevelTxt.text = "+" + UpgradableItems.level;
     }
 
     private void InitStarPool()

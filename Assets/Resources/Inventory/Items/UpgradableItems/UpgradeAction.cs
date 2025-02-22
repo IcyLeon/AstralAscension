@@ -6,50 +6,50 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class UpgradeAction : MonoBehaviour
 {
-    private ItemContentDisplay ItemContentDisplay;
-    private UpgradeItemContent UpgradeItemContent;
-    private IEXP iEXPEntity;
-    private Button UpgradeBtn;
+    private ItemContentDisplay itemContentDisplay;
+    private UpgradeItemContent upgradeItemContent;
+    private UpgradableItems upgradableItem;
+    private Button upgradeBtn;
     private MainUI mainUI;
 
     private void Awake()
     {
         mainUI = GetComponentInParent<MainUI>();
 
-        ItemContentDisplay = GetComponentInParent<ItemContentDisplay>();
-        ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
+        itemContentDisplay = GetComponentInParent<ItemContentDisplay>();
+        itemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
 
-        UpgradeBtn = GetComponent<Button>();
-        UpgradeBtn.onClick.AddListener(OnUpgrade);
+        upgradeBtn = GetComponent<Button>();
+        upgradeBtn.onClick.AddListener(OnUpgrade);
 
         UpdateVisuals();
     }
 
     private void Start()
     {
-        UpgradeItemContent = mainUI.UpgradeItemContent;
+        upgradeItemContent = mainUI.UpgradeItemContent;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
-        iEXPEntity = ItemContentDisplay.iItem as IEXP;
+        upgradableItem = itemContentDisplay.iItem as UpgradableItems;
         UpdateVisuals();
     }
 
     // Update is called once per frame
     private void OnUpgrade()
     {
-        UpgradeItemContent.SetIItem(iEXPEntity);
+        upgradeItemContent.SetUpgradableItem(upgradableItem);
     }
 
     private void UpdateVisuals()
     {
-        gameObject.SetActive(iEXPEntity != null);
+        gameObject.SetActive(upgradableItem != null);
     }
 
     private void OnDestroy()
     {
-        ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
-        UpgradeBtn.onClick.RemoveAllListeners();
+        itemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
+        upgradeBtn.onClick.RemoveAllListeners();
     }
 }
