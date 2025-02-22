@@ -16,13 +16,6 @@ public class TabIndicator : MonoBehaviour
         tabGroup = GetComponent<TabGroup>();
     }
 
-    private void Start()
-    {
-        tabGroup.OnTabOptionChanged += TabGroup_OnTabOptionChanged;
-        TabGroup_OnTabOptionChanged(tabGroup.currentTabOption);
-        InitBarIndicator();
-    }
-
     private void TabGroup_OnTabOptionChanged(TabOption TabOption)
     {
         if (TabOption == null)
@@ -39,6 +32,29 @@ public class TabIndicator : MonoBehaviour
 
         MovingScrollbar = StartCoroutine(MoveScrollBar(targetValue));
     }
+
+    private void OnEnable()
+    {
+        SubscribeEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        tabGroup.OnTabOptionChanged += TabGroup_OnTabOptionChanged;
+        TabGroup_OnTabOptionChanged(tabGroup.currentTabOption);
+        InitBarIndicator();
+    }
+
+    private void UnsubscribeEvents()
+    {
+        tabGroup.OnTabOptionChanged -= TabGroup_OnTabOptionChanged;
+    }
+
 
     private void InitBarIndicator()
     {
@@ -61,6 +77,6 @@ public class TabIndicator : MonoBehaviour
 
     private void OnDestroy()
     {
-        tabGroup.OnTabOptionChanged -= TabGroup_OnTabOptionChanged;
+        UnsubscribeEvents();
     }
 }

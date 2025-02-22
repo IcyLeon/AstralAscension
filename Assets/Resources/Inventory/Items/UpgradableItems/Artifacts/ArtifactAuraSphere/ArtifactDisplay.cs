@@ -14,8 +14,16 @@ public class ArtifactDisplay : MonoBehaviour
     {
         characterSelection = GetComponentInParent<CharacterSelection>();
         characterSelection.OnCharacterSelected += CharacterSelection_OnCharacterSelected;
-        artifactBubbleManager = GetComponentInChildren<ArtifactBubbleManager>();
+        InitArtifactBubbleManager();
         UpdateCurrentSelectedCharacter();
+    }
+
+    private void InitArtifactBubbleManager()
+    {
+        if (artifactBubbleManager != null)
+            return;
+
+        artifactBubbleManager = GetComponentInChildren<ArtifactBubbleManager>(true);
     }
 
     private void CharacterSelection_OnCharacterSelected()

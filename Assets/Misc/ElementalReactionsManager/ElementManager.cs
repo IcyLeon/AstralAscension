@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class ElementManager
 {
-    private IEXP IEXPEntity;
+    private CharacterDataStat characterDataStat;
     public Dictionary<ElementsSO, Elements> inflictElementList { get; private set; }
     public delegate void OnElementChange(Elements element);
     public event OnElementChange OnElementEnter;
     public event OnElementChange OnElementExit;
 
-    public ElementManager(IEXP IEXP)
+    public ElementManager(CharacterDataStat CharacterDataStat)
     {
         inflictElementList = new Dictionary<ElementsSO, Elements>();
-        IEXPEntity = IEXP;
+        characterDataStat = CharacterDataStat;
 
     }
 

@@ -12,19 +12,17 @@ public class DetailsPanel : EnhancementPanel
     protected override void UpdateVisual()
     {
         base.UpdateVisual();
-        ItemCard.SetIItem(iEXPEntity.GetIEntity());
+        ItemCard.SetIItem(upgradableItem);
         UpdateUpgradableItemVisual();
     }
 
     private void UpdateUpgradableItemVisual()
     {
-        UpgradableItems upgradableItems = iEXPEntity as UpgradableItems;
-
-        EquipCharacterIconImage.gameObject.SetActive(upgradableItems != null && upgradableItems.equipByCharacter != null);
+        EquipCharacterIconImage.gameObject.SetActive(upgradableItem != null && upgradableItem.equipByCharacter != null);
 
         if (!EquipCharacterIconImage.gameObject.activeSelf)
             return;
 
-        EquipCharacterIconImage.sprite = upgradableItems.equipByCharacter.GetIcon();
+        EquipCharacterIconImage.sprite = upgradableItem.equipByCharacter.GetIcon();
     }
 }

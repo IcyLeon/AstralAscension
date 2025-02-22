@@ -10,7 +10,7 @@ public class ArtifactsRingRotation : MonoBehaviour
 
     private void Awake()
     {
-        speed = 0.1f;
+        speed = 0.15f;
         previousRotationDirection = 1;
         rb = GetComponent<Rigidbody>();
     }
@@ -30,6 +30,16 @@ public class ArtifactsRingRotation : MonoBehaviour
     void FixedUpdate()
     {
         UpdateRotation();
+    }
+
+    public void DisableRotation()
+    {
+        enabled = false;
+    }
+
+    public void EnableRotation()
+    {
+        enabled = true;
     }
 
     public void Rotate(float strength)
@@ -62,7 +72,9 @@ public class ArtifactsRingRotation : MonoBehaviour
         }
 
         if (magnitude > speed || direction == 0)
+        {
             return;
+        }
 
         rb.angularVelocity = transform.up * speed * direction;
 

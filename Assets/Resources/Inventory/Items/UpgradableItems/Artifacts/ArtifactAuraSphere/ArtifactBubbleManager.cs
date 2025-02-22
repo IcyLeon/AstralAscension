@@ -15,12 +15,103 @@ public class ArtifactBubbleManager : MonoBehaviour
     public event OnArtifactEquippedEvent OnArtifactEquip;
     public event OnArtifactEquippedEvent OnArtifactUnEquip;
     public event Action<ArtifactBubble> OnArtifactBubbleSelected;
-
+    private SelectedArtifactBubble selectedArtifactBubble;
+    private ArtifactsRingRotation artifactsRingRotation;
     private Dictionary<ItemTypeSO, ArtifactBubble> artifactBubbleDic;
+    private Coroutine scaleAnimationCoroutine;
 
     private void Awake()
     {
         InitSpheres();
+        artifactsRingRotation = GetComponent<ArtifactsRingRotation>();
+    }
+
+    public void EnableRotation()
+    {
+        if (artifactsRingRotation == null)
+            return;
+
+        artifactsRingRotation.EnableRotation();
+    }
+
+    private void OnEnable()
+    {
+        PlayScaleAnimation();
+    }
+
+    private void PlayScaleAnimation()
+    {
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        float AnimationTime = 0.45f;
+
+        if (scaleAnimationCoroutine != null)
+        {
+            StopCoroutine(scaleAnimationCoroutine);
+        }
+
+        scaleAnimationCoroutine = StartCoroutine(ScaleAnimation(AnimationTime));
+    }
+
+    public void ShowArtifactsBubble()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void HideArtifactsBubble()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private IEnumerator ScaleAnimation(float AnimationTime)
+    {
+        float dt = 0f;
+        float peakStrength = 0.15f;
+
+        while (dt < AnimationTime)
+        {
+            float incrementScale = MathF.Sin((-MathF.PI / 2f) + Mathf.PI * ((dt * 1.5f) / AnimationTime));
+
+            if (incrementScale > 0f)
+            {
+                incrementScale *= peakStrength;
+            }
+
+            transform.localScale = Vector3.one * (1f + incrementScale);
+            dt += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        transform.localScale = Vector3.one;
+    }
+
+
+    public void DisableRotation()
+    {
+        if (artifactsRingRotation == null)
+            return;
+
+        artifactsRingRotation.DisableRotation();
+    }
+
+    public void EnableSelectedBubble()
+    {
+        if (selectedArtifactBubble == null)
+        {
+            selectedArtifactBubble = gameObject.AddComponent<SelectedArtifactBubble>();
+        }
+
+        selectedArtifactBubble.enabled = true;
+    }
+
+    public void DisableSelectedBubble()
+    {
+        if (selectedArtifactBubble == null)
+        {
+            return;
+        }
+        selectedArtifactBubble.enabled = false;
     }
 
     public void SetArtifactInventory(ArtifactInventory inventory)
@@ -31,6 +122,8 @@ public class ArtifactBubbleManager : MonoBehaviour
         OnArtifactInventoryUnsubscribeEvents();
         currentArtifactInventory = inventory;
         OnArtifactInventorySubscribeEvents();
+
+        PlayScaleAnimation();
     }
 
     private void OnArtifactInventoryUnsubscribeEvents()
@@ -149,7 +242,25 @@ public class ArtifactBubbleManager : MonoBehaviour
 
     private void SelectArtifactBubble(ArtifactBubble ArtifactBubble)
     {
+        if (!CanSelectArtifactBubble())
+            return;
+
+        ToggleAllArtifactBubble(false);
+        ArtifactBubble.gameObject.SetActive(true);
         OnArtifactBubbleSelected?.Invoke(ArtifactBubble);
+    }
+
+    private bool CanSelectArtifactBubble()
+    {
+        return selectedArtifactBubble != null && selectedArtifactBubble.enabled;
+    }
+
+    public void ToggleAllArtifactBubble(bool active)
+    {
+        foreach(var artifactBubble in artifactBubbleDic.Values)
+        {
+            artifactBubble.gameObject.SetActive(active);
+        }
     }
 
     private Vector3 GetVectorXZ(float angle)

@@ -9,14 +9,13 @@ public class PlayableCharacterDataStat : CharacterDataStat
     public float currentElementalSkillCooldownElapsed { get; private set; }
     public float currentElementalBurstCooldownElapsed { get; private set; }
 
+    private AscensionManager ascensionManager;
     private float currentEnergy;
-    private int currentAscension;
-
     public event Action OnEnergyChanged;
 
-    public PlayableCharacterDataStat(CharactersSO charactersSO, int currentAscension = 0) : base(charactersSO)
+    public PlayableCharacterDataStat(CharactersSO charactersSO) : base(charactersSO)
     {
-        this.currentAscension = currentAscension;
+        ascensionManager = new(playerCharactersSO.AscensionSO);
         currentEnergy = 0;
         currentElementalSkillCooldownElapsed = currentElementalBurstCooldownElapsed = 0;
     }

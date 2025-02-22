@@ -60,7 +60,7 @@ public class Artifact : UpgradableItems
     {
         base.UpgradeItemAction();
         mainStat.Upgrade();
-        if (GetLevel() % 4 == 0 && amount != 0)
+        if (level % 4 == 0 && amount != 0)
         {
             if (!HasMaxedOutSubStats())
             {

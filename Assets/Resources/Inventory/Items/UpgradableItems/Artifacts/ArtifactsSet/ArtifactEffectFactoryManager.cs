@@ -5,15 +5,22 @@ using UnityEngine;
 public class ArtifactEffectFactoryManager
 {
     private ArtifactBuffInformation root;
+    private ArtifactFamilySO artifactFamilySO;
 
     public ArtifactEffectFactoryManager(ArtifactFamilySO ArtifactFamilySO)
     {
-        ArtifactBuffPieceStat[] ArtifactBuffPieceStatList = ArtifactFamilySO.PieceBuffs;
+        artifactFamilySO = ArtifactFamilySO;
+        ArtifactBuffPieceStat[] ArtifactBuffPieceStatList = artifactFamilySO.PieceBuffs;
 
-        for (int i = 0; i < ArtifactBuffPieceStatList.Length; i++)
+        for (int i = 0; i < GetTotalPieceBuffs(); i++)
         {
             CreateNode(ArtifactBuffPieceStatList[i]);
         }
+    }
+
+    public int GetTotalPieceBuffs()
+    {
+        return artifactFamilySO.PieceBuffs.Length;
     }
 
     public ArtifactBuffInformation GetNextNode(ArtifactBuffInformation currentNode)

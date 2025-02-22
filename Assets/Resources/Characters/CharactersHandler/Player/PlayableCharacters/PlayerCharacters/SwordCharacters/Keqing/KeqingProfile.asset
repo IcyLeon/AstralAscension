@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1b1ebaa33de5314c9e21fd52eee3b16, type: 3}
+  m_Name: KeqingProfile
+  m_EditorClassIdentifier: 
+  <CharacterName>k__BackingField: Keqing
+  <CharacterDescription>k__BackingField: "The Yuheng of the Liyue Qixing. Keqing
+    has much to say about Rex Lapis' unilateral approach to policymaking in Liyue
+    \u2014 but in truth, gods admire skeptics such as her quite a lot."
+  <CharacterIcon>k__BackingField: {fileID: 21300000, guid: 99e7f15e899f7754fbb2a87530f1e3cd,
+    type: 3}
+  <VoiceActor>k__BackingField: Kayli Mills

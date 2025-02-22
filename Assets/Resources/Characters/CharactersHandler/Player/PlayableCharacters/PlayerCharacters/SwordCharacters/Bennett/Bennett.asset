@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84aec40edc18fbc408f229e7d6ac2d3a, type: 3}
   m_Name: Bennett
   m_EditorClassIdentifier: 
-  <CharacterName>k__BackingField: Bennett
-  <CharacterDescription>k__BackingField: 
-  <CharacterIcon>k__BackingField: {fileID: 21300000, guid: 998682eb2b5f4b94d83ce302b21cc5bf,
-    type: 3}
+  <CharacterProfileSO>k__BackingField: {fileID: 11400000, guid: 2997b006fb5603748b52c3c7694f70c3,
+    type: 2}
   <CharacterTypeSO>k__BackingField: {fileID: 11400000, guid: 99b66ae9d6d450441841fc1e3f40622a,
     type: 2}
   <CharacterRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,

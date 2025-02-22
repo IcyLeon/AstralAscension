@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 [DisallowMultipleComponent]
 public class EnhanceStatsPanel : MonoBehaviour
 {
     [Header("Upgradable Item Content")]
-    [SerializeField] private Slider ExpSlider;
+    [SerializeField] private Slider CurrentExpSlider;
     [SerializeField] private Slider PreviewExpSlider;
     [SerializeField] private GameObject LevelContent;
-    [SerializeField] private TextMeshProUGUI LevelTxt;
-    [SerializeField] private TextMeshProUGUI AddPreviewLevelTxt;
+    [SerializeField] private TextMeshProUGUI CurrentLevelTxt;
+    [SerializeField] private TextMeshProUGUI IncreasePreviewLevelTxt;
     [SerializeField] private TextMeshProUGUI ExpRequirementTxt;
-    [SerializeField] private TextMeshProUGUI AddPreviewExpTxt;
-
+    [SerializeField] private TextMeshProUGUI IncreasePreviewExpTxt;
+    private bool toggleStats;
     private EnhancementManager enhancementManager;
 
-    private IEXP iEXPEntity;
+    private UpgradableItems upgradableItem;
     private ItemContentInformation[] ItemContentInformations;
 
     // Start is called before the first frame update
@@ -35,43 +36,40 @@ public class EnhanceStatsPanel : MonoBehaviour
         ItemContentInformations = GetComponentsInChildren<ItemContentInformation>(true);
 
         enhancementManager = GetComponentInParent<EnhancementManager>();
-
         enhancementManager.OnItemUpgrade += EnhancementManager_OnItemUpgrade;
         enhancementManager.OnEnhanceItemChanged += EnhancementManager_OnEnhanceItemChanged;
-        enhancementManager.OnSlotItemChanged += EnhancementManager_OnSlotItemChanged;
-
+        enhancementManager.OnSlotChanged += EnhancementManager_OnSlotChanged;
+        enhancementManager.OnItemUpgradeProcessing += EnhancementManager_OnItemUpgradeProcessing;
         UpdateVisual();
     }
 
-    private void EnhancementManager_OnSlotItemChanged(int Exp)
+    private void EnhancementManager_OnItemUpgradeProcessing(object sender, UpgradeEvent e)
     {
-        SetPreviewEXP(Exp);
-        UpdateIncreasedLevel(Exp);
-        UpdateIncreasedExp(Exp);
+        toggleStats = false;
+
+        if (GetCurrentEXP() >= GetMaxCurrentEXP())
+        {
+            SetCurrentEXP(0f);
+            e.TotalEXP -= GetMaxCurrentEXP();
+            e.currentLevel++;
+            int requiredEXP = GetEXPRequired(e.currentLevel);
+            SetMaxCurrentEXP(requiredEXP);
+            SetPreviewEXP(e.TotalEXP);
+        }
+
+        SetCurrentEXP(Mathf.Lerp(CurrentExpSlider.value, e.TotalEXP, e.interpolation));
     }
 
-    private void UpdateIncreasedLevel(int AddExp)
-    {
-        if (iEXPEntity == null)
-            return;
-
-        int levelIncrease = GetIncreasedPreviewLevel(AddExp);
-
-        AddPreviewLevelTxt.gameObject.SetActive(levelIncrease != 0);
-        AddPreviewLevelTxt.text = "+" + levelIncrease;
-    }
-
-
-    private int GetIncreasedPreviewLevel(int addExp)
+    private int GetIncreasedPreviewLevel(int IncreaseExp)
     {
         int levelIncrease = 0;
-        int totalExp = iEXPEntity.GetCurrentExp() + addExp;
+        int totalExp = upgradableItem.currentEXP + IncreaseExp;
 
-        ItemRaritySO itemRaritySO = iEXPEntity.GetIEntity().GetRaritySO();
+        ItemRaritySO itemRaritySO = upgradableItem.GetRaritySO();
 
-        for (int i = iEXPEntity.GetLevel(); i < iEXPEntity.GetExpCostSO().GetMaxLevel(itemRaritySO); i++)
+        for (int i = upgradableItem.level; i < upgradableItem.expCostManagerSO.GetMaxLevel(itemRaritySO); i++)
         {
-            int requiredAmt = iEXPEntity.GetExpCostSO().GetRequiredEXP(i, itemRaritySO);
+            int requiredAmt = upgradableItem.expCostManagerSO.GetRequiredEXP(i, itemRaritySO);
             if (totalExp >= requiredAmt)
             {
                 totalExp -= requiredAmt;
@@ -82,52 +80,62 @@ public class EnhanceStatsPanel : MonoBehaviour
         return levelIncrease;
     }
 
-    private void UpdateIncreasedExp(int addExp)
+
+    private void EnhancementManager_OnSlotChanged(int IncreaseExp)
     {
-        if (iEXPEntity == null)
+        if (!toggleStats)
             return;
 
-        AddPreviewExpTxt.gameObject.SetActive(addExp != 0);
-        AddPreviewExpTxt.text = "+" + addExp.ToString();
+        int IncreaseLevel = GetIncreasedPreviewLevel(IncreaseExp);
+        IncreasePreviewLevelTxt.gameObject.SetActive(IncreaseLevel != 0);
+        IncreasePreviewLevelTxt.text = "+" + IncreaseLevel;
+        IncreasePreviewExpTxt.gameObject.SetActive(IncreaseExp != 0);
+        IncreasePreviewExpTxt.text = "+" + IncreaseExp.ToString();
+
+        SetPreviewEXP(upgradableItem.currentEXP + IncreaseExp);
     }
 
-    public void SetCurrentEXP(float value)
+    private void SetCurrentEXP(float value)
     {
-        ExpSlider.value = value;
+        CurrentExpSlider.value = value;
     }
 
-    private void ResetEXP()
+    private void SetPreviewEXP(float value)
     {
-        SetCurrentEXP(0);
+        PreviewExpSlider.value = value;
     }
 
-    public float GetCurrentEXP()
+
+    public int GetCurrentEXP()
     {
-        return ExpSlider.value;
+        return ((int)CurrentExpSlider.value);
     }
 
-    private float GetRequiredEXP()
+    private void SetMaxCurrentEXP(float value)
     {
-        return ExpSlider.maxValue;
+        CurrentExpSlider.maxValue = value;
+        SetMaxPreviewEXP(CurrentExpSlider.maxValue);
     }
-
-    private void UpdateRequiredEXP()
+    private int GetMaxCurrentEXP()
     {
-        if (iEXPEntity == null || iEXPEntity.GetExpCostSO() == null)
-            return;
-
-        ExpSlider.maxValue = enhancementManager.requiredEXP;
+        return ((int)CurrentExpSlider.maxValue);
     }
 
-    private void SetPreviewEXP(int AddExp = 0)
+    private void SetMaxPreviewEXP(float value)
     {
-        if (iEXPEntity == null)
-            return;
-
-        PreviewExpSlider.maxValue = GetRequiredEXP();
-
-        PreviewExpSlider.value = AddExp + iEXPEntity.GetCurrentExp();
+        PreviewExpSlider.maxValue = value;
     }
+
+
+    private int GetEXPRequired(int level)
+    {
+        if (upgradableItem == null)
+            return 0;
+
+        return upgradableItem.expCostManagerSO.GetRequiredEXP(level, upgradableItem.GetRaritySO());
+    }
+
+
 
     private void EnhancementManager_OnEnhanceItemChanged()
     {
@@ -136,46 +144,39 @@ public class EnhanceStatsPanel : MonoBehaviour
 
     private void UpdateVisual()
     {
-        if (iEXPEntity == enhancementManager.iEXPEntity)
+        if (upgradableItem == enhancementManager.upgradableItem)
             return;
 
         UnsubscribeEvents();
-        iEXPEntity = enhancementManager.iEXPEntity;
+        upgradableItem = enhancementManager.upgradableItem;
         SubscribeEvents();
-
-        UpdateRequiredEXP();
-        SetCurrentEXP(iEXPEntity.GetCurrentExp());
-        SetPreviewEXP();
-
         UpdateItemInformationDisplay();
     }
 
     private void SubscribeEvents()
     {
-        if (iEXPEntity == null)
+        if (upgradableItem == null)
             return;
 
-        iEXPEntity.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
+        upgradableItem.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
     }
 
     private void IEXPEntity_OnUpgradeIEXP()
     {
-        ResetEXP();
-        UpdateRequiredEXP();
-        SetPreviewEXP();
     }
 
     private void EnhancementManager_OnItemUpgrade()
     {
+
         UpdateItemInformationDisplay();
     }
 
     private void UnsubscribeEvents()
     {
-        if (iEXPEntity == null)
+        if (upgradableItem == null)
             return;
 
-        iEXPEntity.OnUpgradeIEXP -= IEXPEntity_OnUpgradeIEXP;
+        upgradableItem.OnUpgradeIEXP -= IEXPEntity_OnUpgradeIEXP;
     }
 
     private void OnDestroy()
@@ -185,19 +186,26 @@ public class EnhanceStatsPanel : MonoBehaviour
         {
             enhancementManager.OnEnhanceItemChanged -= EnhancementManager_OnItemUpgrade;
             enhancementManager.OnEnhanceItemChanged -= EnhancementManager_OnEnhanceItemChanged;
-            enhancementManager.OnSlotItemChanged -= EnhancementManager_OnSlotItemChanged;
+            enhancementManager.OnItemUpgrade -= EnhancementManager_OnItemUpgrade;
+            enhancementManager.OnSlotChanged -= EnhancementManager_OnSlotChanged;
         }
     }
 
     private void UpdateEXPEntityDisplay()
     {
-        LevelContent.gameObject.SetActive(iEXPEntity != null);
+        toggleStats = true;
+        LevelContent.gameObject.SetActive(upgradableItem != null);
 
-        if (iEXPEntity == null)
+        if (upgradableItem == null)
             return;
 
-        LevelTxt.text = "+" + iEXPEntity.GetLevel();
-        ExpRequirementTxt.text = iEXPEntity.GetCurrentExp() + "/" + enhancementManager.requiredEXP;
+        int requiredEXP = GetEXPRequired(upgradableItem.level);
+        CurrentLevelTxt.text = "+" + upgradableItem.level;
+        ExpRequirementTxt.text = upgradableItem.currentEXP + "/" + requiredEXP;
+
+        SetMaxCurrentEXP(requiredEXP);
+        SetCurrentEXP(upgradableItem.currentEXP);
+        SetPreviewEXP(GetCurrentEXP());
     }
 
 
@@ -205,17 +213,16 @@ public class EnhanceStatsPanel : MonoBehaviour
     {
         foreach (var ItemContentInformation in ItemContentInformations)
         {
-            ItemContentInformation.UpdateItemContentInformation(iEXPEntity.GetIEntity());
+            ItemContentInformation.UpdateItemContentInformation(upgradableItem);
         }
 
         UpdateEXPEntityDisplay();
-
         ResetPreviewStatsVisual();
     }
 
     private void ResetPreviewStatsVisual()
     {
-        AddPreviewExpTxt.gameObject.SetActive(false);
-        AddPreviewLevelTxt.gameObject.SetActive(false);
+        IncreasePreviewExpTxt.gameObject.SetActive(false);
+        IncreasePreviewLevelTxt.gameObject.SetActive(false);
     }
 }

@@ -67,6 +67,6 @@ public class OwnedCharacterIconButton : MonoBehaviour
             return PlayerCharactersSO.PartyCharacterIcon;
         }
 
-        return characterDataStat.damageableEntitySO.CharacterIcon;
+        return characterDataStat.damageableEntitySO.GetIcon();
     }
 }

@@ -15,10 +15,12 @@ public class ArtifactFamily
     public event OnArtifactBuffChanged OnArtifactBuffRemove;
 
     public event Action<ArtifactFamily> OnFamilyRemove;
+    private int buffIndex;
 
     public ArtifactFamily(ArtifactFamilySO ArtifactFamilySO)
     {
         _artifacts = new();
+        buffIndex = -1;
         artifactFamilySO = ArtifactFamilySO;
         ArtifactEffectFactoryManager = new ArtifactEffectFactoryManager(artifactFamilySO);
     }
@@ -37,18 +39,26 @@ public class ArtifactFamily
         if (nextBuff.IsEnough(GetTotalAmount()))
         {
             current = nextBuff;
+            SetBuffIndex(buffIndex + 1);
             OnArtifactBuffAdd?.Invoke(current);
         }
+    }
+
+    private void SetBuffIndex(int index)
+    {
+        buffIndex = index;
+        buffIndex = Mathf.Clamp(buffIndex, -1, ArtifactEffectFactoryManager.GetTotalPieceBuffs() - 1);
     }
 
     public void Remove(Artifact artifact)
     {
         _artifacts.Remove(artifact);
 
-        if (current != null && current.IsEnough(GetTotalAmount()))
+        if (current != null && !current.IsEnough(GetTotalAmount()))
         {
             ArtifactBuffInformation prevBuff = current;
             current = current.parentNode;
+            SetBuffIndex(buffIndex - 1);
             OnArtifactBuffRemove?.Invoke(prevBuff);
         }
 
@@ -60,16 +70,6 @@ public class ArtifactFamily
 
     public int GetBuffCurrentIndex()
     {
-        int index = -1;
-
-        ArtifactBuffInformation currentNode = current;
-
-        while (currentNode != null)
-        {
-            index++;
-            currentNode = currentNode.parentNode;
-        }
-
-        return index;
+        return buffIndex;
     }
 }

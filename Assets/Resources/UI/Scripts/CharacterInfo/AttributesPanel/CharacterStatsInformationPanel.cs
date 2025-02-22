@@ -6,6 +6,7 @@ using UnityEngine;
 public class CharacterStatsInformationPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI CharacterNameTxt;
+    [SerializeField] private TextMeshProUGUI CharacterDescTxt;
     private CharacterDataStat currentCharacterDataStat;
     private CharacterScreenPanel characterScreenPanel;
 
@@ -23,7 +24,8 @@ public class CharacterStatsInformationPanel : MonoBehaviour
         if (currentCharacterDataStat == null)
             return;
 
-        CharacterNameTxt.text = currentCharacterDataStat.damageableEntitySO.CharacterName;
+        CharacterNameTxt.text = currentCharacterDataStat.damageableEntitySO.GetName();
+        CharacterDescTxt.text = currentCharacterDataStat.damageableEntitySO.GetDescription();
     }
 
     private void CharacterScreenPanel_OnIconSelected()

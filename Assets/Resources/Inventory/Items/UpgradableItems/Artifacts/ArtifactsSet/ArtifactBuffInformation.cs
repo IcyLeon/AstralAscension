@@ -13,11 +13,6 @@ public class ArtifactBuffInformation
         parentNode = Parent;
     }
 
-    public void SetNextNode(ArtifactBuffInformation NextNode)
-    {
-        nextNode = NextNode;
-    }
-
     public void AddBuffInformation(ArtifactBuffPieceStat ArtifactBuffPieceStat)
     {
         if (nextNode != null)

@@ -17,17 +17,3 @@ public interface IEntity : IItem
     public bool IsNew();
     public void SetNewStatus(bool status);
 }
-
-public interface IEXP
-{
-    public event Action OnUpgradeIEXP;
-    public ItemEXPCostManagerSO GetExpCostSO();
-    public int GetLevel();
-    public int GetMaxLevel();
-    public int GetCurrentExp();
-    public int GetTotalExp();
-    public void AddExp(int exp);
-    public void RemoveExp(int exp);
-    public IEntity GetIEntity();
-    public void Upgrade();
-}
