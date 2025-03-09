@@ -101,9 +101,7 @@ public class PartySetup
         if (PartyLayout.Count == 0)
             return null;
 
-        int index = PartyLocation;
-
-        index = Mathf.Clamp(index, 0, PartyLayout.Count);
+        int index = Mathf.Clamp(PartyLocation, 0, PartyLayout.Count);
 
         return PartyLayout[index];
     }

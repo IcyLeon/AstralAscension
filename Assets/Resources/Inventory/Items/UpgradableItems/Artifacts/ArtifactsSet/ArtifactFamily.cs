@@ -44,10 +44,9 @@ public class ArtifactFamily
         }
     }
 
-    private void SetBuffIndex(int index)
+    private void SetBuffIndex(int Index)
     {
-        buffIndex = index;
-        buffIndex = Mathf.Clamp(buffIndex, -1, ArtifactEffectFactoryManager.GetTotalPieceBuffs() - 1);
+        buffIndex = Mathf.Clamp(Index, -1, ArtifactEffectFactoryManager.GetTotalPieceBuffs() - 1);
     }
 
     public void Remove(Artifact artifact)

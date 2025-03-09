@@ -19,6 +19,7 @@ public class SlotPopup : MonoBehaviour
     private IItem iItem;
     private Inventory inventory;
     public event Action<Slot> OnSlotChanged;
+    public event Action<Slot> OnSlotItemAdd;
 
     private void Awake()
     {
@@ -279,6 +280,7 @@ public class SlotPopup : MonoBehaviour
             return;
 
         ItemQualityIEntity.ItemQualitySelection.Select();
+        OnSlotItemAdd?.Invoke(Slot);
     }
 
     private void SlotManager_OnSlotItemRemove(IItem IItem, Slot Slot)

@@ -51,11 +51,8 @@ public class PlayableCharacterDataStat : CharacterDataStat
 
     private void UpdateElementalSkillsCooldown()
     {
-        currentElementalSkillCooldownElapsed -= Time.deltaTime;
-        currentElementalSkillCooldownElapsed = Mathf.Clamp(currentElementalSkillCooldownElapsed, 0, playerCharactersSO.ElementalSkillInfo.SkillCooldown);
-
-        currentElementalBurstCooldownElapsed -= Time.deltaTime;
-        currentElementalBurstCooldownElapsed = Mathf.Clamp(currentElementalBurstCooldownElapsed, 0, playerCharactersSO.ElementalBurstInfo.SkillCooldown);
+        currentElementalSkillCooldownElapsed = Mathf.Clamp(currentElementalSkillCooldownElapsed - Time.deltaTime, 0, playerCharactersSO.ElementalSkillInfo.SkillCooldown);
+        currentElementalBurstCooldownElapsed = Mathf.Clamp(currentElementalBurstCooldownElapsed - Time.deltaTime, 0, playerCharactersSO.ElementalBurstInfo.SkillCooldown);
     }
 
     public bool CanUseElementalSkill()

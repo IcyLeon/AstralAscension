@@ -7,9 +7,9 @@ using UnityEngine.UI;
 [System.Serializable]
 public class UpgradeEvent : EventArgs
 {
-    public float TotalEXP;
+    public int totalEXP;
     public int currentLevel;
-    public float interpolation;
+    public float duration;
 }
 
 [DisallowMultipleComponent]
@@ -17,10 +17,10 @@ public class EnhancementManager : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonMask;
     private EnhancePanel enhancePanel;
-    private EnhancementMaterialContainer EnhancementMaterialContainer;
+    private EnhancementMaterialContainer enhancementMaterialContainer;
+    private Coroutine enhanceCoroutine;
     public UpgradableItems upgradableItem { get; private set; }
     public event Action OnEnhanceItemChanged;
-    public event Action OnItemUpgrade;
     public event EventHandler<UpgradeEvent> OnItemUpgradeProcessing;
     public event Action<int> OnSlotChanged;
 
@@ -28,50 +28,55 @@ public class EnhancementManager : MonoBehaviour
     {
         enhancePanel = GetComponentInParent<EnhancePanel>(true);
         enhancePanel.OnUpgradableItemChanged += EnhancePanel_OnUpgradableItemChanged;
-
-        EnhancementMaterialContainer = GetComponentInChildren<EnhancementMaterialContainer>();
-        EnhancementMaterialContainer.OnUpgradeClick += EnhancementMaterialContainer_OnUpgradeClick;
-        EnhancementMaterialContainer.OnSlotChanged += EnhancementMaterialContainer_OnSlotChanged;
+        enhancementMaterialContainer = GetComponentInChildren<EnhancementMaterialContainer>();
+        enhancementMaterialContainer.OnUpgradeClick += EnhancementMaterialContainer_OnUpgradeClick;
+        enhancementMaterialContainer.OnSlotChanged += EnhancementMaterialContainer_OnSlotChanged;
         UpdateVisual();
 
     }
-
+    
+    private bool IsUpgrading()
+    {
+        return enhanceCoroutine != null;
+    }
 
     private void EnhancementMaterialContainer_OnSlotChanged(int IncreaseEXP)
     {
+        if (IsUpgrading())
+            return;
+
         OnSlotChanged?.Invoke(IncreaseEXP);
     }
 
     private void EnhancementMaterialContainer_OnUpgradeClick(int IncreaseEXP)
     {
+        if (IsUpgrading())
+        {
+            StopCoroutine(enhanceCoroutine);
+        }
+
         int currentEXP = upgradableItem.currentEXP;
         int currentLevel = upgradableItem.level;
-        upgradableItem.IncreaseEXP(IncreaseEXP);
-        StartCoroutine(UpgradingEnumerator(currentEXP, currentLevel, IncreaseEXP));
+        upgradableItem.AddEXP(IncreaseEXP);
+        enhanceCoroutine = StartCoroutine(UpgradingEnumerator(currentEXP, currentLevel, IncreaseEXP));
     }
 
     private IEnumerator UpgradingEnumerator(int CurrentEXP, int CurrentLevel, int IncreaseEXP)
     {
-        float elapseTime = 0f;
-        float duration = 1.25f;
+        float duration = 1.0f;
 
         ButtonMask.SetActive(true);
 
-        UpgradeEvent upgradeEvent = new UpgradeEvent();
-        upgradeEvent.TotalEXP = CurrentEXP + IncreaseEXP;
-        upgradeEvent.currentLevel = CurrentLevel;
-
-        do
+        OnItemUpgradeProcessing?.Invoke(this, new UpgradeEvent
         {
-            upgradeEvent.interpolation = elapseTime / duration;
-            OnItemUpgradeProcessing?.Invoke(this, upgradeEvent);
-            elapseTime += Time.unscaledDeltaTime;
-            yield return null;
+            totalEXP = CurrentEXP + IncreaseEXP,
+            currentLevel = CurrentLevel,
+            duration = duration    
+        });
 
-        } while (elapseTime <= duration);
-
-        OnItemUpgrade?.Invoke();
+        yield return new WaitForSecondsRealtime(duration);
         ButtonMask.SetActive(false);
+        enhanceCoroutine = null;
     }
 
     private void EnhancePanel_OnUpgradableItemChanged()
@@ -81,37 +86,15 @@ public class EnhancementManager : MonoBehaviour
 
     private void UpdateVisual()
     {
-        UnsubscribeEvents();
         upgradableItem = enhancePanel.upgradableItem;
-        SubscribeEvents();
         OnEnhanceItemChanged?.Invoke();
     }
 
-    private void UnsubscribeEvents()
-    {
-        if (upgradableItem == null)
-            return;
-
-        upgradableItem.OnUpgradeIEXP -= IEXPEntity_OnUpgradeIEXP;
-    }
-
-    private void SubscribeEvents()
-    {
-        if (upgradableItem == null)
-            return;
-
-        upgradableItem.OnUpgradeIEXP += IEXPEntity_OnUpgradeIEXP;
-    }
-
-    private void IEXPEntity_OnUpgradeIEXP()
-    {
-    }
 
     private void OnDestroy()
     {
-        UnsubscribeEvents();
         enhancePanel.OnUpgradableItemChanged -= EnhancePanel_OnUpgradableItemChanged;
-        EnhancementMaterialContainer.OnUpgradeClick -= EnhancementMaterialContainer_OnUpgradeClick;
-        EnhancementMaterialContainer.OnSlotChanged -= EnhancementMaterialContainer_OnSlotChanged;
+        enhancementMaterialContainer.OnUpgradeClick -= EnhancementMaterialContainer_OnUpgradeClick;
+        enhancementMaterialContainer.OnSlotChanged -= EnhancementMaterialContainer_OnSlotChanged;
     }
 }

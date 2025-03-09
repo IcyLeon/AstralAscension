@@ -58,9 +58,10 @@ public class SelectedArtifactBubble : MonoBehaviour
         float currentTime = Time.time;
         float limitTime = 1f;
 
+        Quaternion currentQuaternion = artifactBubbleManager.transform.localRotation;
+
         while (Time.time - currentTime < limitTime)
         {
-            Quaternion currentQuaternion = artifactBubbleManager.transform.localRotation;
             currentQuaternion = Quaternion.Lerp(currentQuaternion, targetQuaternion, Time.unscaledDeltaTime * rotateSpeed);
             artifactBubbleManager.transform.localRotation = currentQuaternion;
             yield return null;

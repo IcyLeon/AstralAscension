@@ -12,7 +12,9 @@ public abstract class UpgradableItems : Item
 
     public ItemEXPCostManagerSO expCostManagerSO { get; private set; }
     public int currentEXP { get; private set; }
+
     private int requiredEXP;
+
     public bool locked { get; private set; }
     public int maxLevel { get; private set; }
 
@@ -104,16 +106,17 @@ public abstract class UpgradableItems : Item
         UpdateEXPRequirement();
     }
 
-    public void IncreaseEXP(int exp)
+    public void AddEXP(int exp)
     {
-        if (IsMax())
-            return;
+        currentEXP = Mathf.Max(currentEXP + exp, 0);
 
-        currentEXP += exp;
-        currentEXP = Mathf.Max(currentEXP, 0);
-
-        while (currentEXP >= requiredEXP && !IsMax())
+        while (currentEXP >= requiredEXP)
         {
+            if (IsMax())
+            {
+                currentEXP = 0;
+                return;
+            }
             currentEXP -= requiredEXP;
             Upgrade();
         }
