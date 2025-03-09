@@ -16,9 +16,8 @@ public class EnhanceStatsPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI IncreasePreviewLevelTxt;
     [SerializeField] private TextMeshProUGUI ExpRequirementTxt;
     [SerializeField] private TextMeshProUGUI IncreasePreviewExpTxt;
-    private bool toggleStats;
     private EnhancementManager enhancementManager;
-
+    private Coroutine upgradingAnimationCoroutine;
     private UpgradableItems upgradableItem;
     private ItemContentInformation[] ItemContentInformations;
 
@@ -36,7 +35,6 @@ public class EnhanceStatsPanel : MonoBehaviour
         ItemContentInformations = GetComponentsInChildren<ItemContentInformation>(true);
 
         enhancementManager = GetComponentInParent<EnhancementManager>();
-        enhancementManager.OnItemUpgrade += EnhancementManager_OnItemUpgrade;
         enhancementManager.OnEnhanceItemChanged += EnhancementManager_OnEnhanceItemChanged;
         enhancementManager.OnSlotChanged += EnhancementManager_OnSlotChanged;
         enhancementManager.OnItemUpgradeProcessing += EnhancementManager_OnItemUpgradeProcessing;
@@ -45,19 +43,38 @@ public class EnhanceStatsPanel : MonoBehaviour
 
     private void EnhancementManager_OnItemUpgradeProcessing(object sender, UpgradeEvent e)
     {
-        toggleStats = false;
-
-        if (GetCurrentEXP() >= GetMaxCurrentEXP())
+        if (upgradingAnimationCoroutine != null)
         {
-            SetCurrentEXP(0f);
-            e.TotalEXP -= GetMaxCurrentEXP();
-            e.currentLevel++;
-            int requiredEXP = GetEXPRequired(e.currentLevel);
-            SetMaxCurrentEXP(requiredEXP);
-            SetPreviewEXP(e.TotalEXP);
+            StopCoroutine(upgradingAnimationCoroutine);
         }
 
-        SetCurrentEXP(Mathf.Lerp(CurrentExpSlider.value, e.TotalEXP, e.interpolation));
+        upgradingAnimationCoroutine = StartCoroutine(UpgradingCoroutineAnimation(e));
+    }
+
+    private IEnumerator UpgradingCoroutineAnimation(UpgradeEvent e)
+    {
+        float elapseTime = 0f;
+        float duration = e.duration;
+
+        while (elapseTime <= duration)
+        {
+            if (GetCurrentEXP() >= GetMaxCurrentEXP())
+            {
+                SetCurrentEXP(0f);
+                e.totalEXP -= GetMaxCurrentEXP();
+                e.currentLevel++;
+                int requiredEXP = GetEXPRequired(e.currentLevel);
+                SetMaxCurrentEXP(requiredEXP);
+                SetPreviewEXP(e.totalEXP);
+            }
+
+            SetCurrentEXP(Mathf.Lerp(CurrentExpSlider.value, e.totalEXP, elapseTime / duration));
+            elapseTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        UpdateItemInformationDisplay();
+        upgradingAnimationCoroutine = null;
     }
 
     private int GetIncreasedPreviewLevel(int IncreaseExp)
@@ -83,9 +100,6 @@ public class EnhanceStatsPanel : MonoBehaviour
 
     private void EnhancementManager_OnSlotChanged(int IncreaseExp)
     {
-        if (!toggleStats)
-            return;
-
         int IncreaseLevel = GetIncreasedPreviewLevel(IncreaseExp);
         IncreasePreviewLevelTxt.gameObject.SetActive(IncreaseLevel != 0);
         IncreasePreviewLevelTxt.text = "+" + IncreaseLevel;
@@ -106,26 +120,20 @@ public class EnhanceStatsPanel : MonoBehaviour
     }
 
 
-    public int GetCurrentEXP()
+    private int GetCurrentEXP()
     {
         return ((int)CurrentExpSlider.value);
     }
 
     private void SetMaxCurrentEXP(float value)
     {
-        CurrentExpSlider.maxValue = value;
-        SetMaxPreviewEXP(CurrentExpSlider.maxValue);
+        PreviewExpSlider.maxValue = value;
+        CurrentExpSlider.maxValue = PreviewExpSlider.maxValue;
     }
     private int GetMaxCurrentEXP()
     {
         return ((int)CurrentExpSlider.maxValue);
     }
-
-    private void SetMaxPreviewEXP(float value)
-    {
-        PreviewExpSlider.maxValue = value;
-    }
-
 
     private int GetEXPRequired(int level)
     {
@@ -144,9 +152,6 @@ public class EnhanceStatsPanel : MonoBehaviour
 
     private void UpdateVisual()
     {
-        if (upgradableItem == enhancementManager.upgradableItem)
-            return;
-
         UnsubscribeEvents();
         upgradableItem = enhancementManager.upgradableItem;
         SubscribeEvents();
@@ -165,12 +170,6 @@ public class EnhanceStatsPanel : MonoBehaviour
     {
     }
 
-    private void EnhancementManager_OnItemUpgrade()
-    {
-
-        UpdateItemInformationDisplay();
-    }
-
     private void UnsubscribeEvents()
     {
         if (upgradableItem == null)
@@ -184,16 +183,13 @@ public class EnhanceStatsPanel : MonoBehaviour
         UnsubscribeEvents();
         if (enhancementManager != null)
         {
-            enhancementManager.OnEnhanceItemChanged -= EnhancementManager_OnItemUpgrade;
             enhancementManager.OnEnhanceItemChanged -= EnhancementManager_OnEnhanceItemChanged;
-            enhancementManager.OnItemUpgrade -= EnhancementManager_OnItemUpgrade;
             enhancementManager.OnSlotChanged -= EnhancementManager_OnSlotChanged;
         }
     }
 
     private void UpdateEXPEntityDisplay()
     {
-        toggleStats = true;
         LevelContent.gameObject.SetActive(upgradableItem != null);
 
         if (upgradableItem == null)

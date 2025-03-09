@@ -51,9 +51,7 @@ public class PartySetupManager
 
     public PartySetup GetParty(int PartyIndex)
     {
-        int index = PartyIndex;
-
-        index = Mathf.Clamp(index, 0, PartySetupList.Count);
+        int index = Mathf.Clamp(PartyIndex, 0, PartySetupList.Count);
 
         return PartySetupList[index];
     }

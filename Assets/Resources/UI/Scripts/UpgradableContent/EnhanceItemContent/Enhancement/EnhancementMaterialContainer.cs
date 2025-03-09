@@ -17,21 +17,21 @@ public class EnhancementMaterialContainer : MonoBehaviour
     private Rarity raritySelection;
     private EnhancementManager enhancementManager;
     private UpgradableItems upgradableItem;
-    private int TotalExpAmount;
+    private int totalExpAmount;
     public event Action<int> OnUpgradeClick;
     public event Action<int> OnSlotChanged;
 
     private void Awake()
     {
-        TotalExpAmount = 0;
+        totalExpAmount = 0;
 
         enhancementManager = GetComponentInParent<EnhancementManager>();
         enhancementManager.OnEnhanceItemChanged += EnhancePanel_OnEnhanceItemChanged;
 
         slotManager = GetComponentInChildren<SlotManager>();
         SlotPopup.SetSlotManager(slotManager);
-
         SlotPopup.OnSlotChanged += SlotManager_OnSlotChanged;
+        SlotPopup.OnSlotItemAdd += SlotPopup_OnSlotItemAdd;
 
         AutoAddBtn.onClick.AddListener(OnAutoAdd);
         EnhanceBtn.onClick.AddListener(OnEnhance);
@@ -42,6 +42,16 @@ public class EnhancementMaterialContainer : MonoBehaviour
         });
     }
 
+    private void SlotPopup_OnSlotItemAdd(Slot Slot)
+    {
+        if (!IsMax(totalExpAmount))
+        {
+            return;
+        }
+
+        Slot.DeleteIItem();
+    }
+
     private void Start()
     {
         UpdateVisual();
@@ -49,8 +59,16 @@ public class EnhancementMaterialContainer : MonoBehaviour
 
     private void SlotManager_OnSlotChanged(Slot Slot)
     {
-        TotalExpAmount = GetIncreaseTotalExp();
-        OnSlotChanged?.Invoke(TotalExpAmount);
+        totalExpAmount = GetIncreaseTotalExp();
+
+        OnSlotChanged?.Invoke(totalExpAmount);
+    }
+
+    private bool IsMax(int IncreaseEXP)
+    {
+        int totalEnhancementRequired = GetTotalEXP(upgradableItem, upgradableItem.maxLevel) - upgradableItem.currentEXP;
+        int totalEXP = GetTotalEXP(upgradableItem, upgradableItem.level);
+        return totalEXP + IncreaseEXP >= totalEnhancementRequired;
     }
 
     private int GetIncreaseTotalExp()
@@ -140,7 +158,7 @@ public class EnhancementMaterialContainer : MonoBehaviour
             return;
         }
 
-        OnUpgradeClick?.Invoke(TotalExpAmount);
+        OnUpgradeClick?.Invoke(totalExpAmount);
 
         SlotPopup.RemoveItems(SlotPopup.GetAllSlotEntities());
 
@@ -156,7 +174,8 @@ public class EnhancementMaterialContainer : MonoBehaviour
         {
             enhancementManager.OnEnhanceItemChanged -= EnhancePanel_OnEnhanceItemChanged;
         }
-
+        SlotPopup.OnSlotChanged -= SlotManager_OnSlotChanged;
+        SlotPopup.OnSlotItemAdd -= SlotPopup_OnSlotItemAdd;
         AutoAddBtn.onClick.RemoveAllListeners();
         EnhanceBtn.onClick.RemoveAllListeners();
 

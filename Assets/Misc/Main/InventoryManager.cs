@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 [DisallowMultipleComponent]
 public class InventoryManager : MonoBehaviour
