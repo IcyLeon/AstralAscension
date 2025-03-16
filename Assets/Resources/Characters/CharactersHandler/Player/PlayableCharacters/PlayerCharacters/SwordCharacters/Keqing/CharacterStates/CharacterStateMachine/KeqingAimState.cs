@@ -19,10 +19,9 @@ public class KeqingAimState : StellarRestorationState
     {
         base.Enter();
         StartAnimation(stellarRestoration.keqingAnimationSO.aimParameter);
-
-        playableCharacterStateMachine.playerStateMachine.ChangeState(playableCharacterStateMachine.
-            playerStateMachine.playerAimState);
+        playerAimController.Enter();
     }
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -33,6 +32,12 @@ public class KeqingAimState : StellarRestorationState
     {
         base.OnDisable();
         playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        playerAimController.FixedUpdate();
     }
 
     private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -53,6 +58,7 @@ public class KeqingAimState : StellarRestorationState
                                                             originalTargetPos - origin,
                                                             Range);
         aimRigController.SmoothRigTransition.SetTargetPosition(stellarRestoration.stellarRestorationReusableData.targetPosition);
+        playerAimController.Update();
     }
 
     private float GetOffSet(Vector3 EmitterPos)

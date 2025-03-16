@@ -19,59 +19,18 @@ public class PlayerStateMachine
     public PlayerSoftLandingState playerSoftLandingState { get; }
     public PlayerPlungeLandingState playerPlungeLandingState { get; }
     public PlayerPlungeState playerPlungeState { get; }
-    public PlayerAimState playerAimState { get; }
     public PlayerAttackState playerAttackState { get; }
     public PlayerDeadState playerDeadState { get; }
     public PlayerController playerController { get; }
-    public Player player
-    {
-        get
-        {
-            return playableCharacter.player;
-        }
-    }
-    public PlayableCharacters playableCharacter
-    {
-        get
-        {
-            return PlayableCharacterStateMachine.playableCharacters;
-        }
-    }
-    public void SmoothRotateToTargetRotation()
-    {
-        float currentAngleY = player.Rb.transform.eulerAngles.y;
-        if (currentAngleY == playerData.targetYawRotation)
-        {
-            return;
-        }
+    public Player player { get; }
+    public PlayableCharacters playableCharacter { get; }
 
-        float angle = Mathf.SmoothDampAngle(currentAngleY, playerData.targetYawRotation, ref playerData.dampedTargetRotationCurrentVelocity, playerData.rotationTime - playerData.dampedTargetRotationPassedTime);
-        playerData.dampedTargetRotationPassedTime += Time.deltaTime;
-        player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
-    }
 
     public void ResetVelocity()
     {
         player.Rb.velocity = Vector3.zero;
     }
-    public void UpdateTargetRotationData(float angle)
-    {
-        float currentAngle = playerData.targetYawRotation;
 
-        if (currentAngle == angle)
-            return;
-
-        playerData.targetYawRotation = angle;
-        playerData.dampedTargetRotationPassedTime = 0f;
-    }
-
-    public PlayerData playerData
-    {
-        get
-        {
-            return player.playerData;
-        }
-    }
 
     public bool IsInState<T>()
     {
@@ -138,10 +97,11 @@ public class PlayerStateMachine
 
     public PlayerStateMachine(PlayableCharacterStateMachine PCS)
     {
-        PlayableCharacterStateMachine = PCS;
         playerController = PlayerController.instance;
+        PlayableCharacterStateMachine = PCS;
+        playableCharacter = PlayableCharacterStateMachine.playableCharacters;
+        player = playableCharacter.player;
         StateMachineManager = new StateMachineManager();
-        playerAimState = new PlayerAimState(this);
         playerIdleState = new PlayerIdleState(this);
         playerRunState = new PlayerRunState(this);
         playerWeakStopState = new PlayerWeakStopState(this);

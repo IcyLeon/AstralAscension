@@ -14,7 +14,7 @@ public class PlayerPlungeState : PlayerAirborneState
         base.Enter();
         playerStateMachine.ResetVelocity();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
-        playerStateMachine.playerData.SpeedModifier = 0f;
+        playerStateMachine.player.playerData.SpeedModifier = 0f;
         playerStateMachine.player.Rb.useGravity = false;
     }
     public override void FixedUpdate()
@@ -41,7 +41,7 @@ public class PlayerPlungeState : PlayerAirborneState
         }
 
         playerStateMachine.player.Rb.AddForce(
-                (playerStateMachine.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down) - GetVerticalVelocity(),
+                (playerStateMachine.player.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down) - GetVerticalVelocity(),
                 ForceMode.VelocityChange);
     }
 

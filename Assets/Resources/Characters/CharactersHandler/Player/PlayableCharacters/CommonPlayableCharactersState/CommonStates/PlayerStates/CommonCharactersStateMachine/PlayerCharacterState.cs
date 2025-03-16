@@ -39,11 +39,11 @@ public abstract class PlayerCharacterState : DamageableEntityState
 
     public override void UpdateTargetRotationData(float angle)
     {
-        playableCharacterStateMachine.playerStateMachine.UpdateTargetRotationData(angle);
+        playableCharacterStateMachine.playerStateMachine.player.playerData.UpdateTargetRotationData(angle);
     }
     public override void SmoothRotateToTargetRotation()
     {
-        playableCharacterStateMachine.playerStateMachine.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
     }
 
     public override void OnEnable()

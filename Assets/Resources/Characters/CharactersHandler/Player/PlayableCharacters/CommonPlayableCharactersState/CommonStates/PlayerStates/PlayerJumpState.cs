@@ -18,10 +18,10 @@ public class PlayerJumpState : PlayerAirborneState
         StartAnimation(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
         playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomJumpVOClip());
 
-        playerStateMachine.playerData.SpeedModifier = 0f; 
+        playerStateMachine.player.playerData.SpeedModifier = 0f; 
 
-        playerStateMachine.playerData.DecelerateForce = playerStateMachine.playerData.airborneData.PlayerJumpData.JumpDecelerationForce;
-        playerStateMachine.playerData.rotationTime = playerStateMachine.playerData.airborneData.PlayerJumpData.RotationTime;
+        playerStateMachine.player.playerData.DecelerateForce = playerStateMachine.player.playerData.airborneData.PlayerJumpData.JumpDecelerationForce;
+        playerStateMachine.player.playerData.rotationTime = playerStateMachine.player.playerData.airborneData.PlayerJumpData.RotationTime;
         canRotate = !IsMovementKeyPressed();
 
         Jump();
@@ -33,7 +33,7 @@ public class PlayerJumpState : PlayerAirborneState
 
         if (canRotate)
         {
-            playerStateMachine.SmoothRotateToTargetRotation();
+            playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
         }
 
         if (IsMovingUp())
@@ -47,12 +47,12 @@ public class PlayerJumpState : PlayerAirborneState
         Vector3 forcedir = playerStateMachine.player.transform.forward;
         if (canRotate)
         {
-            forcedir = GetDirectionXZ(playerStateMachine.playerData.targetYawRotation);
+            forcedir = GetDirectionXZ(playerStateMachine.player.playerData.targetYawRotation);
         }
         playerStateMachine.ResetVelocity();
 
-        forcedir = forcedir.normalized * playerStateMachine.playerData.currentJumpForceMagnitudeXZ;
-        forcedir.y = playerStateMachine.playerData.airborneData.PlayerJumpData.JumpForceY;
+        forcedir = forcedir.normalized * playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ;
+        forcedir.y = playerStateMachine.player.playerData.airborneData.PlayerJumpData.JumpForceY;
         playerStateMachine.player.Rb.AddForce(forcedir, ForceMode.VelocityChange);
     }
 

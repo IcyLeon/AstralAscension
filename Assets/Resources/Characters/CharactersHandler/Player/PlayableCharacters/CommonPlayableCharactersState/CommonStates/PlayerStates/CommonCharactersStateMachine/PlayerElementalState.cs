@@ -107,12 +107,12 @@ public abstract class PlayerElementalState : IState, IPlayableElementalState
 
     public void UpdateTargetRotationData(float data)
     {
-        playableCharacterStateMachine.playerStateMachine.UpdateTargetRotationData(data);
+        playableCharacterStateMachine.playerStateMachine.player.playerData.UpdateTargetRotationData(data);
     }
 
     public void SmoothRotateToTargetRotation()
     {
-        playableCharacterStateMachine.playerStateMachine.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
     }
 
     public virtual bool IsElementalStateEnded()

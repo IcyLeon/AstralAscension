@@ -12,6 +12,6 @@ public class PlayerWeakStopState : PlayerStopState
     {
         base.Enter();
         SetAnimationTrigger(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakStopParameter);
-        playerStateMachine.playerData.DecelerateForce = playerStateMachine.playerData.groundedData.PlayerStopData.WeakDecelerationForce;
+        playerStateMachine.player.playerData.DecelerateForce = playerStateMachine.player.playerData.groundedData.PlayerStopData.WeakDecelerationForce;
     }
 }

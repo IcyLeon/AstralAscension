@@ -12,7 +12,7 @@ public class PlayerDeadState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.playerData.SpeedModifier = 0f;
+        playerStateMachine.player.playerData.SpeedModifier = 0f;
 
     }
 

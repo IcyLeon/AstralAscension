@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StellarRestoration : ElementalSkillStateMachine
 {
+    public PlayerAimController playerAimController { get; }
     public KeqingAimState keqingAimState { get; }
     public KeqingTeleportState keqingTeleportState { get; }
     public KeqingThrowState keqingThrowState { get; }
@@ -37,6 +38,7 @@ public class StellarRestoration : ElementalSkillStateMachine
         {
             Debug.LogError("To use Stellar Restoration skill, make sure it has KeqingAnimationSO scriptable object!");
         }
+        playerAimController = new PlayerAimController(playableCharacterStateMachine.playableCharacters);
         keqingAimState = new KeqingAimState(this);
         keqingTeleportState = new KeqingTeleportState(this);
         keqingThrowState = new KeqingThrowState(this);

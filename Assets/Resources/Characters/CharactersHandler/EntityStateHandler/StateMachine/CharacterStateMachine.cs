@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class CharacterStateMachine
+public abstract class CharacterStateMachine : StateMachine
 {
     protected StateMachineManager StateMachineManager;
     public Characters characters { get; }
@@ -11,7 +11,7 @@ public abstract class CharacterStateMachine
     public EntityState EntityState { get; protected set; }
     public CharacterReuseableData characterReuseableData { get; protected set; }
 
-    public virtual void Update()
+    public override void Update()
     {
         if (characterReuseableData != null)
             characterReuseableData.Update();
@@ -19,32 +19,32 @@ public abstract class CharacterStateMachine
         StateMachineManager.Update();
     }
 
-    protected virtual void InitState()
-    {
-    }
-
     public bool IsInState<T>()
     {
         return StateMachineManager.IsInState<T>();
     }
-    public virtual void FixedUpdate()
+    public override void FixedUpdate()
     {
+        base.FixedUpdate();
         StateMachineManager.FixedUpdate();
     }
 
-    public virtual void LateUpdate()
+    public override void LateUpdate()
     {
+        base.LateUpdate();
         StateMachineManager.LateUpdate();
     }
 
-    public virtual void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         StateMachineManager.OnEnable();
         ChangeState(EntityState);
     }
 
-    public virtual void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
         StateMachineManager.OnDisable();
 
         if (characterReuseableData != null)
@@ -99,7 +99,6 @@ public abstract class CharacterStateMachine
     {
         StateMachineManager = new StateMachineManager();
         this.characters = characters;
-        InitState();
         InitComponent();
         StartState(EntityState);
     }
@@ -109,8 +108,9 @@ public abstract class CharacterStateMachine
 
     }
 
-    public virtual void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         if (characterReuseableData != null)
             characterReuseableData.OnDestroy();
     }
