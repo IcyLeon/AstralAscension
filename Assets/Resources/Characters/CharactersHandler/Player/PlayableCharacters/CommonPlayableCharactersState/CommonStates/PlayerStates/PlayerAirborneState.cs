@@ -28,7 +28,7 @@ public class PlayerAirborneState : PlayerMovementState
 
     protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!CheckGroundDistance(playerStateMachine.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
+        if (!CheckGroundDistance(playerStateMachine.player.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
             return;
 
         playerStateMachine.ChangeState(playerStateMachine.playerPlungeState);
@@ -36,7 +36,7 @@ public class PlayerAirborneState : PlayerMovementState
 
     protected void LimitFallVelocity()
     {
-        float FallSpeedLimit = playerStateMachine.playerData.airborneData.PlayerFallData.FallLimitVelocity;
+        float FallSpeedLimit = playerStateMachine.player.playerData.airborneData.PlayerFallData.FallLimitVelocity;
         Vector3 velocity = GetVerticalVelocity();
         float limitVelocityY = Mathf.Max(velocity.y, -FallSpeedLimit);
         playerStateMachine.player.Rb.velocity = new Vector3(playerStateMachine.player.Rb.velocity.x, limitVelocityY, playerStateMachine.player.Rb.velocity.z);

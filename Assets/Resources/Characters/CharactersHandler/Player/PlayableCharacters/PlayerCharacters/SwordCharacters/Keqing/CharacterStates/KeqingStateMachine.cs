@@ -16,11 +16,6 @@ public class KeqingStateMachine : SwordCharacterStateMachine
     {
         playerElementalSkillStateMachine = new StellarRestoration(this);
         playerElementalBurstStateMachine = new SkywardSword(this);
-    }
-
-    protected override void InitState()
-    {
-        base.InitState();
         EntityState = new KeqingState(this);
     }
 

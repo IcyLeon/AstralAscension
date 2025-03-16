@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerData
 {
+    private Player player;
     public GroundedData groundedData { get; private set; }
     public AirborneData airborneData { get; private set; }
 
@@ -20,8 +21,9 @@ public class PlayerData
 
     public int consecutiveDashesUsed;
 
-    public PlayerData(Player player)
+    public PlayerData(Player Player)
     {
+        player = Player;
         canSprint = false;
         groundedData = player.PlayerSO.GroundedData;
         airborneData = player.PlayerSO.AirborneData;
@@ -33,6 +35,30 @@ public class PlayerData
         consecutiveDashesUsed = 0;
         targetYawRotation = 0;
         rotationTime = 0.14f;
+    }
+
+    public void SmoothRotateToTargetRotation()
+    {
+        float currentAngleY = player.Rb.transform.eulerAngles.y;
+        if (currentAngleY == targetYawRotation)
+        {
+            return;
+        }
+
+        float angle = Mathf.SmoothDampAngle(currentAngleY, targetYawRotation, ref dampedTargetRotationCurrentVelocity, rotationTime - dampedTargetRotationPassedTime);
+        dampedTargetRotationPassedTime += Time.deltaTime;
+        player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+    }
+
+    public void UpdateTargetRotationData(float angle)
+    {
+        float currentAngle = targetYawRotation;
+
+        if (currentAngle == angle)
+            return;
+
+       targetYawRotation = angle;
+       dampedTargetRotationPassedTime = 0f;
     }
 
     public bool IsMovementKeyPressed()

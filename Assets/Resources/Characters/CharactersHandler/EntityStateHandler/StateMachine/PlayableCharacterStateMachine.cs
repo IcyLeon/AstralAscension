@@ -61,13 +61,6 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
 
     protected abstract void InitSkills();
 
-    protected override void InitState()
-    {
-        base.InitState();
-        playerController = PlayerController.instance;
-        InitSkills();
-    }
-
     public override void FixedUpdate()
     {
         if (playerStateMachine != null)
@@ -99,6 +92,8 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
     public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {
         playerStateMachine = new PlayerStateMachine(this);
+        playerController = playerStateMachine.playerController;
+        InitSkills();
     }
 
     public override void OnEnable()

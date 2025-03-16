@@ -11,7 +11,6 @@ public class PlayerCameraManager : MonoBehaviour
 
     private GameplayCamera gameplayPlayerCamera;
     private GameplayCamera gameplayAimCamera;
-    private GameplayCamera[] GameplayCameralist;
     private GameplayCamera currentCamera;
 
     public Camera CameraMain { get; private set; }
@@ -53,7 +52,6 @@ public class PlayerCameraManager : MonoBehaviour
     {
         playerController = PlayerController.instance;
         transform.SetParent(null);
-
         ChangeCamera(gameplayPlayerCamera);
     }
 
@@ -90,10 +88,5 @@ public class PlayerCameraManager : MonoBehaviour
         }
 
         ChangeCamera(gameplayPlayerCamera);
-    }
-
-    public bool IsAimCameraActive()
-    {
-        return currentCamera == gameplayAimCamera;
     }
 }

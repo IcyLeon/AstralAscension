@@ -90,7 +90,7 @@ public abstract class PlayerGroundedState : PlayerMovementState
         if (IsSkillCasting())
             return;
 
-        if (playerStateMachine.playerData.canSprint)
+        if (playerStateMachine.player.playerData.canSprint)
         {
             playerStateMachine.ChangeState(playerStateMachine.playerSprintState);
             return;

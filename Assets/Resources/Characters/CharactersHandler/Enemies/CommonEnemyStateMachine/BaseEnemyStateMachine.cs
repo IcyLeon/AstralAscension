@@ -8,8 +8,4 @@ public class BaseEnemyStateMachine : CharacterStateMachine
     {
     }
 
-    protected override void InitState()
-    {
-    }
-
 }

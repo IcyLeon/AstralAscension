@@ -11,8 +11,8 @@ public class PlayerSprintState : PlayerMovingState
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
-        playerStateMachine.playerData.SpeedModifier = playerStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
+        playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.player.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
+        playerStateMachine.player.playerData.SpeedModifier = playerStateMachine.player.playerData.groundedData.PlayerSprintData.SpeedModifier;
     }
 
     protected override void OnStop()
@@ -23,6 +23,6 @@ public class PlayerSprintState : PlayerMovingState
     public override void Exit()
     {
         base.Exit();
-        playerStateMachine.playerData.canSprint = false;
+        playerStateMachine.player.playerData.canSprint = false;
     }
 }

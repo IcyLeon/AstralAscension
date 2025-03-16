@@ -114,7 +114,7 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void SmoothRotateToTargetRotation()
     {
-        playableCharacterStateMachine.playerStateMachine.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
     }
 
     public virtual void StartAnimation(string parameter)
@@ -135,7 +135,7 @@ public class PlayerCharacterAttackState : IState
                 return;
 
             if (playableCharacterStateMachine.playableCharacterReuseableData.CanTransitBackToIdleState() 
-                || playableCharacterStateMachine.playerStateMachine.playerData.IsMovementKeyPressed())
+                || playableCharacterStateMachine.playerStateMachine.player.playerData.IsMovementKeyPressed())
             {
                 Reset();
             }
@@ -152,6 +152,6 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void UpdateTargetRotationData(float angle)
     {
-        playableCharacterStateMachine.playerStateMachine.UpdateTargetRotationData(angle);
+        playableCharacterStateMachine.playerStateMachine.player.playerData.UpdateTargetRotationData(angle);
     }
 }

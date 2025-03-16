@@ -12,8 +12,8 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Enter();
         StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.idleParameter);
-        playerStateMachine.playerData.SpeedModifier = 0f;
-        playerStateMachine.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
+        playerStateMachine.player.playerData.SpeedModifier = 0f;
+        playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.player.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
         playerStateMachine.ResetVelocity();
     }
 
