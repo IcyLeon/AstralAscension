@@ -8,7 +8,6 @@ public abstract class CharacterStateMachine : StateMachine
     /// <summary>
     /// Starting State for entities
     /// </summary>
-    public EntityState EntityState { get; protected set; }
     public CharacterReuseableData characterReuseableData { get; protected set; }
 
     public override void Update()
@@ -39,7 +38,7 @@ public abstract class CharacterStateMachine : StateMachine
     {
         base.OnEnable();
         StateMachineManager.OnEnable();
-        ChangeState(EntityState);
+        StateMachineManager.ResetState();
     }
 
     public override void OnDisable()
@@ -89,18 +88,16 @@ public abstract class CharacterStateMachine : StateMachine
     {
         StateMachineManager.ChangeState(newState);
     }
-    private void StartState(IState newState)
+    protected void StartState(IState newState)
     {
         StateMachineManager.StartState(newState);
     }
-
 
     public CharacterStateMachine(Characters characters)
     {
         StateMachineManager = new StateMachineManager();
         this.characters = characters;
         InitComponent();
-        StartState(EntityState);
     }
 
     protected virtual void InitComponent()

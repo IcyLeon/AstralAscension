@@ -5,27 +5,27 @@ using UnityEngine;
 
 public class PlayerDeadState : PlayerMovementState
 {
-    public PlayerDeadState(PlayerStateMachine PS) : base(PS)
+    public PlayerDeadState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.player.playerData.SpeedModifier = 0f;
+        playableCharacterStateMachine.player.playerData.SpeedModifier = 0f;
 
     }
 
     protected override void OnDeadUpdate()
     {
-        if (playableCharacters.IsDead())
+        if (playableCharacter.IsDead())
             return;
 
         if (!IsMovementKeyPressed())
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+            playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
             return;
         }
-        playerStateMachine.ChangeState(playerStateMachine.playerRunState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerRunState);
     }
 }

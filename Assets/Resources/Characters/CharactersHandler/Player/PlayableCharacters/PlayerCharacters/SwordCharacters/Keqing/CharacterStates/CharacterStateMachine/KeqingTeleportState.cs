@@ -27,7 +27,7 @@ public class KeqingTeleportState : StellarRestorationState
         UpdateTargetRotationData(angle);
 
         playableCharacterStateMachine.player.Rb.useGravity = false;
-        playableCharacterStateMachine.playableCharacters.Animator.gameObject.SetActive(false);
+        playableCharacterStateMachine.playableCharacter.Animator.gameObject.SetActive(false);
     }
 
     public override void OnEnable()
@@ -84,6 +84,6 @@ public class KeqingTeleportState : StellarRestorationState
     {
         base.Exit();
         stellarRestoration.stellarRestorationReusableData.hairpinTeleporter.Hide();
-        playableCharacterStateMachine.playableCharacters.Animator.gameObject.SetActive(true);
+        playableCharacterStateMachine.playableCharacter.Animator.gameObject.SetActive(true);
     }
 }

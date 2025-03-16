@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerHardLandingState : PlayerLandingState
 {
-    public PlayerHardLandingState(PlayerStateMachine PS) : base(PS)
+    public PlayerHardLandingState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        SetAnimationTrigger(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.hardLandParameter);
+        SetAnimationTrigger(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.hardLandParameter);
     }
 }

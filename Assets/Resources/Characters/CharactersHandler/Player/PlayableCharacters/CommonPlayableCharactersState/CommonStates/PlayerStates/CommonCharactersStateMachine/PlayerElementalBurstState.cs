@@ -16,8 +16,8 @@ public abstract class PlayerElementalBurstState : PlayerElementalState
 
     protected virtual void InitBaseBurstAction()
     {
-        playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalBurstVOClip());
-        playableCharacters.playableCharacterDataStat.ResetElementalBurstCooldown();
-        SetAnimationTrigger(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateHash.elementalBurstParameter);
+        playableCharacter.PlayVOAudio(playableCharacter.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalBurstVOClip());
+        playableCharacter.playableCharacterDataStat.ResetElementalBurstCooldown();
+        SetAnimationTrigger(playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateHash.elementalBurstParameter);
     }
 }

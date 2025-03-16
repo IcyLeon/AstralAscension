@@ -52,7 +52,7 @@ public class KeqingAimState : StellarRestorationState
     {
         base.Update();
 
-        Vector3 origin = playableCharacters.GetCenterBound();
+        Vector3 origin = playableCharacter.GetCenterBound();
         Vector3 originalTargetPos = Player.GetTargetCameraRayPosition(Range + GetOffSet(origin));
         stellarRestoration.stellarRestorationReusableData.targetPosition = Player.GetRayPosition(origin,
                                                             originalTargetPos - origin,

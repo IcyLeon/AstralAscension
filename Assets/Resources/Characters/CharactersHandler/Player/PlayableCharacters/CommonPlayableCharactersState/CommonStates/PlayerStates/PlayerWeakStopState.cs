@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerWeakStopState : PlayerStopState
 {
-    public PlayerWeakStopState(PlayerStateMachine PS) : base(PS)
+    public PlayerWeakStopState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        SetAnimationTrigger(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakStopParameter);
-        playerStateMachine.player.playerData.DecelerateForce = playerStateMachine.player.playerData.groundedData.PlayerStopData.WeakDecelerationForce;
+        SetAnimationTrigger(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.weakStopParameter);
+        playableCharacterStateMachine.player.playerData.DecelerateForce = playableCharacterStateMachine.player.playerData.groundedData.PlayerStopData.WeakDecelerationForce;
     }
 }

@@ -23,14 +23,14 @@ public abstract class PlayerElementalState : IState, IPlayableElementalState
     {
         OnEnable();
         SkillBurstManager.AddState(this);
-        StartAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
-        playableCharacterStateMachine.playerStateMachine.ResetVelocity();
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
+        playableCharacterStateMachine.ResetVelocity();
     }
 
     public virtual void Exit()
     {
         OnDisable();
-        StopAnimation(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateParameter);
     }
 
     /// <summary>
@@ -44,11 +44,11 @@ public abstract class PlayerElementalState : IState, IPlayableElementalState
     {
     }
 
-    protected PlayableCharacters playableCharacters
+    protected PlayableCharacters playableCharacter
     {
         get
         {
-            return playableCharacterStateMachine.playableCharacters;
+            return playableCharacterStateMachine.playableCharacter;
         }
     }
     public virtual void FixedUpdate()
@@ -107,17 +107,17 @@ public abstract class PlayerElementalState : IState, IPlayableElementalState
 
     public void UpdateTargetRotationData(float data)
     {
-        playableCharacterStateMachine.playerStateMachine.player.playerData.UpdateTargetRotationData(data);
+        playableCharacterStateMachine.player.playerData.UpdateTargetRotationData(data);
     }
 
     public void SmoothRotateToTargetRotation()
     {
-        playableCharacterStateMachine.playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.player.playerData.SmoothRotateToTargetRotation();
     }
 
     public virtual bool IsElementalStateEnded()
     {
-        return playableCharacters.IsDead();
+        return playableCharacter.IsDead();
     }
 
     public virtual void OnElementalStateEnter()

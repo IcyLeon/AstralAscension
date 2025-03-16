@@ -11,18 +11,18 @@ public abstract class PlayerElementalSkillState : PlayerElementalState
     public override void Enter()
     {
         base.Enter();
-        SetAnimationTrigger(playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateHash.elementalSkillParameter);
-        playableCharacterStateMachine.playableCharacters.OnTakeDamage += OnDamageHit;
+        SetAnimationTrigger(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.elementalStateHash.elementalSkillParameter);
+        playableCharacterStateMachine.playableCharacter.OnTakeDamage += OnDamageHit;
     }
 
     protected virtual void OnDamageHit(float BaseDamageAmount)
     {
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
     }
 
     public override void Exit()
     {
         base.Exit();
-        playableCharacterStateMachine.playableCharacters.OnTakeDamage -= OnDamageHit;
+        playableCharacterStateMachine.playableCharacter.OnTakeDamage -= OnDamageHit;
     }
 }

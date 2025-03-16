@@ -12,7 +12,7 @@ public abstract class ElementalBurstControlState : ElementalControlBaseState
 
     private bool CanTransitToElementalBurstState()
     {
-        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacters.playableCharacterDataStat.CanUseElementalBurst() &&
+        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacter.playableCharacterDataStat.CanUseElementalBurst() &&
             !playableCharacterStateMachine.IsSkillCasting();
     }
 

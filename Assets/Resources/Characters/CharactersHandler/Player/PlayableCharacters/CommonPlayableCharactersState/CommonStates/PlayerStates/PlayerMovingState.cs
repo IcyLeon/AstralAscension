@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovingState : PlayerGroundedState
 {
-    public PlayerMovingState(PlayerStateMachine PS) : base(PS)
+    public PlayerMovingState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
@@ -16,7 +16,7 @@ public class PlayerMovingState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.movingParameter);
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.movingParameter);
     }
 
     public override void FixedUpdate()
@@ -39,6 +39,6 @@ public class PlayerMovingState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.movingParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.movingParameter);
     }
 }

@@ -17,8 +17,8 @@ public class StellarRestorationControlState : ElementalSkillControlState
         if (!stellarRestoration.stellarRestorationReusableData.CanThrow())
             return;
 
-        Vector3 origin = playableCharacterStateMachine.playableCharacters.GetCenterBound();
-        stellarRestoration.stellarRestorationReusableData.targetPosition = origin + playableCharacterStateMachine.playableCharacters.transform.forward * stellarRestoration.stellarRestorationReusableData.ElementalSkillRange;
+        Vector3 origin = playableCharacterStateMachine.playableCharacter.GetCenterBound();
+        stellarRestoration.stellarRestorationReusableData.targetPosition = origin + playableCharacterStateMachine.playableCharacter.transform.forward * stellarRestoration.stellarRestorationReusableData.ElementalSkillRange;
         playableCharacterStateMachine.ChangeState(stellarRestoration.keqingThrowState);
     }
 

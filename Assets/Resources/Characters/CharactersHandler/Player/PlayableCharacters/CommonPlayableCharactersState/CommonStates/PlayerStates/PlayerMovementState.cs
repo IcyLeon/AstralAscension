@@ -5,45 +5,45 @@ using UnityEngine;
 
 public abstract class PlayerMovementState : IState
 {
-    protected PlayerStateMachine playerStateMachine;
+    protected PlayableCharacterStateMachine playableCharacterStateMachine;
     protected PlayerController playerController;
-    public PlayerMovementState(PlayerStateMachine PS)
+    public PlayerMovementState(PlayableCharacterStateMachine PS)
     {
-        playerStateMachine = PS;
-        playerController = playerStateMachine.playerController;
+        playableCharacterStateMachine = PS;
+        playerController = playableCharacterStateMachine.playerController;
         InitBaseRotation();
     }
 
     public void SmoothRotateToTargetRotation()
     {
-        playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.player.playerData.SmoothRotateToTargetRotation();
     }
 
     public void UpdateTargetRotationData(float angle)
     {
-        playerStateMachine.player.playerData.UpdateTargetRotationData(angle);
+        playableCharacterStateMachine.player.playerData.UpdateTargetRotationData(angle);
     }
 
-    public PlayableCharacters playableCharacters
+    public PlayableCharacters playableCharacter
     {
         get
         {
-            return playerStateMachine.playableCharacter;
+            return playableCharacterStateMachine.playableCharacter;
         }
     }
 
 
     protected void InitBaseRotation()
     {
-        playerStateMachine.player.playerData.rotationTime = playerStateMachine.player.playerData.groundedData.BaseRotationTime;
+        playableCharacterStateMachine.player.playerData.rotationTime = playableCharacterStateMachine.player.playerData.groundedData.BaseRotationTime;
     }
 
     protected bool IsGrounded()
     {
-        Vector3 position = playerStateMachine.player.Rb.position;
-        position.y += playableCharacters.MainCollider.radius / 2f;
+        Vector3 position = playableCharacterStateMachine.player.Rb.position;
+        position.y += playableCharacter.MainCollider.radius / 2f;
 
-        return Physics.CheckSphere(position, playableCharacters.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
+        return Physics.CheckSphere(position, playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
     }
 
     public virtual void Enter()
@@ -69,7 +69,7 @@ public abstract class PlayerMovementState : IState
     protected void DecelerateHorizontal()
     {
         Vector3 vel = GetHorizontalVelocity();
-        playerStateMachine.player.Rb.AddForce(-vel * playerStateMachine.player.playerData.DecelerateForce, ForceMode.Acceleration);
+        playableCharacterStateMachine.player.Rb.AddForce(-vel * playableCharacterStateMachine.player.playerData.DecelerateForce, ForceMode.Acceleration);
     }
 
     protected bool IsMovingHorizontal(float val = 0.1f)
@@ -85,46 +85,46 @@ public abstract class PlayerMovementState : IState
     protected void DecelerateVertical()
     {
         Vector3 vel = GetVerticalVelocity();
-        playerStateMachine.player.Rb.AddForce(-vel * playerStateMachine.player.playerData.DecelerateForce, ForceMode.Acceleration);
+        playableCharacterStateMachine.player.Rb.AddForce(-vel * playableCharacterStateMachine.player.playerData.DecelerateForce, ForceMode.Acceleration);
     }
 
     public void StartAnimation(string parameter)
     {
-        playerStateMachine.PlayableCharacterStateMachine.StartAnimation(parameter);
+        playableCharacterStateMachine.StartAnimation(parameter);
     }
 
     public void StopAnimation(string parameter)
     {
-        playerStateMachine.PlayableCharacterStateMachine.StopAnimation(parameter);
+        playableCharacterStateMachine.StopAnimation(parameter);
     }
     public void SetAnimationTrigger(string parameter)
     {
-        playerStateMachine.PlayableCharacterStateMachine.SetAnimationTrigger(parameter);
+        playableCharacterStateMachine.SetAnimationTrigger(parameter);
     }
 
     protected bool IsSkillCasting()
     {
-        return playerStateMachine.PlayableCharacterStateMachine.IsSkillCasting();
+        return playableCharacterStateMachine.IsSkillCasting();
     }
 
     private bool IsNotMoving()
     {
         return !IsMovementKeyPressed()
-            || playerStateMachine.player.playerData.SpeedModifier == 0f
+            || playableCharacterStateMachine.player.playerData.SpeedModifier == 0f
             || IsSkillCasting() 
-            || playerStateMachine.PlayableCharacterStateMachine.IsAttacking();
+            || playableCharacterStateMachine.IsAttacking();
     }
     private void UpdatePhysicsMovement()
     {
         if (IsNotMoving())
             return;
 
-        playerStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirectionXZ(playerStateMachine.player.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+        playableCharacterStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirectionXZ(playableCharacterStateMachine.player.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
     protected bool IsMovementKeyPressed()
     {
-        return playerStateMachine.player.playerData.IsMovementKeyPressed();
+        return playableCharacterStateMachine.player.playerData.IsMovementKeyPressed();
     }
 
     protected virtual void UpdateRotation()
@@ -140,7 +140,7 @@ public abstract class PlayerMovementState : IState
         if (!IsMovementKeyPressed())
             return;
 
-        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playerStateMachine.player.playerData.movementInput) + playerStateMachine.player.PlayerCameraManager.CameraMain.transform.eulerAngles.y;
+        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playableCharacterStateMachine.player.playerData.movementInput) + playableCharacterStateMachine.player.PlayerCameraManager.CameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
     }
 
@@ -151,37 +151,37 @@ public abstract class PlayerMovementState : IState
 
     protected float GetMovementSpeed()
     {
-        float movementSpeed = playerStateMachine.player.playerData.groundedData.BaseSpeed * playerStateMachine.player.playerData.SpeedModifier;
+        float movementSpeed = playableCharacterStateMachine.player.playerData.groundedData.BaseSpeed * playableCharacterStateMachine.player.playerData.SpeedModifier;
         return movementSpeed;
     }
 
     protected Vector3 GetHorizontalVelocity()
     {
-        Vector3 vel = playerStateMachine.player.Rb.velocity;
+        Vector3 vel = playableCharacterStateMachine.player.Rb.velocity;
         vel.y = 0;
         return vel;
     }
 
     protected Vector3 GetVerticalVelocity()
     {
-        return new Vector3(0f, playerStateMachine.player.Rb.velocity.y, 0f);
+        return new Vector3(0f, playableCharacterStateMachine.player.Rb.velocity.y, 0f);
     }
 
     private void BlendMovementAnimation()
     {
-        PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
-        float val = playerStateMachine.player.playerData.SpeedModifier / playerStateMachine.player.playerData.groundedData.PlayerSprintData.SpeedModifier;
+        PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
+        float val = playableCharacterStateMachine.player.playerData.SpeedModifier / playableCharacterStateMachine.player.playerData.groundedData.PlayerSprintData.SpeedModifier;
         
         if (!IsMovementKeyPressed())
         {
             val = 0f;
         }
 
-        playableCharacters.Animator.SetFloat(cpc.movementParameters, val, 0.15f, Time.deltaTime);
+        playableCharacter.Animator.SetFloat(cpc.movementParameters, val, 0.15f, Time.deltaTime);
     }
     private void ReadMovement()
     {
-        playerStateMachine.player.playerData.movementInput = playerController.playerInputAction.Movement.ReadValue<Vector2>();
+        playableCharacterStateMachine.player.playerData.movementInput = playerController.playerInputAction.Movement.ReadValue<Vector2>();
 
         if (IsMovementKeyPressed())
         {
@@ -231,10 +231,10 @@ public abstract class PlayerMovementState : IState
 
     protected virtual void OnDeadUpdate()
     {
-        if (!playableCharacters.IsDead())
+        if (!playableCharacter.IsDead())
             return;
 
-        playerStateMachine.ChangeState(playerStateMachine.playerDeadState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerDeadState);
     }
 
     public virtual void Update()

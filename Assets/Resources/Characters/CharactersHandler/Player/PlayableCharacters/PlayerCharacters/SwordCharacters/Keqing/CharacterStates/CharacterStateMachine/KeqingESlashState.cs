@@ -12,20 +12,20 @@ public class KeqingESlashState : StellarRestorationState
     {
         base.Enter();
         SetAnimationTrigger(stellarRestoration.keqingAnimationSO.elementalSkillSlashParameter);
-        playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkill_RecastVOClip());
+        playableCharacter.PlayVOAudio(playableCharacter.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomElementalSkill_RecastVOClip());
         ResetVelocity();
     }
 
     private void ResetVelocity()
     {
-        playableCharacterStateMachine.playerStateMachine.ResetVelocity();
+        playableCharacterStateMachine.ResetVelocity();
     }
 
     public override void OnAnimationTransition()
     {
         base.OnAnimationTransition();
 
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
     }
 
     public override void FixedUpdate()

@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(PlayerStateMachine PS) : base(PS)
+    public PlayerIdleState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.idleParameter);
-        playerStateMachine.player.playerData.SpeedModifier = 0f;
-        playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.player.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
-        playerStateMachine.ResetVelocity();
-    }
-
-    protected override void OnSkillCastUpdate()
-    {
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.idleParameter);
+        playableCharacterStateMachine.player.playerData.SpeedModifier = 0f;
+        playableCharacterStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playableCharacterStateMachine.player.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
+        playableCharacterStateMachine.ResetVelocity();
     }
 
     public override void Update()
@@ -36,6 +32,6 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.idleParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.idleParameter);
     }
 }

@@ -22,7 +22,7 @@ public class StellarRestoration : ElementalSkillStateMachine
     {
         get
         {
-            return playableCharacterStateMachine.playableCharacters.PlayableCharacterAnimationSO as KeqingAnimationSO;
+            return playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO as KeqingAnimationSO;
         }
     }
 
@@ -38,7 +38,7 @@ public class StellarRestoration : ElementalSkillStateMachine
         {
             Debug.LogError("To use Stellar Restoration skill, make sure it has KeqingAnimationSO scriptable object!");
         }
-        playerAimController = new PlayerAimController(playableCharacterStateMachine.playableCharacters);
+        playerAimController = new PlayerAimController(playableCharacterStateMachine.playableCharacter);
         keqingAimState = new KeqingAimState(this);
         keqingTeleportState = new KeqingTeleportState(this);
         keqingThrowState = new KeqingThrowState(this);

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerDashStopState : PlayerStopState
 {
-    public PlayerDashStopState(PlayerStateMachine PS) : base(PS)
+    public PlayerDashStopState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        SetAnimationTrigger(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashStopParameter);
-        playerStateMachine.player.playerData.DecelerateForce = playerStateMachine.player.playerData.groundedData.PlayerStopData.StrongDecelerationForce;
+        SetAnimationTrigger(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashStopParameter);
+        playableCharacterStateMachine.player.playerData.DecelerateForce = playableCharacterStateMachine.player.playerData.groundedData.PlayerStopData.StrongDecelerationForce;
     }
 }

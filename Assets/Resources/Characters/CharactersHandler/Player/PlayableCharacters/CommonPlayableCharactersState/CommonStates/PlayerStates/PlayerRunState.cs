@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class PlayerRunState : PlayerMovingState
 {
-    public PlayerRunState(PlayerStateMachine PS) : base(PS)
+    public PlayerRunState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.player.playerData.airborneData.PlayerJumpData.WeakJumpForceMagnitudeXZ;
-        playerStateMachine.player.playerData.SpeedModifier = playerStateMachine.player.playerData.groundedData.PlayerRunData.SpeedModifier;
+        playableCharacterStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playableCharacterStateMachine.player.playerData.airborneData.PlayerJumpData.WeakJumpForceMagnitudeXZ;
+        playableCharacterStateMachine.player.playerData.SpeedModifier = playableCharacterStateMachine.player.playerData.groundedData.PlayerRunData.SpeedModifier;
     }
 
     protected override void OnStop()
     {
-        playerStateMachine.ChangeState(playerStateMachine.playerWeakStopState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerWeakStopState);
     }
 }
