@@ -142,7 +142,7 @@ public class ActiveCharacter : MonoBehaviour
         if (pc == null)
             return true;
 
-        return !pc.PlayableCharacterStateMachine.IsSkillCasting() && !pc.PlayableCharacterStateMachine.playerStateMachine.IsInState<PlayerAirborneState>();
+        return !pc.PlayableCharacterStateMachine.IsSkillCasting() && !pc.PlayableCharacterStateMachine.IsInState<PlayerAirborneState>();
     }
 
     private void SwitchCharacter(int index, bool playSwitchSound = true)

@@ -23,7 +23,7 @@ public abstract class ElementalSkillControlState : ElementalControlBaseState
 
     private bool CanTransitToElementalSkillState()
     {
-        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacters.playableCharacterDataStat.CanUseElementalSkill() &&
+        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacter.playableCharacterDataStat.CanUseElementalSkill() &&
             !playableCharacterStateMachine.IsSkillCasting();
     }
 

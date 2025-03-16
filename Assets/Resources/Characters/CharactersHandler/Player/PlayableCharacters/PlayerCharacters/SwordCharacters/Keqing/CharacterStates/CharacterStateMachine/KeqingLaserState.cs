@@ -27,9 +27,9 @@ public class KeqingLaserState : PlayerElementalBurstState
         base.Enter();
         CurrentHits = 0;
         laserBurst = ElementalBurst.First_Phase;
-        LastPosition = playableCharacters.GetCenterBound();
+        LastPosition = playableCharacter.GetCenterBound();
 
-        playableCharacters.Animator.gameObject.SetActive(false);
+        playableCharacter.Animator.gameObject.SetActive(false);
 
         HitElapsed = Time.time + TimeInBetweenHits;
     }
@@ -73,7 +73,7 @@ public class KeqingLaserState : PlayerElementalBurstState
             {
                 if (!damage.IsDead())
                 {
-                    damage.TakeDamage(playableCharacters, playableCharacters.GetElementsSO(), 10f, colliders[i].ClosestPoint(LastPosition));
+                    damage.TakeDamage(playableCharacter, playableCharacter.GetElementsSO(), 10f, colliders[i].ClosestPoint(LastPosition));
                 }
             }
         }
@@ -87,7 +87,7 @@ public class KeqingLaserState : PlayerElementalBurstState
     {
         base.Exit();
         HitElapsed = 0;
-        playableCharacters.Animator.gameObject.SetActive(true);
+        playableCharacter.Animator.gameObject.SetActive(true);
     }
 
     public override bool IsElementalStateEnded()
@@ -110,7 +110,7 @@ public class KeqingLaserState : PlayerElementalBurstState
     {
         if (CurrentHits >= TotalHits / 2f)
         {
-            playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
+            playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
         }
     }
 }

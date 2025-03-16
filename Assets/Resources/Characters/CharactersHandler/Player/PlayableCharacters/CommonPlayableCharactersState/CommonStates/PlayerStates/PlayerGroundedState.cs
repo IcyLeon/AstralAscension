@@ -4,14 +4,14 @@ using UnityEngine;
 
 public abstract class PlayerGroundedState : PlayerMovementState
 {
-    public PlayerGroundedState(PlayerStateMachine PS) : base(PS)
+    public PlayerGroundedState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playableCharacters.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
+        StartAnimation(playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
     }
 
     public override void OnEnable()
@@ -19,13 +19,30 @@ public abstract class PlayerGroundedState : PlayerMovementState
         base.OnEnable();
         playerController.playerInputAction.Jump.started += Jump_started;
         playerController.playerInputAction.Dash.started += Dash_started;
+        playerController.playerInputAction.Attack.performed += Attack_performed;
     }
     public override void OnDisable()
     {
         base.OnDisable();
         playerController.playerInputAction.Jump.started -= Jump_started;
         playerController.playerInputAction.Dash.started -= Dash_started;
+        playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
+
+    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        Attack();
+    }
+
+    private void Attack()
+    {
+        if (IsSkillCasting() || playableCharacterStateMachine.IsAttacking())
+            return;
+
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerCharacterAttackState);
+    }
+
+
     private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (IsSkillCasting())
@@ -44,28 +61,17 @@ public abstract class PlayerGroundedState : PlayerMovementState
 
     protected virtual void Dash_started()
     {
-        playerStateMachine.ChangeState(playerStateMachine.playerDashState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerDashState);
     }
 
     protected virtual void Jump_started()
     {
-        playerStateMachine.ChangeState(playerStateMachine.playerJumpState);
-    }
-
-    protected virtual void OnSkillCastUpdate()
-    {
-        if (!IsSkillCasting())
-            return;
-
-        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerJumpState);
     }
 
     public override void Update()
     {
         base.Update();
-
-        OnAttackUpdate();
-        OnSkillCastUpdate();
 
         if (!IsGrounded())
         {
@@ -74,29 +80,19 @@ public abstract class PlayerGroundedState : PlayerMovementState
         }
     }
 
-    protected virtual void OnAttackUpdate()
-    {
-        if (IsSkillCasting())
-            return;
-
-        if (!playerStateMachine.PlayableCharacterStateMachine.IsAttacking())
-            return;
-
-        playerStateMachine.ChangeState(playerStateMachine.playerAttackState);
-    }
 
     protected void OnMove()
     {
         if (IsSkillCasting())
             return;
 
-        if (playerStateMachine.player.playerData.canSprint)
+        if (playableCharacterStateMachine.player.playerData.canSprint)
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerSprintState);
+            playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerSprintState);
             return;
         }
 
-        playerStateMachine.ChangeState(playerStateMachine.playerRunState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerRunState);
     }
 
     private void OnFall()
@@ -104,6 +100,6 @@ public abstract class PlayerGroundedState : PlayerMovementState
         if (IsSkillCasting())
             return;
 
-        playerStateMachine.ChangeState(playerStateMachine.playerFallingState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerFallingState);
     }
 }

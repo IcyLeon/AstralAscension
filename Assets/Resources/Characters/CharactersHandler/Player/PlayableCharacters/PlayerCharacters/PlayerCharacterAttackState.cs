@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCharacterAttackState : IState
 {
     protected PlayableCharacterStateMachine playableCharacterStateMachine;
-    private bool canTransit = false;
+    private bool canTransit;
 
     public PlayerCharacterAttackState(PlayableCharacterStateMachine CharacterStateMachine)
     {
@@ -15,9 +15,15 @@ public class PlayerCharacterAttackState : IState
     public virtual void Enter()
     {
         OnEnable();
+        canTransit = false;
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
         playableCharacterStateMachine.playableCharacterReuseableData.UpdateAttackIdleState();
-        PlayerAttackState.OnAttackInterruptState += OnAttackInterruptState;
-        playableCharacterStateMachine.EntityState.Enter();
+        Attack();
+    }
+
+    private void ReadMovement()
+    {
+        playableCharacterStateMachine.player.playerData.movementInput = playableCharacterStateMachine.playerController.playerInputAction.Movement.ReadValue<Vector2>();
     }
 
     public virtual void OnEnable()
@@ -31,111 +37,106 @@ public class PlayerCharacterAttackState : IState
 
     private void Reset()
     {
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
-    }
-
-    private void OnAttackInterruptState()
-    {
-        Reset();
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
     }
 
     public virtual void Exit()
     {
         OnDisable();
-        PlayerAttackState.OnAttackInterruptState -= OnAttackInterruptState;
-        canTransit = false;
-        playableCharacterStateMachine.EntityState.Exit();
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
     }
 
-    protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         Attack();
     }
 
-    protected virtual void Attack()
+    private void Attack()
     {
         playableCharacterStateMachine.playableCharacterReuseableData.DoBasicAttack();
     }
 
     private bool IsInAttackingAnimation()
     {
-        return playableCharacterStateMachine.playableCharacters.Animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK");
+        return playableCharacterStateMachine.playableCharacter.Animator.GetCurrentAnimatorStateInfo(0).IsTag("ATK");
     }
 
     public virtual void FixedUpdate()
     {
-        playableCharacterStateMachine.EntityState.FixedUpdate();
+        playableCharacterStateMachine.playerIdleState.FixedUpdate();
     }
 
     public virtual void LateUpdate()
     {
-        playableCharacterStateMachine.EntityState.LateUpdate();
+        playableCharacterStateMachine.playerIdleState.LateUpdate();
     }
 
     public virtual void OnAnimationTransition()
     {
-        playableCharacterStateMachine.EntityState.OnAnimationTransition();
+        playableCharacterStateMachine.playerIdleState.OnAnimationTransition();
     }
 
     public virtual void OnCollisionEnter(Collision collision)
     {
-        playableCharacterStateMachine.EntityState.OnCollisionEnter(collision);
+        playableCharacterStateMachine.playerIdleState.OnCollisionEnter(collision);
     }
 
     public virtual void OnCollisionExit(Collision collision)
     {
-        playableCharacterStateMachine.EntityState.OnCollisionExit(collision);
+        playableCharacterStateMachine.playerIdleState.OnCollisionExit(collision);
     }
 
     public virtual void OnCollisionStay(Collision collision)
     {
-        playableCharacterStateMachine.EntityState.OnCollisionStay(collision);
+        playableCharacterStateMachine.playerIdleState.OnCollisionStay(collision);
     }
 
     public virtual void OnTriggerEnter(Collider Collider)
     {
-        playableCharacterStateMachine.EntityState.OnTriggerEnter(Collider);
+        playableCharacterStateMachine.playerIdleState.OnTriggerEnter(Collider);
     }
 
     public virtual void OnTriggerExit(Collider Collider)
     {
-        playableCharacterStateMachine.EntityState.OnTriggerExit(Collider);
+        playableCharacterStateMachine.playerIdleState.OnTriggerExit(Collider);
     }
 
     public virtual void OnTriggerStay(Collider Collider)
     {
-        playableCharacterStateMachine.EntityState.OnTriggerStay(Collider);
+        playableCharacterStateMachine.playerIdleState.OnTriggerStay(Collider);
     }
 
     public virtual void SetAnimationTrigger(string parameter)
     {
-        playableCharacterStateMachine.EntityState.SetAnimationTrigger(parameter);
+        playableCharacterStateMachine.playerIdleState.SetAnimationTrigger(parameter);
     }
 
     public virtual void SmoothRotateToTargetRotation()
     {
-        playableCharacterStateMachine.playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.player.playerData.SmoothRotateToTargetRotation();
     }
 
     public virtual void StartAnimation(string parameter)
     {
-        playableCharacterStateMachine.EntityState.StartAnimation(parameter);
+        playableCharacterStateMachine.playerIdleState.StartAnimation(parameter);
     }
 
     public virtual void StopAnimation(string parameter)
     {
-        playableCharacterStateMachine.EntityState.StopAnimation(parameter);
+        playableCharacterStateMachine.playerIdleState.StopAnimation(parameter);
     }
 
     public virtual void Update()
     {
+        ReadMovement();
+
         if (!IsInAttackingAnimation())
         {
             if (!canTransit)
                 return;
 
             if (playableCharacterStateMachine.playableCharacterReuseableData.CanTransitBackToIdleState() 
-                || playableCharacterStateMachine.playerStateMachine.player.playerData.IsMovementKeyPressed())
+                || playableCharacterStateMachine.player.playerData.IsMovementKeyPressed())
             {
                 Reset();
             }
@@ -147,11 +148,11 @@ public class PlayerCharacterAttackState : IState
         }
 
         playableCharacterStateMachine.playableCharacterReuseableData.UpdateAttackIdleState();
-        playableCharacterStateMachine.EntityState.Update();
+        //playableCharacterStateMachine.playerIdleState.Update();
     }
 
     public virtual void UpdateTargetRotationData(float angle)
     {
-        playableCharacterStateMachine.playerStateMachine.player.playerData.UpdateTargetRotationData(angle);
+        playableCharacterStateMachine.player.playerData.UpdateTargetRotationData(angle);
     }
 }

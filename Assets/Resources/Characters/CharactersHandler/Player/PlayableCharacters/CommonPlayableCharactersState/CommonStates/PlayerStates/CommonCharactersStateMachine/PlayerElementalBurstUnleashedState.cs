@@ -25,6 +25,6 @@ public class PlayerElementalBurstUnleashedState : PlayerElementalBurstState
 
     protected virtual void TransitBurstState()
     {
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.EntityState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
     }
 }

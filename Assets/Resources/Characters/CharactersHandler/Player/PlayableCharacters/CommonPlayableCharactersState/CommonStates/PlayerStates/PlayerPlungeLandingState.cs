@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerPlungeLandingState : PlayerLandingState
 {
-    public PlayerPlungeLandingState(PlayerStateMachine PS) : base(PS)
+    public PlayerPlungeLandingState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        SetAnimationTrigger(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeLandingParameter);
+        SetAnimationTrigger(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeLandingParameter);
     }
 }

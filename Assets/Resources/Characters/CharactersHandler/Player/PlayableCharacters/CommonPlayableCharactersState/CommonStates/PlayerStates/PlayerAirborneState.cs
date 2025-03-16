@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerAirborneState : PlayerMovementState
 {
-    public PlayerAirborneState(PlayerStateMachine PS) : base(PS)
+    public PlayerAirborneState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.groundParameter);
     }
 
     public override void OnEnable()
@@ -28,18 +28,18 @@ public class PlayerAirborneState : PlayerMovementState
 
     protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!CheckGroundDistance(playerStateMachine.player.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
+        if (!CheckGroundDistance(playableCharacterStateMachine.player.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
             return;
 
-        playerStateMachine.ChangeState(playerStateMachine.playerPlungeState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerPlungeState);
     }
 
     protected void LimitFallVelocity()
     {
-        float FallSpeedLimit = playerStateMachine.player.playerData.airborneData.PlayerFallData.FallLimitVelocity;
+        float FallSpeedLimit = playableCharacterStateMachine.player.playerData.airborneData.PlayerFallData.FallLimitVelocity;
         Vector3 velocity = GetVerticalVelocity();
         float limitVelocityY = Mathf.Max(velocity.y, -FallSpeedLimit);
-        playerStateMachine.player.Rb.velocity = new Vector3(playerStateMachine.player.Rb.velocity.x, limitVelocityY, playerStateMachine.player.Rb.velocity.z);
+        playableCharacterStateMachine.player.Rb.velocity = new Vector3(playableCharacterStateMachine.player.Rb.velocity.x, limitVelocityY, playableCharacterStateMachine.player.Rb.velocity.z);
     }
 
     protected void OnGroundTransition()
@@ -48,21 +48,21 @@ public class PlayerAirborneState : PlayerMovementState
         {
             if (Mathf.Abs(GetVerticalVelocity().y) < 10f) // got issue
             {
-                playerStateMachine.ChangeState(playerStateMachine.playerSoftLandingState);
+                playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerSoftLandingState);
                 return;
             }
-            playerStateMachine.ChangeState(playerStateMachine.playerHardLandingState);
+            playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerHardLandingState);
             return;
         }
     }
 
     protected bool CheckGroundDistance(float distance)
     {
-        Vector3 position = playerStateMachine.player.Rb.position;
-        position.y += playerStateMachine.playableCharacter.MainCollider.radius / 2f;
+        Vector3 position = playableCharacterStateMachine.player.Rb.position;
+        position.y += playableCharacterStateMachine.playableCharacter.MainCollider.radius / 2f;
 
         Vector3 bottom = position + Vector3.down * distance;
 
-        return !Physics.CheckCapsule(position, bottom, playerStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
+        return !Physics.CheckCapsule(position, bottom, playableCharacterStateMachine.playableCharacter.MainCollider.radius, ~LayerMask.GetMask("Player", "Ignore Raycast"), QueryTriggerInteraction.Ignore);
     }
 }

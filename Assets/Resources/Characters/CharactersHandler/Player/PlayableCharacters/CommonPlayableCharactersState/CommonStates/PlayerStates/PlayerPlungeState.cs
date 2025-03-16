@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class PlayerPlungeState : PlayerAirborneState
 {
-    public PlayerPlungeState(PlayerStateMachine PS) : base(PS)
+    public PlayerPlungeState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.ResetVelocity();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
-        playerStateMachine.player.playerData.SpeedModifier = 0f;
-        playerStateMachine.player.Rb.useGravity = false;
+        playableCharacterStateMachine.ResetVelocity();
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
+        playableCharacterStateMachine.player.playerData.SpeedModifier = 0f;
+        playableCharacterStateMachine.player.Rb.useGravity = false;
     }
     public override void FixedUpdate()
     {
@@ -31,29 +31,29 @@ public class PlayerPlungeState : PlayerAirborneState
     {
         base.Update();
 
-        if (!playerStateMachine.player.Rb.useGravity)
+        if (!playableCharacterStateMachine.player.Rb.useGravity)
             return;
 
         if (IsGrounded())
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerPlungeLandingState);
+            playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerPlungeLandingState);
             return;
         }
 
-        playerStateMachine.player.Rb.AddForce(
-                (playerStateMachine.player.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down) - GetVerticalVelocity(),
+        playableCharacterStateMachine.player.Rb.AddForce(
+                (playableCharacterStateMachine.player.playerData.airborneData.PlayerPlungeData.PlungeSpeed * Vector3.down) - GetVerticalVelocity(),
                 ForceMode.VelocityChange);
     }
 
     public override void OnAnimationTransition()
     {
         base.OnAnimationTransition();
-        playerStateMachine.player.Rb.useGravity = true;
+        playableCharacterStateMachine.player.Rb.useGravity = true;
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
     }
 }

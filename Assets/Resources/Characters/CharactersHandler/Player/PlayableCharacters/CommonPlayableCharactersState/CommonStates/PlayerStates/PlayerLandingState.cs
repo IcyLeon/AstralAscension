@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerLandingState : PlayerGroundedState
 {
-    public PlayerLandingState(PlayerStateMachine PS) : base(PS)
+    public PlayerLandingState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.landParameter);
-        playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.player.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
-        playerStateMachine.ResetVelocity();
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.landParameter);
+        playableCharacterStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playableCharacterStateMachine.player.playerData.airborneData.PlayerJumpData.IdleJumpForceMagnitudeXZ;
+        playableCharacterStateMachine.ResetVelocity();
     }
 
     public override void Update()
@@ -32,12 +32,12 @@ public class PlayerLandingState : PlayerGroundedState
     {
         base.OnAnimationTransition();
 
-        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.landParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.landParameter);
     }
 }

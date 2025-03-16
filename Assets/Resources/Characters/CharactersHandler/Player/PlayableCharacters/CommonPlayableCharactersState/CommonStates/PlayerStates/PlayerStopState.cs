@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerStopState : PlayerGroundedState
 {
-    public PlayerStopState(PlayerStateMachine PS) : base(PS)
+    public PlayerStopState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.stopParameter);
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.stopParameter);
     }
 
     public override void FixedUpdate()
@@ -42,12 +42,12 @@ public class PlayerStopState : PlayerGroundedState
     {
         base.OnAnimationTransition();
 
-        playerStateMachine.ChangeState(playerStateMachine.playerIdleState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.stopParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.stopParameter);
     }
 }

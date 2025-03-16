@@ -5,15 +5,15 @@ using UnityEngine;
 public class PlayerFallingState : PlayerAirborneState
 {
 
-    public PlayerFallingState(PlayerStateMachine PS) : base(PS)
+    public PlayerFallingState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
-        playerStateMachine.player.playerData.SpeedModifier = 0f;
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
+        playableCharacterStateMachine.player.playerData.SpeedModifier = 0f;
     }
 
     public override void FixedUpdate()
@@ -32,6 +32,6 @@ public class PlayerFallingState : PlayerAirborneState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
     }
 }

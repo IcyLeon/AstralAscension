@@ -38,7 +38,7 @@ public class StellarRestorationReusableData : SkillReusableData
 
     private void HT_OnHairPinHide()
     {
-        playableCharacterStateMachine.playableCharacters.playableCharacterDataStat.ResetElementalSkillCooldown();
+        playableCharacterStateMachine.playableCharacter.playableCharacterDataStat.ResetElementalSkillCooldown();
     }
 
     public override void OnDestroy()
@@ -50,12 +50,12 @@ public class StellarRestorationReusableData : SkillReusableData
     {
         targetPosition = Vector3.zero;
 
-        aimRigController = playableCharacterStateMachine.playableCharacters.GetComponentInChildren<AimRigController>();
+        aimRigController = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<AimRigController>();
 
         objectPool = new ObjectPool<HairpinTeleporter>("Characters/CharactersHandler/Player/PlayableCharacters/PlayerCharacters/SwordCharacters/Keqing/TeleporterOrb", playableCharacterStateMachine.characters.transform);
         objectPool.CallbackPoolObject((HT, i) =>
         {
-            HT.Init(playableCharacterStateMachine.playableCharacters, playableCharacterStateMachine.playableCharacters.transform);
+            HT.Init(playableCharacterStateMachine.playableCharacter, playableCharacterStateMachine.playableCharacter.transform);
             HT.OnHairPinHide += HT_OnHairPinHide;
         });
     }

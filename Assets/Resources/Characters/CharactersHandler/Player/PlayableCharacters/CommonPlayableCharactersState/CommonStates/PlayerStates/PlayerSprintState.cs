@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class PlayerSprintState : PlayerMovingState
 {
-    public PlayerSprintState(PlayerStateMachine PS) : base(PS)
+    public PlayerSprintState(PlayableCharacterStateMachine PS) : base(PS)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.player.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
-        playerStateMachine.player.playerData.SpeedModifier = playerStateMachine.player.playerData.groundedData.PlayerSprintData.SpeedModifier;
+        playableCharacterStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playableCharacterStateMachine.player.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
+        playableCharacterStateMachine.player.playerData.SpeedModifier = playableCharacterStateMachine.player.playerData.groundedData.PlayerSprintData.SpeedModifier;
     }
 
     protected override void OnStop()
     {
-        playerStateMachine.ChangeState(playerStateMachine.playerStrongStopState);
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerStrongStopState);
     }
 
     public override void Exit()
     {
         base.Exit();
-        playerStateMachine.player.playerData.canSprint = false;
+        playableCharacterStateMachine.player.playerData.canSprint = false;
     }
 }

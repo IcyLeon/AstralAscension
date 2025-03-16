@@ -9,14 +9,14 @@ public class PlayerDashState : PlayerGroundedState
 {
     private float StartTime;
     private bool canRotate;
-    public PlayerDashState(PlayerStateMachine PS) : base(PS)
+    public PlayerDashState(PlayableCharacterStateMachine PS) : base(PS)
     {
         StartTime = Time.time;
     }
 
     private AudioClip GetRandomDashClip()
     {
-        AudioClip[] clips = playerStateMachine.player.PlayerSO.SoundData.DashClips;
+        AudioClip[] clips = playableCharacterStateMachine.player.PlayerSO.SoundData.DashClips;
         if (clips.Length == 0)
             return null;
 
@@ -26,14 +26,14 @@ public class PlayerDashState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
         
-        playableCharacters.PlayVOAudio(playableCharacters.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
-        playableCharacters.player.PlayPlayerSoundEffect(GetRandomDashClip());
+        playableCharacter.PlayVOAudio(playableCharacter.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
+        playableCharacter.player.PlayPlayerSoundEffect(GetRandomDashClip());
 
-        playerStateMachine.player.playerData.SpeedModifier = 0f;
-        playerStateMachine.player.playerData.rotationTime = playerStateMachine.player.playerData.groundedData.PlayerDashData.RotationTime;
-        playerStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playerStateMachine.player.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
+        playableCharacterStateMachine.player.playerData.SpeedModifier = 0f;
+        playableCharacterStateMachine.player.playerData.rotationTime = playableCharacterStateMachine.player.playerData.groundedData.PlayerDashData.RotationTime;
+        playableCharacterStateMachine.player.playerData.currentJumpForceMagnitudeXZ = playableCharacterStateMachine.player.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
         canRotate = IsMovementKeyPressed();
         Dash();
         StartTime = Time.time;
@@ -49,40 +49,40 @@ public class PlayerDashState : PlayerGroundedState
 
         if (canRotate)
         {
-            playerStateMachine.player.playerData.SmoothRotateToTargetRotation();
+            playableCharacterStateMachine.player.playerData.SmoothRotateToTargetRotation();
         }
 
-        //playerStateMachine.SmoothRotateToTargetRotation();
+        //playableCharacterStateMachine.SmoothRotateToTargetRotation();
     }
 
     private void UpdateConsecutiveDash()
     {
-        if (Time.time - StartTime > playerStateMachine.player.playerData.groundedData.PlayerDashData.TimeToBeConsideredConsecutive)
+        if (Time.time - StartTime > playableCharacterStateMachine.player.playerData.groundedData.PlayerDashData.TimeToBeConsideredConsecutive)
         {
-            playerStateMachine.player.playerData.consecutiveDashesUsed = 0;
+            playableCharacterStateMachine.player.playerData.consecutiveDashesUsed = 0;
         }
 
-        playerStateMachine.player.playerData.consecutiveDashesUsed++;
+        playableCharacterStateMachine.player.playerData.consecutiveDashesUsed++;
 
-        if (playerStateMachine.player.playerData.consecutiveDashesUsed == playerStateMachine.player.playerData.groundedData.PlayerDashData.ConsecutiveDashesLimitAmount)
+        if (playableCharacterStateMachine.player.playerData.consecutiveDashesUsed == playableCharacterStateMachine.player.playerData.groundedData.PlayerDashData.ConsecutiveDashesLimitAmount)
         {
-            playerStateMachine.player.playerData.consecutiveDashesUsed = 0;
+            playableCharacterStateMachine.player.playerData.consecutiveDashesUsed = 0;
 
-            playerStateMachine.player.DisableInput(playerController.playerInputAction.Dash, 
-                playerStateMachine.player.playerData.groundedData.PlayerDashData.DashLimitReachedCooldown);
+            playableCharacterStateMachine.player.DisableInput(playerController.playerInputAction.Dash, 
+                playableCharacterStateMachine.player.playerData.groundedData.PlayerDashData.DashLimitReachedCooldown);
         }
 
     }
 
     private void Dash()
     {
-        Vector3 dir = playerStateMachine.player.transform.forward;
+        Vector3 dir = playableCharacterStateMachine.player.transform.forward;
         if (canRotate)
         {
-            dir = GetDirectionXZ(playerStateMachine.player.playerData.targetYawRotation);
+            dir = GetDirectionXZ(playableCharacterStateMachine.player.playerData.targetYawRotation);
         }
 
-        playerStateMachine.player.Rb.velocity = dir * playerStateMachine.player.playerData.groundedData.PlayerDashData.BaseDashSpeed;
+        playableCharacterStateMachine.player.Rb.velocity = dir * playableCharacterStateMachine.player.playerData.groundedData.PlayerDashData.BaseDashSpeed;
         UpdateConsecutiveDash();
     }
 
@@ -90,13 +90,13 @@ public class PlayerDashState : PlayerGroundedState
     //{
     //    base.Update();
     //    RotateToMovementInputDirection();
-    //    Vector3 dir = playerStateMachine.player.transform.forward;
-    //    playerStateMachine.player.Rb.velocity = playerStateMachine.player.Rb.velocity.magnitude * dir;
+    //    Vector3 dir = playableCharacterStateMachine.player.transform.forward;
+    //    playableCharacterStateMachine.player.Rb.velocity = playableCharacterStateMachine.player.Rb.velocity.magnitude * dir;
     //}
 
     protected override void OnMovementKeyPerformed()
     {
-        playerStateMachine.player.playerData.canSprint = true;
+        playableCharacterStateMachine.player.playerData.canSprint = true;
     }
 
     public override void OnAnimationTransition()
@@ -105,7 +105,7 @@ public class PlayerDashState : PlayerGroundedState
 
         if (!IsMovementKeyPressed())
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerDashStopState);
+            playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerDashStopState);
             return;
         }
 
@@ -116,6 +116,6 @@ public class PlayerDashState : PlayerGroundedState
     {
         base.Exit();
         InitBaseRotation();
-        StopAnimation(playerStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.dashParameter);
     }
 }
