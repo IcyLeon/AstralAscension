@@ -21,18 +21,13 @@ public class PlayerCharacterAttackState : IState
         Attack();
     }
 
-    private void ReadMovement()
-    {
-        playableCharacterStateMachine.player.playerData.movementInput = playableCharacterStateMachine.playerController.playerInputAction.Movement.ReadValue<Vector2>();
-    }
-
     public virtual void OnEnable()
     {
-        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed += Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed += Attack_performed;
     }
     public virtual void OnDisable()
     {
-        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed -= Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
     private void Reset()
@@ -113,7 +108,7 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void SmoothRotateToTargetRotation()
     {
-        playableCharacterStateMachine.player.playerData.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.playerData.SmoothRotateToTargetRotation();
     }
 
     public virtual void StartAnimation(string parameter)
@@ -128,7 +123,6 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void Update()
     {
-        ReadMovement();
 
         if (!IsInAttackingAnimation())
         {
@@ -136,7 +130,7 @@ public class PlayerCharacterAttackState : IState
                 return;
 
             if (playableCharacterStateMachine.playableCharacterReuseableData.CanTransitBackToIdleState() 
-                || playableCharacterStateMachine.player.playerData.IsMovementKeyPressed())
+                || playableCharacterStateMachine.playerData.IsMovementKeyPressed())
             {
                 Reset();
             }
@@ -153,6 +147,6 @@ public class PlayerCharacterAttackState : IState
 
     public virtual void UpdateTargetRotationData(float angle)
     {
-        playableCharacterStateMachine.player.playerData.UpdateTargetRotationData(angle);
+        playableCharacterStateMachine.playerData.UpdateTargetRotationData(angle);
     }
 }

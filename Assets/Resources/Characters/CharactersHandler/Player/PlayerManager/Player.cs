@@ -17,14 +17,27 @@ public class Player : MonoBehaviour
     public PlayerCameraManager PlayerCameraManager { get; private set; }
     [field: SerializeField] public PlayerInteractSensor PlayerInteractSensor { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
-    public PlayerData playerData { get; private set; }
+    public PlayerController playerController { get; private set; }
+    private PlayerData playerData;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        playerData = new PlayerData(this);
+        playerController = PlayerController.instance;
+        CreatePlayerData();
         PlayerCameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
+
+    private void CreatePlayerData()
+    {
+        if (playerData == null)
+        {
+            playerData = PlayerData.instance;
+        }
+
+        playerData.SetPlayer(this);
+    }
+
 
     public void PlayPlayerSoundEffect(AudioClip clip)
     {

@@ -487,7 +487,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.50889677
-        functionName: OnPlayerAnimationTransition
+        functionName: OnCharacterAnimationTransition
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -523,7 +523,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.45464724
-        functionName: OnPlayerAnimationTransition
+        functionName: OnCharacterAnimationTransition
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

@@ -6,22 +6,20 @@ using UnityEngine;
 public abstract class PlayerMovementState : IState
 {
     protected PlayableCharacterStateMachine playableCharacterStateMachine;
-    protected PlayerController playerController;
     public PlayerMovementState(PlayableCharacterStateMachine PS)
     {
         playableCharacterStateMachine = PS;
-        playerController = playableCharacterStateMachine.playerController;
         InitBaseRotation();
     }
 
     public void SmoothRotateToTargetRotation()
     {
-        playableCharacterStateMachine.player.playerData.SmoothRotateToTargetRotation();
+        playableCharacterStateMachine.playerData.SmoothRotateToTargetRotation();
     }
 
     public void UpdateTargetRotationData(float angle)
     {
-        playableCharacterStateMachine.player.playerData.UpdateTargetRotationData(angle);
+        playableCharacterStateMachine.playerData.UpdateTargetRotationData(angle);
     }
 
     public PlayableCharacters playableCharacter
@@ -35,7 +33,7 @@ public abstract class PlayerMovementState : IState
 
     protected void InitBaseRotation()
     {
-        playableCharacterStateMachine.player.playerData.rotationTime = playableCharacterStateMachine.player.playerData.groundedData.BaseRotationTime;
+        playableCharacterStateMachine.playerData.rotationTime = playableCharacterStateMachine.playerData.groundedData.BaseRotationTime;
     }
 
     protected bool IsGrounded()
@@ -69,7 +67,7 @@ public abstract class PlayerMovementState : IState
     protected void DecelerateHorizontal()
     {
         Vector3 vel = GetHorizontalVelocity();
-        playableCharacterStateMachine.player.Rb.AddForce(-vel * playableCharacterStateMachine.player.playerData.DecelerateForce, ForceMode.Acceleration);
+        playableCharacterStateMachine.player.Rb.AddForce(-vel * playableCharacterStateMachine.playerData.DecelerateForce, ForceMode.Acceleration);
     }
 
     protected bool IsMovingHorizontal(float val = 0.1f)
@@ -85,7 +83,7 @@ public abstract class PlayerMovementState : IState
     protected void DecelerateVertical()
     {
         Vector3 vel = GetVerticalVelocity();
-        playableCharacterStateMachine.player.Rb.AddForce(-vel * playableCharacterStateMachine.player.playerData.DecelerateForce, ForceMode.Acceleration);
+        playableCharacterStateMachine.player.Rb.AddForce(-vel * playableCharacterStateMachine.playerData.DecelerateForce, ForceMode.Acceleration);
     }
 
     public void StartAnimation(string parameter)
@@ -110,7 +108,7 @@ public abstract class PlayerMovementState : IState
     private bool IsNotMoving()
     {
         return !IsMovementKeyPressed()
-            || playableCharacterStateMachine.player.playerData.SpeedModifier == 0f
+            || playableCharacterStateMachine.playerData.SpeedModifier == 0f
             || IsSkillCasting() 
             || playableCharacterStateMachine.IsAttacking();
     }
@@ -119,12 +117,13 @@ public abstract class PlayerMovementState : IState
         if (IsNotMoving())
             return;
 
-        playableCharacterStateMachine.player.Rb.AddForce((GetMovementSpeed() * GetDirectionXZ(playableCharacterStateMachine.player.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
+        float movementSpeed = playableCharacterStateMachine.playerData.groundedData.BaseSpeed * playableCharacterStateMachine.playerData.SpeedModifier;
+        playableCharacterStateMachine.player.Rb.AddForce((movementSpeed * GetDirectionXZ(playableCharacterStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
     }
 
     protected bool IsMovementKeyPressed()
     {
-        return playableCharacterStateMachine.player.playerData.IsMovementKeyPressed();
+        return playableCharacterStateMachine.playerData.IsMovementKeyPressed();
     }
 
     protected virtual void UpdateRotation()
@@ -140,19 +139,13 @@ public abstract class PlayerMovementState : IState
         if (!IsMovementKeyPressed())
             return;
 
-        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playableCharacterStateMachine.player.playerData.movementInput) + playableCharacterStateMachine.player.PlayerCameraManager.CameraMain.transform.eulerAngles.y;
+        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playableCharacterStateMachine.playerData.movementInput) + playableCharacterStateMachine.player.PlayerCameraManager.CameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
     }
 
     protected Vector3 GetDirectionXZ(float angleInDeg)
     {
         return Vector3Handler.FindVector(angleInDeg, 0);
-    }
-
-    protected float GetMovementSpeed()
-    {
-        float movementSpeed = playableCharacterStateMachine.player.playerData.groundedData.BaseSpeed * playableCharacterStateMachine.player.playerData.SpeedModifier;
-        return movementSpeed;
     }
 
     protected Vector3 GetHorizontalVelocity()
@@ -170,7 +163,7 @@ public abstract class PlayerMovementState : IState
     private void BlendMovementAnimation()
     {
         PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
-        float val = playableCharacterStateMachine.player.playerData.SpeedModifier / playableCharacterStateMachine.player.playerData.groundedData.PlayerSprintData.SpeedModifier;
+        float val = playableCharacterStateMachine.playerData.SpeedModifier / playableCharacterStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
         
         if (!IsMovementKeyPressed())
         {
@@ -181,8 +174,6 @@ public abstract class PlayerMovementState : IState
     }
     private void ReadMovement()
     {
-        playableCharacterStateMachine.player.playerData.movementInput = playerController.playerInputAction.Movement.ReadValue<Vector2>();
-
         if (IsMovementKeyPressed())
         {
             OnMovementKeyPerformed();

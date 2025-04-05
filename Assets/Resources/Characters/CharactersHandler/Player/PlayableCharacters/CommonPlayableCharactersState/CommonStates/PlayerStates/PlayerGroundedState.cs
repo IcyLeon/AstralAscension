@@ -17,31 +17,15 @@ public abstract class PlayerGroundedState : PlayerMovementState
     public override void OnEnable()
     {
         base.OnEnable();
-        playerController.playerInputAction.Jump.started += Jump_started;
-        playerController.playerInputAction.Dash.started += Dash_started;
-        playerController.playerInputAction.Attack.performed += Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Jump.started += Jump_started;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Dash.started += Dash_started;
     }
     public override void OnDisable()
     {
         base.OnDisable();
-        playerController.playerInputAction.Jump.started -= Jump_started;
-        playerController.playerInputAction.Dash.started -= Dash_started;
-        playerController.playerInputAction.Attack.performed -= Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Jump.started -= Jump_started;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Dash.started -= Dash_started;
     }
-
-    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        Attack();
-    }
-
-    private void Attack()
-    {
-        if (IsSkillCasting() || playableCharacterStateMachine.IsAttacking())
-            return;
-
-        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerCharacterAttackState);
-    }
-
 
     private void Dash_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
@@ -86,7 +70,7 @@ public abstract class PlayerGroundedState : PlayerMovementState
         if (IsSkillCasting())
             return;
 
-        if (playableCharacterStateMachine.player.playerData.canSprint)
+        if (playableCharacterStateMachine.playerData.canSprint)
         {
             playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerSprintState);
             return;

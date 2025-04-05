@@ -82,13 +82,15 @@ public class StateMachineManager
     }
     public void ChangeState(IState newState)
     {
+        if (newState == null)
+            return;
+
         if (currentState != null)
             currentState.Exit();
 
         currentState = newState;
 
-        if (currentState != null)
-            currentState.Enter();
+        currentState.Enter();
     }
 
     public void StartState(IState newState)

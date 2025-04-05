@@ -9,7 +9,7 @@ public class SkywardSword : ElementalBurstStateMachine
     public override void InitElementalBurstState()
     {
         skillReusableData = new SkywardSwordReusableData(this);
-        elementalBurstControlBaseState = new SkywardSwordControlState(this);
+        elementalBurstController = new SkywardSwordController(this);
     }
 
     public SkywardSword(PlayableCharacterStateMachine PlayableCharacterStateMachine) : base(PlayableCharacterStateMachine)

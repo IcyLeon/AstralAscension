@@ -17,18 +17,18 @@ public class PlayerAirborneState : PlayerMovementState
     public override void OnEnable()
     {
         base.OnEnable();
-        playerController.playerInputAction.Attack.performed += Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed += Attack_performed;
     }
     public override void OnDisable()
     {
         base.OnDisable();
-        playerController.playerInputAction.Attack.performed -= Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
 
     protected virtual void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!CheckGroundDistance(playableCharacterStateMachine.player.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
+        if (!CheckGroundDistance(playableCharacterStateMachine.playerData.airborneData.PlayerPlungeData.GroundCheckDistance))
             return;
 
         playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerPlungeState);
@@ -36,7 +36,7 @@ public class PlayerAirborneState : PlayerMovementState
 
     protected void LimitFallVelocity()
     {
-        float FallSpeedLimit = playableCharacterStateMachine.player.playerData.airborneData.PlayerFallData.FallLimitVelocity;
+        float FallSpeedLimit = playableCharacterStateMachine.playerData.airborneData.PlayerFallData.FallLimitVelocity;
         Vector3 velocity = GetVerticalVelocity();
         float limitVelocityY = Mathf.Max(velocity.y, -FallSpeedLimit);
         playableCharacterStateMachine.player.Rb.velocity = new Vector3(playableCharacterStateMachine.player.Rb.velocity.x, limitVelocityY, playableCharacterStateMachine.player.Rb.velocity.z);

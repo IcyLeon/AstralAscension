@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ElementalControlBaseState
+public abstract class ElementalBaseController
 {
     protected SkillStateMachine skill;
-    public ElementalControlBaseState(SkillStateMachine skills)
+    public ElementalBaseController(SkillStateMachine skills)
     {
         skill = skills;
     }

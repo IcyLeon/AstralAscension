@@ -12,15 +12,6 @@ public abstract class PlayableCharacterAnimationEvents : CharacterAnimationEvent
         }
     }
 
-
-    private void OnPlayerAnimationTransition()
-    {
-        if (playableCharacters == null || playableCharacters.PlayableCharacterStateMachine == null)
-            return;
-
-        playableCharacters.PlayableCharacterStateMachine.OnAnimationTransition();
-    }
-
     protected override void OnAnimatorMove()
     {
         if (playableCharacters == null)
