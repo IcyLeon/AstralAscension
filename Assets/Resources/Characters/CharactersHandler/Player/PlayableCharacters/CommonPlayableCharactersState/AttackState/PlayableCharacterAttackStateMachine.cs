@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayableCharacterAttackStateMachine : StateMachine
+public class PlayableCharacterAttackStateMachine : StateMachine
 {
     protected PlayableCharacterAttackController playableCharacterAttackController;
     public PlayableCharacterStateMachine playableCharacterStateMachine { get; }
+    public PlayableCharacterIdleAttackState playableCharacterIdleAttackState { get; }
+    public PCAttack01State PCAttack01State { get; }
+    public PCAttack02State PCAttack02State { get; }
+    public PlayableCharacterAttackData playableCharacterAttackData { get; }
+    private PlayableCharacterAttackComboState currentAttackComboState;
 
     public override void OnDestroy()
     {
@@ -25,6 +30,8 @@ public abstract class PlayableCharacterAttackStateMachine : StateMachine
     public override void Update()
     {
         base.Update();
+
+        playableCharacterAttackData.Update();
 
         if (playableCharacterAttackController == null)
             return;
@@ -52,6 +59,7 @@ public abstract class PlayableCharacterAttackStateMachine : StateMachine
     public override void LateUpdate()
     {
         base.LateUpdate();
+
         if (playableCharacterAttackController == null)
             return;
 
@@ -61,6 +69,29 @@ public abstract class PlayableCharacterAttackStateMachine : StateMachine
     public PlayableCharacterAttackStateMachine(PlayableCharacterStateMachine PlayableCharacterStateMachine)
     {
         playableCharacterStateMachine = PlayableCharacterStateMachine;
+        playableCharacterAttackData = new PlayableCharacterAttackData();
         playableCharacterAttackController = new PlayableCharacterAttackController(this);
+        playableCharacterIdleAttackState = new PlayableCharacterIdleAttackState(this);
+        PCAttack01State = new PCAttack01State(this);
+        PCAttack02State = new PCAttack02State(this);
+    }
+
+    public void ResetAttackState()
+    {
+        currentAttackComboState = null;
+    }
+
+    public void TransitNextAttackState()
+    {
+        if (currentAttackComboState == null)
+        {
+            currentAttackComboState = PCAttack01State;
+        }
+        else
+        {
+            currentAttackComboState = currentAttackComboState.GetNextAttackState();
+        }
+
+        playableCharacterStateMachine.ChangeState(currentAttackComboState);
     }
 }

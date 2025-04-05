@@ -4,9 +4,6 @@ using UnityEngine;
 
 public abstract class PlayableCharacterAttackState : IState
 {
-    protected float duration;
-    private float elapseTime;
-
     protected PlayableCharacterAttackStateMachine playableCharacterAttackStateMachine { get; }
     protected PlayableCharacterStateMachine playableCharacterStateMachine;
     public PlayableCharacterAttackState(PlayableCharacterAttackStateMachine PlayableCharacterAttackStateMachine)
@@ -18,28 +15,22 @@ public abstract class PlayableCharacterAttackState : IState
     public virtual void Enter()
     {
         OnEnable();
-        elapseTime = 0;
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
     }
 
     public virtual void Exit()
     {
         OnDisable();
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
     }
 
 
     public virtual void OnDisable()
     {
-        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
     public virtual void OnEnable()
     {
-        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed += Attack_performed;
-    }
-
-    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnAttackInput();
     }
 
     protected virtual void OnAttackInput()
@@ -83,44 +74,29 @@ public abstract class PlayableCharacterAttackState : IState
     {
     }
 
-    public virtual void SetAnimationTrigger(string parameter)
+    public void SetAnimationTrigger(string parameter)
     {
+        playableCharacterStateMachine.SetAnimationTrigger(parameter);
     }
 
-    public virtual void SmoothRotateToTargetRotation()
+    public void UpdateTargetRotationData(float angle)
     {
+        playableCharacterStateMachine.playerData.UpdateTargetRotationData(angle);
     }
 
-    public virtual void StartAnimation(string parameter)
+    public void StartAnimation(string parameter)
     {
+        playableCharacterStateMachine.StartAnimation(parameter);
     }
 
-    public virtual void StopAnimation(string parameter)
+    public void StopAnimation(string parameter)
     {
+        playableCharacterStateMachine.StopAnimation(parameter);
     }
+
 
     public virtual void Update()
     {
-        UpdateAttackElapsed();
 
-    }
-
-    private void UpdateAttackElapsed()
-    {
-        if (elapseTime > duration)
-        {
-            OnElapsedTimeEnds();
-            return;
-        }
-        elapseTime += Time.deltaTime;
-    }
-
-    protected virtual void OnElapsedTimeEnds()
-    {
-
-    }
-
-    public virtual void UpdateTargetRotationData(float angle)
-    {
     }
 }

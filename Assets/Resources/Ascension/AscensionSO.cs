@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AscensionSO", menuName = "ScriptableObjects/PlayerCharactersManager/AscensionSO")]
 
 [Serializable]
 public class AscensionInfoStat
@@ -18,7 +17,7 @@ public class AscensionInfoStat
     }
 }
 
-
+[CreateAssetMenu(fileName = "AscensionSO", menuName = "ScriptableObjects/PlayerCharactersManager/AscensionSO")]
 public class AscensionSO : ScriptableObject
 {
     [field: SerializeField] public AscensionInfoStat[] AscensionInfoStat { get; private set; }

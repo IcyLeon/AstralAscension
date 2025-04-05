@@ -13,7 +13,7 @@ public class KeqingThrowState : StellarRestorationState
     {
         base.Enter();
         stellarRestoration.stellarRestorationReusableData.OnHairPinShoot += KeqingAnimationEvents_OnHairPinShoot;
-        playableCharacterStateMachine.playerController.playerInputAction.Look.Disable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.Look.Disable();
         SetAnimationTrigger(stellarRestoration.keqingAnimationSO.throwParameter);
 
     }
@@ -29,7 +29,7 @@ public class KeqingThrowState : StellarRestorationState
     public override void Exit()
     {
         base.Exit();
-        playableCharacterStateMachine.playerController.playerInputAction.Look.Enable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.Look.Enable();
         stellarRestoration.stellarRestorationReusableData.OnHairPinShoot -= KeqingAnimationEvents_OnHairPinShoot;
     }
 

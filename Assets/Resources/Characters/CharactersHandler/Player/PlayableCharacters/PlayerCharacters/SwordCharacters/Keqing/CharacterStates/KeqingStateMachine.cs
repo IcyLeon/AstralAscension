@@ -16,6 +16,6 @@ public class KeqingStateMachine : SwordCharacterStateMachine
     {
         keqingReuseableData = playableCharacterReuseableData as KeqingReuseableData;
         characterReuseableData = new KeqingReuseableData(2, this);
-        playerCharacterAttackState = new KeqingAttackState(this);
+        //playerCharacterAttackState = new KeqingAttackState(this);
     }
 }

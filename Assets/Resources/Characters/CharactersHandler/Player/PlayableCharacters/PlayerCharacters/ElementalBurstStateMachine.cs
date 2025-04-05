@@ -5,48 +5,48 @@ using UnityEngine;
 public abstract class ElementalBurstStateMachine : SkillStateMachine
 {
     public PlayerElementalBurstUnleashedState playerElementalBurstUnleashedState { get; protected set; }
-    protected ElementalBurstControlState elementalBurstControlBaseState;
+    protected ElementalBurstController elementalBurstController;
 
     public override void OnEnable()
     {
-        if (elementalBurstControlBaseState == null)
+        if (elementalBurstController == null)
             return;
 
-        elementalBurstControlBaseState.OnEnable();
+        elementalBurstController.OnEnable();
     }
 
     public override void Update()
     {
-        if (elementalBurstControlBaseState == null)
+        if (elementalBurstController == null)
             return;
 
         if (skillReusableData != null)
             skillReusableData.Update();
 
-        elementalBurstControlBaseState.Update();
+        elementalBurstController.Update();
     }
 
     public override void OnDisable()
     {
-        if (elementalBurstControlBaseState == null)
+        if (elementalBurstController == null)
             return;
 
-        elementalBurstControlBaseState.OnDisable();
+        elementalBurstController.OnDisable();
     }
 
     public override void FixedUpdate()
     {
-        if (elementalBurstControlBaseState == null)
+        if (elementalBurstController == null)
             return;
 
-        elementalBurstControlBaseState.FixedUpdate();
+        elementalBurstController.FixedUpdate();
     }
     public override void LateUpdate()
     {
-        if (elementalBurstControlBaseState == null)
+        if (elementalBurstController == null)
             return;
 
-        elementalBurstControlBaseState.LateUpdate();
+        elementalBurstController.LateUpdate();
     }
 
     public abstract void InitElementalBurstState();

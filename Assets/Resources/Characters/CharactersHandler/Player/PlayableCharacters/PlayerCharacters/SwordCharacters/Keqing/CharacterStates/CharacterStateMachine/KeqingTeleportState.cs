@@ -7,7 +7,7 @@ public class KeqingTeleportState : StellarRestorationState
 {
     private float TimeToReachElapsed;
     private float TimeToReach, MaxTimeToReach;
-    private const float Speed = 25f;
+    private const float Speed = 35f;
     private const float OffsetTime = 0.5f;
     private Vector3 dir;
 
@@ -17,12 +17,10 @@ public class KeqingTeleportState : StellarRestorationState
 
     public override void Enter()
     {
-        TimeToReachElapsed = 0;
-
         dir = GetDirectionToTeleporter();
         TimeToReach = dir.magnitude / Speed;
         MaxTimeToReach = (Range + Range * OffsetTime) / Speed;
-
+        TimeToReachElapsed = Time.time;
         float angle = Vector3Handler.FindAngleByDirection(Vector2.zero, new Vector2(dir.x, dir.z));
         UpdateTargetRotationData(angle);
 
@@ -40,7 +38,7 @@ public class KeqingTeleportState : StellarRestorationState
 
     private Vector3 GetDirectionToTeleporter()
     {
-        return stellarRestoration.stellarRestorationReusableData.hairpinTeleporter.transform.position - playableCharacterStateMachine.player.Rb.position;
+        return stellarRestoration.stellarRestorationReusableData.targetPosition - playableCharacterStateMachine.player.Rb.position;
     }
     public override void FixedUpdate()
     {
@@ -54,14 +52,13 @@ public class KeqingTeleportState : StellarRestorationState
     {
         base.Update();
 
-        if (TimeToReachElapsed >= TimeToReach || TimeToReachElapsed >= MaxTimeToReach)
+        if (Time.time - TimeToReachElapsed >= TimeToReach || Time.time - TimeToReachElapsed >= MaxTimeToReach)
         {
             TransitToSlash();
             return;
         }
 
         stellarRestoration.stellarRestorationReusableData.hairpinTeleporter.ResetTime();
-        TimeToReachElapsed += Time.deltaTime;
     }
 
     private void UpdateTeleportMovement()

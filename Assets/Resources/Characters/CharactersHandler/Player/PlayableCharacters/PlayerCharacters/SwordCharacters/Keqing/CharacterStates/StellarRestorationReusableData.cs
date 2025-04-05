@@ -6,7 +6,6 @@ using UnityEngine;
 public class StellarRestorationReusableData : SkillReusableData
 {
     private ObjectPool<HairpinTeleporter> objectPool;
-    public AimRigController aimRigController { get; private set; }
     public event EventHandler OnHairPinShoot;
 
     public Vector3 targetPosition;
@@ -49,8 +48,6 @@ public class StellarRestorationReusableData : SkillReusableData
     public StellarRestorationReusableData(SkillStateMachine skill) : base(skill)
     {
         targetPosition = Vector3.zero;
-
-        aimRigController = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<AimRigController>();
 
         objectPool = new ObjectPool<HairpinTeleporter>("Characters/CharactersHandler/Player/PlayableCharacters/PlayerCharacters/SwordCharacters/Keqing/TeleporterOrb", playableCharacterStateMachine.characters.transform);
         objectPool.CallbackPoolObject((HT, i) =>

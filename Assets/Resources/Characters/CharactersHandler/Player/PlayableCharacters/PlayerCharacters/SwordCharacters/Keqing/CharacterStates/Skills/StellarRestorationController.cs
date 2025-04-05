@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StellarRestorationControlState : ElementalSkillControlState
+public class StellarRestorationController : ElementalSkillController
 {
     protected override void ElementalSkill_started()
     {
@@ -38,7 +38,7 @@ public class StellarRestorationControlState : ElementalSkillControlState
         }
     }
 
-    public StellarRestorationControlState(SkillStateMachine skills) : base(skills)
+    public StellarRestorationController(SkillStateMachine skills) : base(skills)
     {
     }
 }

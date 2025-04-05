@@ -12,6 +12,6 @@ public class PlayerStrongStopState : PlayerStopState
     {
         base.Enter();
         SetAnimationTrigger(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.strongStopParameter);
-        playableCharacterStateMachine.player.playerData.DecelerateForce = playableCharacterStateMachine.player.playerData.groundedData.PlayerStopData.StrongDecelerationForce;
+        playableCharacterStateMachine.playerData.DecelerateForce = playableCharacterStateMachine.playerData.groundedData.PlayerStopData.StrongDecelerationForce;
     }
 }

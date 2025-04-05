@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class PlayerData
 {
+    private static PlayerData playerDataInstance;
+    public static PlayerData instance 
+    {
+        get
+        {
+            if (playerDataInstance == null)
+            {
+                playerDataInstance = new PlayerData();
+            }
+            return playerDataInstance;
+        }
+    }
     private Player player;
     public GroundedData groundedData { get; private set; }
     public AirborneData airborneData { get; private set; }
@@ -11,22 +23,19 @@ public class PlayerData
     public bool canSprint;
     public float targetYawRotation;
     public float rotationTime;
-    public float dampedTargetRotationCurrentVelocity; // do nothing
+    private float dampedTargetRotationCurrentVelocity; // do nothing
     public float dampedTargetRotationPassedTime;
     public float DecelerateForce;
 
     public float currentJumpForceMagnitudeXZ;
     public float SpeedModifier;
-    public Vector2 movementInput;
+    public Vector2 movementInput { get; private set; }
 
     public int consecutiveDashesUsed;
 
-    public PlayerData(Player Player)
+    public PlayerData()
     {
-        player = Player;
         canSprint = false;
-        groundedData = player.PlayerSO.GroundedData;
-        airborneData = player.PlayerSO.AirborneData;
         SpeedModifier = 0f;
         DecelerateForce = 0f;
         movementInput = Vector2.zero;
@@ -35,6 +44,23 @@ public class PlayerData
         consecutiveDashesUsed = 0;
         targetYawRotation = 0;
         rotationTime = 0.14f;
+    }
+
+    public void SetPlayer(Player Player)
+    {
+        player = Player;
+        groundedData = player.PlayerSO.GroundedData;
+        airborneData = player.PlayerSO.AirborneData;
+    }
+
+    public void Update()
+    {
+        ReadMovement();
+    }
+
+    private void ReadMovement()
+    {
+        movementInput = player.playerController.playerInputAction.Movement.ReadValue<Vector2>();
     }
 
     public void SmoothRotateToTargetRotation()
@@ -46,7 +72,7 @@ public class PlayerData
         }
 
         float angle = Mathf.SmoothDampAngle(currentAngleY, targetYawRotation, ref dampedTargetRotationCurrentVelocity, rotationTime - dampedTargetRotationPassedTime);
-        dampedTargetRotationPassedTime += Time.deltaTime;
+        dampedTargetRotationPassedTime = Mathf.Clamp(dampedTargetRotationPassedTime + Time.fixedDeltaTime, 0f, rotationTime);
         player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
     }
 

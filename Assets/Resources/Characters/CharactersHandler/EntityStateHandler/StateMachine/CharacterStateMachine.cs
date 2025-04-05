@@ -117,6 +117,11 @@ public abstract class CharacterStateMachine : StateMachine
         Characters.StartAnimation(characters.Animator, parameter);
     }
 
+    public bool IsInTransition()
+    {
+        return characters.Animator.IsInTransition(characters.Animator.GetLayerIndex("Base Layer"));
+    }
+
     public void SetAnimationTrigger(string parameter)
     {
         Characters.SetAnimationTrigger(characters.Animator, parameter);

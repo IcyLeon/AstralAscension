@@ -8,7 +8,7 @@ public class KeqingAimState : StellarRestorationState
 
     public KeqingAimState(SkillStateMachine Skill) : base(Skill)
     {
-        aimRigController = stellarRestoration.stellarRestorationReusableData.aimRigController;
+        aimRigController = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<AimRigController>();
         if (aimRigController == null)
         {
             Debug.LogError("Dont have AimRigController!");
@@ -25,13 +25,13 @@ public class KeqingAimState : StellarRestorationState
     public override void OnEnable()
     {
         base.OnEnable();
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
     }
 
     public override void FixedUpdate()

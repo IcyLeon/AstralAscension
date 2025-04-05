@@ -18,13 +18,12 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
     public PlayerPlungeLandingState playerPlungeLandingState { get; }
     public PlayerPlungeState playerPlungeState { get; }
     public PlayerDeadState playerDeadState { get; }
-
-    public PlayerCharacterAttackState playerCharacterAttackState { get; protected set; }
+    public PlayableCharacterAttackStateMachine playableCharacterAttackStateMachine { get; protected set; }
     public ElementalBurstStateMachine playerElementalBurstStateMachine { get; protected set; }
     public ElementalSkillStateMachine playerElementalSkillStateMachine { get; protected set; }
-    public PlayerController playerController { get; private set; }
     public PlayableCharacters playableCharacter { get; }
     public Player player { get; }
+    public PlayerData playerData { get; private set; }
 
     public PlayableCharacterReuseableData playableCharacterReuseableData
     {
@@ -36,7 +35,7 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
 
     public bool IsAttacking()
     {
-        return StateMachineManager.IsInState<PlayerCharacterAttackState>();
+        return StateMachineManager.IsInState<PlayableCharacterAttackComboState>();
     }
 
     public bool IsAirborne()
@@ -48,13 +47,14 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
     public override void Update()
     {
         base.Update();
-        //Debug.Log(StateMachineManager.currentStates);
 
-        if (playerElementalSkillStateMachine != null)
-            playerElementalSkillStateMachine.Update();
+        playerElementalSkillStateMachine.Update();
 
-        if (playerElementalBurstStateMachine != null)
-            playerElementalBurstStateMachine.Update();
+        playerElementalBurstStateMachine.Update();
+
+        playableCharacterAttackStateMachine.Update();
+
+        playerData.Update();
     }
 
     protected abstract void InitSkills();
@@ -63,23 +63,22 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
     {
         base.FixedUpdate();
 
-        if (playerElementalBurstStateMachine != null)
-            playerElementalBurstStateMachine.FixedUpdate();
+        playerElementalBurstStateMachine.FixedUpdate();
 
-        if (playerElementalSkillStateMachine != null)
-            playerElementalSkillStateMachine.FixedUpdate();
+        playerElementalSkillStateMachine.FixedUpdate();
+
+        playableCharacterAttackStateMachine.FixedUpdate();
     }
 
     public override void LateUpdate()
     {
         base.LateUpdate();
 
-        if (playerElementalBurstStateMachine != null)
-            playerElementalBurstStateMachine.LateUpdate();
+        playerElementalBurstStateMachine.LateUpdate();
 
-        if (playerElementalSkillStateMachine != null)
-            playerElementalSkillStateMachine.LateUpdate();
+        playerElementalSkillStateMachine.LateUpdate();
 
+        playableCharacterAttackStateMachine.LateUpdate();
     }
 
     public void ResetVelocity()
@@ -90,9 +89,9 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
 
     public PlayableCharacterStateMachine(Characters characters) : base(characters)
     {        
-        playerController = PlayerController.instance;
         playableCharacter = damageableCharacters as PlayableCharacters;
         player = playableCharacter.player;
+        playerData = PlayerData.instance;
         playerIdleState = new PlayerIdleState(this);
         playerRunState = new PlayerRunState(this);
         playerWeakStopState = new PlayerWeakStopState(this);
@@ -107,7 +106,7 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         playerSprintState = new PlayerSprintState(this);
         playerPlungeState = new PlayerPlungeState(this);
         playerDeadState = new PlayerDeadState(this);
-
+        playableCharacterAttackStateMachine = new PlayableCharacterAttackStateMachine(this);
 
         InitSkills();
         StartState(playerIdleState);
@@ -117,45 +116,37 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
     {
         base.OnEnable();
 
-        if (playerElementalBurstStateMachine != null)
-            playerElementalBurstStateMachine.OnEnable();
+        playerElementalBurstStateMachine.OnEnable();
 
-        if (playerElementalSkillStateMachine != null)
-            playerElementalSkillStateMachine.OnEnable();
+        playerElementalSkillStateMachine.OnEnable();
+
+        playableCharacterAttackStateMachine.OnEnable();
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
 
-        if (playerElementalBurstStateMachine != null)
-            playerElementalBurstStateMachine.OnDisable();
+        playerElementalBurstStateMachine.OnDisable();
 
-        if (playerElementalSkillStateMachine != null)
-            playerElementalSkillStateMachine.OnDisable();
+        playerElementalSkillStateMachine.OnDisable();
+
+        playableCharacterAttackStateMachine.OnDisable();
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
 
-        if (playerElementalBurstStateMachine != null)
-            playerElementalBurstStateMachine.OnDestroy();
+        playerElementalBurstStateMachine.OnDestroy();
 
-        if (playerElementalSkillStateMachine != null)
-            playerElementalSkillStateMachine.OnDestroy();
+        playerElementalSkillStateMachine.OnDestroy();
+
+        playableCharacterAttackStateMachine.OnDestroy();
 
         OnDisable();
     }
 
-
-
-
-    //private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PlayableCharacters playableCharacters)
-    //{
-    //    ChangeState(EntityState);
-    //    OnDisable();
-    //}
 
     public bool IsSkillCasting()
     {

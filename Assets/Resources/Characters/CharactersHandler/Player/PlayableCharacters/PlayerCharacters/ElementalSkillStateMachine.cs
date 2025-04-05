@@ -4,48 +4,48 @@ using UnityEngine;
 
 public abstract class ElementalSkillStateMachine : SkillStateMachine
 {
-    protected ElementalSkillControlState elementalSkillControlBaseState;
+    protected ElementalSkillController elementalSkillController;
 
     public override void OnEnable()
     {
-        if (elementalSkillControlBaseState == null)
+        if (elementalSkillController == null)
             return;
 
-        elementalSkillControlBaseState.OnEnable();
+        elementalSkillController.OnEnable();
     }
 
     public override void Update()
     {
-        if (elementalSkillControlBaseState == null)
+        if (elementalSkillController == null)
             return;
 
         if (skillReusableData != null)
             skillReusableData.Update();
 
-        elementalSkillControlBaseState.Update();
+        elementalSkillController.Update();
     }
 
     public override void OnDisable()
     {
-        if (elementalSkillControlBaseState == null)
+        if (elementalSkillController == null)
             return;
 
-        elementalSkillControlBaseState.OnDisable();
+        elementalSkillController.OnDisable();
     }
 
     public override void FixedUpdate()
     {
-        if (elementalSkillControlBaseState == null)
+        if (elementalSkillController == null)
             return;
 
-        elementalSkillControlBaseState.FixedUpdate();
+        elementalSkillController.FixedUpdate();
     }
     public override void LateUpdate()
     {
-        if (elementalSkillControlBaseState == null)
+        if (elementalSkillController == null)
             return;
 
-        elementalSkillControlBaseState.LateUpdate();
+        elementalSkillController.LateUpdate();
     }
 
     public abstract void InitElementalSkillState();

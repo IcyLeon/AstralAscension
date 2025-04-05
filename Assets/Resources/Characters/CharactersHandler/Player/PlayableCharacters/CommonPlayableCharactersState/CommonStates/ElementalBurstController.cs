@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ElementalBurstControlState : ElementalControlBaseState
+public abstract class ElementalBurstController : ElementalBaseController
 {
     public override void OnEnable()
     {
         base.OnEnable();
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
     private bool CanTransitToElementalBurstState()
@@ -32,7 +32,7 @@ public abstract class ElementalBurstControlState : ElementalControlBaseState
     public override void OnDisable()
     {
         base.OnDisable();
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
     }
 
     public ElementalBurstStateMachine elementalBurst
@@ -44,7 +44,7 @@ public abstract class ElementalBurstControlState : ElementalControlBaseState
     }
 
 
-    public ElementalBurstControlState(SkillStateMachine skills) : base(skills)
+    public ElementalBurstController(SkillStateMachine skills) : base(skills)
     {
     }
 }

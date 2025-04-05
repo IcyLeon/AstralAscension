@@ -3,22 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ElementalSkillControlState : ElementalControlBaseState
+public abstract class ElementalSkillController : ElementalBaseController
 {
     public override void OnEnable()
     {
         base.OnEnable();
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
-        playableCharacterStateMachine.playerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
     }
 
     private bool CanTransitToElementalSkillState()
@@ -63,7 +63,7 @@ public abstract class ElementalSkillControlState : ElementalControlBaseState
 
     }
 
-    public ElementalSkillControlState(SkillStateMachine skills) : base(skills)
+    public ElementalSkillController(SkillStateMachine skills) : base(skills)
     {
     }
 }

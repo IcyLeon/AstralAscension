@@ -9,9 +9,11 @@ public class PlayerAimController
     private PlayableCharacters playableCharacter;
     private PlayerCameraManager playerCameraManager;
     private AimRigController aimRigController;
+    private PlayerData playerData;
 
     public PlayerAimController(PlayableCharacters PlayableCharacter)
     {
+        playerData = PlayerData.instance;
         playableCharacter = PlayableCharacter;
         playerCameraManager = playableCharacter.player.PlayerCameraManager;
         aimRigController = playableCharacter.GetComponentInChildren<AimRigController>();
@@ -42,13 +44,13 @@ public class PlayerAimController
 
     public void FixedUpdate()
     {
-        playableCharacter.player.playerData.SmoothRotateToTargetRotation();
+        playerData.SmoothRotateToTargetRotation();
     }
 
     public void Update()
     {
         float angle = playerCameraManager.CameraMain.transform.eulerAngles.y;
-        playableCharacter.player.playerData.UpdateTargetRotationData(angle);
+        playerData.UpdateTargetRotationData(angle);
     }
 
     private void UpdateTargetWeight(float amt)

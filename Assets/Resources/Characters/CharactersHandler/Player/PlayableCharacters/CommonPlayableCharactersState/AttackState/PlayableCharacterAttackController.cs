@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayableCharacterAttackController
 {
+    private const float mouseInputBetweenAction = 0.25f;
+    private float mouseInputCurrentElapsed;
     protected PlayableCharacterAttackStateMachine playableCharacterAttackStateMachine;
     protected PlayableCharacterStateMachine playableCharacterStateMachine;
 
@@ -15,16 +17,27 @@ public class PlayableCharacterAttackController
 
     public virtual void OnEnable()
     {
-        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed += Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed += Attack_performed;
     }
 
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (playableCharacterStateMachine.IsSkillCasting() || playableCharacterStateMachine.IsAirborne() ||
+            !playableCharacterAttackStateMachine.playableCharacterAttackData.CanAttack())
+        {
+            return;
+        }
+
+        if (Time.time - mouseInputCurrentElapsed >= mouseInputBetweenAction)
+        {
+            playableCharacterAttackStateMachine.TransitNextAttackState();
+            mouseInputCurrentElapsed = Time.time;
+        }
     }
 
     public virtual void OnDisable()
     {
-        playableCharacterStateMachine.playerController.playerInputAction.Attack.performed -= Attack_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
 
@@ -38,6 +51,10 @@ public class PlayableCharacterAttackController
 
  
     public virtual void Update()
+    {
+    }
+
+    public virtual void OnDestroy()
     {
     }
 }
