@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerDeadState : PlayerMovementState
+public class PlayerDeadState : PlayerBaseState
 {
     public PlayerDeadState(PlayableCharacterStateMachine PS) : base(PS)
     {

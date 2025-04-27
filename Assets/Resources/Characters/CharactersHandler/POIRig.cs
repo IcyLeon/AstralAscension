@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 [RequireComponent(typeof(SmoothRigTransition))]
-public abstract class POIRig : MonoBehaviour
+public class POIRig : MonoBehaviour
 {
-    protected InteractSensor interactSensorReference;
+    private InteractSensor interactSensorReference;
 
     [Header("Rig Data")]
     [Range(0f, 180f)]
@@ -24,13 +24,28 @@ public abstract class POIRig : MonoBehaviour
 
     private void Start()
     {
+        interactSensorReference = GetComponentInParent<InteractSensor>();
+        SubscribeEvent();
+    }
+
+    private void SubscribeEvent()
+    {
+        if (interactSensorReference == null)
+            return;
+
         interactSensorReference.OnPOIChanged += OnPOIChanged;
-        OnPOIChanged();
+    }
+    private void UnsubscribeEvent()
+    {
+        if (interactSensorReference == null)
+            return;
+
+        interactSensorReference.OnPOIChanged -= OnPOIChanged;
     }
 
     protected virtual void OnDestroy()
     {
-        interactSensorReference.OnPOIChanged -= OnPOIChanged;
+        UnsubscribeEvent();
     }
 
     private void OnPOIChanged()

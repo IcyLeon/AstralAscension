@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class PlayerMovementState : IState
+public abstract class PlayerBaseState : IState
 {
     protected PlayableCharacterStateMachine playableCharacterStateMachine;
-    public PlayerMovementState(PlayableCharacterStateMachine PS)
+    public PlayerBaseState(PlayableCharacterStateMachine PS)
     {
         playableCharacterStateMachine = PS;
         InitBaseRotation();

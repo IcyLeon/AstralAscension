@@ -10,7 +10,7 @@ public class WorldMapBackground : MonoBehaviour
     [field: SerializeField] public RectTransform MapRT { get; private set; }
     [SerializeField] private Transform IconMapPivotTransform;
     public WorldMapManager worldMap { get; private set; }
-
+    private MapUI mapUI;
     private Vector2 originalMapSize;
 
     public delegate void OnMapIconChanged(MapIcon mapIcon);
@@ -20,8 +20,7 @@ public class WorldMapBackground : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponentInParent<Player>();
-
+        mapUI = GetComponentInParent<MapUI>();
         IconsDictionary = new();
         originalMapSize = GetMapSize();
     }
@@ -29,6 +28,7 @@ public class WorldMapBackground : MonoBehaviour
     private void Start()
     {
         worldMap = WorldMapManager.instance;
+        player = mapUI.player;
         if (worldMap == null)
         {
             Debug.Log("World Map Manager not found!");
@@ -78,7 +78,7 @@ public class WorldMapBackground : MonoBehaviour
 
         GameObject prefab = MapIconPrefabManagerSO.GetMapIconPrefab(mapObject);
         MapIcon mapIcon = Instantiate(prefab, IconMapPivotTransform).GetComponent<MapIcon>();
-        mapIcon.SetMapObject(mapObject, this);
+        mapIcon.SetMapObject(player, mapObject, this);
         IconsDictionary.Add(mapObject, mapIcon);
         OnMapIconAdd?.Invoke(mapIcon);
     }

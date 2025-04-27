@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerGroundedState : PlayerMovementState
+public abstract class PlayerGroundedState : PlayerBaseState
 {
     public PlayerGroundedState(PlayableCharacterStateMachine PS) : base(PS)
     {

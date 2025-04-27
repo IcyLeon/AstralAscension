@@ -21,8 +21,6 @@ public class PlayableCharacterAttackStateMachine : StateMachine
     public override void OnEnable()
     {
         base.OnEnable();
-        if (playableCharacterAttackController == null)
-            return;
 
         playableCharacterAttackController.OnEnable();
     }
@@ -33,17 +31,12 @@ public class PlayableCharacterAttackStateMachine : StateMachine
 
         playableCharacterAttackData.Update();
 
-        if (playableCharacterAttackController == null)
-            return;
-
         playableCharacterAttackController.Update();
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
-        if (playableCharacterAttackController == null)
-            return;
 
         playableCharacterAttackController.OnDisable();
     }
@@ -51,17 +44,12 @@ public class PlayableCharacterAttackStateMachine : StateMachine
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (playableCharacterAttackController == null)
-            return;
 
         playableCharacterAttackController.FixedUpdate();
     }
     public override void LateUpdate()
     {
         base.LateUpdate();
-
-        if (playableCharacterAttackController == null)
-            return;
 
         playableCharacterAttackController.LateUpdate();
     }

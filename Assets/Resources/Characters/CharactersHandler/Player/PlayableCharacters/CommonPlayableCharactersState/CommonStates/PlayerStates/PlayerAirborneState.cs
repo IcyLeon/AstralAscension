@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAirborneState : PlayerMovementState
+public class PlayerAirborneState : PlayerBaseState
 {
     public PlayerAirborneState(PlayableCharacterStateMachine PS) : base(PS)
     {

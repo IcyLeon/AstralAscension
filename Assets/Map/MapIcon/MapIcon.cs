@@ -16,6 +16,7 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
     public RectTransform RT { get; private set; }
     public WorldMapBackground worldMapBackground { get; private set; }
     public MapObject mapObject { get; private set; }
+    public Player player { get; private set; }
 
     public event EventHandler<MapIconEvent> OnMapIconClick;
 
@@ -24,11 +25,12 @@ public class MapIcon : MonoBehaviour, IPointerClickHandler
         RT = GetComponent<RectTransform>();
     }
 
-    public virtual void SetMapObject(MapObject MapObject, WorldMapBackground WorldMapBackground)
+    public virtual void SetMapObject(Player Player, MapObject MapObject, WorldMapBackground WorldMapBackground)
     {
         worldMapBackground = WorldMapBackground;
         UnsubscribeEvent();
         mapObject = MapObject;
+        player = Player;
         SubscribeEvents();
     }
 

@@ -13,6 +13,7 @@ public class SmoothRigTransition : MonoBehaviour
     [SerializeField] private Transform TargetTransform;
     private Vector3 targetPosition;
     private float targetRigWeight;
+    private Vector3 dampPositionVelocity;
 
     private void Awake()
     {
@@ -45,7 +46,7 @@ public class SmoothRigTransition : MonoBehaviour
 
     private void UpdateTargetPosition()
     {
-        TargetTransform.position = Vector3.Lerp(TargetTransform.position, targetPosition, Time.deltaTime * soothingSpeed);
+        TargetTransform.position = Vector3.SmoothDamp(TargetTransform.position, targetPosition, ref dampPositionVelocity, Time.deltaTime * soothingSpeed);
     }
 
     public Transform GetConstraintObject()

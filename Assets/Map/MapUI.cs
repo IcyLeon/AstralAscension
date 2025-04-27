@@ -6,10 +6,16 @@ using UnityEngine;
 public abstract class MapUI : MonoBehaviour
 {
     public WorldMapBackground worldMapBackground { get; protected set; }
+    public Player player { get; private set; }
 
     private void Awake()
     {
         Init();
+    }
+
+    public void SetPlayer(Player Player)
+    {
+        player = Player;
     }
 
     public virtual void Init()

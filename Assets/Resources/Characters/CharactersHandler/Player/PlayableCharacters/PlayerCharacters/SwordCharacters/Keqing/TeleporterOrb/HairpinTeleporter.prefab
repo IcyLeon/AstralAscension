@@ -180,6 +180,9 @@ MonoBehaviour:
   ThrowAudioSource: {fileID: 601182338686899145}
   rb: {fileID: 9203155782185956832}
   PinCollider: {fileID: 6358234528828272531}
+  restrictedLayers:
+    serializedVersion: 2
+    m_Bits: 332
 --- !u!135 &6358234528828272531
 SphereCollider:
   m_ObjectHideFlags: 0

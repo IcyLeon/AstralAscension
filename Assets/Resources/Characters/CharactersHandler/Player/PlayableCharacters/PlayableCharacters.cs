@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public abstract class PlayableCharacters : DamageableCharacters, IPointOfInterest
 {
     [field: SerializeField] public CapsuleCollider MainCollider { get; private set; }
-
+    private InteractSensor interactSensor;
     public Player player { get; private set; }
 
     public PlayableCharacterAnimationSO PlayableCharacterAnimationSO
@@ -40,15 +41,18 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
         }
     }
 
-    public override CharacterDataStat GetCharacterDataStat()
+    private void CreateInteraction()
     {
-        return CharacterManager.instance.GetCharacterDataStat(CharacterSO);
+        interactSensor = gameObject.AddComponent<PlayerInteractSensor>();
+        interactSensor.CreateCollider(MainCollider.height, MainCollider.center);
+
     }
 
     protected override void Awake()
     {
         base.Awake();
         player = GetComponentInParent<Player>();
+        CreateInteraction();
     }
 
     protected override void UpdateDataStat()

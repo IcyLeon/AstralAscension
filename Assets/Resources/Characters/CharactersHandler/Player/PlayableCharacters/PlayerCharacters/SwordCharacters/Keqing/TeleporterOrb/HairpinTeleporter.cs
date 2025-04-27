@@ -14,6 +14,7 @@ public class HairpinTeleporter : MonoBehaviour
     [SerializeField] private AudioSource ThrowAudioSource;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider PinCollider;
+    [SerializeField] private LayerMask restrictedLayers;
     private Coroutine MoveTarget;
 
     public event Action OnHairPinExplode;
@@ -88,13 +89,7 @@ public class HairpinTeleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
-            return;
-
-        Player player = other.GetComponent<Player>();
-        PlayableCharacters pc = other.GetComponent<PlayableCharacters>();
-
-        if (player != null || pc != null)
+        if (((1 << other.gameObject.layer) & restrictedLayers) != 0)
             return;
 
         Explode();

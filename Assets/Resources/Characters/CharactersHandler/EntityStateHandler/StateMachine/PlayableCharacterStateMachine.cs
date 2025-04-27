@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMachine
 {
+
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
     public PlayerWeakStopState playerWeakStopState { get; }
@@ -33,16 +35,10 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         }
     }
 
-    public bool IsAttacking()
-    {
-        return StateMachineManager.IsInState<PlayableCharacterAttackComboState>();
-    }
-
     public bool IsAirborne()
     {
         return StateMachineManager.IsInState<PlayerAirborneState>();
     }
-
 
     public override void Update()
     {
@@ -121,6 +117,13 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         playerElementalSkillStateMachine.OnEnable();
 
         playableCharacterAttackStateMachine.OnEnable();
+
+        playableCharacter.OnTakeDamage += PlayableCharacter_OnTakeDamage;
+    }
+
+    private void PlayableCharacter_OnTakeDamage(float DamageAmount)
+    {
+        SetAnimationTrigger("Hit");
     }
 
     public override void OnDisable()
@@ -132,6 +135,8 @@ public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMa
         playerElementalSkillStateMachine.OnDisable();
 
         playableCharacterAttackStateMachine.OnDisable();
+
+        playableCharacter.OnTakeDamage -= PlayableCharacter_OnTakeDamage;
     }
 
     public override void OnDestroy()
