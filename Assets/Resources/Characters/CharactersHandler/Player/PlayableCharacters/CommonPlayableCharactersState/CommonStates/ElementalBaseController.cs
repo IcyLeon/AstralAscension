@@ -29,7 +29,7 @@ public abstract class ElementalBaseController
 
     protected virtual bool CanTransitToAnyElementalState()
     {
-        return skill.playableCharacterStateMachine.IsInState<PlayerGroundedState>() || skill.playableCharacterStateMachine.IsAttacking();
+        return skill.playableCharacterStateMachine.IsInState<PlayerGroundedState>() || skill.playableCharacterStateMachine.IsInState<PlayableCharacterAttackState>();
     }
 
     public virtual void FixedUpdate()

@@ -19,11 +19,16 @@ public abstract class DamageableCharacters : Characters, IDamageable, IKnockBack
         }
     }
 
+    public void SetCharacterDataStat(CharacterDataStat CharacterDataStat)
+    {
+        characterDataStat = CharacterDataStat;
+    }
+
     public virtual CharacterDataStat GetCharacterDataStat()
     {
         if (characterDataStat == null)
         {
-            characterDataStat = damageableCharactersSO.CreateCharacterDataStat();
+            SetCharacterDataStat(damageableCharactersSO.CreateCharacterDataStat());
         }
 
         return characterDataStat;

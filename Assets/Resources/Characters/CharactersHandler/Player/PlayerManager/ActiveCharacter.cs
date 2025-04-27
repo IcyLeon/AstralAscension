@@ -8,8 +8,8 @@ using static PartySetupManager;
 public class ActiveCharacter : MonoBehaviour
 {
     public delegate void OnPlayerCharacterEvent(CharacterDataStat playerData, PartyMember PartyMember);
-    public static event OnPlayerCharacterEvent OnPlayerCharacterExit;
-    public static event OnPlayerCharacterEvent OnPlayerCharacterSwitch;
+    public event OnPlayerCharacterEvent OnPlayerCharacterExit;
+    public event OnPlayerCharacterEvent OnPlayerCharacterSwitch;
 
     private Player player;
     private PlayerController playerController;
@@ -104,6 +104,7 @@ public class ActiveCharacter : MonoBehaviour
         if (DamageableCharacters == null)
             return;
 
+        DamageableCharacters.SetCharacterDataStat(PartyMember.characterDataStat);
         DamageableCharacters.gameObject.SetActive(false);
         charactersList.Add(PartyMember, DamageableCharacters as PlayableCharacters);
     }

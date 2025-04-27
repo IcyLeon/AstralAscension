@@ -20,7 +20,7 @@ MonoBehaviour:
     <SwitchClip>k__BackingField: {fileID: 8300000, guid: 2b529ff640693b549a21cce2b88b0b02,
       type: 3}
   <GroundedData>k__BackingField:
-    <BaseSpeed>k__BackingField: 4.8
+    <BaseSpeed>k__BackingField: 5.5
     <BaseRotationTime>k__BackingField: 0.14
     <PlayerDashData>k__BackingField:
       <BaseDashSpeed>k__BackingField: 15

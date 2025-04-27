@@ -19,6 +19,18 @@ public class PlayableCharacterIdleAttackState : PlayableCharacterAttackState
         ResetAttackElasped();
     }
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        playerIdleState.OnEnable();
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        playerIdleState.OnDisable();
+    }
+
     public override void Update()
     {
         base.Update();

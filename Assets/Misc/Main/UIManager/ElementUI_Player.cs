@@ -4,12 +4,40 @@ using UnityEngine;
 
 public class ElementUI_Player : ElementUI
 {
+    private Player player;
+    private CombatUIManager combatUIManager;
+
     // Start is called before the first frame update
     protected override void Awake()
     {
         base.Awake();
-        ActiveCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterExit;
-        ActiveCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
+        combatUIManager = GetComponentInParent<CombatUIManager>();
+        combatUIManager.OnPlayerChanged += CombatUIManager_OnPlayerChanged;
+    }
+
+    private void CombatUIManager_OnPlayerChanged()
+    {
+        UnsubscribeEvent();
+        player = combatUIManager.player;
+        SubscribeEvent();
+    }
+
+    private void SubscribeEvent()
+    {
+        if (player == null)
+            return;
+
+        player.activeCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterExit;
+        player.activeCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    private void UnsubscribeEvent()
+    {
+        if (player == null)
+            return;
+
+        player.activeCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
+        player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
     private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
@@ -56,8 +84,7 @@ public class ElementUI_Player : ElementUI
     protected override void OnDestroy()
     {
         base.OnDestroy();
-
-        ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
-        ActiveCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
+        combatUIManager.OnPlayerChanged -= CombatUIManager_OnPlayerChanged;
+        UnsubscribeEvent();
     }
 }

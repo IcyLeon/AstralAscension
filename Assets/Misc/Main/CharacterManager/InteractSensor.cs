@@ -5,13 +5,13 @@ using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public abstract class InteractSensor : MonoBehaviour
+[RequireComponent(typeof(SphereCollider))]
+public class InteractSensor : MonoBehaviour
 {
     [Header("Interactions Data")]
     private Dictionary<Transform, IPointOfInterest> POI_List;
 
-    [SerializeField] private float InteractionRange = 1f;
-    [SerializeField] private SphereCollider InteractionsCollider;
+    private SphereCollider interactionsCollider;
 
     public delegate void OnInteractEvent(Collider Collider);
     public event OnInteractEvent OnPOIInteractEnter;
@@ -25,7 +25,15 @@ public abstract class InteractSensor : MonoBehaviour
     protected virtual void Awake()
     {
         POI_List = new();
-        InteractionsCollider.radius = InteractionRange;
+
+        interactionsCollider = GetComponent<SphereCollider>();
+        interactionsCollider.isTrigger = true;
+    }
+
+    public void CreateCollider(float radius, Vector3 localCenter)
+    {
+        interactionsCollider.radius = radius;
+        interactionsCollider.center = localCenter;
     }
 
     protected virtual void Start()
@@ -45,9 +53,8 @@ public abstract class InteractSensor : MonoBehaviour
         float nearestDistance = Mathf.Infinity;
         IPointOfInterest targetPOI = null;
 
-        for (int i = 0; i < POI_List.Keys.Count; i++)
+        foreach(var currentTransform in POI_List.Keys)
         {
-            Transform currentTransform = POI_List.ElementAt(i).Key;
 
             float distance = (currentTransform.transform.position - position).sqrMagnitude;
 
@@ -63,7 +70,12 @@ public abstract class InteractSensor : MonoBehaviour
 
     private void Update()
     {
-        currentClosestPOI = GetClosestTarget(InteractionsCollider.bounds.center);
+        UpdateClosestPOI();
+    }
+
+    private void UpdateClosestPOI()
+    {
+        currentClosestPOI = GetClosestTarget(interactionsCollider.bounds.center);
 
         if (prevClosestPOI != currentClosestPOI)
         {

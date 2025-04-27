@@ -13,7 +13,6 @@ public class POIRig_PlayableCharacters : POIRig
         base.Awake();
         HeadMoveDisabled = false;
         PlayableCharacters = GetComponentInParent<PlayableCharacters>();
-        interactSensorReference = PlayableCharacters.player.PlayerInteractSensor;
         PlayableCharacters.OnTakeDamage += OnDamageHit;
     }
     private void OnDamageHit(float BaseDamageAmount)

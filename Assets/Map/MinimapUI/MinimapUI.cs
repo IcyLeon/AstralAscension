@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class MinimapUI : MapUI
+public class MinimapUI : MapUI, IPointerClickHandler
 {
+    [SerializeField] private WorldMapUI worldMapUI;
     private PlayerMapIcon playerMapIcon;
 
     protected override void OnMapIconAdd(MapIcon mapIcon)
@@ -34,5 +36,10 @@ public class MinimapUI : MapUI
 
         Vector2 direction = (playerMapIcon.worldMapBackground.GetMapSize() * 0.5f) - (playerMapIcon.RT.anchoredPosition) - (playerMapIcon.worldMapBackground.MapRT.anchoredPosition + playerMapIcon.worldMapBackground.OffsetPositionCenter());
         playerMapIcon.worldMapBackground.MapRT.anchoredPosition += direction;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        worldMapUI.gameObject.SetActive(true);
     }
 }

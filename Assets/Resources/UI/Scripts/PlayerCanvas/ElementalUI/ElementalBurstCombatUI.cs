@@ -18,8 +18,20 @@ public class ElementalBurstCombatUI : SkillCombatUI
         defaultBackgroundColor = backgroundImage.color;
 
         burstMaterial = Instantiate(ElementalBurstMaterial);
-        ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
     }
+
+    protected override void OnSubscribeEvent()
+    {
+        base.OnSubscribeEvent();
+        combatUIManager.player.activeCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterExit;
+    }
+
+    protected override void OnUnsubscribeEvent()
+    {
+        base.OnUnsubscribeEvent();
+        combatUIManager.player.activeCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
+    }
+
 
     private void ActiveCharacter_OnPlayerCharacterExit(CharacterDataStat playerData, PartyMember PartyMember)
     {
@@ -80,7 +92,6 @@ public class ElementalBurstCombatUI : SkillCombatUI
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        ActiveCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
 
         if (currentPlayableCharacterData != null)
         {

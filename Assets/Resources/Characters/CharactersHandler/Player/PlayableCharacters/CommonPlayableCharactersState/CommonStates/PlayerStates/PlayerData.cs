@@ -24,7 +24,7 @@ public class PlayerData
     public float targetYawRotation;
     public float rotationTime;
     private float dampedTargetRotationCurrentVelocity; // do nothing
-    public float dampedTargetRotationPassedTime;
+    private float dampedTargetRotationPassedTime;
     public float DecelerateForce;
 
     public float currentJumpForceMagnitudeXZ;

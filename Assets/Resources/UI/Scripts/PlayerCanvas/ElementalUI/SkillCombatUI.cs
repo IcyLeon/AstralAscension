@@ -11,12 +11,50 @@ public abstract class SkillCombatUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TimerTxt;
     [SerializeField] private Image SkillIconImage;
 
+    protected CombatUIManager combatUIManager { get; private set; }
+    protected Player player;
+
     public PlayableCharacterDataStat currentPlayableCharacterData { get; private set; }
 
     protected virtual void Awake()
     {
-        ActiveCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
+        combatUIManager = GetComponentInParent<CombatUIManager>();
+        combatUIManager.OnPlayerChanged += CombatUIManager_OnPlayerChanged;
     }
+
+    private void CombatUIManager_OnPlayerChanged()
+    {
+        UnsubscribeEvent();
+        player = combatUIManager.player;
+        SubscribeEvent();
+    }
+
+    private void SubscribeEvent()
+    {
+        if (player == null)
+            return;
+
+        OnSubscribeEvent();
+    }
+
+    protected virtual void OnSubscribeEvent()
+    {
+        player.activeCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    protected virtual void OnUnsubscribeEvent()
+    {
+        player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    private void UnsubscribeEvent()
+    {
+        if (player == null)
+            return;
+
+        OnUnsubscribeEvent();
+    }
+
 
     protected virtual void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
     {
@@ -55,6 +93,7 @@ public abstract class SkillCombatUI : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        ActiveCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
+        combatUIManager.OnPlayerChanged -= CombatUIManager_OnPlayerChanged;
+        UnsubscribeEvent();
     }
 }

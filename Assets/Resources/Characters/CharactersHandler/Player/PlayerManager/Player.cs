@@ -9,10 +9,9 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     public PlayerCameraManager PlayerCameraManager { get; private set; }
-    [field: SerializeField] public PlayerInteractSensor PlayerInteractSensor { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
     public PlayerController playerController { get; private set; }
-    private PlayerData playerData;
+    public ActiveCharacter activeCharacter { get; private set; } 
 
     // Start is called before the first frame update
     private void Awake()
@@ -20,6 +19,7 @@ public class Player : MonoBehaviour
         playerController = new PlayerController();
         CreatePlayerData();
         PlayerCameraManager = GetComponentInChildren<PlayerCameraManager>();
+        activeCharacter = GetComponentInChildren<ActiveCharacter>();
     }
 
     private void OnEnable()
@@ -34,10 +34,10 @@ public class Player : MonoBehaviour
 
     private void CreatePlayerData()
     {
+        PlayerData playerData = PlayerData.instance;
+
         if (playerData == null)
-        {
-            playerData = PlayerData.instance;
-        }
+            return;
 
         playerData.SetPlayer(this);
     }

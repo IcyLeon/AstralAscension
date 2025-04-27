@@ -1,16 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapUIManager : MonoBehaviour
+public class CombatUIManager : MonoBehaviour
 {
-    private MapUI[] MapUIList;
-    private UIManager uiManager;
     private PlayerManager playerManager;
+    public Player player { get; private set; }
+    public event Action OnPlayerChanged;
 
+    private UIManager uiManager;
+
+    // Start is called before the first frame update
     private void Awake()
     {
-        MapUIList = GetComponentsInChildren<MapUI>(true);
         uiManager = GetComponentInParent<UIManager>();
         uiManager.OnPlayerManagerChanged += UiManager_OnPlayerManagerChanged;
     }
@@ -18,12 +21,8 @@ public class MapUIManager : MonoBehaviour
     private void UiManager_OnPlayerManagerChanged()
     {
         playerManager = uiManager.playerManager;
-
-        foreach (var MapUI in MapUIList)
-        {
-            MapUI.SetPlayer(playerManager.player);
-            MapUI.Init();
-        }
+        player = playerManager.player;
+        OnPlayerChanged?.Invoke();
     }
 
     private void OnDestroy()

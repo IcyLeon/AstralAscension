@@ -10,9 +10,9 @@ public class PlayerMapIcon : MapIcon
     [SerializeField] private RectTransform FOV_RT;
     private Camera playerCamera;
 
-    public override void SetMapObject(MapObject MapObject, WorldMapBackground WorldMapBackground)
+    public override void SetMapObject(Player Player, MapObject MapObject, WorldMapBackground WorldMapBackground)
     {
-        base.SetMapObject(MapObject, WorldMapBackground);
+        base.SetMapObject(Player, MapObject, WorldMapBackground);
         worldMapBackground.OnMapIconAdd += OnMapIconAdd;
         worldMapBackground.OnMapIconAdd += OnPlayerMapIconAdd;
     }
