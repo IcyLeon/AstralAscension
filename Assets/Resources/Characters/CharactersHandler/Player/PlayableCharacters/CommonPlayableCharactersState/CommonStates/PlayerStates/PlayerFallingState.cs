@@ -13,7 +13,6 @@ public class PlayerFallingState : PlayerAirborneState
     {
         base.Enter();
         StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.fallParameter);
-        playableCharacterStateMachine.playerData.SpeedModifier = 0f;
     }
 
     public override void FixedUpdate()

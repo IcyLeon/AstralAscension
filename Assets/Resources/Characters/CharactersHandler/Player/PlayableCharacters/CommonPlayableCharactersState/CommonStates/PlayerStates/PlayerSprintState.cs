@@ -6,13 +6,13 @@ public class PlayerSprintState : PlayerMovingState
 {
     public PlayerSprintState(PlayableCharacterStateMachine PS) : base(PS)
     {
+        playableCharacterStateMachine.playerData.speedModifier = playableCharacterStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
     }
 
     public override void Enter()
     {
         base.Enter();
         playableCharacterStateMachine.playerData.currentJumpForceMagnitudeXZ = playableCharacterStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
-        playableCharacterStateMachine.playerData.SpeedModifier = playableCharacterStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
     }
 
     protected override void OnStop()

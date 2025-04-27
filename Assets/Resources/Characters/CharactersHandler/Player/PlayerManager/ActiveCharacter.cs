@@ -23,12 +23,13 @@ public class ActiveCharacter : MonoBehaviour
     {
         charactersList = new();
         player = GetComponentInParent<Player>();
-        playerController = PlayerController.instance;
-        playerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
     }
 
     private void Start()
     {
+        playerController = player.playerController;
+        playerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
+
         InitPartySetup();
     }
 

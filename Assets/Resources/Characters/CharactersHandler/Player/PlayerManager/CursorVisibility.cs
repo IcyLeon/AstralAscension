@@ -5,21 +5,17 @@ using UnityEngine.InputSystem;
 
 public class CursorVisibility : MonoBehaviour
 {
-    private PlayerController playerController;
+    private UIController uiController;
 
     private void Awake()
     {
-        playerController = PlayerController.instance;
-        playerController.uiInputAction.ReviewCursor.performed += ReviewCursor_performed;
-        playerController.uiInputAction.ReviewCursor.canceled += ReviewCursor_canceled;
-    }
-    private void ReviewCursor_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        //ToggleCursor(false);
+        uiController = UIController.instance;
+        uiController.uiInputAction.ReviewCursor.performed += ReviewCursor_performed;
+        uiController.uiInputAction.ReviewCursor.canceled += ReviewCursor_performed;
     }
     private void ReviewCursor_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        //ToggleCursor(true);
+        ToggleCursor(obj.ReadValueAsButton());
     }
 
     public void ToggleCursor(bool val)
@@ -35,7 +31,7 @@ public class CursorVisibility : MonoBehaviour
 
     private void OnDestroy()
     {
-        playerController.uiInputAction.ReviewCursor.performed -= ReviewCursor_performed;
-        playerController.uiInputAction.ReviewCursor.canceled -= ReviewCursor_canceled;
+        uiController.uiInputAction.ReviewCursor.performed -= ReviewCursor_performed;
+        uiController.uiInputAction.ReviewCursor.canceled -= ReviewCursor_performed;
     }
 }

@@ -5,9 +5,6 @@ public abstract class CharacterStateMachine : StateMachine
     protected StateMachineManager StateMachineManager;
     public Characters characters { get; }
 
-    /// <summary>
-    /// Starting State for entities
-    /// </summary>
     public CharacterReuseableData characterReuseableData { get; protected set; }
 
     public override void Update()

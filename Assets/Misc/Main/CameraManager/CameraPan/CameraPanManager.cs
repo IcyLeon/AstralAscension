@@ -7,7 +7,7 @@ public class CameraPanManager : MonoBehaviour
 {
     [field: SerializeField] public CameraPanSelectionDataSO CameraPanSelectionDataSO { get; private set; }
     private CameraPanVirtualCam currentPanVirtualCam;
-    private PlayerController playerController;
+    private UIController uiController;
 
     private void Awake()
     {
@@ -26,9 +26,9 @@ public class CameraPanManager : MonoBehaviour
 
     private void Start()
     {
-        playerController = PlayerController.instance;
-        playerController.characterDisplayInputAction.Zoom.performed += Zoom_performed;
-        playerController.characterDisplayInputAction.Look.performed += Look_performed;
+        uiController = UIController.instance;
+        uiController.characterDisplayInputAction.Zoom.performed += Zoom_performed;
+        uiController.characterDisplayInputAction.Look.performed += Look_performed;
     }
 
     private void Look_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

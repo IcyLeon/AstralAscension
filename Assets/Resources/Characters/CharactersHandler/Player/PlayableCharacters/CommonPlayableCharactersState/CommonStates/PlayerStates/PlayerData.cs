@@ -19,7 +19,7 @@ public class PlayerData
     private Player player;
     public GroundedData groundedData { get; private set; }
     public AirborneData airborneData { get; private set; }
-
+    public float speedModifier;
     public bool canSprint;
     public float targetYawRotation;
     public float rotationTime;
@@ -28,7 +28,6 @@ public class PlayerData
     public float DecelerateForce;
 
     public float currentJumpForceMagnitudeXZ;
-    public float SpeedModifier;
     public Vector2 movementInput { get; private set; }
 
     public int consecutiveDashesUsed;
@@ -36,8 +35,8 @@ public class PlayerData
     public PlayerData()
     {
         canSprint = false;
-        SpeedModifier = 0f;
         DecelerateForce = 0f;
+        speedModifier = 0f;
         movementInput = Vector2.zero;
         currentJumpForceMagnitudeXZ = 0f;
         dampedTargetRotationPassedTime = 0;
@@ -74,6 +73,11 @@ public class PlayerData
         float angle = Mathf.SmoothDampAngle(currentAngleY, targetYawRotation, ref dampedTargetRotationCurrentVelocity, rotationTime - dampedTargetRotationPassedTime);
         dampedTargetRotationPassedTime = Mathf.Clamp(dampedTargetRotationPassedTime + Time.fixedDeltaTime, 0f, rotationTime);
         player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+    }
+
+    public void InstantRotatePlayer()
+    {
+        dampedTargetRotationPassedTime = rotationTime;
     }
 
     public void UpdateTargetRotationData(float angle)

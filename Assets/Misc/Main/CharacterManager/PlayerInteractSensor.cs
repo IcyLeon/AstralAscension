@@ -8,7 +8,7 @@ public class PlayerInteractSensor : InteractSensor
     private Dictionary<Transform, IPointOfInterest> interactable_List;
 
     private Player player;
-    private PlayerController playerController;
+    private UIController uiController;
     public event OnInteractEvent OnInteractableEnter;
     public event OnInteractEvent OnInteractableExit;
 
@@ -33,17 +33,16 @@ public class PlayerInteractSensor : InteractSensor
     protected override void Start()
     {
         base.Start();
-        playerController = PlayerController.instance;
-        playerController.playerInputAction.Interact.started += Interact_started;
+        uiController = UIController.instance;
+        uiController.worldInputAction.Interact.started += Interact_started;
     }
 
     private void OnDestroy()
     {
         OnPOIInteractEnter -= PlayerInteractSensor_OnPOIInteractEnter;
         OnPOIInteractExit -= PlayerInteractSensor_OnPOIInteractExit;
-        playerController.playerInputAction.Interact.started -= Interact_started;
+        uiController.worldInputAction.Interact.started -= Interact_started;
     }
-
 
     private void Interact_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {

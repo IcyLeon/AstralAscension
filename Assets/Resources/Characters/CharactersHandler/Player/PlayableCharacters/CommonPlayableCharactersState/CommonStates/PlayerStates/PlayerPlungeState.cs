@@ -14,7 +14,6 @@ public class PlayerPlungeState : PlayerAirborneState
         base.Enter();
         playableCharacterStateMachine.ResetVelocity();
         StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.plungeParameter);
-        playableCharacterStateMachine.playerData.SpeedModifier = 0f;
         playableCharacterStateMachine.player.Rb.useGravity = false;
     }
     public override void FixedUpdate()

@@ -20,7 +20,7 @@ public class PlayerLandingState : PlayerGroundedState
     {
         base.Update();
 
-        if (!IsMovementKeyPressed())
+        if (!playableCharacterStateMachine.playerData.IsMovementKeyPressed())
         {
             return;
         }

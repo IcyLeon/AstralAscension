@@ -34,7 +34,7 @@ MonoBehaviour:
     <PlayerRunData>k__BackingField:
       <SpeedModifier>k__BackingField: 1
     <PlayerSprintData>k__BackingField:
-      <SpeedModifier>k__BackingField: 1.55
+      <SpeedModifier>k__BackingField: 1.5
     <PlayerAimData>k__BackingField:
       <SpeedModifier>k__BackingField: 0.65
     <PlayerAttackData>k__BackingField:
