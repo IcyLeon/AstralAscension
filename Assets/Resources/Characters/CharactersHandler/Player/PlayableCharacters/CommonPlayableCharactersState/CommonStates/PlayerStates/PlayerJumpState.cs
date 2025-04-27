@@ -17,12 +17,9 @@ public class PlayerJumpState : PlayerAirborneState
 
         StartAnimation(playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
         playableCharacter.PlayVOAudio(playableCharacter.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomJumpVOClip());
-
-        playableCharacterStateMachine.playerData.SpeedModifier = 0f; 
-
         playableCharacterStateMachine.playerData.DecelerateForce = playableCharacterStateMachine.playerData.airborneData.PlayerJumpData.JumpDecelerationForce;
         playableCharacterStateMachine.playerData.rotationTime = playableCharacterStateMachine.playerData.airborneData.PlayerJumpData.RotationTime;
-        canRotate = !IsMovementKeyPressed();
+        canRotate = !playableCharacterStateMachine.playerData.IsMovementKeyPressed();
 
         Jump();
     }

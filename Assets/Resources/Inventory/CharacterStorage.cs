@@ -10,12 +10,12 @@ public class CharacterStorage
     public delegate void OnCharacterStatChanged(CharactersSO CharactersSO);
     public event OnCharacterStatChanged OnCharacterAdd, OnCharacterRemove;
 
-    public void AddCharacterData(CharactersSO CharactersSO)
+    public void AddCharacterData(CharactersSO CharactersSO, CharacterDataStat CharacterDataStat)
     {
         if (CharactersSO == null || HasObtainedCharacter(CharactersSO) != null)
             return;
 
-        characterStatList.Add(CharactersSO, CharacterManager.instance.GetCharacterDataStat(CharactersSO));
+        characterStatList.Add(CharactersSO, CharacterDataStat);
         OnCharacterAdd?.Invoke(CharactersSO);
     }
 

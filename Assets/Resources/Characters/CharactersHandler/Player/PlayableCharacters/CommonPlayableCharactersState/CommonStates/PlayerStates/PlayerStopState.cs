@@ -30,7 +30,7 @@ public class PlayerStopState : PlayerGroundedState
     {
         base.Update();
 
-        if (!IsMovementKeyPressed())
+        if (!playableCharacterStateMachine.playerData.IsMovementKeyPressed())
         {
             return;
         }

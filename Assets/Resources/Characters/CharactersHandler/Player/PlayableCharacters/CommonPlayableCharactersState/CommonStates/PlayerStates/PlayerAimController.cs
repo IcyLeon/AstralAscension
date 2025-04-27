@@ -51,6 +51,7 @@ public class PlayerAimController
     {
         float angle = playerCameraManager.CameraMain.transform.eulerAngles.y;
         playerData.UpdateTargetRotationData(angle);
+        playerData.InstantRotatePlayer();
     }
 
     private void UpdateTargetWeight(float amt)

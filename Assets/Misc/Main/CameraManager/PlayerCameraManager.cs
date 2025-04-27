@@ -12,7 +12,7 @@ public class PlayerCameraManager : MonoBehaviour
     private GameplayCamera gameplayPlayerCamera;
     private GameplayCamera gameplayAimCamera;
     private GameplayCamera currentCamera;
-
+    private Player player;
     public Camera CameraMain { get; private set; }
 
 
@@ -21,6 +21,7 @@ public class PlayerCameraManager : MonoBehaviour
     private void Awake()
     {
         CameraMain = Camera.main;
+        player = GetComponentInParent<Player>();
         gameplayPlayerCamera = GetComponentInChildren<GameplayPlayerCamera>(true);
         gameplayAimCamera = GetComponentInChildren<GameplayAimCamera>(true);
         DisableAllCamera();
@@ -50,7 +51,7 @@ public class PlayerCameraManager : MonoBehaviour
 
     private void Start()
     {
-        playerController = PlayerController.instance;
+        playerController = player.playerController;
         transform.SetParent(null);
         ChangeCamera(gameplayPlayerCamera);
     }

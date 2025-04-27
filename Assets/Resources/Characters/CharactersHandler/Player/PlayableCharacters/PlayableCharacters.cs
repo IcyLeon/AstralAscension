@@ -77,9 +77,6 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
     protected override void OnEnable()
     {
         base.OnEnable();
-        player.OnCollisionEnterEvent += OnCollisionEnterEvent;
-        player.OnCollisionStayEvent += OnCollisionStayEvent;
-        player.OnCollisionExitEvent += OnCollisionExitEvent;
     }
 
     protected override void OnDisable()
@@ -96,9 +93,6 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
 
     private void UnsubscribeEvents()
     {
-        player.OnCollisionEnterEvent -= OnCollisionEnterEvent;
-        player.OnCollisionStayEvent -= OnCollisionStayEvent;
-        player.OnCollisionExitEvent -= OnCollisionExitEvent;
     }
 
     protected override void Start()
@@ -106,7 +100,7 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
         base.Start();
     }
 
-    private void OnCollisionEnterEvent(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (characterStateMachine != null)
         {
@@ -114,7 +108,7 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
         }
     }
 
-    private void OnCollisionStayEvent(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (characterStateMachine != null)
         {
@@ -127,7 +121,7 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
         player.Rb.AddForce(force, ForceMode.Impulse);
     }
 
-    private void OnCollisionExitEvent(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
         if (characterStateMachine != null)
         {

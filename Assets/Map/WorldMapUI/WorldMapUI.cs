@@ -10,7 +10,7 @@ public class WorldMapUI : MapUI, IDragHandler
     private Canvas canvas;
 
     // Zoom
-    private PlayerController playerController;
+    private UIController uiController;
     private float m_TargetZoom;
     private float m_Zoom;
     private float zoomScale;
@@ -33,9 +33,9 @@ public class WorldMapUI : MapUI, IDragHandler
 
     private void Start()
     {
-        playerController = PlayerController.instance;
+        uiController = UIController.instance;
 
-        playerController.mapInputAction.Zoom.performed += Zoom_performed;
+        uiController.mapInputAction.Zoom.performed += Zoom_performed;
 
         UpdateVisual();
     }
@@ -54,7 +54,7 @@ public class WorldMapUI : MapUI, IDragHandler
 
     private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        m_TargetZoom += playerController.mapInputAction.Zoom.ReadValue<Vector2>().y * zoomScale;
+        m_TargetZoom += uiController.mapInputAction.Zoom.ReadValue<Vector2>().y * zoomScale;
         m_TargetZoom = Mathf.Clamp(m_TargetZoom, 0.8f, 3.5f);
     }
 
@@ -80,7 +80,7 @@ public class WorldMapUI : MapUI, IDragHandler
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        playerController.uiInputAction.Map.performed -= Zoom_performed;
+        uiController.uiInputAction.Map.performed -= Zoom_performed;
     }
 
     private void Update()

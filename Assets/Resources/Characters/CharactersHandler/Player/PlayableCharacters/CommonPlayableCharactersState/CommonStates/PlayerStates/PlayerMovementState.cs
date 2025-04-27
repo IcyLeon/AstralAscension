@@ -61,7 +61,6 @@ public abstract class PlayerMovementState : IState
 
     public virtual void FixedUpdate()
     {
-        UpdatePhysicsMovement();
     }
 
     protected void DecelerateHorizontal()
@@ -105,44 +104,6 @@ public abstract class PlayerMovementState : IState
         return playableCharacterStateMachine.IsSkillCasting();
     }
 
-    private bool IsNotMoving()
-    {
-        return !IsMovementKeyPressed()
-            || playableCharacterStateMachine.playerData.SpeedModifier == 0f
-            || IsSkillCasting() 
-            || playableCharacterStateMachine.IsAttacking();
-    }
-    private void UpdatePhysicsMovement()
-    {
-        if (IsNotMoving())
-            return;
-
-        float movementSpeed = playableCharacterStateMachine.playerData.groundedData.BaseSpeed * playableCharacterStateMachine.playerData.SpeedModifier;
-        playableCharacterStateMachine.player.Rb.AddForce((movementSpeed * GetDirectionXZ(playableCharacterStateMachine.playerData.targetYawRotation)) - GetHorizontalVelocity(), ForceMode.VelocityChange);
-    }
-
-    protected bool IsMovementKeyPressed()
-    {
-        return playableCharacterStateMachine.playerData.IsMovementKeyPressed();
-    }
-
-    protected virtual void UpdateRotation()
-    {
-        if (IsNotMoving())
-            return;
-
-        RotateToMovementInputDirection();
-    }
-
-    protected void RotateToMovementInputDirection()
-    {
-        if (!IsMovementKeyPressed())
-            return;
-
-        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playableCharacterStateMachine.playerData.movementInput) + playableCharacterStateMachine.player.PlayerCameraManager.CameraMain.transform.eulerAngles.y;
-        UpdateTargetRotationData(angle);
-    }
-
     protected Vector3 GetDirectionXZ(float angleInDeg)
     {
         return Vector3Handler.FindVector(angleInDeg, 0);
@@ -158,31 +119,6 @@ public abstract class PlayerMovementState : IState
     protected Vector3 GetVerticalVelocity()
     {
         return new Vector3(0f, playableCharacterStateMachine.player.Rb.velocity.y, 0f);
-    }
-
-    private void BlendMovementAnimation()
-    {
-        PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
-        float val = playableCharacterStateMachine.playerData.SpeedModifier / playableCharacterStateMachine.playerData.groundedData.PlayerSprintData.SpeedModifier;
-        
-        if (!IsMovementKeyPressed())
-        {
-            val = 0f;
-        }
-
-        playableCharacter.Animator.SetFloat(cpc.movementParameters, val, 0.15f, Time.deltaTime);
-    }
-    private void ReadMovement()
-    {
-        if (IsMovementKeyPressed())
-        {
-            OnMovementKeyPerformed();
-        }    
-    }
-
-    protected virtual void OnMovementKeyPerformed()
-    {
-
     }
 
     public virtual void OnEnable()
@@ -228,11 +164,16 @@ public abstract class PlayerMovementState : IState
         playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerDeadState);
     }
 
+    private void BlendMovementAnimation()
+    {
+        PlayableCharacterAnimationSO.CommonPlayableCharacterHash cpc = playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters;
+        playableCharacter.Animator.SetFloat(cpc.movementParameters, playableCharacterStateMachine.playerData.speedModifier, 0.15f, Time.deltaTime);
+    }
+
+
     public virtual void Update()
     {
         OnDeadUpdate();
-        UpdateRotation();
-        ReadMovement();
         BlendMovementAnimation();
     }
 }

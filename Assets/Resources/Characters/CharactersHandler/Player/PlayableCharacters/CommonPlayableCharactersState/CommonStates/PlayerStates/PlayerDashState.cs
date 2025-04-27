@@ -30,11 +30,9 @@ public class PlayerDashState : PlayerGroundedState
         
         playableCharacter.PlayVOAudio(playableCharacter.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomDashVOClip());
         playableCharacter.player.PlayPlayerSoundEffect(GetRandomDashClip());
-
-        playableCharacterStateMachine.playerData.SpeedModifier = 0f;
         playableCharacterStateMachine.playerData.rotationTime = playableCharacterStateMachine.playerData.groundedData.PlayerDashData.RotationTime;
         playableCharacterStateMachine.playerData.currentJumpForceMagnitudeXZ = playableCharacterStateMachine.playerData.airborneData.PlayerJumpData.StrongJumpForceMagnitudeXZ;
-        canRotate = IsMovementKeyPressed();
+        canRotate = playableCharacterStateMachine.playerData.IsMovementKeyPressed();
         Dash();
         startTime = Time.time;
     }
@@ -94,8 +92,17 @@ public class PlayerDashState : PlayerGroundedState
     //    playableCharacterStateMachine.player.Rb.velocity = playableCharacterStateMachine.player.Rb.velocity.magnitude * dir;
     //}
 
-    protected override void OnMovementKeyPerformed()
+    public override void Update()
     {
+        base.Update();
+        OnMovementKeyPerformed();
+    }
+
+    private void OnMovementKeyPerformed()
+    {
+        if (!playableCharacterStateMachine.playerData.IsMovementKeyPressed())
+            return;
+
         playableCharacterStateMachine.playerData.canSprint = true;
     }
 
@@ -103,7 +110,7 @@ public class PlayerDashState : PlayerGroundedState
     {
         base.OnAnimationTransition();
 
-        if (!IsMovementKeyPressed())
+        if (!playableCharacterStateMachine.playerData.IsMovementKeyPressed())
         {
             playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerDashStopState);
             return;

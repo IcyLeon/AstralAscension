@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ArtifactSphereMouseMotion : MonoBehaviour
 {
-    private PlayerController playerController;
+    private UIController uiController;
     private ArtifactsRingRotation artifactsRingRotation;
     private Vector2 deltaMouseDirection;
     private Vector2 previousMousePos;
@@ -18,7 +18,7 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
 
     private void OnEnable()
     {
-        playerController = PlayerController.instance;
+        uiController = UIController.instance;
         OnSubscribeEvents();
     }
 
@@ -87,15 +87,15 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
 
     private void OnSubscribeEvents()
     {
-        playerController.characterDisplayInputAction.ArtifactSpin.performed += ArtifactSpin_performed;
-        playerController.characterDisplayInputAction.ArtifactSpin.started += ArtifactSpin_started;
-        playerController.characterDisplayInputAction.ArtifactSpin.canceled += ArtifactSpin_canceled;
+        uiController.characterDisplayInputAction.ArtifactSpin.performed += ArtifactSpin_performed;
+        uiController.characterDisplayInputAction.ArtifactSpin.started += ArtifactSpin_started;
+        uiController.characterDisplayInputAction.ArtifactSpin.canceled += ArtifactSpin_canceled;
     }
 
     private void OnUnsubscribeEvents()
     {
-        playerController.characterDisplayInputAction.ArtifactSpin.performed -= ArtifactSpin_performed;
-        playerController.characterDisplayInputAction.ArtifactSpin.started -= ArtifactSpin_started;
-        playerController.characterDisplayInputAction.ArtifactSpin.canceled -= ArtifactSpin_canceled;
+        uiController.characterDisplayInputAction.ArtifactSpin.performed -= ArtifactSpin_performed;
+        uiController.characterDisplayInputAction.ArtifactSpin.started -= ArtifactSpin_started;
+        uiController.characterDisplayInputAction.ArtifactSpin.canceled -= ArtifactSpin_canceled;
     }
 }

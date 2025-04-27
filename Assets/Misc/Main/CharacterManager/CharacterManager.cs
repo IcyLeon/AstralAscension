@@ -10,7 +10,7 @@ public class CharacterManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
 
-    private Dictionary<CharactersSO, CharacterDataStat> allplayableCharactersDic;
+    private PlayerCharactersSO[] playableCharactersSOList;
 
     public CharacterStorage characterStorage { get; private set; }
 
@@ -38,28 +38,19 @@ public class CharacterManager : MonoBehaviour
 
     public CharacterDataStat GetCharacterDataStat(CharactersSO CharactersSO)
     {
-        if (!allplayableCharactersDic.TryGetValue(CharactersSO, out CharacterDataStat characterDataStat))
-            return null;
-
-        return characterDataStat;
+        return characterStorage.GetCharacterDataStat(CharactersSO);
     }
 
     private void LoadCharactersSO()
     {
-        allplayableCharactersDic = new();
-        PlayerCharactersSO[] playableCharactersSOList = Resources.LoadAll<PlayerCharactersSO>("Characters");
-
-        foreach (var pc in playableCharactersSOList)
-        {
-            allplayableCharactersDic.Add(pc, pc.CreateCharacterDataStat());
-        }
+        playableCharactersSOList = Resources.LoadAll<PlayerCharactersSO>("Characters");
     }
 
     private void TestCharacters()
     {
-        foreach (var c in allplayableCharactersDic)
+        foreach (var c in playableCharactersSOList)
         {
-            characterStorage.AddCharacterData(c.Key);
+            characterStorage.AddCharacterData(c, c.CreateCharacterDataStat());
         }
     }
 

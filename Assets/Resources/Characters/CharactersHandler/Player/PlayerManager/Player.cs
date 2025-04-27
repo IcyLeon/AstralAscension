@@ -6,12 +6,6 @@ using UnityEngine.InputSystem;
 [DisallowMultipleComponent]
 public class Player : MonoBehaviour
 {
-    #region Collision Events
-    public delegate void OnCollisionEvent(Collision collision);
-    public OnCollisionEvent OnCollisionEnterEvent;
-    public OnCollisionEvent OnCollisionStayEvent;
-    public OnCollisionEvent OnCollisionExitEvent;
-    #endregion
     [field: SerializeField] public PlayerSO PlayerSO { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     public PlayerCameraManager PlayerCameraManager { get; private set; }
@@ -23,9 +17,19 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        playerController = PlayerController.instance;
+        playerController = new PlayerController();
         CreatePlayerData();
         PlayerCameraManager = GetComponentInChildren<PlayerCameraManager>();
+    }
+
+    private void OnEnable()
+    {
+        playerController.OnEnable();
+    }
+
+    private void OnDisable()
+    {
+        playerController.OnDisable();
     }
 
     private void CreatePlayerData()
@@ -73,18 +77,5 @@ public class Player : MonoBehaviour
         PA.Disable();
         yield return new WaitForSeconds(sec);
         PA.Enable();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        OnCollisionEnterEvent?.Invoke(collision);
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-        OnCollisionStayEvent?.Invoke(collision);
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        OnCollisionExitEvent?.Invoke(collision);
     }
 }

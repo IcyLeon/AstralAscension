@@ -12,8 +12,6 @@ public class PlayerDeadState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
-        playableCharacterStateMachine.playerData.SpeedModifier = 0f;
-
     }
 
     protected override void OnDeadUpdate()
@@ -21,7 +19,7 @@ public class PlayerDeadState : PlayerMovementState
         if (playableCharacter.IsDead())
             return;
 
-        if (!IsMovementKeyPressed())
+        if (!playableCharacterStateMachine.playerData.IsMovementKeyPressed())
         {
             playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
             return;
