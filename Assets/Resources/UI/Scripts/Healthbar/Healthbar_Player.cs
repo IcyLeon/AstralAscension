@@ -27,7 +27,6 @@ public class Healthbar_Player : Healthbar
         if (player == null)
             return;
 
-        combatUIManager.player.activeCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterExit;
         combatUIManager.player.activeCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
@@ -36,17 +35,12 @@ public class Healthbar_Player : Healthbar
         if (player == null)
             return;
 
-        combatUIManager.player.activeCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
         combatUIManager.player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
-    private void ActiveCharacter_OnPlayerCharacterExit(CharacterDataStat playerData, PartyMember PartyMember)
+    private void ActiveCharacter_OnPlayerCharacterSwitch(PartyMember PrevPartyMember, PartyMember NewPartyMember)
     {
-    }
-
-    private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
-    {
-        SetCharacterDataStat(playerData);
+        SetCharacterDataStat(NewPartyMember.characterDataStat);
     }
 
     private void OnDestroy()

@@ -553,7 +553,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1069234673988480338}
   - component: {fileID: 6180906932467403789}
-  - component: {fileID: 5255465061592164946}
   - component: {fileID: 2303984672097569356}
   m_Layer: 3
   m_Name: AimRig
@@ -609,21 +608,6 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &5255465061592164946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 648529688647307470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cef8f6d82818e34e816a8062de6724a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soothingSpeed: 15
-  MultiAimConstraint: {fileID: 3967564044596692749}
-  TargetTransform: {fileID: 8933891846420021420}
 --- !u!114 &2303984672097569356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,6 +620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e387d110de3f73747807ec2ca963a6e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soothingWeightSpeed: 10
+  TargetTransform: {fileID: 8933891846420021420}
 --- !u!1 &667346499583015476
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,7 +2492,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1696209041257308373}
   - component: {fileID: 8225482076981968311}
-  - component: {fileID: 2215666270249308081}
   - component: {fileID: 1704060193242397041}
   m_Layer: 3
   m_Name: POIRig
@@ -2561,21 +2546,6 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &2215666270249308081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771688270430616848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cef8f6d82818e34e816a8062de6724a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soothingSpeed: 10
-  MultiAimConstraint: {fileID: 1615413007619145427}
-  TargetTransform: {fileID: 467210518173528775}
 --- !u!114 &1704060193242397041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2588,8 +2558,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f4b4db05c3e2e4bb8c91389be217a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soothingWeightSpeed: 10
   FOVAngleXZ: 180
   FOVAngleY: 90
+  soothingTargetSpeed: 10
+  TargetTransform: {fileID: 467210518173528775}
 --- !u!1 &1875275805355154261
 GameObject:
   m_ObjectHideFlags: 0

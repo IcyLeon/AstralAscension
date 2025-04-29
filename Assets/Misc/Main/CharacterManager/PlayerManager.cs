@@ -10,6 +10,8 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private GameObject PlayerPrefab;
 
+    [SerializeField] private Player Player;
+
     private void SpawnPlayer()
     {
         GameObject playerGO = Instantiate(PlayerPrefab);
@@ -19,10 +21,11 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        player = Player;
     }
 
     void Start()
     {
-        SpawnPlayer();
+        //SpawnPlayer();
     }
 }

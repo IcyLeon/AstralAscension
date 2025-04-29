@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
-[RequireComponent(typeof(SmoothRigTransition))]
-public class AimRigController : MonoBehaviour
+public class AimRigController : RigController
 {
-    public SmoothRigTransition SmoothRigTransition { get; private set; }
+    [SerializeField] private Transform TargetTransform;
 
-    private void Awake()
+    public void SetTargetPosition(Vector3 Position)
     {
-        SmoothRigTransition = GetComponent<SmoothRigTransition>();
+        if (!GetTargetTransform())
+            return;
+
+        TargetTransform.position = Position;
     }
+
+    public Transform GetTargetTransform()
+    {
+        return TargetTransform;
+    }
+
 }

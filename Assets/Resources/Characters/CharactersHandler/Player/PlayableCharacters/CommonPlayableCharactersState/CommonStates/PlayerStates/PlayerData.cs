@@ -75,20 +75,23 @@ public class PlayerData
         player.Rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
     }
 
-    public void InstantRotatePlayer()
+    public void UpdateTargetRotationData(float angle, bool RotateInstant = false)
     {
-        dampedTargetRotationPassedTime = rotationTime;
+        UpdateTargetRotationData(angle);
+
+        if (RotateInstant)
+        {
+            dampedTargetRotationPassedTime = rotationTime;
+        }
     }
 
     public void UpdateTargetRotationData(float angle)
     {
-        float currentAngle = targetYawRotation;
-
-        if (currentAngle == angle)
+        if (targetYawRotation == angle)
             return;
 
-       targetYawRotation = angle;
-       dampedTargetRotationPassedTime = 0f;
+        targetYawRotation = angle;
+        dampedTargetRotationPassedTime = 0f;
     }
 
     public bool IsMovementKeyPressed()

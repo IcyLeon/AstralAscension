@@ -17,45 +17,57 @@ public class ElementUI_Player : ElementUI
 
     private void CombatUIManager_OnPlayerChanged()
     {
-        UnsubscribeEvent();
+        UnsubscribePlayerEvent();
         player = combatUIManager.player;
+        SubscribePlayerEvent();
+    }
+
+    private void SubscribePlayerEvent()
+    {
+        if (player == null)
+            return;
+
+        player.activeCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    private void UnsubscribePlayerEvent()
+    {
+        if (player == null)
+            return;
+
+        player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
+    }
+
+    private void ActiveCharacter_OnPlayerCharacterSwitch(PartyMember PrevPartyMember, PartyMember NewPartyMember)
+    {
+        UnsubscribeEvent();
+        SetCharacterDataStat(NewPartyMember.characterDataStat);
+        Refresh();
         SubscribeEvent();
     }
 
     private void SubscribeEvent()
     {
-        if (player == null)
+        if (characterDataStat == null)
             return;
 
-        player.activeCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterExit;
-        player.activeCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
+        characterDataStat.OnElementEnter += OnElementEnter;
+        characterDataStat.OnElementExit += OnElementExit;
     }
 
     private void UnsubscribeEvent()
     {
-        if (player == null)
+        if (characterDataStat == null)
             return;
 
-        player.activeCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
-        player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
+        characterDataStat.OnElementEnter -= OnElementEnter;
+        characterDataStat.OnElementExit -= OnElementExit;
     }
 
-    private void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
-    {
-        SetCharacterDataStat(playerData);
-        Refresh();
-
-        if (GetCharacterDataStat() != null)
-        {
-            GetCharacterDataStat().OnElementEnter += OnElementEnter;
-            GetCharacterDataStat().OnElementExit += OnElementExit;
-        }
-
-    }
 
     private void Refresh()
     {
-        if (GetCharacterDataStat() == null)
+        if (characterDataStat == null)
             return;
 
         EID_Dict.Clear();
@@ -63,21 +75,10 @@ public class ElementUI_Player : ElementUI
         if (ObjectPool != null)
             ObjectPool.ResetAll();
 
-        foreach (var elementinfo in GetCharacterDataStat().inflictElementList)
+        foreach (var elementinfo in characterDataStat.inflictElementList)
         {
             OnElementEnter(elementinfo.Value);
         }
-    }
-
-    private void ActiveCharacter_OnPlayerCharacterExit(CharacterDataStat playerData, PartyMember PartyMember)
-    {
-        if (playerData != null)
-        {
-            playerData.OnElementEnter -= OnElementEnter;
-            playerData.OnElementExit -= OnElementExit;
-        }
-
-
     }
 
 

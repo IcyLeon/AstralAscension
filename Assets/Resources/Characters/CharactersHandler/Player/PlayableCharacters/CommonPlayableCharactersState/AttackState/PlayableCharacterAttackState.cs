@@ -16,6 +16,7 @@ public abstract class PlayableCharacterAttackState : IState
     {
         OnEnable();
         StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
+        playableCharacterStateMachine.ResetVelocity();
     }
 
     public virtual void Exit()

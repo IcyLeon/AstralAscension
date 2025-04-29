@@ -34,17 +34,8 @@ public abstract class SkillCombatUI : MonoBehaviour
         if (player == null)
             return;
 
-        OnSubscribeEvent();
-    }
-
-    protected virtual void OnSubscribeEvent()
-    {
         player.activeCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
-    }
-
-    protected virtual void OnUnsubscribeEvent()
-    {
-        player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
+        UpdateVisuals();
     }
 
     private void UnsubscribeEvent()
@@ -52,14 +43,18 @@ public abstract class SkillCombatUI : MonoBehaviour
         if (player == null)
             return;
 
-        OnUnsubscribeEvent();
+        player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
-
-    protected virtual void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
+    protected virtual void UpdateVisuals()
     {
-        currentPlayableCharacterData = playerData as PlayableCharacterDataStat;
+        currentPlayableCharacterData = player.activeCharacter.currentPartyMember.characterDataStat as PlayableCharacterDataStat;
         UpdateIcon();
+    }
+
+    private void ActiveCharacter_OnPlayerCharacterSwitch(PartyMember PrevPartyMember, PartyMember NewPartyMember)
+    {
+        UpdateVisuals();
     }
 
     private void Update()

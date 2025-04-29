@@ -15,7 +15,7 @@ public class PlayerAimController
     {
         playerData = PlayerData.instance;
         playableCharacter = PlayableCharacter;
-        playerCameraManager = playableCharacter.player.PlayerCameraManager;
+        playerCameraManager = playableCharacter.player.playerCameraManager;
         aimRigController = playableCharacter.GetComponentInChildren<AimRigController>();
     }
 
@@ -49,15 +49,15 @@ public class PlayerAimController
 
     public void Update()
     {
-        float angle = playerCameraManager.CameraMain.transform.eulerAngles.y;
-        playerData.UpdateTargetRotationData(angle);
+        float angle = playerCameraManager.cameraMain.transform.eulerAngles.y;
+        playerData.UpdateTargetRotationData(angle, true);
     }
 
-    private void UpdateTargetWeight(float amt)
+    private void UpdateTargetWeight(float Weight)
     {
         if (aimRigController == null)
             return;
 
-        aimRigController.SmoothRigTransition.SetTargetWeight(amt);
+        aimRigController.SetTargetWeight(Weight);
     }
 }

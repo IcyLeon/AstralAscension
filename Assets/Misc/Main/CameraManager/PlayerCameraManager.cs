@@ -7,21 +7,33 @@ public class PlayerCameraManager : MonoBehaviour
 {
     [field: SerializeField] public Transform CameraTarget { get; private set; }
     [field: SerializeField] public CameraSO CameraSO { get; private set; }
-    public PlayerController playerController { get; private set; }
 
     private GameplayCamera gameplayPlayerCamera;
     private GameplayCamera gameplayAimCamera;
     private GameplayCamera currentCamera;
-    private Player player;
-    public Camera CameraMain { get; private set; }
+    public Camera cameraMain { get; private set; }
+
+    private PlayerController controller;
+    public PlayerController playerController
+    {
+        get
+        {
+            if (controller == null)
+            {
+                Player player = GetComponentInParent<Player>();
+                controller = player.playerController;
+            }
+
+            return controller;
+        }
+    }
 
 
     private Coroutine toggleAimCameraCoroutine;
 
     private void Awake()
     {
-        CameraMain = Camera.main;
-        player = GetComponentInParent<Player>();
+        cameraMain = Camera.main;
         gameplayPlayerCamera = GetComponentInChildren<GameplayPlayerCamera>(true);
         gameplayAimCamera = GetComponentInChildren<GameplayAimCamera>(true);
         DisableAllCamera();
@@ -35,6 +47,12 @@ public class PlayerCameraManager : MonoBehaviour
         {
             camera.gameObject.SetActive(false);
         }
+    }
+
+    public Vector3 GetTargetCameraRayPosition(float maxDistance)
+    {
+        Ray ray = cameraMain.ScreenPointToRay(new Vector2(Screen.width / 2f, Screen.height / 2f));
+        return ray.origin + ray.direction * maxDistance;
     }
 
     public void ChangeCamera(GameplayCamera cam)
@@ -51,7 +69,6 @@ public class PlayerCameraManager : MonoBehaviour
 
     private void Start()
     {
-        playerController = player.playerController;
         transform.SetParent(null);
         ChangeCamera(gameplayPlayerCamera);
     }

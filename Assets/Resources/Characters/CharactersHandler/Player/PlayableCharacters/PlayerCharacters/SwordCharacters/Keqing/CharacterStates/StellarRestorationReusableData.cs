@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class StellarRestorationReusableData : SkillReusableData
 {
     private ObjectPool<HairpinTeleporter> objectPool;
     public event EventHandler OnHairPinShoot;
-
-    public Vector3 targetPosition;
+    private Vector3 targetPosition;
     public HairpinTeleporter hairpinTeleporter { get; private set; }
 
     public void CreateHairpinTeleporter(Transform EmitterPivot)
@@ -22,6 +22,17 @@ public class StellarRestorationReusableData : SkillReusableData
         hairpinTeleporter.SetTargetLocation(targetPosition);
         OnHairPinShoot?.Invoke(this, EventArgs.Empty);
     }
+
+    public void SetTargetPosition(Vector3 Position)
+    {
+        targetPosition = Position;
+    }
+
+    public Vector3 GetTargetOrbPosition()
+    {
+        return targetPosition;
+    }
+
     public float ElementalSkillRange
     {
         get
@@ -47,8 +58,6 @@ public class StellarRestorationReusableData : SkillReusableData
 
     public StellarRestorationReusableData(SkillStateMachine skill) : base(skill)
     {
-        targetPosition = Vector3.zero;
-
         objectPool = new ObjectPool<HairpinTeleporter>("Characters/CharactersHandler/Player/PlayableCharacters/PlayerCharacters/SwordCharacters/Keqing/TeleporterOrb", playableCharacterStateMachine.characters.transform);
         objectPool.CallbackPoolObject((HT, i) =>
         {

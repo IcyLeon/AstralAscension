@@ -13,14 +13,42 @@ public class POIRig_PlayableCharacters : POIRig
         base.Awake();
         HeadMoveDisabled = false;
         PlayableCharacters = GetComponentInParent<PlayableCharacters>();
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        SubscribeEvents();
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        UnsubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        if (PlayableCharacters == null)
+            return;
+
         PlayableCharacters.OnTakeDamage += OnDamageHit;
     }
+
+    private void UnsubscribeEvents()
+    {
+        if (PlayableCharacters == null)
+            return;
+
+        PlayableCharacters.OnTakeDamage -= OnDamageHit;
+    }
+
     private void OnDamageHit(float BaseDamageAmount)
     {
-        //if (headDisableCoroutine != null)
-        //    StopCoroutine(headDisableCoroutine);
+        if (headDisableCoroutine != null)
+            StopCoroutine(headDisableCoroutine);
 
-        //headDisableCoroutine = StartCoroutine(Disable(1f));
+        headDisableCoroutine = StartCoroutine(Disable(1f));
     }
 
     private IEnumerator Disable(float sec)
@@ -34,7 +62,7 @@ public class POIRig_PlayableCharacters : POIRig
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        PlayableCharacters.OnTakeDamage -= OnDamageHit;
+        UnsubscribeEvents();
     }
 
     protected override bool CanMoveHead()

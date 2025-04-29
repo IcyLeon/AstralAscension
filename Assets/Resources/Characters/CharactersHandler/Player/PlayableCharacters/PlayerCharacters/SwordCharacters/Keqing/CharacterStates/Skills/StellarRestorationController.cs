@@ -18,7 +18,7 @@ public class StellarRestorationController : ElementalSkillController
             return;
 
         Vector3 origin = playableCharacterStateMachine.playableCharacter.GetCenterBound();
-        stellarRestoration.stellarRestorationReusableData.targetPosition = origin + playableCharacterStateMachine.playableCharacter.transform.forward * stellarRestoration.stellarRestorationReusableData.ElementalSkillRange;
+        stellarRestoration.stellarRestorationReusableData.SetTargetPosition(origin + playableCharacterStateMachine.playableCharacter.transform.forward * stellarRestoration.stellarRestorationReusableData.ElementalSkillRange);
         playableCharacterStateMachine.ChangeState(stellarRestoration.keqingThrowState);
     }
 
