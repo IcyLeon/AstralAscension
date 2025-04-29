@@ -38,8 +38,9 @@ public class KeqingTeleportState : StellarRestorationState
 
     private Vector3 GetDirectionToTeleporter()
     {
-        return stellarRestoration.stellarRestorationReusableData.targetPosition - playableCharacterStateMachine.player.Rb.position;
+        return stellarRestoration.stellarRestorationReusableData.GetTargetOrbPosition() - playableCharacterStateMachine.player.Rb.position;
     }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();

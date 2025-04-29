@@ -20,38 +20,30 @@ public class ElementalBurstCombatUI : SkillCombatUI
         burstMaterial = Instantiate(ElementalBurstMaterial);
     }
 
-    protected override void OnSubscribeEvent()
+    protected override void UpdateVisuals()
     {
-        base.OnSubscribeEvent();
-        combatUIManager.player.activeCharacter.OnPlayerCharacterExit += ActiveCharacter_OnPlayerCharacterExit;
+        UnsubscribeEvents();
+        base.UpdateVisuals();
+        SubscribeEvents();
+        UpdateEnergyVisual();
     }
 
-    protected override void OnUnsubscribeEvent()
+    private void SubscribeEvents()
     {
-        base.OnUnsubscribeEvent();
-        combatUIManager.player.activeCharacter.OnPlayerCharacterExit -= ActiveCharacter_OnPlayerCharacterExit;
-    }
-
-
-    private void ActiveCharacter_OnPlayerCharacterExit(CharacterDataStat playerData, PartyMember PartyMember)
-    {
-        PlayableCharacterDataStat PlayableCharacterDataStat = playerData as PlayableCharacterDataStat;
-        if (PlayableCharacterDataStat == null)
-            return;
-
-        PlayableCharacterDataStat.OnEnergyChanged -= CurrentPlayableCharacterData_OnEnergyChanged;
-    }
-
-    protected override void ActiveCharacter_OnPlayerCharacterSwitch(CharacterDataStat playerData, PartyMember PartyMember)
-    {
-        base.ActiveCharacter_OnPlayerCharacterSwitch(playerData, PartyMember);
-
         if (currentPlayableCharacterData == null)
             return;
 
         currentPlayableCharacterData.OnEnergyChanged += CurrentPlayableCharacterData_OnEnergyChanged;
-        UpdateEnergyVisual();
     }
+
+    private void UnsubscribeEvents()
+    {
+        if (currentPlayableCharacterData == null)
+            return;
+
+        currentPlayableCharacterData.OnEnergyChanged -= CurrentPlayableCharacterData_OnEnergyChanged;
+    }
+
 
     private void UpdateEnergyVisual()
     {
@@ -93,10 +85,7 @@ public class ElementalBurstCombatUI : SkillCombatUI
     {
         base.OnDestroy();
 
-        if (currentPlayableCharacterData != null)
-        {
-            currentPlayableCharacterData.OnEnergyChanged -= CurrentPlayableCharacterData_OnEnergyChanged;
-        }
+        UnsubscribeEvents();
     }
 
     protected override bool IsInCountdown()

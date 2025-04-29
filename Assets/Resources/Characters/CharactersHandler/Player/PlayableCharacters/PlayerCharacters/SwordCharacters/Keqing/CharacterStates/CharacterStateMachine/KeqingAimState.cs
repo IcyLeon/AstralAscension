@@ -5,20 +5,27 @@ using UnityEngine;
 public class KeqingAimState : StellarRestorationState
 {
     private AimRigController aimRigController;
-
+    private TargetOrb targetOrb;
     public KeqingAimState(SkillStateMachine Skill) : base(Skill)
     {
         aimRigController = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<AimRigController>();
+        targetOrb = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<TargetOrb>();
+        ToggleTargetOrb(false);
         if (aimRigController == null)
         {
             Debug.LogError("Dont have AimRigController!");
         }
+    }
+    private void ToggleTargetOrb(bool active)
+    {
+        targetOrb.gameObject.SetActive(active);
     }
 
     public override void Enter()
     {
         base.Enter();
         StartAnimation(stellarRestoration.keqingAnimationSO.aimParameter);
+        ToggleTargetOrb(true);
         playerAimController.Enter();
     }
 
@@ -53,23 +60,22 @@ public class KeqingAimState : StellarRestorationState
         base.Update();
 
         Vector3 origin = playableCharacter.GetCenterBound();
-        Vector3 originalTargetPos = Player.GetTargetCameraRayPosition(Range + GetOffSet(origin));
-        stellarRestoration.stellarRestorationReusableData.targetPosition = Player.GetRayPosition(origin,
-                                                            originalTargetPos - origin,
-                                                            Range);
-        aimRigController.SmoothRigTransition.SetTargetPosition(stellarRestoration.stellarRestorationReusableData.targetPosition);
+        Vector3 originalTargetPos = playableCharacterStateMachine.player.playerCameraManager.GetTargetCameraRayPosition(Range + GetOffSet(origin));
+        Vector3 targetPos = Player.GetRayPosition(origin, originalTargetPos - origin, Range);
+        stellarRestoration.stellarRestorationReusableData.SetTargetPosition(targetPos);
+        aimRigController.SetTargetPosition(stellarRestoration.stellarRestorationReusableData.GetTargetOrbPosition());
         playerAimController.Update();
     }
 
     private float GetOffSet(Vector3 EmitterPos)
     {
-        return (playableCharacterStateMachine.player.PlayerCameraManager.CameraMain.transform.position - EmitterPos).magnitude;
+        return (playableCharacterStateMachine.player.playerCameraManager.cameraMain.transform.position - EmitterPos).magnitude;
     }
 
     public override void Exit()
     {
         base.Exit();
         StopAnimation(stellarRestoration.keqingAnimationSO.aimParameter);
-        aimRigController.SmoothRigTransition.ToggleTarget(false);
+        ToggleTargetOrb(false);
     }
 }

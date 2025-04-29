@@ -18,19 +18,19 @@ public class ElementUI_World : ElementUI
 
     private void OnEnable()
     {
-        if (GetCharacterDataStat() == null)
+        if (characterDataStat == null)
             return;
 
-        GetCharacterDataStat().OnElementEnter += OnElementEnter;
-        GetCharacterDataStat().OnElementExit += OnElementExit;
+        characterDataStat.OnElementEnter += OnElementEnter;
+        characterDataStat.OnElementExit += OnElementExit;
     }
 
     private void OnDisable()
     {
-        if (GetCharacterDataStat() == null)
+        if (characterDataStat == null)
             return;
 
-        GetCharacterDataStat().OnElementEnter -= OnElementEnter;
-        GetCharacterDataStat().OnElementExit -= OnElementExit;
+        characterDataStat.OnElementEnter -= OnElementEnter;
+        characterDataStat.OnElementExit -= OnElementExit;
     }
 }

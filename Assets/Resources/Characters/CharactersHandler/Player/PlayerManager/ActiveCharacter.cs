@@ -7,8 +7,7 @@ using static PartySetupManager;
 [DisallowMultipleComponent]
 public class ActiveCharacter : MonoBehaviour
 {
-    public delegate void OnPlayerCharacterEvent(CharacterDataStat playerData, PartyMember PartyMember);
-    public event OnPlayerCharacterEvent OnPlayerCharacterExit;
+    public delegate void OnPlayerCharacterEvent(PartyMember PrevPartyMember, PartyMember NewPartyMember);
     public event OnPlayerCharacterEvent OnPlayerCharacterSwitch;
 
     private Player player;
@@ -18,6 +17,7 @@ public class ActiveCharacter : MonoBehaviour
     private PartySystem partySystem;
     private PartySetup currentPartySetup;
     private PartySlot currentPartyMemberSlot;
+    public PartyMember currentPartyMember { get; private set; }
 
     private void Awake()
     {
@@ -161,7 +161,7 @@ public class ActiveCharacter : MonoBehaviour
 
         if (currentPartyMemberSlot.partyMember != null)
         {
-            PlayableCharacters currentPlayableCharacter = GetPlayableCharacter(currentPartyMemberSlot.partyMember);
+            PlayableCharacters currentPlayableCharacter = GetPlayableCharacter(GetPartyMember(currentPartyMemberSlot));
 
             if (!CanSwitchCharacter(currentPlayableCharacter))
             {
@@ -169,20 +169,29 @@ public class ActiveCharacter : MonoBehaviour
             }
 
             currentPlayableCharacter.gameObject.SetActive(false);
-            OnPlayerCharacterExit?.Invoke(currentPlayableCharacter.GetCharacterDataStat(), currentPartyMemberSlot.partyMember);
         }
 
+        PartySlot prevPartySlot = currentPartyMemberSlot;
         currentPartySetup.SelectPartyMemberSlot(index);
         currentPartyMemberSlot = currentPartySetup.selectedPartyMemberSlot;
-        PlayableCharacters newPlayableCharacter = GetPlayableCharacter(currentPartyMemberSlot.partyMember);
+        currentPartyMember = GetPartyMember(currentPartyMemberSlot);
+        PlayableCharacters newPlayableCharacter = GetPlayableCharacter(currentPartyMember);
         newPlayableCharacter.gameObject.SetActive(true);
-        OnPlayerCharacterSwitch?.Invoke(newPlayableCharacter.GetCharacterDataStat(), currentPartyMemberSlot.partyMember);
+        OnPlayerCharacterSwitch?.Invoke(GetPartyMember(prevPartySlot), currentPartyMember);
 
 
         if (playSwitchSound)
         {
             player.PlayPlayerSoundEffect(player.PlayerSO.SoundData.SwitchClip);
         }
+    }
+
+    private PartyMember GetPartyMember(PartySlot PartySlot)
+    {
+        if (PartySlot == null)
+            return null;
+
+        return PartySlot.partyMember;
     }
 
     private PlayableCharacters GetPlayableCharacter(PartyMember PartyMember)

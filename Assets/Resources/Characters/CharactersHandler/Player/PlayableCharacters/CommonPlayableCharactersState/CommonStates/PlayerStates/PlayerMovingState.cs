@@ -49,7 +49,7 @@ public class PlayerMovingState : PlayerGroundedState
         if (!playableCharacterStateMachine.playerData.IsMovementKeyPressed())
             return;
 
-        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playableCharacterStateMachine.playerData.movementInput) + playableCharacterStateMachine.player.PlayerCameraManager.CameraMain.transform.eulerAngles.y;
+        float angle = Vector3Handler.FindAngleByDirection(Vector3.zero, playableCharacterStateMachine.playerData.movementInput) + playableCharacterStateMachine.player.playerCameraManager.cameraMain.transform.eulerAngles.y;
         UpdateTargetRotationData(angle);
     }
 

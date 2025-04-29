@@ -3,29 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-[RequireComponent(typeof(SmoothRigTransition))]
-public class POIRig : MonoBehaviour
+public class POIRig : RigController
 {
     private InteractSensor interactSensorReference;
 
-    [Header("Rig Data")]
     [Range(0f, 180f)]
     [SerializeField] private float FOVAngleXZ = 90f;
     [Range(0f, 90f)]
     [SerializeField] private float FOVAngleY = 65f;
-    private SmoothRigTransition SmoothRigTransition;
+    [SerializeField] private float soothingTargetSpeed = 1f;
+
+    [SerializeField] private Transform TargetTransform;
+    private Vector3 targetPosition;
 
     protected IPointOfInterest closestPointOfInterest;
 
     protected virtual void Awake()
     {
-        SmoothRigTransition = GetComponent<SmoothRigTransition>();
+        interactSensorReference = GetComponentInParent<InteractSensor>();
     }
 
-    private void Start()
+    protected virtual void OnEnable()
     {
-        interactSensorReference = GetComponentInParent<InteractSensor>();
         SubscribeEvent();
+    }
+
+    protected virtual void OnDisable()
+    {
+        UnsubscribeEvent();
     }
 
     private void SubscribeEvent()
@@ -56,10 +61,14 @@ public class POIRig : MonoBehaviour
         closestPointOfInterest = interactSensorReference.currentClosestPOI;
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        UpdateTargetPosition();
+        UpdateTargetWeight();
+    }
+
     private void LateUpdate()
     {
-        UpdateTargetWeight();
         MoveTarget();
     }
 
@@ -70,7 +79,7 @@ public class POIRig : MonoBehaviour
 
     private Vector3 GetOriginalTargetPosition()
     {
-        return SmoothRigTransition.GetConstraintObject().position + transform.forward * 0.5f;
+        return TargetTransform.position + transform.forward * 0.5f;
     }
 
     private Vector3 GetClosestTransformPosition()
@@ -80,7 +89,7 @@ public class POIRig : MonoBehaviour
 
         Vector3 LookAtPosition = closestPointOfInterest.GetIPointOfInterestTransform().position;
 
-        Vector3 dir = LookAtPosition - SmoothRigTransition.GetConstraintObject().position;
+        Vector3 dir = LookAtPosition - TargetTransform.position;
         if (IsInFOV(dir.normalized))
         {
             return LookAtPosition;
@@ -104,17 +113,27 @@ public class POIRig : MonoBehaviour
 
     private void MoveTarget()
     {
-        SmoothRigTransition.SetTargetPosition(GetClosestTransformPosition());
+        SetTargetPosition(GetClosestTransformPosition());
+    }
+
+    private void UpdateTargetPosition()
+    {
+        TargetTransform.position = Vector3.Lerp(TargetTransform.position, targetPosition, Time.deltaTime * soothingTargetSpeed);
+    }
+
+    private void SetTargetPosition(Vector3 Position)
+    {
+        targetPosition = Position;
     }
 
     private void UpdateTargetWeight()
     {
         if (!CanMoveHead() || closestPointOfInterest == null)
         {
-            SmoothRigTransition.SetTargetWeight(0f);
+            SetTargetWeight(0f);
             return;
         }
 
-        SmoothRigTransition.SetTargetWeight(1f);
+        SetTargetWeight(1f);
     }
 }

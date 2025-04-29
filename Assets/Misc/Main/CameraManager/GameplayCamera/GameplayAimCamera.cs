@@ -18,8 +18,8 @@ public class GameplayAimCamera : GameplayCamera
     protected override void OnEnable()
     {
         base.OnEnable();
-        aimTargetYaw = GetAngle(playerCameraManager.CameraMain.transform.eulerAngles.y);
-        aimTargetPitch = GetAngle(playerCameraManager.CameraMain.transform.eulerAngles.x);
+        aimTargetYaw = GetAngle(playerCameraManager.cameraMain.transform.eulerAngles.y);
+        aimTargetPitch = GetAngle(playerCameraManager.cameraMain.transform.eulerAngles.x);
         Update3rdPersonCam();
         playerCameraManager.playerController.playerInputAction.Look.performed += Look_performed;
     }

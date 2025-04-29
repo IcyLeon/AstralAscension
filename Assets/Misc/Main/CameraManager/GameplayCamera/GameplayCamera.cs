@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CinemachineVirtualCamera))]
 public class GameplayCamera : MonoBehaviour
 {
     public CinemachineVirtualCamera VirtualCamera { get; private set; }

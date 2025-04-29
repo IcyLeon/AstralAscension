@@ -512,8 +512,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6135260886806974440}
-  m_LocalRotation: {x: -0.46779826, y: -0.36707193, z: -0.00956666, w: 0.8039475}
-  m_LocalPosition: {x: 0.26484644, y: 0.10692412, z: 0.20001355}
+  m_LocalRotation: {x: 0.022727847, y: 0.22902346, z: 0.07664036, w: 0.970133}
+  m_LocalPosition: {x: 0.021150634, y: 0.82152724, z: -0.34005377}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -543,7 +543,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9075059422583595421}
   - component: {fileID: 8174919946161993054}
-  - component: {fileID: 1660224939805979260}
   - component: {fileID: 3515445672882051892}
   m_Layer: 3
   m_Name: POIRig
@@ -598,21 +597,6 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &1660224939805979260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355953577267019856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cef8f6d82818e34e816a8062de6724a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soothingSpeed: 10
-  MultiAimConstraint: {fileID: 2253849606871244190}
-  TargetTransform: {fileID: 7028448209438272490}
 --- !u!114 &3515445672882051892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,8 +609,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f4b4db05c3e2e4bb8c91389be217a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soothingWeightSpeed: 10
   FOVAngleXZ: 180
   FOVAngleY: 90
+  soothingTargetSpeed: 10
+  TargetTransform: {fileID: 7028448209438272490}
 --- !u!1 &7940905047806719849
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,7 +624,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5231038055054688423}
   - component: {fileID: 2796359609939254000}
-  - component: {fileID: 6175872192385776096}
   - component: {fileID: 9084078373945937486}
   m_Layer: 3
   m_Name: AimRig
@@ -693,21 +679,22 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &6175872192385776096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7940905047806719849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cef8f6d82818e34e816a8062de6724a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soothingSpeed: 15
-  MultiAimConstraint: {fileID: 3346672955646851981}
-  TargetTransform: {fileID: 237971336688453231}
+  - m_Transform: {fileID: 5231038055054688423}
+    m_Style:
+      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
+      color: {r: 1, g: 0, b: 0, a: 0.5}
+      size: 0.1
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+    m_Visible: 1
+  - m_Transform: {fileID: 7329357699427413418}
+    m_Style:
+      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
+      color: {r: 1, g: 0, b: 0, a: 0.5}
+      size: 0.1
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+    m_Visible: 1
 --- !u!114 &9084078373945937486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,6 +707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e387d110de3f73747807ec2ca963a6e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soothingWeightSpeed: 10
+  TargetTransform: {fileID: 237971336688453231}
 --- !u!1 &8501713643280886997
 GameObject:
   m_ObjectHideFlags: 0
