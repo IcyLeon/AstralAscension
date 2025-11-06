@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static InventoryManager;
 
 [DisallowMultipleComponent]
 public class ArtifactPanelContent : MonoBehaviour
@@ -13,9 +12,9 @@ public class ArtifactPanelContent : MonoBehaviour
     private TabGroup TabGroup;
     public ItemTypeTabGroup itemTypeTabGroup { get; private set; }
     private Dictionary<ItemTypeSO, Transform> tabPanelDic;
-    public event Action<ItemQualityButton> OnItemQualitySelect;
+    public event Action<ItemQuality> OnItemQualitySelect;
     private ItemManagerSO ItemAssetManagerSO;
-    private Dictionary<IItem, ItemQualityButton> itemQualityDictionary;
+    private Dictionary<IData, ItemQuality> itemQualityDictionary;
     private Inventory inventory;
 
     private void Awake()
@@ -24,8 +23,7 @@ public class ArtifactPanelContent : MonoBehaviour
         TabGroup = GetComponentInChildren<TabGroup>();
         TabGroup.OnTabOptionChanged += TabGroup_OnTabOptionChanged;
         itemTypeTabGroup = TabGroup.GetComponent<ItemTypeTabGroup>();
-        OnInventoryOld += InventoryManager_OnInventoryOld;
-        OnInventoryNew += InventoryManager_OnInventoryNew;
+        InventoryManager.OnInventoryChanged += InventoryManager_OnInventoryChanged;
     }
     private void Start()
     {
@@ -69,60 +67,58 @@ public class ArtifactPanelContent : MonoBehaviour
 
     private void Init()
     {
-        if (instance == null)
+        if (InventoryManager.instance == null)
         {
-            Debug.LogError("Inventory Manager not found!");
+            Debug.Log("Inventory Manager not Found!");
             return;
         }
 
-        InventoryManager_OnInventoryNew(instance.inventory);
+        InventoryManager_OnInventoryChanged(InventoryManager.instance.inventory);
     }
 
 
-    private void InventoryManager_OnInventoryOld(Inventory Inventory)
-    {
-        Inventory.OnItemAdd -= Inventory_OnItemAdd;
-        Inventory.OnItemRemove -= Inventory_OnItemRemove;
-    }
-
-    private void InventoryManager_OnInventoryNew(Inventory Inventory)
+    private void InventoryManager_OnInventoryChanged(Inventory Inventory)
     {
         if (inventory == Inventory)
             return;
 
-        inventory = Inventory;
         if (inventory != null)
         {
-            inventory.OnItemAdd += Inventory_OnItemAdd;
-            inventory.OnItemRemove += Inventory_OnItemRemove;
-            UpdateVisual();
+            Inventory.OnItemAdd -= Inventory_OnItemAdd;
+            Inventory.OnItemRemove -= Inventory_OnItemRemove;
         }
+
+        inventory = Inventory;
+
+        inventory.OnItemAdd += Inventory_OnItemAdd;
+        inventory.OnItemRemove += Inventory_OnItemRemove;
+        UpdateVisual();
     }
 
     private void Inventory_OnItemRemove(Item Item)
     {
-        if (itemQualityDictionary.TryGetValue(Item, out ItemQualityButton itemQualityButton))
+        if (itemQualityDictionary.TryGetValue(Item, out ItemQuality itemQuality))
         {
-            itemQualityButton.Destroy();
+            Destroy(itemQuality.gameObject);
             itemQualityDictionary.Remove(Item);
         }
     }
 
     private void Inventory_OnItemAdd(Item Item)
     {
-        Transform Panel = GetPanel(Item.GetIItem().GetTypeSO());
+        Transform Panel = GetPanel(Item.GetTypeSO());
 
         if (Panel == null)
             return;
 
-        ItemQualityButton ItemQualityIEntity = ItemAssetManagerSO.CreateItemQualityItem(Item, Panel.transform);
+        ItemQuality ItemQualityIEntity = ItemAssetManagerSO.CreateItemQualityItem(Item, Panel.transform);
         ItemQualityIEntity.OnItemQualitySelect += OnSelectedItemQuality;
         itemQualityDictionary.Add(Item, ItemQualityIEntity);
     }
 
-    private void OnSelectedItemQuality(ItemQualityButton ItemQualityButton)
+    private void OnSelectedItemQuality(ItemQuality itemQuality)
     {
-        OnItemQualitySelect?.Invoke(ItemQualityButton);
+        OnItemQualitySelect?.Invoke(itemQuality);
     }
 
     private void UpdateVisual()
@@ -146,8 +142,7 @@ public class ArtifactPanelContent : MonoBehaviour
     private void OnDestroy()
     {
         TabGroup.OnTabOptionChanged -= TabGroup_OnTabOptionChanged;
-        OnInventoryOld -= InventoryManager_OnInventoryOld;
-        OnInventoryNew -= InventoryManager_OnInventoryNew;
+        InventoryManager.OnInventoryChanged -= InventoryManager_OnInventoryChanged;
 
         if (inventory != null)
         {

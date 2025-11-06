@@ -4,28 +4,17 @@ using UnityEngine;
 
 public class KeqingAimState : StellarRestorationState
 {
-    private AimRigController aimRigController;
-    private TargetOrb targetOrb;
-    public KeqingAimState(SkillStateMachine Skill) : base(Skill)
+    private PlayerAimController playerAimController;
+    public KeqingAimState(StellarRestoration StellarRestoration) : base(StellarRestoration)
     {
-        aimRigController = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<AimRigController>();
-        targetOrb = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<TargetOrb>();
-        ToggleTargetOrb(false);
-        if (aimRigController == null)
-        {
-            Debug.LogError("Dont have AimRigController!");
-        }
-    }
-    private void ToggleTargetOrb(bool active)
-    {
-        targetOrb.gameObject.SetActive(active);
+        playerAimController = StellarRestoration.playerAimController;
     }
 
     public override void Enter()
     {
         base.Enter();
         StartAnimation(stellarRestoration.keqingAnimationSO.aimParameter);
-        ToggleTargetOrb(true);
+        stellarRestoration.stellarRestorationReusableData.ToggleTargetOrb(true);
         playerAimController.Enter();
     }
 
@@ -52,7 +41,7 @@ public class KeqingAimState : StellarRestorationState
         if (!stellarRestoration.stellarRestorationReusableData.CanThrow())
             return;
 
-        playableCharacterStateMachine.ChangeState(stellarRestoration.keqingThrowState);
+        playableCharacterStateMachine.ChangeState(stellarRestoration.ThrowState());
     }
 
     public override void Update()
@@ -63,7 +52,7 @@ public class KeqingAimState : StellarRestorationState
         Vector3 originalTargetPos = playableCharacterStateMachine.player.playerCameraManager.GetTargetCameraRayPosition(Range + GetOffSet(origin));
         Vector3 targetPos = Player.GetRayPosition(origin, originalTargetPos - origin, Range);
         stellarRestoration.stellarRestorationReusableData.SetTargetPosition(targetPos);
-        aimRigController.SetTargetPosition(stellarRestoration.stellarRestorationReusableData.GetTargetOrbPosition());
+        playerAimController.SetTargetPosition(targetPos);
         playerAimController.Update();
     }
 
@@ -76,6 +65,6 @@ public class KeqingAimState : StellarRestorationState
     {
         base.Exit();
         StopAnimation(stellarRestoration.keqingAnimationSO.aimParameter);
-        ToggleTargetOrb(false);
+        stellarRestoration.stellarRestorationReusableData.ToggleTargetOrb(false);
     }
 }

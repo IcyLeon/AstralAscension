@@ -15,23 +15,21 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
     private Quaternion currentRotation;
 
     public CinemachineVirtualCamera VirtualCamera { get; private set; }
-    public Cinemachine3rdPersonFollow Cinemachine3rdPersonFollow { get; private set; }
+    protected Cinemachine3rdPersonFollow cinemachine3rdPersonFollow { get; private set; }
     private CinemachineCameraOffset cinemachineCameraOffset;
 
     protected virtual void Awake()
     {
-        Init();
+        cameraPanManager = GetComponentInParent<CameraPanManager>();
         VirtualCamera = GetComponent<CinemachineVirtualCamera>();
-        Cinemachine3rdPersonFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        cinemachine3rdPersonFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         cinemachineCameraOffset = VirtualCamera.AddComponent<CinemachineCameraOffset>();
-        originalRotation = Cinemachine3rdPersonFollow.FollowTargetRotation;
+        Init();
         ResetRotation();
     }
 
     private void Init()
     {
-        cameraPanManager = GetComponentInParent<CameraPanManager>();
-
         if (cameraPanManager == null)
         {
             Debug.LogError(gameObject.name + "is not the child of CameraPanManager!");
@@ -40,16 +38,22 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
 
         cameraRotationSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraRotationSpeed;
         cameraRotationSmoothingSpeed = cameraPanManager.CameraPanSelectionDataSO.CameraRotationSmoothingSpeed;
+        originalRotation = cinemachine3rdPersonFollow.FollowTargetRotation;
     }
 
     public virtual void OnEnter()
     {
-        ResetRotation();
         gameObject.SetActive(true);
+    }
+
+    public float GetCameraDistance()
+    {
+        return cinemachine3rdPersonFollow.CameraDistance;
     }
 
     public virtual void OnExit()
     {
+        ResetRotation();
         gameObject.SetActive(false);
     }
 
@@ -59,6 +63,8 @@ public abstract class CameraPanVirtualCam : MonoBehaviour
 
         rotationAngles.x += Time.unscaledDeltaTime * cameraRotationSpeed * delta.y * -1f; 
         rotationAngles.y += Time.unscaledDeltaTime * cameraRotationSpeed * delta.x;       
+
+
 
         if (rotationAngles.x > 180f)
             rotationAngles.x -= 360f;

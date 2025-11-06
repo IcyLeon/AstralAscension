@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class ArtifactSphereMouseMotion : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
     private ArtifactsRingRotation artifactsRingRotation;
     private Vector2 deltaMouseDirection;
     private Vector2 previousMousePos;
-    private bool validPosition;
+
 
     private void Awake()
     {
@@ -24,18 +25,15 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
 
     private void ArtifactSpin_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        validPosition = IsValid();
-
-        if (!validPosition)
+        if (!UICanvas.IsValid())
             return;
 
         previousMousePos = obj.ReadValue<Vector2>();
-        DisableRotation();
     }
 
     private void ArtifactSpin_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!validPosition)
+        if (!UICanvas.IsValid())
             return;
 
         EnableRotation();
@@ -49,11 +47,12 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
 
     private void ArtifactSpin_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!validPosition)
+        if (!UICanvas.IsValid())
             return;
 
         Vector2 mousePos = obj.ReadValue<Vector2>();
         Vector2 delta = mousePos - previousMousePos;
+        DisableRotation();
 
         if (delta.magnitude <= 0)
             return;
@@ -78,11 +77,6 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
             return;
 
         artifactsRingRotation.EnableRotation();
-    }
-
-    private bool IsValid()
-    {
-        return !EventSystem.current.IsPointerOverGameObject();
     }
 
     private void OnSubscribeEvents()

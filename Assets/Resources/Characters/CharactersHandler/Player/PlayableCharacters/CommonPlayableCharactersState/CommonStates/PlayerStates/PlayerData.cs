@@ -85,7 +85,7 @@ public class PlayerData
         }
     }
 
-    public void UpdateTargetRotationData(float angle)
+    private void UpdateTargetRotationData(float angle)
     {
         if (targetYawRotation == angle)
             return;

@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1354565da96937548bdf8dbb6d141e4e, type: 3}
   m_Name: NoblessObligeFeather
   m_EditorClassIdentifier: 
-  <ItemName>k__BackingField: Royal Plume
-  <ItemSprite>k__BackingField: {fileID: 21300000, guid: 401013238d590a547b3857d387f8d65c,
-    type: 3}
-  <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
-    type: 2}
-  <ItemDescription>k__BackingField: A feathered hat accessory worn by the old aristocrats
-    of Mondstadt on hunts. It still stands proudly as if no time has passed.
-  <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
-    type: 2}
+  Name: Royal Plume
+  Icon: {fileID: 21300000, guid: 401013238d590a547b3857d387f8d65c, type: 3}
+  RaritySO: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0, type: 2}
+  ItemTypeSO: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02, type: 2}
+  Description: A feathered hat accessory worn by the old aristocrats of Mondstadt
+    on hunts. It still stands proudly as if no time has passed.
   <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7,
     type: 2}

@@ -6,10 +6,10 @@ public class KeqingAnimationEvents : SwordCharacterAnimationEvents
 {
     private void ShootTeleporter()
     {
-        if (playableCharacters == null || playableCharacters.PlayableCharacterStateMachine == null)
+        if (playableCharacters == null || playableCharacters.playableCharacterStateMachine == null)
             return;
 
-        StellarRestoration StellarRestoration = playableCharacters.PlayableCharacterStateMachine.playerElementalSkillStateMachine as StellarRestoration;
+        StellarRestoration StellarRestoration = playableCharacters.playableCharacterStateMachine.playerElementalSkillStateMachine as StellarRestoration;
 
         if (StellarRestoration == null)
             return;

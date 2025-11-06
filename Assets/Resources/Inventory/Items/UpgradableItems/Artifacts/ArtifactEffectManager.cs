@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class ArtifactEffectManager
 {
-    private ArtifactInventory inventory;
+    private ArtifactEquipment artifactEquipment;
     private EffectManager effectManager;
 
-    public ArtifactEffectManager(ArtifactInventory ArtifactInventory, EffectManager EffectManager)
+    public ArtifactEffectManager(ArtifactEquipment ArtifactEquipment, EffectManager EffectManager)
     {
-        inventory = ArtifactInventory;
+        artifactEquipment = ArtifactEquipment;
         effectManager = EffectManager;
-        inventory.OnArtifactFamilyAdd += Inventory_OnArtifactFamilyAdd;
-        inventory.OnArtifactFamilyRemove += Inventory_OnArtifactFamilyRemove;
+        artifactEquipment.OnArtifactFamilyAdd += Inventory_OnArtifactFamilyAdd;
+        artifactEquipment.OnArtifactFamilyRemove += Inventory_OnArtifactFamilyRemove;
     }
 
     private void Inventory_OnArtifactFamilyRemove(ArtifactFamily ArtifactFamily)
@@ -45,18 +45,18 @@ public class ArtifactEffectManager
 
     public void OnDestroy()
     {
-        inventory.OnArtifactFamilyAdd -= Inventory_OnArtifactFamilyAdd;
-        inventory.OnArtifactFamilyRemove -= Inventory_OnArtifactFamilyRemove;
+        artifactEquipment.OnArtifactFamilyAdd -= Inventory_OnArtifactFamilyAdd;
+        artifactEquipment.OnArtifactFamilyRemove -= Inventory_OnArtifactFamilyRemove;
 
-        for (int i = inventory.artifactList.Count - 1; i >= 0; i--)
+        for (int i = artifactEquipment.artifactList.Count - 1; i >= 0; i--)
         {
-            Inventory_OnArtifactFamilyRemove(inventory.artifactList.ElementAt(i).Value);
+            Inventory_OnArtifactFamilyRemove(artifactEquipment.artifactList.ElementAt(i).Value);
         }
     }
 
     public int GetBuffCurrentIndex(ArtifactFamilySO artifactFamilySO)
     {
-        if (!inventory.artifactList.TryGetValue(artifactFamilySO, out ArtifactFamily artifactFamily))
+        if (!artifactEquipment.artifactList.TryGetValue(artifactFamilySO, out ArtifactFamily artifactFamily))
             return -1;
 
         return artifactFamily.GetBuffCurrentIndex();

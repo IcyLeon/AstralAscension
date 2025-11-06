@@ -18,17 +18,17 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
     [SerializeField] private StatsHighlightContent StatsHighlightContent;
     private CharacterScreenPanel characterScreenPanel;
-    private CharacterDataStat selectedCharacterDataStat;
+    private CharacterEquipmentManager selectedCharacterEquipmentManager;
     private ArtifactPieceSetsDisplayManager ArtifactPieceSetsDisplayManager;
 
-    private IItem iItem;
+    private Artifact artifact;
 
     private void Awake()
     {
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
         ArtifactPieceSetsDisplayManager = GetComponent<ArtifactPieceSetsDisplayManager>();
         characterScreenPanel = GetComponentInParent<CharacterScreenPanel>();
-        characterScreenPanel.OnIconSelected += CharacterScreenPanel_OnIconSelected;
+        characterScreenPanel.OnCharacterIconSelected += CharacterScreenPanel_OnIconSelected;
         UpdateOnCharacterSelected();
     }
 
@@ -39,25 +39,23 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
 
     private void UpdateOnCharacterSelected()
     {
-        selectedCharacterDataStat = characterScreenPanel.currentCharacterSelected;
+        selectedCharacterEquipmentManager = characterScreenPanel.characterEquipmentManager;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
         UnsubscribeEvents();
-        iItem = ItemContentDisplay.iItem;
+        artifact = ItemContentDisplay.iData as Artifact;
         SubscribeEvents();
     }
 
 
     private void SubscribeEvents()
     {
-        IEntity iEntity = iItem as IEntity;
-
-        if (iEntity == null)
+        if (artifact == null)
             return;
 
-        iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
+        artifact.OnIEntityChanged += IEntity_OnIEntityChanged;
         UpdateVisuals();
     }
 
@@ -78,10 +76,10 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
     {
         ResetAll();
 
-        if (selectedCharacterDataStat == null)
+        if (selectedCharacterEquipmentManager == null)
             return;
 
-        int index = GetArtifactBuffCurrentIndex(selectedCharacterDataStat);
+        int index = GetArtifactBuffCurrentIndex(selectedCharacterEquipmentManager.effectManager);
 
         for (int i = 0; i <= index; i++)
         {
@@ -89,29 +87,25 @@ public class ArtifactPieceHighlightManager : MonoBehaviour
         }
     }
 
-    private int GetArtifactBuffCurrentIndex(CharacterDataStat CharacterDataStat)
+    private int GetArtifactBuffCurrentIndex(EffectManager effectManager)
     {
-        ArtifactSO artifactSO = iItem.GetIItem() as ArtifactSO;
-
-        if (artifactSO == null)
+        if (artifact == null)
             return -1;
 
-        return CharacterDataStat.effectManager.GetArtifactBuffCurrentIndex(artifactSO.ArtifactFamilySO);
+        return effectManager.GetArtifactBuffCurrentIndex(artifact.artifactSO.ArtifactFamilySO);
     }
 
     private void UnsubscribeEvents()
     {
-        IEntity iEntity = iItem as IEntity;
-
-        if (iEntity == null)
+        if (artifact == null)
             return;
 
-        iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
+        artifact.OnIEntityChanged -= IEntity_OnIEntityChanged;
     }
 
     private void OnDestroy()
     {
-        characterScreenPanel.OnIconSelected -= CharacterScreenPanel_OnIconSelected;
+        characterScreenPanel.OnCharacterIconSelected -= CharacterScreenPanel_OnIconSelected;
         ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
     }
 }

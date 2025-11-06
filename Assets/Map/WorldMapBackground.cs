@@ -6,7 +6,7 @@ using UnityEngine;
 public class WorldMapBackground : MonoBehaviour
 {
     [SerializeField] private MapIconPrefabManagerSO MapIconPrefabManagerSO;
-    public Dictionary<MapObject, MapIcon> IconsDictionary { get; private set; }
+    public Dictionary<MapObject, MapIcon> IconsDictionary { get; } = new();
     [field: SerializeField] public RectTransform MapRT { get; private set; }
     [SerializeField] private Transform IconMapPivotTransform;
     public WorldMapManager worldMap { get; private set; }
@@ -21,7 +21,6 @@ public class WorldMapBackground : MonoBehaviour
     private void Awake()
     {
         mapUI = GetComponentInParent<MapUI>();
-        IconsDictionary = new();
         originalMapSize = GetMapSize();
     }
 
@@ -83,10 +82,12 @@ public class WorldMapBackground : MonoBehaviour
         OnMapIconAdd?.Invoke(mapIcon);
     }
 
-
+    /// <summary>
+    ///  Get Map UI Position
+    /// </summary>
     public Vector3 GetMapUILocation(MapObject mapObject)
     {
-        Vector3 MapWorldPosition = worldMap.GetMapLocation(mapObject.GetMapIconTransform());
+        Vector3 MapWorldPosition = worldMap.GetMapLocation(mapObject.transform);
 
         return new Vector3(MapWorldPosition.x / worldMap.GetWorldMapWidthRatio(GetMapSize().x),
             MapWorldPosition.z / worldMap.GetWorldMapWidthRatio(GetMapSize().y), 0);

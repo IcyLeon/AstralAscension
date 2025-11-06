@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class SkywardSword : ElementalBurstStateMachine
 {
-    public KeqingLaserState keqingLaserState { get; }
-
-    public override void InitElementalBurstState()
+    public KeqingLaserState LaserState()
     {
-        skillReusableData = new SkywardSwordReusableData(this);
-        elementalBurstController = new SkywardSwordController(this);
+        return new KeqingLaserState(this);
+    }
+
+    protected override SkillReusableData CreateSkillReusableData()
+    {
+        return new SkywardSwordReusableData(this);
+    }
+
+    public override PlayerElementalBurstUnleashedState UnleashedState()
+    {
+        return new SkywardSwordUnleashedState(this);
     }
 
     public SkywardSword(PlayableCharacterStateMachine PlayableCharacterStateMachine) : base(PlayableCharacterStateMachine)
     {
-        keqingLaserState = new KeqingLaserState(this);
-        playerElementalBurstUnleashedState = new SkywardSwordUnleashedState(this);
     }
 }

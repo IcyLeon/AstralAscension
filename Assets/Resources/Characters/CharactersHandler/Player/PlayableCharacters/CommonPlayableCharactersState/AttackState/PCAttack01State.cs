@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PCAttack01State : PlayableCharacterAttackComboState
+public class PCAttack01State : PlayableCharacterAttackState
 {
-    public PCAttack01State(PlayableCharacterAttackStateMachine PlayableCharacterAttackStateMachine) : base(PlayableCharacterAttackStateMachine)
+    public PCAttack01State(PlayableCharacterAttackStateMachine PlayableCharacterAttackStateMachine, PlayableCharacterStateMachine PS) : base(PlayableCharacterAttackStateMachine, PS)
     {
     }
 
@@ -14,8 +14,13 @@ public class PCAttack01State : PlayableCharacterAttackComboState
         SetAnimationTrigger("1");
     }
 
-    public override PlayableCharacterAttackComboState GetNextAttackState()
+    protected override float AttackDelayInterval()
     {
-        return playableCharacterAttackStateMachine.PCAttack02State;
+        return 0.35f;
+    }
+
+    protected override void TransitNextAttack()
+    {
+        playableCharacterStateMachine.ChangeState(new PCAttack02State(playableCharacterAttackStateMachine, playableCharacterStateMachine));
     }
 }

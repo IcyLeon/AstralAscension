@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public abstract class StellarRestorationState : PlayerElementalSkillState
 {
     private const float elementalfusionTime = 5f;
-    protected PlayerAimController playerAimController;
     protected StellarRestoration stellarRestoration;
     private float elementalfusionElapsedTime;
 
@@ -44,7 +43,6 @@ public abstract class StellarRestorationState : PlayerElementalSkillState
     public StellarRestorationState(SkillStateMachine Skill) : base(Skill)
     {
         stellarRestoration = skill as StellarRestoration;
-        playerAimController = stellarRestoration.playerAimController;
         Range = stellarRestoration.stellarRestorationReusableData.ElementalSkillRange;
     }
 }

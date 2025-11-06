@@ -36,6 +36,7 @@ public class TabIndicator : MonoBehaviour
     private void OnEnable()
     {
         SubscribeEvents();
+        InitBarIndicator();
     }
 
     private void OnDisable()
@@ -47,7 +48,6 @@ public class TabIndicator : MonoBehaviour
     {
         tabGroup.OnTabOptionChanged += TabGroup_OnTabOptionChanged;
         TabGroup_OnTabOptionChanged(tabGroup.currentTabOption);
-        InitBarIndicator();
     }
 
     private void UnsubscribeEvents()

@@ -10,7 +10,9 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private GameObject PlayerPrefab;
 
-    [SerializeField] private Player Player;
+    [field: SerializeField] public Player Player { get; private set; }
+    public static event Action<Player> OnPlayerChanged;
+
 
     private void SpawnPlayer()
     {
@@ -21,11 +23,12 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        player = Player;
     }
 
     void Start()
     {
         //SpawnPlayer();
+        player = Player;
+        OnPlayerChanged?.Invoke(player);
     }
 }

@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d027ba6cb6f5f541af7f3eae0e4ceaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 35
+  Speed: 45
   ThrowAudioSource: {fileID: 601182338686899145}
   rb: {fileID: 9203155782185956832}
   PinCollider: {fileID: 6358234528828272531}

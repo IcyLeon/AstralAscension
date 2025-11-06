@@ -12,5 +12,5 @@ public abstract class ItemContentInformation : MonoBehaviour
 
     protected abstract void Init();
 
-    public abstract void UpdateItemContentInformation(IItem iItem);
+    public abstract void UpdateItemContentInformation(IData IData);
 }

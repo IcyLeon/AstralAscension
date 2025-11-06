@@ -25,20 +25,13 @@ public class ItemContentDisplay : MonoBehaviour
     [SerializeField] private LockItem LockItem;
     [SerializeField] private TextMeshProUGUI LevelTxt;
 
-    public IItem iItem { get; private set; }
+    public IData iData { get; private set; }
 
     private ItemContentInformation[] ItemContentInformations;
 
-    private void InitAssetManager()
-    {
-        if (ItemAssetManagerSO != null)
-            return;
-
-        ItemAssetManagerSO = instance.ItemAssetManagerSO;
-    }
-
     private void Start()
     {
+        ItemAssetManagerSO = instance.ItemAssetManagerSO;
         Init();
     }
 
@@ -48,50 +41,44 @@ public class ItemContentDisplay : MonoBehaviour
             return;
 
         ItemContentInformations = GetComponentsInChildren<ItemContentInformation>(true);
-        InitAssets();
-    }
-
-    private void InitAssets()
-    {
-        InitAssetManager();
         InitStarPool();
     }
 
     // Update is called once per frame
     private void UpdateSubInformationVisuals()
     {
-        if (iItem == null)
+        if (iData == null)
             return;
 
         foreach (var ItemContentInformation in ItemContentInformations)
         {
-            ItemContentInformation.UpdateItemContentInformation(iItem);
+            ItemContentInformation.UpdateItemContentInformation(iData);
         }
     }
 
 
     private void UpdateIItemVisual()
     {
-        if (iItem == null)
+        if (iData == null)
             return;
 
         UpdateStars();
 
-        LockItem.SetIItem(iItem);
+        LockItem.SetIItem(iData);
 
-        ItemNameTxt.text = iItem.GetName();
-        ItemTypeTxt.text = iItem.GetTypeSO().ItemType;
-        ItemDescTxt.text = iItem.GetDescription();
+        ItemNameTxt.text = iData.GetName();
+        ItemTypeTxt.text = iData.GetTypeSO().ItemType;
+        ItemDescTxt.text = iData.GetDescription();
 
         if (ItemImage)
-            ItemImage.sprite = iItem.GetIcon();
+            ItemImage.sprite = iData.GetIcon();
 
         OnItemContentDisplayChanged?.Invoke();
     }
 
     private void UpdateUpgradableItemsVisual()
     {
-        UpgradableItems UpgradableItems = iItem as UpgradableItems;
+        UpgradableItems UpgradableItems = iData as UpgradableItems;
         LevelContent.SetActive(UpgradableItems != null);
 
         if (UpgradableItems == null)
@@ -113,24 +100,24 @@ public class ItemContentDisplay : MonoBehaviour
         if (StarContainerTransform == null)
             return;
 
-        InitAssets();
+        InitStarPool();
         starPool.ResetAll();
 
-        ItemRaritySO itemRaritySO = iItem.GetRaritySO();
+        ItemRaritySO itemRaritySO = iData.GetRaritySO();
 
         for (int i = 0; i <= (int)itemRaritySO.Rarity; i++)
         {
             starPool.GetPooledObject();
         }
     }
-    public void SetIItem(IItem IItem)
+    public void SetIItem(IData IData)
     {
-        if (iItem == IItem)
+        if (iData == IData)
             return;
 
         Init();
         UnsubscribeItemEvent();
-        iItem = IItem;
+        iData = IData;
         UpdateIItemVisual();
         UpdateSubInformationVisuals();
 
@@ -139,7 +126,7 @@ public class ItemContentDisplay : MonoBehaviour
 
     private void UnsubscribeItemEvent()
     {
-        IEntity iEntity = iItem as IEntity;
+        IEntity iEntity = iData as IEntity;
 
         if (iEntity == null)
             return;
@@ -150,7 +137,7 @@ public class ItemContentDisplay : MonoBehaviour
 
     private void SubscribeItemEvent()
     {
-        IEntity iEntity = iItem as IEntity;
+        IEntity iEntity = iData as IEntity;
 
         if (iEntity == null)
             return;

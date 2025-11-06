@@ -57,8 +57,8 @@ public class ArtifactInformation : MonoBehaviour
         artifactPanelContent.OnItemQualitySelect -= ArtifactPanelContent_OnItemQualitySelect;
     }
 
-    private void ArtifactPanelContent_OnItemQualitySelect(ItemQualityButton ItemQualityButton)
+    private void ArtifactPanelContent_OnItemQualitySelect(ItemQuality itemQuality)
     {
-        ItemContentDisplay.SetIItem(ItemQualityButton.ItemQuality.iItem);
+        ItemContentDisplay.SetIItem(itemQuality.iData);
     }
 }

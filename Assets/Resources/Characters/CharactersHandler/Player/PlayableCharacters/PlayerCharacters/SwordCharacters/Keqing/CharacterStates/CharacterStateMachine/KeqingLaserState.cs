@@ -17,20 +17,18 @@ public class KeqingLaserState : PlayerElementalBurstState
     private int CurrentHits;
     private Vector3 LastPosition;
 
-    public KeqingLaserState(SkillStateMachine Skill) : base(Skill)
+    public KeqingLaserState(SkywardSword SkywardSword) : base(SkywardSword)
     {
+        CurrentHits = 0;
+        laserBurst = ElementalBurst.First_Phase;
         TimeInBetweenHits = 2.5f / (TotalHits * 2f);
     }
 
     public override void Enter()
     {
         base.Enter();
-        CurrentHits = 0;
-        laserBurst = ElementalBurst.First_Phase;
         LastPosition = playableCharacter.GetCenterBound();
-
         playableCharacter.Animator.gameObject.SetActive(false);
-
         HitElapsed = Time.time + TimeInBetweenHits;
     }
 

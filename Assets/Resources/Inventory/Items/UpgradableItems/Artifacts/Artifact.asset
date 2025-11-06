@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4d6b2ed12459d41b6780bac82f6554, type: 3}
   m_Name: Artifact
   m_EditorClassIdentifier: 
-  <ItemFamily>k__BackingField: Artifact
+  <ItemFamilyType>k__BackingField: Artifact

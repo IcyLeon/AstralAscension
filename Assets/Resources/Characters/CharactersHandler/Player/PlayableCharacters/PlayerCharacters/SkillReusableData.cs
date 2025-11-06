@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillReusableData
+public abstract class SkillReusableData
 {
     public SkillStateMachine skill { get; }
     public SkillReusableData(SkillStateMachine skill)
@@ -21,10 +21,6 @@ public class SkillReusableData
     public virtual void Update()
     {
 
-    }
-
-    public virtual void ResetData()
-    {
     }
 
     public virtual void OnDestroy()

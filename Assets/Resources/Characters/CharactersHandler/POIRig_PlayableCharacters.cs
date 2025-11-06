@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class POIRig_PlayableCharacters : POIRig
 {
-    private PlayableCharacters PlayableCharacters;
+    private PlayableCharacters playableCharacter;
     private Coroutine headDisableCoroutine;
     private bool HeadMoveDisabled;
 
@@ -12,7 +12,7 @@ public class POIRig_PlayableCharacters : POIRig
     {
         base.Awake();
         HeadMoveDisabled = false;
-        PlayableCharacters = GetComponentInParent<PlayableCharacters>();
+        playableCharacter = GetComponentInParent<PlayableCharacters>();
     }
 
     protected override void OnEnable()
@@ -29,18 +29,18 @@ public class POIRig_PlayableCharacters : POIRig
 
     private void SubscribeEvents()
     {
-        if (PlayableCharacters == null)
+        if (playableCharacter == null)
             return;
 
-        PlayableCharacters.OnTakeDamage += OnDamageHit;
+        playableCharacter.OnTakeDamage += OnDamageHit;
     }
 
     private void UnsubscribeEvents()
     {
-        if (PlayableCharacters == null)
+        if (playableCharacter == null)
             return;
 
-        PlayableCharacters.OnTakeDamage -= OnDamageHit;
+        playableCharacter.OnTakeDamage -= OnDamageHit;
     }
 
     private void OnDamageHit(float BaseDamageAmount)
@@ -67,9 +67,9 @@ public class POIRig_PlayableCharacters : POIRig
 
     protected override bool CanMoveHead()
     {
-        if (PlayableCharacters == null)
+        if (playableCharacter == null || playableCharacter.playableCharacterStateMachine == null)
             return false;
 
-        return !PlayableCharacters.PlayableCharacterStateMachine.IsSkillCasting() && !HeadMoveDisabled;
+        return !playableCharacter.playableCharacterStateMachine.IsSkillCasting() && !HeadMoveDisabled;
     }
 }

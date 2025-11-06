@@ -11,7 +11,7 @@ public class Artifact : UpgradableItems
     public Dictionary<ArtifactStatSO, ArtifactSubStat> subStats { get; private set; }
     public ArtifactSO artifactSO { get; private set; }
 
-    public Artifact(IItem iItem) : base(iItem)
+    public Artifact(IData iData) : base(iData)
     {
         subStats = new();
         GenerateMainStat();
@@ -21,7 +21,7 @@ public class Artifact : UpgradableItems
     protected override void OnCreateUpgradableItem()
     {
         base.OnCreateUpgradableItem();
-        artifactSO = GetIItem() as ArtifactSO;
+        artifactSO = iData as ArtifactSO;
         artifactManagerSO = artifactSO.ArtifactFamilySO.ArtifactManagerSO;
     }
 

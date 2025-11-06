@@ -11,7 +11,12 @@ public class UIController
     {
         get
         {
-            return GetInstance();
+            if (uiControllerInstance == null)
+            {
+                uiControllerInstance = new UIController();
+            }
+
+            return uiControllerInstance;
         }
     }
 
@@ -70,16 +75,6 @@ public class UIController
     private void CreateInputSystem()
     {
         uiInputSystem = new UIInputSystem();
-    }
-
-    private static UIController GetInstance()
-    {
-        if (uiControllerInstance == null)
-        {
-            uiControllerInstance = new UIController();
-        }
-
-        return uiControllerInstance;
     }
 }
 

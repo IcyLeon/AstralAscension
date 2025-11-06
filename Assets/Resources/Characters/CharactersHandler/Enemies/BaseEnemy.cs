@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseEnemy : DamageableCharacters
 {
-    protected override CharacterStateMachine GetStateMachine()
+    protected override CharacterStateMachine CreateStateMachine()
     {
         return new BaseEnemyStateMachine(this);
     }

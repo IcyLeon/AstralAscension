@@ -8,18 +8,18 @@ public class SlotManager : MonoBehaviour
 {
     private ItemManagerSO ItemAssetManagerSO;
     private Slot[] slotList;
-    private Dictionary<IItem, Slot> slotDic;
+    private Dictionary<IData, Slot> slotDic;
 
     public event Action<Slot> OnSlotSelected;
     public event Action<Slot> OnSlotItemAdd;
     public event Action<Slot> OnSlotChanged;
-    public event Action<IItem, Slot> OnSlotItemRemove;
+    public event Action<IData, Slot> OnSlotItemRemove;
 
-    public IItem iItem { get; private set; }
+    public IData iData { get; private set; }
 
-    public void SetIItem(IItem IItem)
+    public void SetIItem(IData IData)
     {
-        iItem = IItem;
+        iData = IData;
         ResetAllSlots();
     }
 
@@ -61,7 +61,7 @@ public class SlotManager : MonoBehaviour
         OnSlotSelected?.Invoke(slot);
     }
 
-    public bool TryAddEntityToSlot(IItem IItem)
+    public bool TryAddEntityToSlot(IData iData)
     {
         Slot slot = GetAvailableSlot();
 
@@ -71,20 +71,20 @@ public class SlotManager : MonoBehaviour
             return false;
         }
 
-        ItemQualityButton ItemQualityButton = ItemAssetManagerSO.CreateItemQualityItem(IItem, slot.transform);
-        ItemQualityButton.RaycastImage.raycastTarget = false;
-        ItemQualityButton.Select();
+        ItemQuality ItemQuality = ItemAssetManagerSO.CreateItemQualityItem(iData, slot.transform);
+        ItemQuality.RaycastImage.raycastTarget = false;
+        ItemQuality.Select();
         slot.Init();
 
         return true;
     }
 
 
-    public bool CanManualAdd(IItem iItem)
+    public bool CanManualAdd(IData iData)
     {
-        UpgradableItems upgradableItems = iItem as UpgradableItems;
+        UpgradableItems upgradableItems = iData as UpgradableItems;
 
-        return !Contains(iItem) && (upgradableItems == null || (upgradableItems != null && !upgradableItems.locked));
+        return !Contains(iData) && (upgradableItems == null || (upgradableItems != null && !upgradableItems.locked));
     }
 
     private void OnDestroy()
@@ -99,28 +99,28 @@ public class SlotManager : MonoBehaviour
 
     private void Slot_OnSlotItemAdd(Slot Slot)
     {
-        IItem iItem = Slot.itemQualityButton.iEntity;
+        IData iData = Slot.itemQuality.iData;
 
-        if (slotDic.TryGetValue(iItem, out Slot slot))
+        if (slotDic.TryGetValue(iData, out Slot slot))
             return;
 
-        slotDic.Add(iItem, Slot);
+        slotDic.Add(iData, Slot);
         OnSlotItemAdd?.Invoke(Slot);
         OnSlotChanged?.Invoke(Slot);
     }
 
-    private void Slot_OnSlotItemRemove(IItem IItem, Slot Slot)
+    private void Slot_OnSlotItemRemove(IData IData, Slot Slot)
     {
-        slotDic.Remove(IItem);
-        OnSlotItemRemove?.Invoke(IItem, Slot);
+        slotDic.Remove(IData);
+        OnSlotItemRemove?.Invoke(IData, Slot);
         Slot.transform.SetAsLastSibling();
         InitSlotList();
         OnSlotChanged?.Invoke(Slot);
     }
 
-    public Slot Contains(IItem IItem)
+    public Slot Contains(IData iData)
     {
-        if (slotDic.TryGetValue(IItem, out Slot slot))
+        if (slotDic.TryGetValue(iData, out Slot slot))
             return slot;
 
         return null;
@@ -142,7 +142,7 @@ public class SlotManager : MonoBehaviour
     {
         foreach(var slot in slotList)
         {
-            if (slot.itemQualityButton == null)
+            if (slot.itemQuality == null)
                 return slot;
         }
 

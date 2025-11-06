@@ -6,44 +6,23 @@ using UnityEngine.UI;
 
 public class CharacterScreenPanel : MonoBehaviour
 {
-    private OwnedCharactersIconManager OwnedCharactersIconManager;
-    public CharacterDataStat currentCharacterSelected { get; private set; }
-    public event Action OnIconSelected;
+    [field: SerializeField] public UpgradeItemContent UpgradeItemContent { get; private set; }
+    public CharacterEquipmentManager characterEquipmentManager { get; private set; }
+    public event Action OnCharacterIconSelected;
 
-    private void Awake()
+    private void OnEnable()
     {
-        OwnedCharactersIconManager = GetComponentInChildren<OwnedCharactersIconManager>();
-        OwnedCharactersIconManager.OnIconSelected += OwnedCharactersIconManager_OnIconSelected;
+        OwnedCharacterButtonMiscEvent.OnCharacterIconSelected += OwnedCharacterButtonMiscEvent_OnCharacterIconSelected;
     }
 
-    private void InitCharacterDisplayManager()
+    private void OnDisable()
     {
-        CharacterDisplayManager CharacterDisplayManager = CharacterDisplayManager.instance;
-        if (CharacterDisplayManager == null)
-        {
-            return;
-        }
-        CharacterDisplayManager.SetScreenPanel(this);
+        OwnedCharacterButtonMiscEvent.OnCharacterIconSelected -= OwnedCharacterButtonMiscEvent_OnCharacterIconSelected;
     }
 
-    private void Start()
+    private void OwnedCharacterButtonMiscEvent_OnCharacterIconSelected(CharacterEquipmentManager CharacterEquipmentManager)
     {
-        InitCharacterDisplayManager();
-    }
-
-    private void UpdateVisual()
-    {
-        currentCharacterSelected = OwnedCharactersIconManager.selectedIcon.characterDataStat;
-        OnIconSelected?.Invoke();
-    }
-
-    private void OwnedCharactersIconManager_OnIconSelected()
-    {
-        UpdateVisual();
-    }
-
-    private void OnDestroy()
-    {
-        OwnedCharactersIconManager.OnIconSelected -= OwnedCharactersIconManager_OnIconSelected;
+        characterEquipmentManager = CharacterEquipmentManager;
+        OnCharacterIconSelected?.Invoke();
     }
 }

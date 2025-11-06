@@ -15,7 +15,7 @@ public class PlayerJumpState : PlayerAirborneState
     {
         base.Enter();
 
-        StartAnimation(playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
+        //StartAnimation(playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
         playableCharacter.PlayVOAudio(playableCharacter.playerCharactersSO.PlayableCharacterVoicelinesSO.GetRandomJumpVOClip());
         playableCharacterStateMachine.playerData.DecelerateForce = playableCharacterStateMachine.playerData.airborneData.PlayerJumpData.JumpDecelerationForce;
         playableCharacterStateMachine.playerData.rotationTime = playableCharacterStateMachine.playerData.airborneData.PlayerJumpData.RotationTime;
@@ -79,7 +79,7 @@ public class PlayerJumpState : PlayerAirborneState
     {
         base.Exit();
         InitBaseRotation();
-        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
+        //StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.jumpParameter);
         canStartFalling = canRotate = false;
     }
 }

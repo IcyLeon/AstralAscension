@@ -9,27 +9,29 @@ public enum Rarity
     FIVE_STAR,
 }
 
-public abstract class ItemSO : ScriptableObject, IItem
+public abstract class ItemSO : ScriptableObject, IData
 {
-    [field: SerializeField, Header("Base Item Information")] public string ItemName { get; private set; }
-    [field: SerializeField] public Sprite ItemSprite { get; private set; }
-    [field: SerializeField] public ItemRaritySO ItemRaritySO { get; private set; }
-    [field: SerializeField, TextArea] public string ItemDescription { get; private set; }
-    [field: SerializeField, Header("Item Type")] public ItemTypeSO ItemTypeSO { get; private set; }
+    [Header("Base Item Information")]
+    [SerializeField] public string Name;
+    [SerializeField] private Sprite Icon;
+    [SerializeField] public ItemRaritySO RaritySO;
+    [SerializeField] public ItemTypeSO ItemTypeSO;
+    [TextArea]
+    [SerializeField] public string Description;
 
     public string GetDescription()
     {
-        return ItemDescription;
+        return Description;
     }
 
     public Sprite GetIcon()
     {
-        return ItemSprite;
+        return Icon;
     }
 
     public string GetName()
     {
-        return ItemName;
+        return Name;
     }
 
     public ItemTypeSO GetTypeSO()
@@ -39,16 +41,11 @@ public abstract class ItemSO : ScriptableObject, IItem
 
     public ItemRaritySO GetRaritySO()
     {
-        return ItemRaritySO;
-    }
-
-    public IItem GetIItem()
-    {
-        return this;
+        return RaritySO;
     }
 
     public virtual Item CreateItem()
     {
-        return null;
+        return new Item(this);
     }
 }

@@ -17,6 +17,11 @@ public class TargetOrb : MonoBehaviour
         AimAudioSource.Play();
     }
 
+
+    public void ToggleTargetOrb(bool active)
+    {
+        gameObject.SetActive(active);
+    }
     private void OnDisable()
     {
         AimAudioSource.Stop();

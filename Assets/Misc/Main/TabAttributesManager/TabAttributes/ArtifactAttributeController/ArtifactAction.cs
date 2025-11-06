@@ -7,13 +7,19 @@ using UnityEngine;
 public class ArtifactAction : CharacterTabAttributeAction
 {
     [SerializeField] private ArtifactDisplay ArtifactDisplay;
-    public ArtifactBubbleManager artifactBubbleManager { get; private set; }
     private ArtifactPanelController artifactPanelController;
+
+    public ArtifactBubbleManager artifactBubbleManager
+    {
+        get
+        {
+            return ArtifactDisplay.GetComponentInChildren<ArtifactBubbleManager>(true);
+        }
+    }
 
     protected override void Awake()
     {
         base.Awake();
-        artifactBubbleManager = ArtifactDisplay.GetComponentInChildren<ArtifactBubbleManager>(true);
         EnableRotation();
         HideArtifactsBubble();
     }
@@ -85,7 +91,7 @@ public class ArtifactAction : CharacterTabAttributeAction
         if (artifactPanelController == null)
             return;
 
-        artifactPanelController.ResetControllerState();
+        artifactPanelController.ChangeController(artifactPanelController.artifactBubbleSelectionController);
     }
 
 

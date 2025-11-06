@@ -2,68 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayableCharacterIdleAttackState : PlayableCharacterAttackState
+public class PlayableCharacterIdleAttackState : PlayerIdleState
 {
     private float attacklastTimeElasped;
     private const float basicAttackIdleTime = 3f;
-    private PlayerIdleState playerIdleState;
-    public PlayableCharacterIdleAttackState(PlayableCharacterAttackStateMachine PlayableCharacterAttackStateMachine) : base(PlayableCharacterAttackStateMachine)
+
+    public PlayableCharacterIdleAttackState(PlayableCharacterStateMachine PS) : base(PS)
     {
-        playerIdleState = playableCharacterStateMachine.playerIdleState;
+        attacklastTimeElasped = Time.time;
     }
 
     public override void Enter()
     {
         base.Enter();
-        playableCharacterAttackStateMachine.ResetAttackState();
-        ResetAttackElasped();
-    }
-
-    public override void OnEnable()
-    {
-        base.OnEnable();
-        playerIdleState.OnEnable();
-    }
-
-    public override void OnDisable()
-    {
-        base.OnDisable();
-        playerIdleState.OnDisable();
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (Time.time - attacklastTimeElasped >= basicAttackIdleTime)
-        {
-            playableCharacterStateMachine.ChangeState(playerIdleState);
-            return;
-        }
-
-        playerIdleState.Update();
-    }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-        playerIdleState.FixedUpdate();
-    }
-
-    public override void LateUpdate()
-    {
-        base.LateUpdate();
-        playerIdleState.LateUpdate();
+        StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
     }
 
     public override void Exit()
     {
         base.Exit();
-        ResetAttackElasped();
+        StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
     }
 
-    private void ResetAttackElasped()
+    public override void Update()
     {
-        attacklastTimeElasped = Time.time;
+        base.Update();
+        UpdateIdleState();
+    }
+
+    private void UpdateIdleState()
+    {
+        if (Time.time - attacklastTimeElasped <= basicAttackIdleTime)
+            return;
+
+        playableCharacterStateMachine.ChangeState(playableCharacterStateMachine.playerIdleState);
     }
 }

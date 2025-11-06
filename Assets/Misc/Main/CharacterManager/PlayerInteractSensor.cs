@@ -2,18 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerInteractSensor : InteractSensor
 {
     private Dictionary<Transform, IPointOfInterest> interactable_List;
     private Player player;
-    private UIController uiController;
     public event OnInteractEvent OnInteractableEnter;
     public event OnInteractEvent OnInteractableExit;
+
+    private UIController uiController;
 
     protected override void Awake()
     {
         base.Awake();
+        uiController = UIController.instance;
         interactable_List = new();
         player = GetComponentInParent<Player>();
         OnPOIInteractEnter += PlayerInteractSensor_OnPOIInteractEnter;
@@ -40,21 +43,11 @@ public class PlayerInteractSensor : InteractSensor
 
     private void SubscribeEvent()
     {
-        CreateUIController();
         uiController.worldInputAction.Interact.started += Interact_started;
     }
     private void UnsubscribeEvent()
     {
-        CreateUIController();
         uiController.worldInputAction.Interact.started -= Interact_started;
-    }
-
-    private void CreateUIController()
-    {
-        if (uiController != null)
-            return;
-
-        uiController = UIController.instance;
     }
 
     private void OnDestroy()

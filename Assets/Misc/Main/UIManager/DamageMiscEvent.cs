@@ -10,11 +10,11 @@ public class DamageInfo : EventArgs
     public Vector3 WorldPosition;
 }
 
-public class DamageMiscEvent
+public static class DamageMiscEvent
 {
-    public event Action<DamageInfo> OnDamageTextSend;
+    public static event Action<DamageInfo> OnDamageTextSend;
 
-    public void SendDamageInfo(DamageInfo d)
+    public static void SendDamageInfo(DamageInfo d)
     {
         OnDamageTextSend?.Invoke(d);
     }

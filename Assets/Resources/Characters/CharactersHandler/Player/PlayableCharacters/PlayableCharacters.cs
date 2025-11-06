@@ -25,13 +25,18 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
         }
     }
 
-    public PlayableCharacterStateMachine PlayableCharacterStateMachine
+    public PlayableCharacterStateMachine playableCharacterStateMachine { get; private set; }
+
+    protected override CharacterStateMachine CreateStateMachine()
     {
-        get
+        if (playableCharacterStateMachine == null)
         {
-            return characterStateMachine as PlayableCharacterStateMachine;
+            playableCharacterStateMachine = CreatePlayableCharacterStateMachine();
         }
+        return playableCharacterStateMachine;
     }
+
+    protected abstract PlayableCharacterStateMachine CreatePlayableCharacterStateMachine();
 
     public PlayableCharacterDataStat playableCharacterDataStat
     {
@@ -53,6 +58,13 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
         base.Awake();
         player = GetComponentInParent<Player>();
         CreateInteraction();
+    }
+
+    protected override void OnAnimationMove(Vector3 deltaPosition)
+    {
+        base.OnAnimationMove(deltaPosition);
+        
+        player.transform.position += deltaPosition;
     }
 
     protected override void UpdateDataStat()
@@ -104,32 +116,8 @@ public abstract class PlayableCharacters : DamageableCharacters, IPointOfInteres
         base.Start();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.OnCollisionEnter(collision);
-        }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.OnCollisionStay(collision);
-        }
-    }
-
     public override void KnockBack(Vector3 force)
     {
         player.Rb.AddForce(force, ForceMode.Impulse);
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (characterStateMachine != null)
-        {
-            characterStateMachine.OnCollisionExit(collision);
-        }
     }
 }

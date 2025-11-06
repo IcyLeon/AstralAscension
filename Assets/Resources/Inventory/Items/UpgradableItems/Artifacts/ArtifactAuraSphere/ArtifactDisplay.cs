@@ -6,16 +6,29 @@ using UnityEngine;
 
 public class ArtifactDisplay : MonoBehaviour
 {
-    private CharacterSelection characterSelection;
     private ArtifactBubbleManager artifactBubbleManager;
-    public CharacterDataStat currentCharacterSelected { get; private set; }
 
     private void Awake()
     {
-        characterSelection = GetComponentInParent<CharacterSelection>();
-        characterSelection.OnCharacterSelected += CharacterSelection_OnCharacterSelected;
         InitArtifactBubbleManager();
-        UpdateCurrentSelectedCharacter();
+    }
+
+    private void OnEnable()
+    {
+        OwnedCharacterButtonMiscEvent.OnCharacterIconSelected += OwnedCharacterButtonMiscEvent_OnCharacterIconSelected;
+    }
+
+    private void OnDisable()
+    {
+        OwnedCharacterButtonMiscEvent.OnCharacterIconSelected -= OwnedCharacterButtonMiscEvent_OnCharacterIconSelected;
+    }
+
+    private void OwnedCharacterButtonMiscEvent_OnCharacterIconSelected(CharacterEquipmentManager CharacterEquipmentManager)
+    {
+        if (CharacterEquipmentManager == null)
+            return;
+
+        artifactBubbleManager.SetArtifactInventory(CharacterEquipmentManager.artifactEquipment);
     }
 
     private void InitArtifactBubbleManager()
@@ -26,28 +39,4 @@ public class ArtifactDisplay : MonoBehaviour
         artifactBubbleManager = GetComponentInChildren<ArtifactBubbleManager>(true);
     }
 
-    private void CharacterSelection_OnCharacterSelected()
-    {
-        UpdateCurrentSelectedCharacter();
-    }
-
-    private void UpdateCurrentSelectedCharacter()
-    {
-        currentCharacterSelected = characterSelection.currentCharacterSelected;
-        InitArtifactInventory();
-    }
-
-    private void InitArtifactInventory()
-    {
-        if (currentCharacterSelected == null)
-            return;
-
-        artifactBubbleManager.SetArtifactInventory(currentCharacterSelected.characterInventory.artifactInventory);
-    }
-
-
-    private void OnDestroy()
-    {
-        characterSelection.OnCharacterSelected -= CharacterSelection_OnCharacterSelected;
-    }
 }

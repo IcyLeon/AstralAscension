@@ -9,9 +9,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance { get; private set; }
     public Inventory inventory { get; private set; }
-
-    public delegate void OnInventoryChanged(Inventory inventory);
-    public static event OnInventoryChanged OnInventoryOld, OnInventoryNew;
+    public static event Action<Inventory> OnInventoryChanged;
 
     private CharacterStorage characterStorage;
 
@@ -24,23 +22,9 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        CharacterManager.OnCharacterStorageOld += CharacterManager_OnCharacterStorageOld;
-        CharacterManager.OnCharacterStorageNew += CharacterManager_OnCharacterStorageNew;
+        CharacterManager.OnCharacterStorageChanged += CharacterManager_OnCharacterStorageNew;
 
         SetInventory(new Inventory(1000));
-    }
-
-    private void Start()
-    {
-        Init();
-    }
-
-    private void Init()
-    {
-        if (characterStorage != null)
-            return;
-
-        CharacterManager_OnCharacterStorageNew(CharacterManager.instance.characterStorage);
     }
 
     private void Update()
@@ -61,16 +45,8 @@ public class InventoryManager : MonoBehaviour
 
     private void SetInventory(Inventory inv)
     {
-        if (inventory != null)
-        {
-            OnInventoryOld?.Invoke(inventory);
-        }
         inventory = inv;
-        OnInventoryNew?.Invoke(inventory);
-    }
-
-    private void CharacterManager_OnCharacterStorageOld(CharacterStorage CharacterStorage)
-    {
+        OnInventoryChanged?.Invoke(inventory);
     }
 
     private void CharacterManager_OnCharacterStorageNew(CharacterStorage CharacterStorage)
@@ -83,12 +59,8 @@ public class InventoryManager : MonoBehaviour
         if (UpgradableItems == null || characterSO == null)
             return;
 
-        CharacterDataStat CharacterDataStat = characterStorage.GetCharacterDataStat(characterSO);
-
-        if (CharacterDataStat == null)
-            return;
-
-        CharacterDataStat.characterInventory.UnequipItem(UpgradableItems);
+        CharacterEquipmentManager characterEquipmentManager = characterStorage.GetCharacterDataStat(characterSO).characterEquipmentManager;
+        characterEquipmentManager.UnequipItem(UpgradableItems);
     }
 
     public void EquipItem(CharactersSO characterSO, UpgradableItems upgradableItems)
@@ -96,27 +68,23 @@ public class InventoryManager : MonoBehaviour
         if (upgradableItems == null || characterSO == null || characterStorage == null)
             return;
 
-        CharacterDataStat CharacterDataStat = characterStorage.GetCharacterDataStat(characterSO);
-
-        if (CharacterDataStat == null)
-            return;
+        CharacterEquipmentManager characterEquipmentManager = characterStorage.GetCharacterDataStat(characterSO).characterEquipmentManager;
 
         // get the existing artifact equipped from characterSO
-        UpgradableItems currentItemEquipped = CharacterDataStat.characterInventory.GetItem(upgradableItems.GetTypeSO()) as UpgradableItems;
+        UpgradableItems currentItemEquipped = characterEquipmentManager.GetItem(upgradableItems) as UpgradableItems;
 
         CharactersSO previousOwnerSO = upgradableItems.equipByCharacter;
 
         UnequipItem(previousOwnerSO, upgradableItems); // remove previous owner of the artifact
         UnequipItem(characterSO, currentItemEquipped);
 
-        CharacterDataStat.characterInventory.EquipItem(upgradableItems); // set the new owner of the artifact
+        characterEquipmentManager.EquipItem(upgradableItems); // set the new owner of the artifact
         
         EquipItem(previousOwnerSO, currentItemEquipped); // set the previous owner to the artifact equipped from characterSO 
     }
 
     private void OnDestroy()
     {
-        CharacterManager.OnCharacterStorageOld -= CharacterManager_OnCharacterStorageOld;
-        CharacterManager.OnCharacterStorageNew -= CharacterManager_OnCharacterStorageNew;
+        CharacterManager.OnCharacterStorageChanged -= CharacterManager_OnCharacterStorageNew;
     }
 }

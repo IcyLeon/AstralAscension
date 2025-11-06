@@ -15,7 +15,7 @@ public class ConsumableItem : Item
         AddAmount(amount);
     }
 
-    public ConsumableItem(IItem iItem) : base(iItem)
+    public ConsumableItem(IData iData) : base(iData)
     {
     }
 }

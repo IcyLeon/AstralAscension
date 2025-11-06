@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1354565da96937548bdf8dbb6d141e4e, type: 3}
   m_Name: NoblessObligeCirclet
   m_EditorClassIdentifier: 
-  <ItemName>k__BackingField: Royal Masque
-  <ItemSprite>k__BackingField: {fileID: 21300000, guid: 4a6a1abd8d883dd449e11c8ca47593d4,
-    type: 3}
-  <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
-    type: 2}
-  <ItemDescription>k__BackingField: A masquerade mask worn by the old aristocrats
-    of Mondstadt. Its hollow eyes are fixated on the golden days of the past.
-  <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1,
-    type: 2}
+  Name: Royal Masque
+  Icon: {fileID: 21300000, guid: 4a6a1abd8d883dd449e11c8ca47593d4, type: 3}
+  RaritySO: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0, type: 2}
+  ItemTypeSO: {fileID: 11400000, guid: 71bcd9471b889654aa6046dc18c2c1e1, type: 2}
+  Description: A masquerade mask worn by the old aristocrats of Mondstadt. Its hollow
+    eyes are fixated on the golden days of the past.
   <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7,
     type: 2}

@@ -6,7 +6,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class WorldMapManager : MonoBehaviour
 {
-    public static int MAX_PIN { get; private set; } = 200;
+    public const int MAX_PIN = 200;
 
     public Dictionary<MapObject, MapIconData> MapObjectList { get; private set; }
 
@@ -108,6 +108,9 @@ public class WorldMapManager : MonoBehaviour
         return position;
     }
 
+    /// <summary>
+    ///  Get World position from Map UI position
+    /// </summary>
     public Vector3 GetWorldMapLocation(Vector2 mapSize, Vector2 MapScreenPosition)
     {
         float x = UpperLeft.transform.position.x + MapScreenPosition.x * GetWorldMapWidthRatio(mapSize.x);

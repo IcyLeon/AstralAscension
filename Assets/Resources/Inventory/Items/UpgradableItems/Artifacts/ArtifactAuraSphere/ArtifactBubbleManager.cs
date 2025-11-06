@@ -9,7 +9,7 @@ public class ArtifactBubbleManager : MonoBehaviour
 {
     [Range(0.25f, 1f)]
     [SerializeField] private float distanceFromCharacter = 0.5f;
-    public ArtifactInventory currentArtifactInventory { get; private set; }
+    public ArtifactEquipment currentArtifactInventory { get; private set; }
     public event Action OnArtifactInventoryChanged;
     public delegate void OnArtifactEquippedEvent(Artifact Artifact);
     public event OnArtifactEquippedEvent OnArtifactEquip;
@@ -114,7 +114,7 @@ public class ArtifactBubbleManager : MonoBehaviour
         selectedArtifactBubble.enabled = false;
     }
 
-    public void SetArtifactInventory(ArtifactInventory inventory)
+    public void SetArtifactInventory(ArtifactEquipment inventory)
     {
         if (currentArtifactInventory == inventory)
             return;
@@ -156,10 +156,9 @@ public class ArtifactBubbleManager : MonoBehaviour
 
         foreach (var artifactFamily in artifactList.Values)
         {
-            for (int i = 0; i < artifactFamily._artifacts.Count; i++)
+            foreach (var _artifact in artifactFamily._artifacts.Values)
             {
-                Artifact artifact = artifactFamily._artifacts[i];
-                ArtifactInventory_OnArtifactEquip(artifact);
+                ArtifactInventory_OnArtifactEquip(_artifact);
             }
         }
     }

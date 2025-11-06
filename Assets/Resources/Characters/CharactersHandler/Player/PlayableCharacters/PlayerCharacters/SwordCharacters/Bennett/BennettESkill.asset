@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ef1d8653ba6ae54f87256b27f473aac, type: 3}
+  m_Script: {fileID: 11500000, guid: 85bb32b8ba892aa4db5a15d7d39b6004, type: 3}
   m_Name: BennettESkill
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: 
-  <SkillCooldown>k__BackingField: 8
+  <SkillCooldown>k__BackingField: 7.5
   <SkillSprite>k__BackingField: {fileID: 21300000, guid: a4bac38242c77b545b78ebffe324bea3,
     type: 3}

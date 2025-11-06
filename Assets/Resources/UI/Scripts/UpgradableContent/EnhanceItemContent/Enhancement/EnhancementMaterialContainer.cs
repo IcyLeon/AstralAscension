@@ -132,11 +132,11 @@ public class EnhancementMaterialContainer : MonoBehaviour
 
     private void OnAutoAdd()
     {
-        List<IItem> allrelatedItems = SlotPopup.GetEntityList(raritySelection, slotManager.GetTotalAvailableSlots());
+        List<IData> allrelatedItems = SlotPopup.GetEntityList(raritySelection, slotManager.GetTotalAvailableSlots());
 
         for (int i = 0; i < allrelatedItems.Count; i++)
         {
-            IItem IEntity = allrelatedItems[i];
+            IData IEntity = allrelatedItems[i];
 
             if (!SlotPopup.AddEntityToSlot(IEntity))
             {

@@ -8,14 +8,14 @@ public class Item : IEntity
     public bool newStatus { get; private set; }
     public event Action<IEntity> OnIEntityChanged;
 
-    public IItem iItem { get; private set; }
+    public IData iData { get; private set; }
     public int amount { get; protected set; }
 
-    public Item(IItem IItem)
+    public Item(IData IData)
     {
         newStatus = true;
         amount = 1;
-        iItem = IItem;
+        iData = IData;
     }
 
     public void SetNewStatus(bool status)
@@ -42,12 +42,7 @@ public class Item : IEntity
 
     public ItemRaritySO GetRaritySO()
     {
-        return GetIItem().GetRaritySO();
-    }
-
-    public IItem GetIItem()
-    {
-        return iItem.GetIItem();
+        return iData.GetRaritySO();
     }
 
     public bool IsNew()
@@ -57,21 +52,21 @@ public class Item : IEntity
 
     public string GetName()
     {
-        return GetIItem().GetName();
-    }
-
-    public ItemTypeSO GetTypeSO()
-    {
-        return GetIItem().GetTypeSO();
+        return iData.GetName();
     }
 
     public Sprite GetIcon()
     {
-        return GetIItem().GetIcon();
+        return iData.GetIcon();
     }
 
     public string GetDescription()
     {
-        return GetIItem().GetDescription();
+        return iData.GetDescription();
+    }
+
+    public ItemTypeSO GetTypeSO()
+    {
+        return iData.GetTypeSO();
     }
 }

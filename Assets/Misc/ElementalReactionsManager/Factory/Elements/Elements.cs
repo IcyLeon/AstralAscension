@@ -44,13 +44,8 @@ public class Elements
 
     public void Update()
     {
-        if (target == null || target.IsDead())
-        {
-            OnDestroy();
-            return;
-        }
 
-        if (Time.time - activeTimer > TimeToDestroy && canBeDestroyed)
+        if ((target == null || target.IsDead()) || (Time.time - activeTimer > TimeToDestroy && canBeDestroyed))
         {
             OnDestroy();
             return;

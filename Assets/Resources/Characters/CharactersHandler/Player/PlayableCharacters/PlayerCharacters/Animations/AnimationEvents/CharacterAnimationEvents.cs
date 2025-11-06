@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +7,27 @@ using UnityEngine;
 public abstract class CharacterAnimationEvents : MonoBehaviour
 {
     protected Animator animator;
-    protected DamageableCharacters Character;
+    protected DamageableCharacters character;
+    public event Action<Vector3> OnMove;
 
     private void Awake()
     {
-        Character = GetComponentInParent<DamageableCharacters>();
+        character = GetComponentInParent<DamageableCharacters>();
         animator = GetComponent<Animator>();
     }
     private void OnCharacterAnimationTransition()
     {
-        if (Character == null)
+        if (character == null)
             return;
 
-        Character.OnAnimationTransition();
+        character.OnAnimationTransition();
     }
 
-    protected virtual void OnAnimatorMove()
+    private void OnAnimatorMove()
     {
+        if (!animator)
+            return;
 
+        OnMove?.Invoke(animator.deltaPosition);
     }
 }

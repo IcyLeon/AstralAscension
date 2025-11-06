@@ -62,13 +62,13 @@ public class ArtifactManagerSO : ScriptableObject
     /// <summary>
     /// Get the Artifact Family of the Artifacts.Eg; Thundering Fury
     /// </summary>
-    //public ArtifactFamilySO GetArtifactFamilySO(IItem iItem)
+    //public ArtifactFamilySO GetArtifactFamilySO(iData iData)
     //{
     //    foreach (var family in ArtifactFamilyList)
     //    {
     //        foreach (var artifact in family.ArtifactSetsList)
     //        {
-    //            ArtifactSO artifactSO = iItem as ArtifactSO;
+    //            ArtifactSO artifactSO = iData as ArtifactSO;
     //            if (artifact == artifactSO)
     //                return family;
     //        }

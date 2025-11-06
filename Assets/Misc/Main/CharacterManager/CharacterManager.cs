@@ -10,49 +10,42 @@ public class CharacterManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
 
-    private PlayerCharactersSO[] playableCharactersSOList;
+    private Dictionary<PlayerCharactersSO, SkinEquipment> playableCharactersSOs = new();
 
     public CharacterStorage characterStorage { get; private set; }
 
-    public delegate void OnCharacterStorageChanged(CharacterStorage CharacterStorage);
-    public static event OnCharacterStorageChanged OnCharacterStorageOld, OnCharacterStorageNew;
+    public static event Action<CharacterStorage> OnCharacterStorageChanged;
 
 
     private void SetCharacterStorage(CharacterStorage CharacterStorage)
     {
-        if (characterStorage != null)
-            OnCharacterStorageOld?.Invoke(characterStorage);
-
         characterStorage = CharacterStorage;
-        OnCharacterStorageNew?.Invoke(characterStorage);
+        OnCharacterStorageChanged?.Invoke(characterStorage);
     }
 
     private void Awake()
     {
         instance = this;
-
         SetCharacterStorage(new CharacterStorage());
         LoadCharactersSO();
-        TestCharacters();
     }
 
-    public CharacterDataStat GetCharacterDataStat(CharactersSO CharactersSO)
+    public CharacterDataStat GetCharacterDataStat(PlayerCharactersSO PlayerCharactersSO)
     {
-        return characterStorage.GetCharacterDataStat(CharactersSO);
+        return characterStorage.GetCharacterDataStat(PlayerCharactersSO);
     }
 
     private void LoadCharactersSO()
     {
-        playableCharactersSOList = Resources.LoadAll<PlayerCharactersSO>("Characters");
-    }
+        PlayerCharactersSO[] playableCharactersSOList = Resources.LoadAll<PlayerCharactersSO>("Characters");
 
-    private void TestCharacters()
-    {
-        foreach (var c in playableCharactersSOList)
+        foreach (var CharactersSO in playableCharactersSOList)
         {
-            characterStorage.AddCharacterData(c, c.CreateCharacterDataStat());
+            playableCharactersSOs.Add(CharactersSO, new SkinEquipment(CharactersSO));
+            characterStorage.AddCharacterData(CharactersSO, CharactersSO.CreateCharacterDataStat());
         }
     }
+
 
     private void Update()
     {
@@ -70,16 +63,6 @@ public class CharacterManager : MonoBehaviour
     public float GetProbabilityPlayVO()
     {
         return ProbabilityPlayVO;
-    }
-
-    public static bool ContainsParam(Animator _Anim, string _ParamName)
-    {
-        foreach (AnimatorControllerParameter param in _Anim.parameters)
-        {
-            if (param.name == _ParamName)
-                return true;
-        }
-        return false;
     }
 
 }

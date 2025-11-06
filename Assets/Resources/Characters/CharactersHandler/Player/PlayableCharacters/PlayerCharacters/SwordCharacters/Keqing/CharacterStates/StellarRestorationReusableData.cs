@@ -7,6 +7,7 @@ using UnityEngine;
 public class StellarRestorationReusableData : SkillReusableData
 {
     private ObjectPool<HairpinTeleporter> objectPool;
+    private TargetOrb targetOrb;
     public event EventHandler OnHairPinShoot;
     private Vector3 targetPosition;
     public HairpinTeleporter hairpinTeleporter { get; private set; }
@@ -37,8 +38,13 @@ public class StellarRestorationReusableData : SkillReusableData
     {
         get
         {
-            return 5f;
+            return 6.5f;
         }
+    }
+
+    public void ToggleTargetOrb(bool active)
+    {
+        targetOrb.ToggleTargetOrb(active);
     }
 
     public bool CanThrow()
@@ -56,7 +62,7 @@ public class StellarRestorationReusableData : SkillReusableData
         base.OnDestroy();
     }
 
-    public StellarRestorationReusableData(SkillStateMachine skill) : base(skill)
+    public StellarRestorationReusableData(StellarRestoration StellarRestoration) : base(StellarRestoration)
     {
         objectPool = new ObjectPool<HairpinTeleporter>("Characters/CharactersHandler/Player/PlayableCharacters/PlayerCharacters/SwordCharacters/Keqing/TeleporterOrb", playableCharacterStateMachine.characters.transform);
         objectPool.CallbackPoolObject((HT, i) =>
@@ -64,5 +70,7 @@ public class StellarRestorationReusableData : SkillReusableData
             HT.Init(playableCharacterStateMachine.playableCharacter, playableCharacterStateMachine.playableCharacter.transform);
             HT.OnHairPinHide += HT_OnHairPinHide;
         });
+        targetOrb = playableCharacterStateMachine.playableCharacter.GetComponentInChildren<TargetOrb>();
+        ToggleTargetOrb(false);
     }
 }

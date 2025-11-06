@@ -12,23 +12,21 @@ public class DamageManager : MonoBehaviour
     [SerializeField] private int AmountToPool = 5;
     [SerializeField] private GameObject DamageTextPrefab;
     private ObjectPool<DamageText> ObjectPool;
-    public DamageMiscEvent damageMiscEvent { get; private set; }
 
     private void Awake()
     {
         instance = this;
-        damageMiscEvent = new();
         ObjectPool = new ObjectPool<DamageText>(DamageTextPrefab, transform, AmountToPool);
     }
 
     private void OnEnable()
     {
-        damageMiscEvent.OnDamageTextSend += DamageManager_OnDamageHit;
+        DamageMiscEvent.OnDamageTextSend += DamageManager_OnDamageHit;
     }
 
     private void OnDisable()
     {
-        damageMiscEvent.OnDamageTextSend -= DamageManager_OnDamageHit;
+        DamageMiscEvent.OnDamageTextSend -= DamageManager_OnDamageHit;
     }
 
     private void DamageManager_OnDamageHit(DamageInfo e)

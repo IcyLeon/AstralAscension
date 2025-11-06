@@ -1,25 +1,24 @@
 using UnityEngine;
 
-public class CharactersSO : ScriptableObject, IItem
+public class CharactersSO : ScriptableObject, IData
 {
-    [field: SerializeField] public CharacterProfileSO CharacterProfileSO { get; private set; }
+    [field: SerializeField] public CharacterProfileSO ProfileSO { get; private set; }
     [field: SerializeField] public ItemTypeSO CharacterTypeSO { get; private set; }
-    [field: SerializeField] public ItemRaritySO CharacterRaritySO { get; private set; }
-    [SerializeField] private GameObject CharacterPrefab;
+    [field: SerializeField] protected GameObject Prefab { get; private set; }
 
     public string GetDescription()
     {
-        return CharacterProfileSO.CharacterDescription;
+        return ProfileSO.Description;
     }
 
     public Sprite GetIcon()
     {
-        return CharacterProfileSO.CharacterIcon;
+        return ProfileSO.Icon;
     }
 
     public string GetName()
     {
-        return CharacterProfileSO.CharacterName;
+        return ProfileSO.Name;
     }
     public ItemTypeSO GetTypeSO()
     {
@@ -28,27 +27,6 @@ public class CharactersSO : ScriptableObject, IItem
 
     public ItemRaritySO GetRaritySO()
     {
-        return CharacterRaritySO;
-    }
-
-    public IItem GetIItem()
-    {
-        return this;
-    }
-
-    public DamageableCharacters CreateCharacter(Transform transform)
-    {
-        DamageableCharacters prefab = CharacterPrefab.GetComponent<DamageableCharacters>();
-
-        if (prefab == null)
-        {
-            Debug.Log("CharacterPrefab does not have the component of DamageableCharacters");
-            return null;
-        }
-
-        DamageableCharacters DamageableCharacters = Instantiate(CharacterPrefab, transform).GetComponent<DamageableCharacters>();
-        DamageableCharacters.CreateCharacterStateMachine();
-
-        return DamageableCharacters;
+        return ProfileSO.RaritySO;
     }
 }

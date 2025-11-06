@@ -4,6 +4,7 @@ public abstract class CharacterStateMachine : StateMachine
 {
     protected StateMachineManager StateMachineManager;
     public Characters characters { get; }
+    private Animator animator;
 
     public CharacterReuseableData characterReuseableData { get; protected set; }
 
@@ -90,10 +91,11 @@ public abstract class CharacterStateMachine : StateMachine
         StateMachineManager.StartState(newState);
     }
 
-    public CharacterStateMachine(Characters characters)
+    public CharacterStateMachine(Characters Character)
     {
         StateMachineManager = new StateMachineManager();
-        this.characters = characters;
+        characters = Character;
+        animator = characters.Animator;
         InitComponent();
     }
 
@@ -109,23 +111,28 @@ public abstract class CharacterStateMachine : StateMachine
             characterReuseableData.OnDestroy();
     }
 
-    public void StartAnimation(string parameter)
-    {
-        Characters.StartAnimation(characters.Animator, parameter);
-    }
-
-    public bool IsInTransition()
-    {
-        return characters.Animator.IsInTransition(characters.Animator.GetLayerIndex("Base Layer"));
-    }
-
     public void SetAnimationTrigger(string parameter)
     {
-        Characters.SetAnimationTrigger(characters.Animator, parameter);
+        if (animator == null)
+            return;
+
+        animator.ResetTrigger(parameter);
+        animator.SetTrigger(parameter);
+    }
+
+    public void StartAnimation(string parameter)
+    {
+        if (animator == null)
+            return;
+
+        animator.SetBool(parameter, true);
     }
 
     public void StopAnimation(string parameter)
     {
-        Characters.StopAnimation(characters.Animator, parameter);
+        if (animator == null)
+            return;
+
+        animator.SetBool(parameter, false);
     }
 }

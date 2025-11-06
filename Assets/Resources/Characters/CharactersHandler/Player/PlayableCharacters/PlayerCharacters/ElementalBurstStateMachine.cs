@@ -4,55 +4,40 @@ using UnityEngine;
 
 public abstract class ElementalBurstStateMachine : SkillStateMachine
 {
-    public PlayerElementalBurstUnleashedState playerElementalBurstUnleashedState { get; protected set; }
-    protected ElementalBurstController elementalBurstController;
+    public abstract PlayerElementalBurstUnleashedState UnleashedState();
 
     public override void OnEnable()
     {
-        if (elementalBurstController == null)
-            return;
-
-        elementalBurstController.OnEnable();
+        base.OnEnable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalBurst.performed += ElementalBurst_performed;
     }
 
-    public override void Update()
+    private bool CanTransitToElementalBurstState()
     {
-        if (elementalBurstController == null)
+        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacter.playableCharacterDataStat.CanUseElementalBurst() &&
+            !playableCharacterStateMachine.IsSkillCasting();
+    }
+
+    protected virtual void ElementalBurst_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (!CanTransitToElementalBurstState())
             return;
 
-        if (skillReusableData != null)
-            skillReusableData.Update();
+        ElementalBurst_performed();
+    }
 
-        elementalBurstController.Update();
+    private void ElementalBurst_performed()
+    {
+        playableCharacterStateMachine.ChangeState(UnleashedState());
     }
 
     public override void OnDisable()
     {
-        if (elementalBurstController == null)
-            return;
-
-        elementalBurstController.OnDisable();
+        base.OnDisable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalBurst.performed -= ElementalBurst_performed;
     }
-
-    public override void FixedUpdate()
-    {
-        if (elementalBurstController == null)
-            return;
-
-        elementalBurstController.FixedUpdate();
-    }
-    public override void LateUpdate()
-    {
-        if (elementalBurstController == null)
-            return;
-
-        elementalBurstController.LateUpdate();
-    }
-
-    public abstract void InitElementalBurstState();
 
     public ElementalBurstStateMachine(PlayableCharacterStateMachine playableCharacterStateMachine) : base(playableCharacterStateMachine)
     {
-        InitElementalBurstState();
     }
 }

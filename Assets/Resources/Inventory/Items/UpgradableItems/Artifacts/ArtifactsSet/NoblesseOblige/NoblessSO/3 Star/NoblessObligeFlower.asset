@@ -12,15 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1354565da96937548bdf8dbb6d141e4e, type: 3}
   m_Name: NoblessObligeFlower
   m_EditorClassIdentifier: 
-  <ItemName>k__BackingField: Royal Flora
-  <ItemSprite>k__BackingField: {fileID: 21300000, guid: 251328cc623bece4685ec45873ed0c23,
-    type: 3}
-  <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
-    type: 2}
-  <ItemDescription>k__BackingField: A satin flower with a glossy finish, fit for
-    an elegant gathering. It still looks as distinguished as it did on the day it
-    was cast aside.
-  <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b,
-    type: 2}
+  Name: Royal Flora
+  Icon: {fileID: 21300000, guid: 251328cc623bece4685ec45873ed0c23, type: 3}
+  RaritySO: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa, type: 2}
+  ItemTypeSO: {fileID: 11400000, guid: e9d57ecbacae34b4fa497ef7d523d36b, type: 2}
+  Description: A satin flower with a glossy finish, fit for an elegant gathering.
+    It still looks as distinguished as it did on the day it was cast aside.
   <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: f56783911f6a82d41b4f9c0eb71b4aa7,
     type: 2}

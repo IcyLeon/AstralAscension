@@ -1,56 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public abstract class ElementalSkillStateMachine : SkillStateMachine
 {
-    protected ElementalSkillController elementalSkillController;
-
     public override void OnEnable()
     {
-        if (elementalSkillController == null)
-            return;
-
-        elementalSkillController.OnEnable();
-    }
-
-    public override void Update()
-    {
-        if (elementalSkillController == null)
-            return;
-
-        if (skillReusableData != null)
-            skillReusableData.Update();
-
-        elementalSkillController.Update();
+        base.OnEnable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.canceled += ElementalSkill_canceled;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.performed += ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.started += ElementalSkill_started;
     }
 
     public override void OnDisable()
     {
-        if (elementalSkillController == null)
-            return;
-
-        elementalSkillController.OnDisable();
+        base.OnDisable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.canceled -= ElementalSkill_canceled;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.performed -= ElementalSkill_performed;
+        playableCharacterStateMachine.player.playerController.playerInputAction.ElementalSkill.started -= ElementalSkill_started;
     }
 
-    public override void FixedUpdate()
+    private bool CanTransitToElementalSkillState()
     {
-        if (elementalSkillController == null)
-            return;
-
-        elementalSkillController.FixedUpdate();
+        return CanTransitToAnyElementalState() && playableCharacterStateMachine.playableCharacter.playableCharacterDataStat.CanUseElementalSkill() &&
+            !playableCharacterStateMachine.IsSkillCasting();
     }
-    public override void LateUpdate()
+
+    private void ElementalSkill_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (elementalSkillController == null)
+        if (!CanTransitToElementalSkillState())
             return;
 
-        elementalSkillController.LateUpdate();
+        ElementalSkill_started();
     }
 
-    public abstract void InitElementalSkillState();
+    private void ElementalSkill_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (!CanTransitToElementalSkillState())
+            return;
+
+        ElementalSkill_canceled();
+    }
+
+    private void ElementalSkill_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (!CanTransitToElementalSkillState())
+            return;
+
+        ElementalSkill_performed();
+    }
+
+    protected virtual void ElementalSkill_started()
+    {
+    }
+    protected virtual void ElementalSkill_canceled()
+    {
+    }
+
+    protected virtual void ElementalSkill_performed()
+    {
+
+    }
     public ElementalSkillStateMachine(PlayableCharacterStateMachine playableCharacterStateMachine) : base(playableCharacterStateMachine)
     {
-        InitElementalSkillState();
     }
 }

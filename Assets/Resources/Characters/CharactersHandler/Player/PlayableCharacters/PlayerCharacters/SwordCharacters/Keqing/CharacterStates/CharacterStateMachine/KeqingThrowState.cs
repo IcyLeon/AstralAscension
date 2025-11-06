@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class KeqingThrowState : StellarRestorationState
 {
-    public KeqingThrowState(SkillStateMachine Skill) : base(Skill)
+    private PlayerAimController playerAimController;
+    public KeqingThrowState(StellarRestoration StellarRestoration) : base(StellarRestoration)
     {
+        playerAimController = StellarRestoration.playerAimController;
     }
 
     public override void Enter()

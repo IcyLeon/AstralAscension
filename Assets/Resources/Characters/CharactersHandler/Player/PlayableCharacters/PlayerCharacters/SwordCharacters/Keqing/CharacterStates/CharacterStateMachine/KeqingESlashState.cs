@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KeqingESlashState : StellarRestorationState
 {
-    public KeqingESlashState(SkillStateMachine Skill) : base(Skill)
+    public KeqingESlashState(StellarRestoration StellarRestoration) : base(StellarRestoration)
     {
     }
 

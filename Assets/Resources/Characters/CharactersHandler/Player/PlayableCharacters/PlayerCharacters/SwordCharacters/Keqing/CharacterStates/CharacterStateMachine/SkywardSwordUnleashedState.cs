@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class SkywardSwordUnleashedState : PlayerElementalBurstUnleashedState
 {
-    public SkywardSwordUnleashedState(SkillStateMachine Skill) : base(Skill)
+    private SkywardSword skywardSword;
+
+    public SkywardSwordUnleashedState(SkywardSword SkywardSword) : base(SkywardSword)
     {
+        skywardSword = SkywardSword;
     }
 
-    protected SkywardSword skywardSword
-    {
-        get
-        {
-            return elementalBurst as SkywardSword;
-        }
-    }
     protected override void TransitBurstState()
     {
-        playableCharacterStateMachine.ChangeState(skywardSword.keqingLaserState);
+        playableCharacterStateMachine.ChangeState(skywardSword.LaserState());
     }
 
 }

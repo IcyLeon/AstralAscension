@@ -10,10 +10,8 @@ public class Player : MonoBehaviour
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     public PlayerCameraManager playerCameraManager { get; private set; }
     [SerializeField] private AudioSource PlayerSoundSource;
-    public ActiveCharacter activeCharacter { get; private set; }
 
-
-    public PlayerController controller;
+    private PlayerController controller;
     public PlayerController playerController
     {
         get
@@ -33,7 +31,6 @@ public class Player : MonoBehaviour
     {
         CreatePlayerData();
         playerCameraManager = GetComponentInChildren<PlayerCameraManager>();
-        activeCharacter = GetComponentInChildren<ActiveCharacter>();
     }
 
     private void OnEnable()

@@ -4,72 +4,74 @@ using UnityEngine;
 
 public class CharacterTabAttributeActionManager : MonoBehaviour
 {
-    private CameraPanManager cameraPanManager;
-    private Dictionary<TabAttributeSO, CharacterTabAttributeAction> tabActionDic;
+    public enum TAB_ATTRIBUTE
+    {
+        ATTRIBUTES,
+        ARTIFACTS,
+        PROFILE
+    }
+
+    [SerializeField] private CharacterScreenPanel CharacterScreenPanel;
+    public CameraPanManager cameraPanManager { get; private set; }
+    private Dictionary<TAB_ATTRIBUTE, CharacterTabAttributeAction> tabActionDic;
     private CharacterTabAttributeAction currentCharacterTabAttributeAction;
 
     private void Awake()
     {
-        Init();
         cameraPanManager = GetComponentInChildren<CameraPanManager>();
+        SetupActionDic();
     }
 
     private void Start()
     {
-        DisableAllTabAttributeActions();
+        
     }
 
-    public void SetScreenPanel(CharacterScreenPanel Panel)
+    private void OnEnable()
     {
-        if (tabActionDic == null)
-            return;
-
-        foreach (var CharacterTabAttributeAction in tabActionDic.Values)
-        {
-            CharacterTabAttributeAction.SetScreenPanel(Panel);
-        }
+        TabAttributesMiscEvent.OnTabSwitch += TabAttributesMiscEvent_OnTabSwitch;
     }
 
-    private void Init()
+    private void OnDisable()
+    {
+        TabAttributesMiscEvent.OnTabSwitch -= TabAttributesMiscEvent_OnTabSwitch;
+    }
+
+    private void TabAttributesMiscEvent_OnTabSwitch(TAB_ATTRIBUTE TabAttribute)
+    {
+        ChangeTabAttributeAction(GetCharacterTabAttributeAction(TabAttribute));
+    }
+
+    private void SetupActionDic()
     {
         tabActionDic = new();
-
         CharacterTabAttributeAction[] CharacterTabAttributeActionList = GetComponentsInChildren<CharacterTabAttributeAction>(true);
 
         foreach (var CharacterTabAttributeAction in CharacterTabAttributeActionList)
         {
-            TabAttributeSO TabAttributeSO = CharacterTabAttributeAction.TabAttributeSO;
+            TAB_ATTRIBUTE TabAttribute = CharacterTabAttributeAction.TabAttribute;
 
-            if (GetCharacterTabAttributeAction(TabAttributeSO))
+            if (GetCharacterTabAttributeAction(TabAttribute))
                 continue;
 
-            tabActionDic.Add(TabAttributeSO, CharacterTabAttributeAction);
+            CharacterTabAttributeAction.SetScreenPanel(CharacterScreenPanel);
+            tabActionDic.Add(TabAttribute, CharacterTabAttributeAction);
         }
     }
 
-    private CharacterTabAttributeAction GetCharacterTabAttributeAction(TabAttributeSO TabAttributeSO)
+    private CharacterTabAttributeAction GetCharacterTabAttributeAction(TAB_ATTRIBUTE TabAttribute)
     {
-        if (tabActionDic.TryGetValue(TabAttributeSO, out CharacterTabAttributeAction CharacterTabAttributeAction))
+        if (tabActionDic.TryGetValue(TabAttribute, out CharacterTabAttributeAction CharacterTabAttributeAction))
             return CharacterTabAttributeAction;
 
         return null;
     }
 
-    private void DisableAllTabAttributeActions()
-    {
-        foreach (var CharacterTabAttributeAction in tabActionDic.Values)
-        {
-            CharacterTabAttributeAction.OnExit();
-        }
-    }
-
-    public void ChangeTabAttributeAction(TabAttributeSO TabAttributeSO)
-    {
-        ChangeTabAttributeAction(GetCharacterTabAttributeAction(TabAttributeSO));
-    }
-
     private void ChangeTabAttributeAction(CharacterTabAttributeAction characterTabAttributeAction)
     {
+        if (characterTabAttributeAction == currentCharacterTabAttributeAction)
+            return;
+
         if (currentCharacterTabAttributeAction != null)
         {
             currentCharacterTabAttributeAction.OnExit();
@@ -81,7 +83,5 @@ public class CharacterTabAttributeActionManager : MonoBehaviour
             return;
 
         currentCharacterTabAttributeAction.OnEnter();
-
-        cameraPanManager.ChangeCamera(currentCharacterTabAttributeAction.CameraPanVirtualCam);
     }
 }

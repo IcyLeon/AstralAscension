@@ -23,6 +23,9 @@ public class TabOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField] private CustomizeableTabOption CustomizeableIconTabOption;
     [SerializeField] private Color32 HoverColor;
     public event Action<TabOption> OnTabOptionSelect;
+    public event Action OnTabOptionHover;
+    public event Action OnTabOptionExit;
+
     private TabGroup tabGroup;
     public Toggle toggle { get; private set; }
 
@@ -109,6 +112,7 @@ public class TabOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             return;
 
         OnHoverIcon();
+        OnTabOptionHover?.Invoke();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -117,6 +121,7 @@ public class TabOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             return;
 
         OnUnSelectedIcon();
+        OnTabOptionExit?.Invoke();
     }
 
     private bool IsCurrentSelected()

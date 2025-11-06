@@ -8,18 +8,16 @@ public class EquipAction : MonoBehaviour
 {
     [SerializeField] private ItemContentDisplay ItemContentDisplay;
     [SerializeField] private TextMeshProUGUI EquipTxt;
-    private UpgradableItems upgradableItems;
+    private UpgradableItems upgradableItem;
     private CharacterScreenPanel characterScreenPanel;
-    private CharactersSO charactersSO;
+    private CharacterEquipmentManager characterEquipmentManager;
     private Button EquipBtn;
     private InventoryManager inventoryManager;
 
     private void Awake()
     {
         characterScreenPanel = GetComponentInParent<CharacterScreenPanel>();
-        characterScreenPanel.OnIconSelected += OwnerCharacterUIManager_OnIconSelected;
-        ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
-
+        characterScreenPanel.OnCharacterIconSelected += OwnerCharacterUIManager_OnIconSelected;
         EquipBtn = GetComponent<Button>();
         EquipBtn.onClick.AddListener(OnEquip);
         UpdateIconSelected();
@@ -30,6 +28,16 @@ public class EquipAction : MonoBehaviour
         inventoryManager = InventoryManager.instance;
     }
 
+    private void OnEnable()
+    {
+        ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
+    }
+
+    private void OnDisable()
+    {
+        ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
+    }
+
     private void OwnerCharacterUIManager_OnIconSelected()
     {
         UpdateIconSelected();
@@ -37,18 +45,13 @@ public class EquipAction : MonoBehaviour
 
     private void UpdateIconSelected()
     {
-        CharacterDataStat characterDataStat = characterScreenPanel.currentCharacterSelected;
-
-        if (characterDataStat == null)
-            return;
-
-        charactersSO = characterDataStat.damageableEntitySO;
+        characterEquipmentManager = characterScreenPanel.characterEquipmentManager;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
         UnsubscribeEvents();
-        upgradableItems = ItemContentDisplay.iItem as UpgradableItems;
+        upgradableItem = ItemContentDisplay.iData as UpgradableItems;
         SubscribeEvents();
     }
 
@@ -56,27 +59,25 @@ public class EquipAction : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeEvents();
-        characterScreenPanel.OnIconSelected -= OwnerCharacterUIManager_OnIconSelected;
-        ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
-
+        characterScreenPanel.OnCharacterIconSelected -= OwnerCharacterUIManager_OnIconSelected;
         EquipBtn.onClick.RemoveAllListeners();
     }
 
 
     private void UnsubscribeEvents()
     {
-        if (upgradableItems == null)
+        if (upgradableItem == null)
             return;
 
-        upgradableItems.OnIEntityChanged -= UpgradableItems_OnIEntityChanged;
+        upgradableItem.OnIEntityChanged -= UpgradableItems_OnIEntityChanged;
     }
 
     private void SubscribeEvents()
     {
-        if (upgradableItems == null)
+        if (upgradableItem == null)
             return;
 
-        upgradableItems.OnIEntityChanged += UpgradableItems_OnIEntityChanged;
+        upgradableItem.OnIEntityChanged += UpgradableItems_OnIEntityChanged;
         UpdateVisuals();
     }
 
@@ -87,21 +88,31 @@ public class EquipAction : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        gameObject.SetActive(upgradableItems != null);
-
-        if (upgradableItems != null && upgradableItems.equipByCharacter != null)
+        if (IsValid())
         {
-            if (upgradableItems.equipByCharacter != charactersSO)
-            {
-                EquipTxt.text = "Switch";
-                return;
-            }
-
-            EquipTxt.text = "Remove";
+            UpdateEquipTextVisual();
             return;
         }
 
         ResetEquipStatus();
+    }
+
+    private bool IsValid()
+    {
+        bool valid = upgradableItem != null;
+        gameObject.SetActive(valid);
+        return valid && upgradableItem.equipByCharacter;
+    }
+
+    private void UpdateEquipTextVisual()
+    {
+        if (upgradableItem.equipByCharacter != characterEquipmentManager.charactersSO)
+        {
+            EquipTxt.text = "Switch";
+            return;
+        }
+
+        EquipTxt.text = "Remove";
     }
 
     private void ResetEquipStatus()
@@ -111,15 +122,15 @@ public class EquipAction : MonoBehaviour
 
     private void OnEquip()
     {
-        if (upgradableItems == null)
+        if (upgradableItem == null)
             return;
 
-        if (upgradableItems.equipByCharacter == null || upgradableItems.equipByCharacter != charactersSO)
+        if (upgradableItem.equipByCharacter == null || upgradableItem.equipByCharacter != characterEquipmentManager.charactersSO)
         {
-            inventoryManager.EquipItem(charactersSO, upgradableItems);
+            inventoryManager.EquipItem(characterEquipmentManager.charactersSO, upgradableItem);
             return;
         }
 
-        inventoryManager.UnequipItem(charactersSO, upgradableItems);
+        inventoryManager.UnequipItem(characterEquipmentManager.charactersSO, upgradableItem);
     }
 }

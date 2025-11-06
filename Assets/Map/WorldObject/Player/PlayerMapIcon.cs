@@ -69,7 +69,7 @@ public class PlayerMapIcon : MapIcon
         if (mapObject == null)
             return;
 
-        Quaternion rotation = Quaternion.Euler(0f, 0f, 360f - mapObject.GetMapIconTransform().eulerAngles.y);
+        Quaternion rotation = Quaternion.Euler(0f, 0f, 360f - mapObject.transform.eulerAngles.y);
         RT.rotation = rotation;
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public abstract class PlayableCharacterStateMachine : DamageableCharacterStateMachine
 {
-
     public PlayerIdleState playerIdleState { get; }
     public PlayerRunState playerRunState { get; }
     public PlayerWeakStopState playerWeakStopState { get; }

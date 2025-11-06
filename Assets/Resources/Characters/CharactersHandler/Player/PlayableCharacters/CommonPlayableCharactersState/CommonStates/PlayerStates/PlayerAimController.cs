@@ -8,7 +8,7 @@ public class PlayerAimController
 {
     private PlayableCharacters playableCharacter;
     private PlayerCameraManager playerCameraManager;
-    private AimRigController aimRigController;
+    private AimRigData aimRigController;
     private PlayerData playerData;
 
     public PlayerAimController(PlayableCharacters PlayableCharacter)
@@ -16,7 +16,7 @@ public class PlayerAimController
         playerData = PlayerData.instance;
         playableCharacter = PlayableCharacter;
         playerCameraManager = playableCharacter.player.playerCameraManager;
-        aimRigController = playableCharacter.GetComponentInChildren<AimRigController>();
+        aimRigController = playableCharacter.GetComponentInChildren<AimRigData>();
     }
 
     public void Enter()
@@ -59,5 +59,10 @@ public class PlayerAimController
             return;
 
         aimRigController.SetTargetWeight(Weight);
+    }
+
+    public void SetTargetPosition(Vector3 Position)
+    {
+        aimRigController.SetTargetPosition(Position);
     }
 }
