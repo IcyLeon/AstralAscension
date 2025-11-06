@@ -2,102 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayableCharacterAttackState : IState
+public abstract class PlayableCharacterAttackState : PlayerGroundedState
 {
+    private float attackDelayTimeElapsed;
+
     protected PlayableCharacterAttackStateMachine playableCharacterAttackStateMachine { get; }
-    protected PlayableCharacterStateMachine playableCharacterStateMachine;
-    public PlayableCharacterAttackState(PlayableCharacterAttackStateMachine PlayableCharacterAttackStateMachine)
+
+    public PlayableCharacterAttackState(PlayableCharacterAttackStateMachine PlayableCharacterAttackStateMachine, PlayableCharacterStateMachine PS) : base(PS)
     {
         playableCharacterAttackStateMachine = PlayableCharacterAttackStateMachine;
-        playableCharacterStateMachine = playableCharacterAttackStateMachine.playableCharacterStateMachine;
+        attackDelayTimeElapsed = Time.time;
     }
 
-    public virtual void Enter()
+    public override void Enter()
     {
-        OnEnable();
+        base.Enter();
         StartAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
         playableCharacterStateMachine.ResetVelocity();
     }
 
-    public virtual void Exit()
+    public override void OnEnable()
     {
-        OnDisable();
+        base.OnEnable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed += Attack_performed;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed -= Attack_performed;
+    }
+
+    protected override void Jump_started()
+    {
+
+    }
+
+    protected virtual void TransitNextAttack()
+    {
+
+    }
+
+    protected abstract float AttackDelayInterval();
+
+    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (Time.time - attackDelayTimeElapsed >= AttackDelayInterval())
+        {
+            TransitNextAttack();
+        }
+    }
+
+    public override void OnAnimationTransition()
+    {
+        base.OnAnimationTransition();
+        playableCharacterStateMachine.ChangeState(new PlayableCharacterIdleAttackState(playableCharacterStateMachine));
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
         StopAnimation(playableCharacterStateMachine.playableCharacter.PlayableCharacterAnimationSO.CommonPlayableCharacterHashParameters.attackParameter);
-    }
-
-
-    public virtual void OnDisable()
-    {
-    }
-
-    public virtual void OnEnable()
-    {
-    }
-
-    protected virtual void OnAttackInput()
-    {
-
-    }
-
-    public virtual void FixedUpdate()
-    {
-    }
-
-    public virtual void LateUpdate()
-    {
-    }
-
-    public virtual void OnAnimationTransition()
-    {
-    }
-
-    public virtual void OnCollisionEnter(Collision collision)
-    {
-    }
-
-    public virtual void OnCollisionExit(Collision collision)
-    {
-    }
-
-    public virtual void OnCollisionStay(Collision collision)
-    {
-    }
-
-    public virtual void OnTriggerEnter(Collider Collider)
-    {
-    }
-
-    public virtual void OnTriggerExit(Collider Collider)
-    {
-    }
-
-    public virtual void OnTriggerStay(Collider Collider)
-    {
-    }
-
-    public void SetAnimationTrigger(string parameter)
-    {
-        playableCharacterStateMachine.SetAnimationTrigger(parameter);
-    }
-
-    public void UpdateTargetRotationData(float angle)
-    {
-        playableCharacterStateMachine.playerData.UpdateTargetRotationData(angle);
-    }
-
-    public void StartAnimation(string parameter)
-    {
-        playableCharacterStateMachine.StartAnimation(parameter);
-    }
-
-    public void StopAnimation(string parameter)
-    {
-        playableCharacterStateMachine.StopAnimation(parameter);
-    }
-
-
-    public virtual void Update()
-    {
-
     }
 }

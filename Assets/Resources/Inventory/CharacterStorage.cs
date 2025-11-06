@@ -6,7 +6,7 @@ using System.Linq;
 
 public class CharacterStorage
 {
-    public Dictionary<CharactersSO, CharacterDataStat> characterStatList { get; private set; }
+    public Dictionary<CharactersSO, CharacterDataStat> characterStatList { get; } = new();
     public delegate void OnCharacterStatChanged(CharactersSO CharactersSO);
     public event OnCharacterStatChanged OnCharacterAdd, OnCharacterRemove;
 
@@ -60,6 +60,5 @@ public class CharacterStorage
 
     public CharacterStorage()
     {
-        characterStatList = new();
     }
 }

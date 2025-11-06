@@ -12,11 +12,11 @@ public abstract class LockItem : MonoBehaviour
     [SerializeField] private Image LockImage;
     [SerializeField] private LockItemInfoSO LockItemInfoSO;
 
-    public void SetIItem(IItem iItem)
+    public void SetIItem(IData IData)
     {
         UnsubscribeEvents();
 
-        upgradableItems = iItem as UpgradableItems;
+        upgradableItems = IData as UpgradableItems;
 
         gameObject.SetActive(upgradableItems != null);
 

@@ -1,80 +1,70 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
-using static AssetManager;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-public class ItemQuality : MonoBehaviour
+public abstract class ItemQuality : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private ObjectPool<MonoBehaviour> starPool;
-    private ItemManagerSO ItemAssetManagerSO;
+    public Image RaycastImage { get; private set; }
+    [SerializeField] private ItemQualityVisual itemQualityVisual;
+    public event Action<ItemQuality> OnItemQualitySelect;
+    public IData iData { get; private set; }
 
-    [SerializeField] private Transform StarContainer;
-
-    [SerializeField] private TextMeshProUGUI DisplayText;
-    [SerializeField] private Image ItemBackgroundImage;
-    [SerializeField] private Image ItemImage;
-
-    public IItem iItem { get; private set; }
-
-    private void Awake()
+    protected virtual void Awake()
     {
-        InitAssets();
+        RaycastImage = itemQualityVisual.GetComponent<Image>();
     }
 
-    private void InitAssets()
+    public virtual void SetIItem(IData IData)
     {
-        InitAssetManager();
-        InitStarPool();
+        iData = IData;
+        itemQualityVisual.SetIItem(iData);
     }
 
-    private void InitAssetManager()
+    protected virtual void OnDestroy()
     {
-        if (ItemAssetManagerSO != null)
+        OnItemQualitySelect = null;
+    }
+
+    protected void UpdateDisplayText(string txt)
+    {
+        itemQualityVisual.UpdateDisplayText(txt);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
-        ItemAssetManagerSO = instance.ItemAssetManagerSO;
+        Select();
     }
 
-    public void SetIItem(IItem IItem)
+    public void Select()
     {
-        iItem = IItem;
-        UpdateVisual();
+        OnItemQualitySelect?.Invoke(this);
     }
 
-    private void InitStarPool()
+    public virtual void OnSelect()
     {
-        if (starPool != null)
-            return;
-
-        starPool = new ObjectPool<MonoBehaviour>(ItemAssetManagerSO.StarPrefab, StarContainer, 5);
+        transform.DOScale(1.1f, 0.075f).SetEase(Ease.InOutSine);
     }
 
-    private void UpdateVisual()
+    public virtual void OnDeSelect()
     {
-        if (iItem == null)
-            return;
-
-        InitAssets();
-        starPool.ResetAll();
-
-        ItemRaritySO itemRaritySO = iItem.GetRaritySO();
-
-        for (int i = 0; i <= (int)itemRaritySO.Rarity; i++)
-        {
-            starPool.GetPooledObject();
-        }
-
-        ItemBackgroundImage.sprite = itemRaritySO.ItemQualityBackground;
-        ItemImage.sprite = iItem.GetIcon();
+        transform.DOScale(1f, 0.075f).SetEase(Ease.InOutSine);
     }
 
-    public void UpdateDisplayText(string txt)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        DisplayText.text = txt;
+        transform.DOScale(1.05f, 0.075f).SetEase(Ease.InOutSine);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        transform.DOScale(1f, 0.075f).SetEase(Ease.InOutSine);
     }
 }

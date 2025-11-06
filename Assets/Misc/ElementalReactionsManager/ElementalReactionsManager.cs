@@ -142,7 +142,7 @@ public class ElementalReactionsManager : MonoBehaviour
             WorldPosition = e.target.GetCenterBound();
         }
 
-        DamageManager.instance.damageMiscEvent.SendDamageInfo(new DamageInfo
+        DamageMiscEvent.SendDamageInfo(new DamageInfo
         {
             DamageText = DamageTxt,
             ElementsInfoSO = currentElementsInfoSO,

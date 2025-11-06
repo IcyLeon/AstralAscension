@@ -17,10 +17,11 @@ public class PlaceMarker : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left || worldMapUI.worldMapBackground == null)
+        WorldMapBackground worldMapBackground = worldMapUI.worldMapBackground;
+
+        if (eventData.button != PointerEventData.InputButton.Left || worldMapBackground == null || worldMapBackground.worldMap == null)
             return;
 
-        WorldMapBackground worldMapBackground = worldMapUI.worldMapBackground;
         Vector2 mapMousePosition = eventData.position - (worldMapBackground.GetScreenSize() * 0.5f) + (worldMapBackground.GetMapSize() * 0.5f) - (worldMapBackground.MapRT.anchoredPosition + worldMapBackground.OffsetPositionCenter());
         Vector3 WorldPosition = worldMapUI.worldMapBackground.worldMap.GetWorldMapLocation(worldMapBackground.GetMapSize(), mapMousePosition);
         PlaceMarkerOnMap(WorldPosition);

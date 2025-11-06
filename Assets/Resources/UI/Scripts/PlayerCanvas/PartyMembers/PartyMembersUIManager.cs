@@ -10,25 +10,23 @@ public class PartyMembersUIManager : MonoBehaviour
     [SerializeField] private GameObject PartyInfoPrefab;
     private PartySystem partySystem;
     private PartySetup currentPartySetup;
-    private Dictionary<PartyMember, PartyMemberContent> PartyMemberContentDictionary;
+    private Dictionary<PartyMember, PartyMemberContent> partyMemberContentDictionary = new();
 
     //Start is called before the first frame update
     private void Awake()
     {
         objectPool = new ObjectPool<PartyMemberContent>(PartyInfoPrefab, transform, 5);
         objectPool.CallbackPoolObject((p, i) => p.SetIndexKeyText(i + 1));
-        PartyMemberContentDictionary = new();
     }
 
     private void Start()
     {
+        partySystem = PartySystem.instance;
         InitPartySetup();
     }
 
     private void InitPartySetup()
     {
-        partySystem = PartySystem.instance;
-
         if (partySystem == null)
             return;
 
@@ -50,7 +48,7 @@ public class PartyMembersUIManager : MonoBehaviour
 
     private void UpdateVisual()
     {
-        PartyMemberContentDictionary.Clear();
+        partyMemberContentDictionary.Clear();
         objectPool.ResetAll();
 
         foreach (var partySlot in currentPartySetup.GetKnownPartySlots())
@@ -62,9 +60,9 @@ public class PartyMembersUIManager : MonoBehaviour
 
             partyMemberPoolObject.SetCharacterDataStat(partySlot.partyMember.characterDataStat);
 
-            if (!PartyMemberContentDictionary.TryGetValue(partySlot.partyMember, out PartyMemberContent partyMemberContent))
+            if (!partyMemberContentDictionary.TryGetValue(partySlot.partyMember, out PartyMemberContent partyMemberContent))
             {
-                PartyMemberContentDictionary.Add(partySlot.partyMember, partyMemberPoolObject);
+                partyMemberContentDictionary.Add(partySlot.partyMember, partyMemberPoolObject);
             }
         }
     }

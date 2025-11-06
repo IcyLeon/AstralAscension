@@ -11,14 +11,15 @@ public class PlayerCharactersSO : DamageableEntitySO
 
     [field: SerializeField, Header("Player Character Infomation")] public Sprite PartyCharacterIcon;
 
-    [field: SerializeField, Header("Skills")] public PlayableCharacterSkillSO ElementalSkillInfo { get; private set; }
-    [field: SerializeField] public PlayableCharacterSkillSO ElementalBurstInfo { get; private set; }
-
-    [field: SerializeField] public int BurstEnergyCost { get; private set; }
-    [field: SerializeField, Header("Skins")] public SkinSO SkinSO { get; private set; }
+    [field: SerializeField, Header("Skills")] public ElementalSkillSO ElementalSkillInfo { get; private set; }
+    [field: SerializeField] public ElementalBurstSO ElementalBurstInfo { get; private set; }
     public override CharacterDataStat CreateCharacterDataStat()
     {
         return new PlayableCharacterDataStat(this);
     }
 
+    public PlayerCharacterProfileSO GetPlayerCharacterProfileSO()
+    {
+        return ProfileSO as PlayerCharacterProfileSO;
+    }
 }

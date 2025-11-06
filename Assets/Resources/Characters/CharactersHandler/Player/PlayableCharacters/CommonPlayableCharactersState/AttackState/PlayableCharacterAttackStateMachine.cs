@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class PlayableCharacterAttackStateMachine : StateMachine
 {
-    protected PlayableCharacterAttackController playableCharacterAttackController;
     public PlayableCharacterStateMachine playableCharacterStateMachine { get; }
-    public PlayableCharacterIdleAttackState playableCharacterIdleAttackState { get; }
-    public PCAttack01State PCAttack01State { get; }
-    public PCAttack02State PCAttack02State { get; }
     public PlayableCharacterAttackData playableCharacterAttackData { get; }
-    private PlayableCharacterAttackComboState currentAttackComboState;
-
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-
-    }
 
     public override void OnEnable()
     {
         base.OnEnable();
+        playableCharacterAttackData.OnEnable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed += Attack_performed;
+    }
 
-        playableCharacterAttackController.OnEnable();
+    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (playableCharacterStateMachine.IsSkillCasting() || playableCharacterStateMachine.IsAirborne() ||
+            !playableCharacterAttackData.CanAttack())
+        {
+            return;
+        }
+
+
+        TransitFirstAttackState();
     }
 
     public override void Update()
@@ -30,56 +31,41 @@ public class PlayableCharacterAttackStateMachine : StateMachine
         base.Update();
 
         playableCharacterAttackData.Update();
-
-        playableCharacterAttackController.Update();
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
-
-        playableCharacterAttackController.OnDisable();
+        playableCharacterAttackData.OnDisable();
+        playableCharacterStateMachine.player.playerController.playerInputAction.Attack.performed -= Attack_performed;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        playableCharacterAttackController.FixedUpdate();
     }
     public override void LateUpdate()
     {
         base.LateUpdate();
-
-        playableCharacterAttackController.LateUpdate();
     }
 
     public PlayableCharacterAttackStateMachine(PlayableCharacterStateMachine PlayableCharacterStateMachine)
     {
         playableCharacterStateMachine = PlayableCharacterStateMachine;
         playableCharacterAttackData = new PlayableCharacterAttackData();
-        playableCharacterAttackController = new PlayableCharacterAttackController(this);
-        playableCharacterIdleAttackState = new PlayableCharacterIdleAttackState(this);
-        PCAttack01State = new PCAttack01State(this);
-        PCAttack02State = new PCAttack02State(this);
     }
 
-    public void ResetAttackState()
+    private bool IsAttacking()
     {
-        currentAttackComboState = null;
+        return playableCharacterStateMachine.IsInState<PlayableCharacterAttackState>();
     }
 
-    public void TransitNextAttackState()
+    public void TransitFirstAttackState()
     {
-        if (currentAttackComboState == null)
-        {
-            currentAttackComboState = PCAttack01State;
-        }
-        else
-        {
-            currentAttackComboState = currentAttackComboState.GetNextAttackState();
-        }
+        if (IsAttacking())
+            return;
 
-        playableCharacterStateMachine.ChangeState(currentAttackComboState);
+        playableCharacterStateMachine.ChangeState(new PCAttack01State(this, playableCharacterStateMachine));
     }
 }

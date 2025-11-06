@@ -9,7 +9,7 @@ using UnityEngine;
 public class InteractSensor : MonoBehaviour
 {
     [Header("Interactions Data")]
-    private Dictionary<Transform, IPointOfInterest> POI_List;
+    private Dictionary<Transform, IPointOfInterest> POI_List = new();
 
     private SphereCollider interactionsCollider;
 
@@ -24,8 +24,6 @@ public class InteractSensor : MonoBehaviour
 
     protected virtual void Awake()
     {
-        POI_List = new();
-
         interactionsCollider = GetComponent<SphereCollider>();
         interactionsCollider.isTrigger = true;
     }

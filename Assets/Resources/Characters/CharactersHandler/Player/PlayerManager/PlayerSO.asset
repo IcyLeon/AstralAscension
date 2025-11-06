@@ -17,10 +17,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7208576d446cba34f9774e5185c5c601, type: 3}
     - {fileID: 8300000, guid: 408ad4e0680d1ee468cff80ba932f05a, type: 3}
     - {fileID: 8300000, guid: b74ee074bbb6a8d469a9b2d363edb0d5, type: 3}
-    <SwitchClip>k__BackingField: {fileID: 8300000, guid: 2b529ff640693b549a21cce2b88b0b02,
-      type: 3}
   <GroundedData>k__BackingField:
-    <BaseSpeed>k__BackingField: 5.5
+    <BaseSpeed>k__BackingField: 8.5
     <BaseRotationTime>k__BackingField: 0.14
     <PlayerDashData>k__BackingField:
       <BaseDashSpeed>k__BackingField: 15

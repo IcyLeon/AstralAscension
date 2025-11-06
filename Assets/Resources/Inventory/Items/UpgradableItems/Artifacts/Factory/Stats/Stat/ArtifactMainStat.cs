@@ -25,7 +25,7 @@ public class ArtifactMainStat : ArtifactStat
 
     protected override void InitStatsInfo()
     {
-        artifactMainStatsTypeInfo = artifact.artifactManagerSO.GetArtifactMainStatsTypeInfo(artifact.GetIItem().GetTypeSO());
+        artifactMainStatsTypeInfo = artifact.artifactManagerSO.GetArtifactMainStatsTypeInfo(artifact.GetTypeSO());
         statInfo = artifact.artifactManagerSO.GetRandomStats(artifactMainStatsTypeInfo.ArtifactStatsInfo.ToList());
     }
 

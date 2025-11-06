@@ -11,23 +11,39 @@ public class ArtifactContentInformation : ItemContentInformation
     public ArtifactSO artifactSO { get; private set; }
     public event Action OnArtifactContentChanged;
 
-    public override void UpdateItemContentInformation(IItem iItem)
+    public override void UpdateItemContentInformation(IData IData)
     {
-        artifactSO = iItem.GetIItem() as ArtifactSO;
-
+        UpdateArtifactSO(IData);
         gameObject.SetActive(artifactSO != null);
 
         if (artifactSO == null)
             return;
 
+        UpdateArtifactSetTxt();
+        OnArtifactContentChanged?.Invoke();
+    }
+
+    private void UpdateArtifactSO(IData IData)
+    {
+        Artifact artifact = IData as Artifact;
+
+        if (artifact != null)
+        {
+            artifactSO = artifact.artifactSO;
+            return;
+        }
+
+        artifactSO = IData as ArtifactSO;
+    }
+
+    private void UpdateArtifactSetTxt()
+    {
         ArtifactFamilySO artifactFamilySO = artifactSO.ArtifactFamilySO;
 
         if (artifactFamilySO == null)
             return;
 
         ArtifactSetTxt.text = artifactFamilySO.ArtifactSetName + ":";
-
-        OnArtifactContentChanged?.Invoke();
     }
 
     protected override void Init()

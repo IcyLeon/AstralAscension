@@ -14,23 +14,24 @@ public class ElementalReactionsManagerSO : ScriptableObject
 
         for (int i = 0; i < ERInfoList.Length; i++)
         {
-            Dictionary<ElementsSO, Elements> ElementsListCopy = new(ElementsList);
-            ElementalReactionSO ERInfo = ERInfoList[i];
-            int Counter = 0;
+            bool allMatch = false;
 
-            for (int j = 0; j < ERInfo.ElementsMixture.Length; j++)
+            for (int j = 0; j < ERInfoList[i].ElementsMixture.Length; j++)
             {
-                ElementsSO ElementsSO = ERInfo.ElementsMixture[j];
+                ElementsSO ElementsSO = ERInfoList[i].ElementsMixture[j];
 
-                if (ElementsListCopy.ContainsKey(ElementsSO))
+                if (!ElementsList.ContainsKey(ElementsSO))
                 {
-                    ElementsListCopy.Remove(ElementsSO);
-                    Counter++;
+                    allMatch = false;
+                    break;
                 }
+
+                allMatch = true;
             }
 
-            if (Counter >= ERInfo.ElementsMixture.Length && Counter != 0)
-                return ERInfo;
+            if (allMatch)
+                return ERInfoList[i];
+
         }
 
         return null;

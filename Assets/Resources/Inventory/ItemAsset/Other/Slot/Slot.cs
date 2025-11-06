@@ -10,9 +10,9 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
 {
     public event Action<Slot> OnSlotClick;
     public event Action<Slot> OnSlotItemAdd;
-    public event Action<IItem, Slot> OnSlotItemRemove;
+    public event Action<IData, Slot> OnSlotItemRemove;
 
-    public ItemQualityIEntity itemQualityButton
+    public ItemQualityIEntity itemQuality
     {
         get
         {
@@ -34,21 +34,21 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
 
     public void DeleteIItem()
     {
-        if (itemQualityButton == null)
+        if (itemQuality == null)
             return;
 
-        IEntity entity = itemQualityButton.iEntity;
+        IEntity entity = itemQuality.iEntity;
         UnsubscribeEvents();
-        Destroy(itemQualityButton.gameObject);
+        Destroy(itemQuality.gameObject);
         OnSlotItemRemove?.Invoke(entity, this);
     }
 
     private void SubscribeEvents()
     {
-        if (itemQualityButton == null)
+        if (itemQuality == null)
             return;
 
-        itemQualityButton.iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
+        itemQuality.iEntity.OnIEntityChanged += IEntity_OnIEntityChanged;
     }
 
     private void IEntity_OnIEntityChanged(IEntity IEntity)
@@ -63,10 +63,10 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
 
     private void UnsubscribeEvents()
     {
-        if (itemQualityButton == null)
+        if (itemQuality == null)
             return;
 
-        itemQualityButton.iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
+        itemQuality.iEntity.OnIEntityChanged -= IEntity_OnIEntityChanged;
     }
 
     private void OnDestroy()

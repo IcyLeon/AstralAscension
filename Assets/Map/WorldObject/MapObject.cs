@@ -15,11 +15,6 @@ public abstract class MapObject : MonoBehaviour
         return null;
     }
 
-    public Transform GetMapIconTransform()
-    {
-        return transform;
-    }
-
     public void DestroyMapObject()
     {
         if (gameObject == null)

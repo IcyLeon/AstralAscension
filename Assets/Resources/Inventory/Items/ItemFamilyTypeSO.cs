@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemFamilyTypeSO", menuName = "ScriptableObjects/ItemManager/ItemFamilyTypeSO")]
 public class ItemFamilyTypeSO : ScriptableObject
 {
-    [field: SerializeField] public string ItemFamily { get; private set; }
+    [field: SerializeField] public string ItemFamilyType { get; private set; }
 }

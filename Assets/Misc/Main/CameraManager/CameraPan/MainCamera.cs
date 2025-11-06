@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DisallowMultipleComponent]
 public class MainCamera : MonoBehaviour
 {
     public Camera Camera { get; private set; }

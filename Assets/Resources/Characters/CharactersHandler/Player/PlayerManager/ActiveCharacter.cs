@@ -1,104 +1,151 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static PartySetupManager;
 
 [DisallowMultipleComponent]
+[RequireComponent(typeof(AudioSource))]
 public class ActiveCharacter : MonoBehaviour
 {
-    public delegate void OnPlayerCharacterEvent(PartyMember PrevPartyMember, PartyMember NewPartyMember);
-    public event OnPlayerCharacterEvent OnPlayerCharacterSwitch;
-
-    private Player player;
+    private AudioSource switchCharacterAudioSource;
     private PlayerController playerController;
-
-    private Dictionary<PartyMember, PlayableCharacters> charactersList;
-    private PartySystem partySystem;
     private PartySetup currentPartySetup;
-    private PartySlot currentPartyMemberSlot;
-    public PartyMember currentPartyMember { get; private set; }
+    private PartyMember currentPartyMember;
+    private Dictionary<PartyMember, DamageableCharacters> charactersList;
+    private PartySystem partySystem;
 
     private void Awake()
     {
         charactersList = new();
-        player = GetComponentInParent<Player>();
+        Player player = GetComponentInParent<Player>();
+        switchCharacterAudioSource = GetComponent<AudioSource>();
+        playerController = player.playerController;
+    }
+
+    private void OnEnable()
+    {
+        SubscribeInputEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeInputEvents();
     }
 
     private void Start()
     {
-        playerController = player.playerController;
+        partySystem = PartySystem.instance;
+        SubscribeActivePartyEvents();
+    }
+
+    private void SubscribeInputEvents()
+    {
         playerController.playerInputAction.SwitchCharacters.performed += SwitchCharacters_performed;
-
-        InitPartySetup();
     }
 
-    private void UnsubscribePartyEvents()
+    private void UnsubscribeInputEvents()
+    {
+        playerController.playerInputAction.SwitchCharacters.performed -= SwitchCharacters_performed;
+    }
+    private void SubscribeActivePartyEvents()
+    {
+        if (partySystem == null)
+            return;
+
+        partySystem.OnActivePartyChanged += PartySystem_OnActivePartyChanged;
+        UpdateCurrentParty();
+
+    }
+    private void UnsubscribeActivePartyEvents()
+    {
+        if (partySystem == null)
+            return;
+
+        partySystem.OnActivePartyChanged -= PartySystem_OnActivePartyChanged;
+    }
+
+    private bool CanSwitchCharacter(PlayableCharacters pc)
+    {
+        if (pc == null || pc.playableCharacterStateMachine == null)
+            return true;
+
+        return !pc.playableCharacterStateMachine.IsSkillCasting() && !pc.playableCharacterStateMachine.IsInState<PlayerAirborneState>();
+    }
+
+    private void PartySystem_OnActivePartyChanged()
+    {
+        UpdateCurrentParty();
+    }
+
+    private void UpdateCurrentParty()
+    {
+        UnsubscribeCurrentParty();
+        currentPartySetup = partySystem.activePartySetup;
+        SubscribeCurrentParty();
+    }
+
+    private void UnsubscribeCurrentParty()
     {
         if (currentPartySetup == null)
             return;
 
-        currentPartySetup.OnPartyAdd -= PartySetup_OnPartyAdd;
-        currentPartySetup.OnPartyRemove -= PartySetup_OnPartyRemove;
+        currentPartySetup.OnPartyAdd -= CurrentPartySetup_OnPartyAdd;
+        currentPartySetup.OnPartyRemove -= CurrentPartySetup_OnPartyRemove;
+        currentPartySetup.OnSelectPartyMemberChanged -= CurrentPartySetup_OnSelectPartyMemberChanged;
     }
-
-    private void SubscribePartyEvents()
+    private void SubscribeCurrentParty()
     {
         if (currentPartySetup == null)
             return;
 
-        currentPartySetup.OnPartyAdd += PartySetup_OnPartyAdd;
-        currentPartySetup.OnPartyRemove += PartySetup_OnPartyRemove;
+        currentPartySetup.OnPartyAdd += CurrentPartySetup_OnPartyAdd;
+        currentPartySetup.OnPartyRemove += CurrentPartySetup_OnPartyRemove;
+        currentPartySetup.OnSelectPartyMemberChanged += CurrentPartySetup_OnSelectPartyMemberChanged;
         OnPartyChanged();
     }
 
-    private void InitPartySetup()
+    private void CurrentPartySetup_OnPartyAdd(object sender, PartyEvents e)
     {
-        partySystem = PartySystem.instance;
-
-        if (partySystem == null)
-            return;
-
-        partySystem.OnActivePartyChanged += PartySystem_OnCurrentActivePartyChanged;
-        UpdatePartySetup();
+        AddMember(e.PartyMemberSlot.partyMember);
     }
-
-    private void UpdatePartySetup()
-    {
-        if (partySystem == null)
-            return;
-
-        UnsubscribePartyEvents();
-        currentPartySetup = partySystem.activePartySetup;
-        SubscribePartyEvents();
-    }
-
-    private void PartySystem_OnCurrentActivePartyChanged()
-    {
-        UpdatePartySetup();
-    }
-
-    private void PartySetup_OnPartyRemove(object sender, PartyEvents e)
+    private void CurrentPartySetup_OnPartyRemove(object sender, PartyEvents e)
     {
         RemoveMember(e.PartyMemberSlot.partyMember);
     }
 
-    private void PartySetup_OnPartyAdd(object sender, PartyEvents e)
+    private void OnPartyChanged()
     {
-        AddMember(e.PartyMemberSlot.partyMember);
+        foreach(var partyMember in charactersList.Keys.ToList())
+        {
+            RemoveMember(partyMember);
+        }
+
+        foreach (var partySlot in currentPartySetup.GetKnownPartySlots())
+        {
+            AddMember(partySlot.partyMember);
+        }
+
+        currentPartySetup.SelectPartyMemberSlot(0);
     }
 
     private void RemoveMember(PartyMember PartyMember)
     {
-        if (!charactersList.TryGetValue(PartyMember, out PlayableCharacters playableCharacters))
+        DamageableCharacters characters = GetPlayableCharacter(PartyMember);
+
+        if (characters == null)
             return;
 
-        Destroy(playableCharacters.gameObject);
+        Destroy(characters.gameObject);
         charactersList.Remove(PartyMember);
     }
-
     private void AddMember(PartyMember PartyMember)
     {
+        DamageableCharacters existCharacters = GetPlayableCharacter(PartyMember);
+
+        if (existCharacters != null)
+            return;
+
         DamageableCharacters DamageableCharacters = PartyMember.characterDataStat.damageableEntitySO.CreateCharacter(transform);
 
         if (DamageableCharacters == null)
@@ -106,111 +153,73 @@ public class ActiveCharacter : MonoBehaviour
 
         DamageableCharacters.SetCharacterDataStat(PartyMember.characterDataStat);
         DamageableCharacters.gameObject.SetActive(false);
-        charactersList.Add(PartyMember, DamageableCharacters as PlayableCharacters);
-    }
-
-    private void OnPartyChanged()
-    {
-        for (int i = charactersList.Count - 1; i >= 0; i--)
-        {
-            RemoveMember(charactersList.ElementAt(i).Key);
-        }
-        charactersList.Clear();
-
-        List<PartySlot> MemberList = currentPartySetup.GetKnownPartySlots();
-
-        foreach (var partySlot in MemberList)
-        {
-            AddMember(partySlot.partyMember);
-        }
-
-        SwitchCharacter(currentPartySetup.GetSelectedPartyMemberSlotIndex(), false);
+        charactersList.Add(PartyMember, DamageableCharacters);
     }
 
     private void SwitchCharacters_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        int.TryParse(obj.control.name, out int numKeyValue);
-
         if (currentPartySetup == null)
             return;
 
-        int actualValue = numKeyValue - 1;
+        int.TryParse(obj.control.name, out int numKeyValue);
 
-        SwitchCharacter(actualValue);
+        int partyIndex = numKeyValue - 1;
+
+        currentPartySetup.SelectPartyMemberSlot(partyIndex);
     }
 
-    public bool CanSwitchCharacter(PlayableCharacters pc)
+    private void CurrentPartySetup_OnSelectPartyMemberChanged()
     {
-        if (pc == null)
-            return true;
-
-        return !pc.PlayableCharacterStateMachine.IsSkillCasting() && !pc.PlayableCharacterStateMachine.IsInState<PlayerAirborneState>();
-    }
-
-    private void SwitchCharacter(int index, bool playSwitchSound = true)
-    {
-        if (index < 0 || index >= charactersList.Count)
-            return;
-
-        PartySlot nextPartyMemberSlot = currentPartySetup.GetPartySlot(index);
-
-        if (nextPartyMemberSlot == currentPartyMemberSlot)
-            return;
-
-        currentPartyMemberSlot = currentPartySetup.selectedPartyMemberSlot;
-
-        if (currentPartyMemberSlot.partyMember != null)
-        {
-            PlayableCharacters currentPlayableCharacter = GetPlayableCharacter(GetPartyMember(currentPartyMemberSlot));
-
-            if (!CanSwitchCharacter(currentPlayableCharacter))
-            {
-                return;
-            }
-
-            currentPlayableCharacter.gameObject.SetActive(false);
-        }
-
-        PartySlot prevPartySlot = currentPartyMemberSlot;
-        currentPartySetup.SelectPartyMemberSlot(index);
-        currentPartyMemberSlot = currentPartySetup.selectedPartyMemberSlot;
-        currentPartyMember = GetPartyMember(currentPartyMemberSlot);
-        PlayableCharacters newPlayableCharacter = GetPlayableCharacter(currentPartyMember);
-        newPlayableCharacter.gameObject.SetActive(true);
-        OnPlayerCharacterSwitch?.Invoke(GetPartyMember(prevPartySlot), currentPartyMember);
-
-
-        if (playSwitchSound)
-        {
-            player.PlayPlayerSoundEffect(player.PlayerSO.SoundData.SwitchClip);
-        }
+        SwitchCharacter(GetPartyMember(currentPartySetup.selectedPartyMemberSlot), true);
     }
 
     private PartyMember GetPartyMember(PartySlot PartySlot)
     {
-        if (PartySlot == null)
+        if (PartySlot == null) 
             return null;
 
         return PartySlot.partyMember;
     }
 
-    private PlayableCharacters GetPlayableCharacter(PartyMember PartyMember)
+    private DamageableCharacters GetPlayableCharacter(PartyMember PartyMember)
     {
-        if (PartyMember == null || !charactersList.TryGetValue(PartyMember, out PlayableCharacters pc))
+        if (PartyMember == null || !charactersList.TryGetValue(PartyMember, out DamageableCharacters characters))
             return null;
 
-        return pc;
+        return characters;
+    }
+
+    private void SwitchCharacter(PartyMember PartyMember, bool playSound = false)
+    {
+        if (currentPartyMember == PartyMember)
+            return;
+
+        DamageableCharacters character = GetPlayableCharacter(currentPartyMember);
+
+        if (currentPartyMember != null)
+        {
+            if (!CanSwitchCharacter(character as PlayableCharacters))
+                return;
+
+            character.gameObject.SetActive(false);
+        }
+
+        currentPartyMember = PartyMember;
+        character = GetPlayableCharacter(currentPartyMember);
+        character.gameObject.SetActive(true);
+        CharacterSwitchEvent.Switch(currentPartyMember);
+
+        if (playSound)
+        {
+            switchCharacterAudioSource.PlayOneShot(switchCharacterAudioSource.clip);
+        }
     }
 
     private void OnDestroy()
     {
-        UnsubscribePartyEvents();
-        playerController.playerInputAction.SwitchCharacters.performed -= SwitchCharacters_performed;
-
-        if (partySystem != null)
-        {
-            partySystem.OnActivePartyChanged -= PartySystem_OnCurrentActivePartyChanged;
-        }
+        UnsubscribeCurrentParty();
+        UnsubscribeActivePartyEvents();
+        UnsubscribeInputEvents();
     }
 
 }

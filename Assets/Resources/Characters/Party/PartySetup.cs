@@ -30,7 +30,6 @@ public class PartySetup
             partyMemberSlots[i] = partySlot;
         }
 
-        SelectPartyMemberSlot(0);
     }
 
     private void PartySlot_OnPartyRemove(PartySlot PartySlot, PartyMember PartyMember)
@@ -51,34 +50,34 @@ public class PartySetup
         });
     }
 
-    public void SelectPartyMemberSlot(int PartyLocation)
+    public void SelectPartyMemberSlot(int PartyIndex)
     {
-        selectedPartyMemberSlot = GetPartySlot(PartyLocation);
+        selectedPartyMemberSlot = GetKnownPartySlot(PartyIndex);
         OnSelectPartyMemberChanged?.Invoke();
     }
 
-    public int GetSelectedPartyMemberSlotIndex()
-    {
-        for (int i = 0; i < partyMemberSlots.Length; i++)
-        {
-            PartySlot partySlot = partyMemberSlots[i];
+    //public int GetSelectedPartyMemberSlotIndex()
+    //{
+    //    for (int i = 0; i < partyMemberSlots.Length; i++)
+    //    {
+    //        PartySlot partySlot = partyMemberSlots[i];
 
-            if (partySlot == selectedPartyMemberSlot)
-                return i;
-        }
+    //        if (partySlot == selectedPartyMemberSlot)
+    //            return i;
+    //    }
 
-        return -1;
-    }
+    //    return -1;
+    //}
 
     public List<PartySlot> GetKnownPartySlots()
     {
-        List<PartySlot> PartyLayout = new(partyMemberSlots);
+        List<PartySlot> PartyLayout = new();
 
-        for (int i = PartyLayout.Count - 1; i >= 0; i--)
+        for (int i = 0; i < partyMemberSlots.Length; i++)
         {
-            if (!PartyLayout[i].HasMember())
+            if (partyMemberSlots[i].HasMember())
             {
-                PartyLayout.RemoveAt(i);
+                PartyLayout.Add(partyMemberSlots[i]);
             }
         }
 
@@ -87,16 +86,14 @@ public class PartySetup
 
     public PartySlot GetPartySlot(int PartyLocation)
     {
-        int index = PartyLocation;
-
-        index = Mathf.Clamp(index, 0, partyMemberSlots.Length);
+        int index = Mathf.Clamp(PartyLocation, 0, partyMemberSlots.Length);
 
         return partyMemberSlots[index];
     }
 
     public PartySlot GetKnownPartySlot(int PartyLocation)
     {
-        List<PartySlot> PartyLayout = new(GetKnownPartySlots());
+        List<PartySlot> PartyLayout = GetKnownPartySlots();
 
         if (PartyLayout.Count == 0)
             return null;
@@ -142,23 +139,17 @@ public class PartySetup
 
     private int Find(CharactersSO charactersSO)
     {
-        int slot = -1;
-
-        if (charactersSO == null)
-            return slot;
-
         for(int i = 0; i < partyMemberSlots.Length; i++)
         {
             PartyMember PartyMember = GetPartySlot(i).partyMember;
             if (PartyMember != null && PartyMember.characterDataStat.damageableEntitySO == charactersSO)
             {
-                slot = i;
-                return slot;
+                return i;
             }
 
         }
 
-        return slot;
+        return -1;
     }
 
     private int GetEmptySlot()

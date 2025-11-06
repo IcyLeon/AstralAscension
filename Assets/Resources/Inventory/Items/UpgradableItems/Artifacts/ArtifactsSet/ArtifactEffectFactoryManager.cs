@@ -14,7 +14,7 @@ public class ArtifactEffectFactoryManager
 
         for (int i = 0; i < GetTotalPieceBuffs(); i++)
         {
-            CreateNode(ArtifactBuffPieceStatList[i]);
+            root = CreateNode(ArtifactBuffPieceStatList[i]);
         }
     }
 
@@ -33,15 +33,14 @@ public class ArtifactEffectFactoryManager
         return currentNode.nextNode;
     }
 
-    private void CreateNode(ArtifactBuffPieceStat ArtifactBuffPieceStat)
+    private ArtifactBuffInformation CreateNode(ArtifactBuffPieceStat ArtifactBuffPieceStat)
     {
         if (root == null)
         {
-            root = new(ArtifactBuffPieceStat, root);
-            return;
+            return new(ArtifactBuffPieceStat, root);
         }
 
         root.AddBuffInformation(ArtifactBuffPieceStat);
-
+        return root;
     }
 }

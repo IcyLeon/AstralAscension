@@ -5,12 +5,53 @@ using UnityEngine;
 public class StellarRestoration : ElementalSkillStateMachine
 {
     public PlayerAimController playerAimController { get; }
-    public KeqingAimState keqingAimState { get; }
-    public KeqingTeleportState keqingTeleportState { get; }
-    public KeqingThrowState keqingThrowState { get; }
-    public KeqingESlashState keqingESlashState { get; }
+    public KeqingAimState AimState()
+    {
+        return new KeqingAimState(this);
+    }
 
-    public StellarRestorationReusableData stellarRestorationReusableData { get; }
+    public KeqingTeleportState TeleportState()
+    {
+        return new KeqingTeleportState(this);
+    }
+
+    public KeqingThrowState ThrowState()
+    {
+        return new KeqingThrowState(this);
+    }
+
+    public KeqingESlashState OneSlashState()
+    {
+        return new KeqingESlashState(this);
+    }
+
+    public StellarRestorationReusableData stellarRestorationReusableData { get; private set; }
+
+    protected override void ElementalSkill_started()
+    {
+        if (stellarRestorationReusableData.CanThrow())
+            return;
+
+        playableCharacterStateMachine.ChangeState(TeleportState());
+    }
+
+    protected override void ElementalSkill_canceled()
+    {
+        if (!stellarRestorationReusableData.CanThrow())
+            return;
+
+        Vector3 origin = playableCharacterStateMachine.playableCharacter.GetCenterBound();
+        stellarRestorationReusableData.SetTargetPosition(origin + playableCharacterStateMachine.playableCharacter.transform.forward * stellarRestorationReusableData.ElementalSkillRange);
+        playableCharacterStateMachine.ChangeState(ThrowState());
+    }
+
+    protected override void ElementalSkill_performed()
+    {
+        if (!stellarRestorationReusableData.CanThrow())
+            return;
+
+        playableCharacterStateMachine.ChangeState(AimState());
+    }
 
     public KeqingAnimationSO keqingAnimationSO
     {
@@ -20,11 +61,16 @@ public class StellarRestoration : ElementalSkillStateMachine
         }
     }
 
-    public override void InitElementalSkillState()
+    protected override SkillReusableData CreateSkillReusableData()
     {
-        skillReusableData = new StellarRestorationReusableData(this); 
-        elementalSkillController = new StellarRestorationController(this);
+        if (stellarRestorationReusableData == null)
+        {
+            stellarRestorationReusableData = new StellarRestorationReusableData(this);
+        }
+
+        return stellarRestorationReusableData;
     }
+
 
     public StellarRestoration(PlayableCharacterStateMachine PlayableCharacterStateMachine) : base(PlayableCharacterStateMachine)
     {
@@ -32,11 +78,6 @@ public class StellarRestoration : ElementalSkillStateMachine
         {
             Debug.LogError("To use Stellar Restoration skill, make sure it has KeqingAnimationSO scriptable object!");
         }
-        stellarRestorationReusableData = skillReusableData as StellarRestorationReusableData;
         playerAimController = new PlayerAimController(playableCharacterStateMachine.playableCharacter);
-        keqingAimState = new KeqingAimState(this);
-        keqingTeleportState = new KeqingTeleportState(this);
-        keqingThrowState = new KeqingThrowState(this);
-        keqingESlashState = new KeqingESlashState(this);
     }
 }

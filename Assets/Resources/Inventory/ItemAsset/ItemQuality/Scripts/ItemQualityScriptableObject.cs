@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemQualityScriptableObject : ItemQualityButton
+public class ItemQualityScriptableObject : ItemQuality
 {
     [SerializeField] private ScriptableObject ItemScriptableObject;
 
@@ -12,6 +12,6 @@ public class ItemQualityScriptableObject : ItemQualityButton
     protected override void Awake()
     {
         base.Awake();
-        SetIItem(ItemScriptableObject as IItem);
+        SetIItem(ItemScriptableObject as IData);
     }
 }

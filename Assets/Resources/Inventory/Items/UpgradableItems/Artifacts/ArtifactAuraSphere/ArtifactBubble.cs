@@ -22,7 +22,6 @@ public class ArtifactBubble : MonoBehaviour, IPointerClickHandler
         artifactBubbleManager.OnArtifactInventoryChanged += ArtifactBubbleManager_OnArtifactInventoryChanged;
         artifactBubbleManager.OnArtifactEquip += ArtifactBubbleManager_OnArtifactEquip;
         artifactBubbleManager.OnArtifactUnEquip += ArtifactBubbleManager_OnArtifactUnEquip;
-        ResetArtifact();
     }
 
     private void ArtifactBubbleManager_OnArtifactInventoryChanged()
@@ -32,7 +31,7 @@ public class ArtifactBubble : MonoBehaviour, IPointerClickHandler
 
     private void ArtifactBubbleManager_OnArtifactUnEquip(Artifact Artifact)
     {
-        if (Artifact.GetIItem().GetTypeSO() != ArtifactTypeSO)
+        if (Artifact.GetTypeSO() != ArtifactTypeSO)
             return;
 
         ResetArtifact();
@@ -40,7 +39,7 @@ public class ArtifactBubble : MonoBehaviour, IPointerClickHandler
 
     private void ArtifactBubbleManager_OnArtifactEquip(Artifact Artifact)
     {
-        if (artifact != null || Artifact.GetIItem().GetTypeSO() != ArtifactTypeSO)
+        if (artifact != null || Artifact.GetTypeSO() != ArtifactTypeSO)
             return;
 
         SetArtifact(Artifact);
@@ -93,7 +92,7 @@ public class ArtifactBubble : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        ItemImage.overrideSprite = artifact.GetIItem().GetIcon();
+        ItemImage.overrideSprite = artifact.GetIcon();
     }
 
     private void UpdateVisual()

@@ -10,10 +10,11 @@ public class EffectManager
     private List<BuffEffect> buffEffectList;
     public event Action<BuffEvent> OnBuffRemove;
 
-    public EffectManager(CharacterInventory characterInventory)
+    public EffectManager(CharacterEquipmentManager characterEquipmentManager)
     {
         buffEffectList = new();
-        artifactEffectManager = new ArtifactEffectManager(characterInventory.artifactInventory, this);
+        artifactEffectManager = new ArtifactEffectManager(characterEquipmentManager.artifactEquipment, this);
+        characterEquipmentManager.SetEffectManager(this);
     }
 
     public void RemoveEffect(BuffEffect buffEffect)

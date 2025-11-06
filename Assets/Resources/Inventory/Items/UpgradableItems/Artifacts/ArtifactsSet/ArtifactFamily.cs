@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ArtifactFamily
 {
-    public List<Artifact> _artifacts { get; }
+    public Dictionary<ArtifactSO, Artifact> _artifacts { get; } = new();
     private ArtifactEffectFactoryManager ArtifactEffectFactoryManager;
     public ArtifactFamilySO artifactFamilySO { get; private set; }
     private ArtifactBuffInformation current;
@@ -19,10 +19,19 @@ public class ArtifactFamily
 
     public ArtifactFamily(ArtifactFamilySO ArtifactFamilySO)
     {
-        _artifacts = new();
         buffIndex = -1;
         artifactFamilySO = ArtifactFamilySO;
         ArtifactEffectFactoryManager = new ArtifactEffectFactoryManager(artifactFamilySO);
+    }
+
+    public Artifact GetArtifact(ArtifactSO artifactSO)
+    {
+        if (_artifacts.TryGetValue(artifactSO, out Artifact artifact))
+        {
+            return artifact;
+        }
+
+        return null;
     }
 
     private int GetTotalAmount()
@@ -32,7 +41,7 @@ public class ArtifactFamily
 
     public void Add(Artifact artifact)
     {
-        _artifacts.Add(artifact);
+        _artifacts.Add(artifact.artifactSO, artifact);
 
         ArtifactBuffInformation nextBuff = ArtifactEffectFactoryManager.GetNextNode(current);
 
@@ -51,7 +60,7 @@ public class ArtifactFamily
 
     public void Remove(Artifact artifact)
     {
-        _artifacts.Remove(artifact);
+        _artifacts.Remove(artifact.artifactSO);
 
         if (current != null && !current.IsEnough(GetTotalAmount()))
         {

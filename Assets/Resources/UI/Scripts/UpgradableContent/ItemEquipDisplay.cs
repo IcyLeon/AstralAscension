@@ -16,13 +16,22 @@ public class ItemEquipDisplay : MonoBehaviour
     private void Awake()
     {
         ItemContentDisplay = GetComponentInParent<ItemContentDisplay>();
+    }
+
+    private void OnEnable()
+    {
         ItemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
+    }
+
+    private void OnDisable()
+    {
+        ItemContentDisplay.OnItemContentDisplayChanged -= ItemContentDisplay_OnItemContentDisplayChanged;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
         UnsubscribeEvents();
-        upgradableItem = ItemContentDisplay.iItem as UpgradableItems;
+        upgradableItem = ItemContentDisplay.iData as UpgradableItems;
         SubscribeEvents();
         UpdateVisual();
     }
@@ -60,17 +69,19 @@ public class ItemEquipDisplay : MonoBehaviour
 
     private void UpdateVisual()
     {
-        MainPanel.SetActive(upgradableItem != null && upgradableItem.equipByCharacter);
-
-        if (upgradableItem == null)
+        if (!IsValid())
             return;
 
         PlayerCharactersSO playerCharactersSO = upgradableItem.equipByCharacter as PlayerCharactersSO;
 
-        if (playerCharactersSO == null)
-            return;
-
-        EquipTxt.text = "Equipped: " + playerCharactersSO.GetName();
+        EquipTxt.text = playerCharactersSO.GetName();
         PartyIconImage.sprite = playerCharactersSO.PartyCharacterIcon;
+    }
+
+    private bool IsValid()
+    {
+        bool valid = upgradableItem != null && upgradableItem.equipByCharacter != null;
+        MainPanel.SetActive(valid);
+        return valid;
     }
 }

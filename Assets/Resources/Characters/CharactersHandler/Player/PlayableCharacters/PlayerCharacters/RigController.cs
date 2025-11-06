@@ -21,10 +21,20 @@ public class RigController : MonoBehaviour
         SmoothRigWeight();
     }
 
+    private void OnDisable()
+    {
+        SetWeight(0f);
+    }
+
+    private void SetWeight(float weight)
+    {
+        rig.weight = weight;
+    }
+
 
     private void SmoothRigWeight()
     {
-        rig.weight = Mathf.Lerp(rig.weight, targetRigWeight, Time.deltaTime * soothingWeightSpeed);
+        SetWeight(Mathf.Lerp(rig.weight, targetRigWeight, Time.deltaTime * soothingWeightSpeed));
     }
 
     public void SetTargetWeight(float target)

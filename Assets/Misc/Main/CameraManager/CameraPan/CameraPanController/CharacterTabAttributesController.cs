@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static CharacterTabAttributeActionManager;
 
 [RequireComponent(typeof(TabOption))]
 [DisallowMultipleComponent]
 public class CharacterTabAttributesController : MonoBehaviour
 {
-    [SerializeField] private TabAttributeSO TabAttributeSO;
-    private CharacterDisplayManager characterDisplayManager;
+    [SerializeField] private TAB_ATTRIBUTE TabAttribute;
     private TabOption tabOption;
 
     private void Awake()
@@ -16,44 +16,17 @@ public class CharacterTabAttributesController : MonoBehaviour
         tabOption = GetComponent<TabOption>();
     }
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        tabOption.OnTabOptionSelect += TabOption_TabOptionSelect;
-    }
-
-    private void SubscribeEvents()
-    {
-        tabOption.OnTabOptionSelect += TabOption_TabOptionSelect;
-    }
-
-    private void UnsubscribeEvents()
-    {
-        tabOption.OnTabOptionSelect -= TabOption_TabOptionSelect;
-    }
-
     private void OnEnable()
     {
-        SubscribeEvents();
+        tabOption.OnTabOptionSelect += TabOption_TabOptionSelect;
     }
 
     private void OnDisable()
     {
-        UnsubscribeEvents();
+        tabOption.OnTabOptionSelect -= TabOption_TabOptionSelect;
     }
-
-    private void OnDestroy()
-    {
-        UnsubscribeEvents();
-    }
-
     private void TabOption_TabOptionSelect(TabOption tabOption)
     {
-        characterDisplayManager = CharacterDisplayManager.instance;
-
-        if (characterDisplayManager == null)
-            return;
-
-        characterDisplayManager.SetCurrentTabAttributeAction(TabAttributeSO);
+        TabAttributesMiscEvent.Switch(TabAttribute);
     }
 }

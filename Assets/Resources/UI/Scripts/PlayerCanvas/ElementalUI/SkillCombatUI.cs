@@ -11,50 +11,23 @@ public abstract class SkillCombatUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TimerTxt;
     [SerializeField] private Image SkillIconImage;
 
-    protected CombatUIManager combatUIManager { get; private set; }
-    protected Player player;
 
     public PlayableCharacterDataStat currentPlayableCharacterData { get; private set; }
 
     protected virtual void Awake()
     {
-        combatUIManager = GetComponentInParent<CombatUIManager>();
-        combatUIManager.OnPlayerChanged += CombatUIManager_OnPlayerChanged;
+        CharacterSwitchEvent.OnCharacterSwitch += CharacterSwitchEvent_OnCharacterSwitch;
     }
 
-    private void CombatUIManager_OnPlayerChanged()
+    private void CharacterSwitchEvent_OnCharacterSwitch(PartyMember PartyMember)
     {
-        UnsubscribeEvent();
-        player = combatUIManager.player;
-        SubscribeEvent();
-    }
-
-    private void SubscribeEvent()
-    {
-        if (player == null)
-            return;
-
-        player.activeCharacter.OnPlayerCharacterSwitch += ActiveCharacter_OnPlayerCharacterSwitch;
+        currentPlayableCharacterData = PartyMember.characterDataStat as PlayableCharacterDataStat;
         UpdateVisuals();
-    }
-
-    private void UnsubscribeEvent()
-    {
-        if (player == null)
-            return;
-
-        player.activeCharacter.OnPlayerCharacterSwitch -= ActiveCharacter_OnPlayerCharacterSwitch;
     }
 
     protected virtual void UpdateVisuals()
     {
-        currentPlayableCharacterData = player.activeCharacter.currentPartyMember.characterDataStat as PlayableCharacterDataStat;
         UpdateIcon();
-    }
-
-    private void ActiveCharacter_OnPlayerCharacterSwitch(PartyMember PrevPartyMember, PartyMember NewPartyMember)
-    {
-        UpdateVisuals();
     }
 
     private void Update()
@@ -88,7 +61,6 @@ public abstract class SkillCombatUI : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        combatUIManager.OnPlayerChanged -= CombatUIManager_OnPlayerChanged;
-        UnsubscribeEvent();
+        CharacterSwitchEvent.OnCharacterSwitch -= CharacterSwitchEvent_OnCharacterSwitch;
     }
 }

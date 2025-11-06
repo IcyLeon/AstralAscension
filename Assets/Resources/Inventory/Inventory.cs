@@ -6,29 +6,22 @@ using UnityEngine;
 public class Inventory
 {
     public int mora { get; private set; }
-    public Dictionary<Item, Item> itemList { get; private set; }
+    public Dictionary<Item, Item> itemList { get; } = new();
 
     public delegate void OnItemChanged(Item Item);
     public event OnItemChanged OnItemAdd, OnItemRemove;
-    public event Action<int> OnMoraChanged;
+    public event Action OnMoraChanged;
 
     public void AddMora(int Amt)
     {
         mora += Amt;
         ClampMora();
-        OnMoraChanged?.Invoke(mora);
-    }
-
-    public void RemoveMora(int Amt)
-    {
-        mora -= Amt;
-        ClampMora();
-        OnMoraChanged?.Invoke(mora);
+        OnMoraChanged?.Invoke();
     }
 
     private void ClampMora()
     {
-        mora = Mathf.Clamp(mora, 0, 100000000);
+        mora = Mathf.Clamp(mora, 0, 10000000);
     }
 
     private Item GetItem(Item Item)
@@ -70,6 +63,5 @@ public class Inventory
     public Inventory(int StartingMora = 0)
     {
         mora = StartingMora;
-        itemList = new();
     }
 }

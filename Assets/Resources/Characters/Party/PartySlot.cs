@@ -10,15 +10,6 @@ public class PartySlot
     public event OnPartySlotChanged OnPartyAdd;
     public event OnPartySlotChanged OnPartyRemove;
 
-    //public void AddMember(CharactersSO charactersSO)
-    //{
-    //    if (HasMember())
-    //        return;
-
-    //    partyMember = new PartyMember(charactersSO);
-    //    OnPartyAdd?.Invoke(this, partyMember);
-    //}
-
     public void AddMember(CharacterDataStat CharacterDataStat)
     {
         if (HasMember() || CharacterDataStat == null)

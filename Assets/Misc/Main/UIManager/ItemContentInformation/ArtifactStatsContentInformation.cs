@@ -15,11 +15,11 @@ public class ArtifactStatsContentInformation : ItemContentInformation
         artifactSubStatDisplayList = GetComponentsInChildren<ArtifactSubStatDisplay>(true);
     }
 
-    public override void UpdateItemContentInformation(IItem iItem)
+    public override void UpdateItemContentInformation(IData IData)
     {
         Init();
 
-        Artifact artifact = iItem as Artifact;
+        Artifact artifact = IData as Artifact;
 
         gameObject.SetActive(artifact != null);
 

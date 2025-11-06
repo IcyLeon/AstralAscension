@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static InventoryManager;
 
 public class SlotPopup : MonoBehaviour
 {
@@ -14,19 +13,17 @@ public class SlotPopup : MonoBehaviour
     [SerializeField] private ItemCard itemCard;
     private SlotManager slotManager;
 
-    private Dictionary<ItemFamilyTypeSO, Dictionary<IItem, ItemQualityIEntity>> itemQualityDictionary;
-    private List<ItemQualityButton> sortedEntities;
-    private IItem iItem;
+    private Dictionary<ItemFamilyTypeSO, Dictionary<IData, ItemQualityIEntity>> itemQualityDictionary = new();
+    private List<ItemQuality> sortedEntities;
+    private IData iData;
     private Inventory inventory;
     public event Action<Slot> OnSlotChanged;
     public event Action<Slot> OnSlotItemAdd;
 
     private void Awake()
     {
-        itemQualityDictionary = new();
         sortedEntities = new();
-        OnInventoryOld += InventoryManager_OnInventoryOld;
-        OnInventoryNew += InventoryManager_OnInventoryNew;
+        InventoryManager.OnInventoryChanged += InventoryManager_OnInventoryChanged;
     }
 
     public void SetSlotManager(SlotManager SlotManager)
@@ -46,26 +43,26 @@ public class SlotPopup : MonoBehaviour
         OnSlotChanged?.Invoke(Slot);
     }
 
-    public void SetIItem(IItem IItem)
+    public void SetIItem(IData IData)
     {
-        iItem = IItem;
-        slotManager.SetIItem(iItem);
+        iData = IData;
+        slotManager.SetIItem(iData);
         UpdateSlotContent();
     }
 
     private void UpdateSlotContent()
     {
-        if (iItem == null)
+        if (iData == null)
             return;
 
-        ItemFamilyTypeSO itemFamilyTypeSO = iItem.GetTypeSO().ItemFamilyTypeSO;
+        ItemFamilyTypeSO itemFamilyTypeSO = iData.GetTypeSO().ItemFamilyTypeSO;
 
-        if (!itemQualityDictionary.TryGetValue(itemFamilyTypeSO, out Dictionary<IItem, ItemQualityIEntity> itemQualityDic))
+        if (!itemQualityDictionary.TryGetValue(itemFamilyTypeSO, out Dictionary<IData, ItemQualityIEntity> itemQualityDic))
             return;
 
         foreach(var ItemQualityIEntity in itemQualityDic.Values)
         {
-            ItemQualityIEntity.gameObject.SetActive(ItemQualityIEntity.ItemQuality.iItem != iItem && !IsEquippedByCharacter(ItemQualityIEntity.ItemQuality.iItem));
+            ItemQualityIEntity.gameObject.SetActive(ItemQualityIEntity.iData != iData && !IsEquippedByCharacter(ItemQualityIEntity.iData));
         }
     }
 
@@ -77,14 +74,14 @@ public class SlotPopup : MonoBehaviour
 
     private void Init()
     {
-        if (instance == null)
+        if (InventoryManager.instance == null)
         {
             Debug.Log("Inventory Manager not Found!");
             return;
         }
 
         ItemManagerSO = AssetManager.instance.ItemAssetManagerSO;
-        InventoryManager_OnInventoryNew(instance.inventory);
+        InventoryManager_OnInventoryChanged(InventoryManager.instance.inventory);
     }
 
     public void RemoveItems(List<IEntity> ItemList)
@@ -98,25 +95,22 @@ public class SlotPopup : MonoBehaviour
         }
     }
 
-    private void InventoryManager_OnInventoryOld(Inventory Inventory)
-    {
-        Inventory.OnItemAdd -= Inventory_OnItemAdd;
-        Inventory.OnItemRemove -= Inventory_OnItemRemove;
-    }
-
-    private void InventoryManager_OnInventoryNew(Inventory Inventory)
+    private void InventoryManager_OnInventoryChanged(Inventory Inventory)
     {
         if (inventory == Inventory)
             return;
 
-        inventory = Inventory;
-
         if (inventory != null)
         {
-            inventory.OnItemAdd += Inventory_OnItemAdd;
-            inventory.OnItemRemove += Inventory_OnItemRemove;
-            UpdateVisual();
+            Inventory.OnItemAdd -= Inventory_OnItemAdd;
+            Inventory.OnItemRemove -= Inventory_OnItemRemove;
         }
+
+        inventory = Inventory;
+
+        inventory.OnItemAdd += Inventory_OnItemAdd;
+        inventory.OnItemRemove += Inventory_OnItemRemove;
+        UpdateVisual();
     }
 
     private void Inventory_OnItemRemove(Item Item)
@@ -127,12 +121,12 @@ public class SlotPopup : MonoBehaviour
             return;
 
         itemQualityIEntity.ItemQualitySelection.OnRemoveClick -= ItemQualitySelection_OnRemoveClick;
-        itemQualityIEntity.Destroy();
+        Destroy(itemQualityIEntity.gameObject);
     }
 
-    private bool IsEquippedByCharacter(IItem IItem)
+    private bool IsEquippedByCharacter(IData iData)
     {
-        UpgradableItems upgradableItems = IItem as UpgradableItems;
+        UpgradableItems upgradableItems = iData as UpgradableItems;
 
         if (upgradableItems == null)
             return false;
@@ -156,27 +150,27 @@ public class SlotPopup : MonoBehaviour
 
     private void AddItemQualityToDictionary(ItemQualityIEntity ItemQualityIEntity)
     {
-        ItemFamilyTypeSO itemFamilyTypeSO = ItemQualityIEntity.ItemQuality.iItem.GetTypeSO().ItemFamilyTypeSO;
+        ItemFamilyTypeSO itemFamilyTypeSO = ItemQualityIEntity.iData.GetTypeSO().ItemFamilyTypeSO;
 
         if (!itemQualityDictionary.ContainsKey(itemFamilyTypeSO))
         {
             itemQualityDictionary.Add(itemFamilyTypeSO, new());
         }
 
-        itemQualityDictionary[itemFamilyTypeSO].Add(ItemQualityIEntity.ItemQuality.iItem, ItemQualityIEntity);
+        itemQualityDictionary[itemFamilyTypeSO].Add(ItemQualityIEntity.iData, ItemQualityIEntity);
         AddSorted(ItemQualityIEntity);
         UpdateSlotContent();
     }
 
-    private ItemQualityIEntity RemoveItemQualityFromDictionary(IItem IItem)
+    private ItemQualityIEntity RemoveItemQualityFromDictionary(IData iData)
     {
-        ItemFamilyTypeSO itemFamilyTypeSO = IItem.GetTypeSO().ItemFamilyTypeSO;
+        ItemFamilyTypeSO itemFamilyTypeSO = iData.GetTypeSO().ItemFamilyTypeSO;
 
-        if (!itemQualityDictionary.TryGetValue(itemFamilyTypeSO, out Dictionary<IItem, ItemQualityIEntity> itemQualityDic))
+        if (!itemQualityDictionary.TryGetValue(itemFamilyTypeSO, out Dictionary<IData, ItemQualityIEntity> itemQualityDic))
             return null;
 
-        ItemQualityIEntity itemQualityIEntity = itemQualityDic[IItem];
-        itemQualityDic.Remove(IItem);
+        ItemQualityIEntity itemQualityIEntity = itemQualityDic[iData];
+        itemQualityDic.Remove(iData);
         sortedEntities.Remove(itemQualityIEntity);
 
         if (itemQualityDic.Count == 0)
@@ -190,40 +184,40 @@ public class SlotPopup : MonoBehaviour
     }
 
 
-    private void AddSorted(ItemQualityButton ItemQualityButton)
+    private void AddSorted(ItemQuality itemQuality)
     {
-        int location = GetLocation(ItemQualityButton, 0, sortedEntities.Count - 1);
-        sortedEntities.Insert(location, ItemQualityButton);
-        ItemQualityButton.transform.SetSiblingIndex(location);
+        int location = GetLocation(itemQuality, 0, sortedEntities.Count - 1);
+        sortedEntities.Insert(location, itemQuality);
+        itemQuality.transform.SetSiblingIndex(location);
     }
-    private int GetLocation(ItemQualityButton ItemQualityButton, int start, int end)
+    private int GetLocation(ItemQuality itemQuality, int start, int end)
     {
         if (start > end)
             return start;
 
         int mid = (start + end) / 2;
 
-        IItem IMidEntity = sortedEntities[mid].ItemQuality.iItem;
+        IData IMidEntity = sortedEntities[mid].iData;
 
-        int nameComparison = string.Compare(IMidEntity.GetName(), ItemQualityButton.ItemQuality.iItem.GetName(), StringComparison.OrdinalIgnoreCase);
+        int nameComparison = string.Compare(IMidEntity.GetName(), itemQuality.iData.GetName(), StringComparison.OrdinalIgnoreCase);
 
-        if (IMidEntity.GetRaritySO().Rarity < ItemQualityButton.ItemQuality.iItem.GetRaritySO().Rarity)
+        if (IMidEntity.GetRaritySO().Rarity < itemQuality.iData.GetRaritySO().Rarity)
         {
-            return GetLocation(ItemQualityButton, start, mid - 1);
+            return GetLocation(itemQuality, start, mid - 1);
         }
-        else if (IMidEntity.GetRaritySO().Rarity > ItemQualityButton.ItemQuality.iItem.GetRaritySO().Rarity)
+        else if (IMidEntity.GetRaritySO().Rarity > itemQuality.iData.GetRaritySO().Rarity)
         {
-            return GetLocation(ItemQualityButton, mid + 1, end);
+            return GetLocation(itemQuality, mid + 1, end);
         }
         else
         {
             if (nameComparison < 0)
             {
-                return GetLocation(ItemQualityButton, mid + 1, end);
+                return GetLocation(itemQuality, mid + 1, end);
             }
             else if (nameComparison > 0)
             {
-                return GetLocation(ItemQualityButton, start, mid - 1);
+                return GetLocation(itemQuality, start, mid - 1);
             }
             else
             {
@@ -232,9 +226,9 @@ public class SlotPopup : MonoBehaviour
         }
     }
 
-    public List<IItem> GetEntityList(Rarity MaxRarity, int amount)
+    public List<IData> GetEntityList(Rarity MaxRarity, int amount)
     {
-        List<IItem> entitiesList = new();
+        List<IData> entitiesList = new();
 
         for (int i = 0; i < amount; i++)
         {
@@ -243,24 +237,24 @@ public class SlotPopup : MonoBehaviour
             if (index < 0)
                 break;
 
-            ItemQualityButton ItemQualityButton = sortedEntities[index];
+            ItemQuality itemQuality = sortedEntities[index];
 
-            if (!ItemQualityButton.gameObject.activeSelf || ItemQualityButton.ItemQuality.iItem.GetRaritySO().Rarity > MaxRarity ||
-                !slotManager.CanManualAdd(ItemQualityButton.ItemQuality.iItem))
+            if (!itemQuality.gameObject.activeSelf || itemQuality.iData.GetRaritySO().Rarity > MaxRarity ||
+                !slotManager.CanManualAdd(itemQuality.iData))
             {
                 amount++;
                 continue;
             }
 
-            entitiesList.Add(ItemQualityButton.ItemQuality.iItem);
+            entitiesList.Add(itemQuality.iData);
         }
 
         return entitiesList;
     }
 
-    private void ItemQualitySelection_OnRemoveClick(ItemQualityButton ItemQualityButton)
+    private void ItemQualitySelection_OnRemoveClick(ItemQuality itemQuality)
     {
-        Slot slot = slotManager.Contains(GetIItem(ItemQualityButton));
+        Slot slot = slotManager.Contains(GetIItem(itemQuality));
 
         if (slot != null)
         {
@@ -270,11 +264,11 @@ public class SlotPopup : MonoBehaviour
 
     private void SlotManager_OnSlotItemAdd(Slot Slot)
     {
-        IItem iItem = GetIItem(Slot.itemQualityButton);
+        IData iData = GetIItem(Slot.itemQuality);
 
-        RevealItemCard(iItem);
+        RevealItemCard(iData);
 
-        ItemQualityIEntity ItemQualityIEntity = GetItemQualityIItem(iItem);
+        ItemQualityIEntity ItemQualityIEntity = GetItemQualityIItem(iData);
 
         if (ItemQualityIEntity == null)
             return;
@@ -283,9 +277,9 @@ public class SlotPopup : MonoBehaviour
         OnSlotItemAdd?.Invoke(Slot);
     }
 
-    private void SlotManager_OnSlotItemRemove(IItem IItem, Slot Slot)
+    private void SlotManager_OnSlotItemRemove(IData iData, Slot Slot)
     {
-        ItemQualityIEntity ItemQualityIEntity = GetItemQualityIItem(IItem);
+        ItemQualityIEntity ItemQualityIEntity = GetItemQualityIItem(iData);
 
         if (ItemQualityIEntity == null)
             return;
@@ -296,55 +290,55 @@ public class SlotPopup : MonoBehaviour
 
     private void SlotManager_OnSlotSelected(Slot Slot)
     {
-        IItem iItem = GetIItem(Slot.itemQualityButton);
+        IData iData = GetIItem(Slot.itemQuality);
 
-        RevealItemCard(iItem);
+        RevealItemCard(iData);
     }
 
-    private ItemQualityIEntity GetItemQualityIItem(IItem IItem)
+    private ItemQualityIEntity GetItemQualityIItem(IData iData)
     {
-        ItemFamilyTypeSO itemFamilyTypeSO = IItem.GetTypeSO().ItemFamilyTypeSO;
+        ItemFamilyTypeSO itemFamilyTypeSO = iData.GetTypeSO().ItemFamilyTypeSO;
 
-        if (!itemQualityDictionary.TryGetValue(itemFamilyTypeSO, out Dictionary<IItem, ItemQualityIEntity> itemQualityDic))
+        if (!itemQualityDictionary.TryGetValue(itemFamilyTypeSO, out Dictionary<IData, ItemQualityIEntity> itemQualityDic))
             return null;
 
-        if (!itemQualityDic.TryGetValue(IItem, out ItemQualityIEntity ItemQualityIEntity))
+        if (!itemQualityDic.TryGetValue(iData, out ItemQualityIEntity ItemQualityIEntity))
             return null;
 
         return ItemQualityIEntity;
     }
 
-    private void RevealItemCard(IItem IItem)
+    private void RevealItemCard(IData iData)
     {
         MainPanel.SetActive(true);
-        itemCard.SetIItem(IItem);
+        itemCard.SetIItem(iData);
     }
 
-    private void OnSelectedItemQualityButton(ItemQualityButton ItemQualityButton)
+    private void OnSelectedItemQualityButton(ItemQuality itemQuality)
     {
-        IItem iItem = GetIItem(ItemQualityButton);
+        IData iData = GetIItem(itemQuality);
 
-        RevealItemCard(iItem);
+        RevealItemCard(iData);
 
-        if (!slotManager.CanManualAdd(iItem))
+        if (!slotManager.CanManualAdd(iData))
             return;
 
-        AddEntityToSlot(iItem);
+        AddEntityToSlot(iData);
     }
 
-    public bool AddEntityToSlot(IItem IItem)
+    public bool AddEntityToSlot(IData iData)
     {
-        return slotManager.TryAddEntityToSlot(IItem);
+        return slotManager.TryAddEntityToSlot(iData);
     }
 
-    private IItem GetIItem(ItemQualityButton ItemQualityButton)
+    private IData GetIItem(ItemQuality itemQuality)
     {
-        if (ItemQualityButton == null)
+        if (itemQuality == null)
         {
             return null;
         }
 
-        return ItemQualityButton.ItemQuality.iItem;
+        return itemQuality.iData;
     }
 
     private void UpdateVisual()
@@ -367,8 +361,7 @@ public class SlotPopup : MonoBehaviour
         slotManager.OnSlotItemAdd -= SlotManager_OnSlotItemAdd;
         slotManager.OnSlotItemRemove -= SlotManager_OnSlotItemRemove;
 
-        OnInventoryOld -= InventoryManager_OnInventoryOld;
-        OnInventoryNew -= InventoryManager_OnInventoryNew;
+        InventoryManager.OnInventoryChanged -= InventoryManager_OnInventoryChanged;
 
         if (inventory != null)
         {

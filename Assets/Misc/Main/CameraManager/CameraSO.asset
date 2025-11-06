@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CameraSO
   m_EditorClassIdentifier: 
   <CameraDefaultData>k__BackingField:
-    <CameraDistanceRange>k__BackingField: {x: 1.5, y: 6.5}
+    <CameraDistanceRange>k__BackingField: {x: 1.5, y: 6}
     <CameraZoomSmoothingSpeed>k__BackingField: 8
   <CameraAimData>k__BackingField:
     <CameraRotationSpeed>k__BackingField: 5

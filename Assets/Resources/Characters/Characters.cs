@@ -9,11 +9,17 @@ public abstract class Characters : MonoBehaviour
     [field: SerializeField] public Animator Animator { get; private set; }
     [field: SerializeField] public CharactersSO CharacterSO { get; private set; }
     [SerializeField] private AudioSource VoiceSource;
+    private CharacterAnimationEvents characterAnimationEvents;
 
     // Start is called before the first frame update
     protected virtual void Awake()
     {
-        
+        characterAnimationEvents = GetComponentInChildren<CharacterAnimationEvents>();
+    }
+
+    protected virtual void OnAnimationMove(Vector3 deltaPosition)
+    {
+
     }
 
     protected virtual void Start()
@@ -23,14 +29,29 @@ public abstract class Characters : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-
+        SubscribeAnimationEvents();
     }
 
     protected virtual void OnDisable()
     {
-
+        UnsubscribeAnimationEvents();
     }
 
+    private void SubscribeAnimationEvents()
+    {
+        if (characterAnimationEvents == null)
+            return;
+
+        characterAnimationEvents.OnMove += OnAnimationMove;
+    }
+
+    private void UnsubscribeAnimationEvents()
+    {
+        if (characterAnimationEvents == null)
+            return;
+
+        characterAnimationEvents.OnMove -= OnAnimationMove;
+    }
 
     public void PlayVOAudio(AudioClip clip)
     {
@@ -41,7 +62,7 @@ public abstract class Characters : MonoBehaviour
     }
     protected virtual void OnDestroy()
     {
-
+        UnsubscribeAnimationEvents();
     }
 
     // Update is called once per frame
@@ -84,35 +105,4 @@ public abstract class Characters : MonoBehaviour
         OnLateUpdate();
     }
 
-    public static void StartAnimation(Animator animator, string HashParameter)
-    {
-        if (animator == null)
-            return;
-
-        if (CharacterManager.ContainsParam(animator, HashParameter))
-        {
-            animator.SetBool(HashParameter, true);
-        }
-    }
-
-    public static void SetAnimationTrigger(Animator animator, string HashParameter)
-    {
-        if (animator == null)
-            return;
-
-        if (CharacterManager.ContainsParam(animator, HashParameter))
-        {
-            animator.ResetTrigger(HashParameter);
-            animator.SetTrigger(HashParameter);
-        }
-    }
-
-    public static void StopAnimation(Animator animator, string HashParameter)
-    {
-        if (animator == null)
-            return;
-
-        if (CharacterManager.ContainsParam(animator, HashParameter))
-            animator.SetBool(HashParameter, false);
-    }
 }

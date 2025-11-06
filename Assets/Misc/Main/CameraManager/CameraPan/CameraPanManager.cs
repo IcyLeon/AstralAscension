@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class CameraPanManager : MonoBehaviour
 {
@@ -33,10 +35,18 @@ public class CameraPanManager : MonoBehaviour
 
     private void Look_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (currentPanVirtualCam == null)
+        if (currentPanVirtualCam == null || !UICanvas.IsValid())
             return;
 
         currentPanVirtualCam.OnDrag(obj.ReadValue<Vector2>());
+    }
+
+    public float GetCameraDistance()
+    {
+        if (currentPanVirtualCam == null)
+            return CameraPanSelectionDataSO.CameraDistanceRange.x;
+
+        return currentPanVirtualCam.GetCameraDistance();
     }
 
     private void Zoom_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -65,9 +75,6 @@ public class CameraPanManager : MonoBehaviour
 
     public void ChangeCamera(CameraPanVirtualCam CameraPanVirtualCam)
     {
-        if (CameraPanVirtualCam == currentPanVirtualCam)
-            return;
-
         if (currentPanVirtualCam != null)
         {
             currentPanVirtualCam.OnExit();

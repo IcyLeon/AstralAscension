@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class PlayableCharacterAttackData
 {
-    private const float attackCooldown = 1.5f;
+    private const float attackCooldown = 0.15f;
     private float attackCooldownElapsedTime;
 
     public PlayableCharacterAttackData()
     {
+        OnEnable();
+    }
+
+    public void OnEnable()
+    {
         attackCooldownElapsedTime = 0f;
+    }
+
+    public void OnDisable()
+    {
+
     }
 
     public void Update()
@@ -29,7 +39,6 @@ public class PlayableCharacterAttackData
 
     private void UpdateAttackCooldown()
     {
-        attackCooldownElapsedTime -= Time.deltaTime;
-        attackCooldownElapsedTime = Mathf.Clamp(attackCooldownElapsedTime, 0f, attackCooldown);
+        attackCooldownElapsedTime = Mathf.Clamp(attackCooldownElapsedTime - Time.deltaTime, 0f, attackCooldown);
     }
 }

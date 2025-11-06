@@ -21,7 +21,7 @@ public abstract class UpgradableItems : Item
     public event Action OnUpgradeIEXP;
     public int level { get; private set; }
 
-    public UpgradableItems(IItem iItem) : base(iItem)
+    public UpgradableItems(IData iData) : base(iData)
     {
         level = 0;
         currentEXP = 0;
@@ -52,12 +52,12 @@ public abstract class UpgradableItems : Item
         CallOnItemChanged();
     }
 
-    public void Equip(CharactersSO charactersSO)
+    public void Equip(CharactersSO CharactersSO)
     {
-        if (charactersSO == null)
+        if (CharactersSO == null)
             return;
 
-        equipByCharacter = charactersSO;
+        equipByCharacter = CharactersSO;
         OnEquip?.Invoke(this);
         CallOnItemChanged();
     }

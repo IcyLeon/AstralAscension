@@ -23,18 +23,18 @@ public class ItemCard : MonoBehaviour
         ItemAssetManagerSO = instance.ItemAssetManagerSO;
     }
 
-    public void SetIItem(IItem iItem)
+    public void SetIItem(IData iData)
     {
-        gameObject.SetActive(iItem != null);
+        gameObject.SetActive(iData != null);
 
-        if (iItem == null)
+        if (iData == null)
             return;
 
         InitAssetManager();
 
-        ItemRaritySO itemRaritySO = iItem.GetRaritySO();
+        ItemRaritySO itemRaritySO = iData.GetRaritySO();
 
         CardImage.sprite = itemRaritySO.ItemCardBackground;
-        ItemContentDisplay.SetIItem(iItem);
+        ItemContentDisplay.SetIItem(iData);
     }
 }

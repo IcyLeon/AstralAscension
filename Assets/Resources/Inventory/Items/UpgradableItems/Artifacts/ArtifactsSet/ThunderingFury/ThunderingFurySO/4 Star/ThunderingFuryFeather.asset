@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1354565da96937548bdf8dbb6d141e4e, type: 3}
   m_Name: ThunderingFuryFeather
   m_EditorClassIdentifier: 
-  <ItemName>k__BackingField: Survivor of Catastrophe
-  <ItemSprite>k__BackingField: {fileID: 21300000, guid: 2b9e15541c8fbc143b4829e99b78589c,
-    type: 3}
-  <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
-    type: 2}
-  <ItemDescription>k__BackingField: A lightning-charged feather that still flickers
-    with the wrath of the Thunderbird's cruel retribution.
-  <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02,
-    type: 2}
+  Name: Survivor of Catastrophe
+  Icon: {fileID: 21300000, guid: 2b9e15541c8fbc143b4829e99b78589c, type: 3}
+  RaritySO: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0, type: 2}
+  ItemTypeSO: {fileID: 11400000, guid: f1009c30656b0bd4886e50ad1e5d1f02, type: 2}
+  Description: A lightning-charged feather that still flickers with the wrath of
+    the Thunderbird's cruel retribution.
   <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: 13100007aee165442855fb0a3690a081,
     type: 2}

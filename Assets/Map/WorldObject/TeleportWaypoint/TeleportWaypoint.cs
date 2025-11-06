@@ -20,7 +20,7 @@ public class TeleportWaypoint : InteractiveMapObject, IInteractable
 
     public override void Action(Player player)
     {
-        player.transform.position = GetMapIconTransform().position;
+        player.transform.position = transform.position;
     }
 
     public Transform GetIPointOfInterestTransform()

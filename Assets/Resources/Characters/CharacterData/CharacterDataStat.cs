@@ -7,7 +7,7 @@ using UnityEngine;
 public class CharacterDataStat : IEntity
 {    
     public EffectManager effectManager { get; }
-    public CharacterInventory characterInventory { get; private set; }
+    public CharacterEquipmentManager characterEquipmentManager { get; private set; }
     public Dictionary<ElementsSO, Elements> inflictElementList { get; private set; }
     public delegate void OnElementChange(Elements element);
     public event OnElementChange OnElementEnter;
@@ -25,8 +25,8 @@ public class CharacterDataStat : IEntity
 
     public CharacterDataStat(CharactersSO charactersSO)
     {
-        characterInventory = new(charactersSO);
-        effectManager = new(characterInventory);
+        characterEquipmentManager = new(charactersSO);
+        effectManager = new(characterEquipmentManager);
         inflictElementList = new();
         damageableEntitySO = charactersSO as DamageableEntitySO;
 
@@ -86,32 +86,27 @@ public class CharacterDataStat : IEntity
 
     public string GetName()
     {
-        return GetIItem().GetName();
+        return damageableEntitySO.GetName();
     }
 
     public ItemTypeSO GetTypeSO()
     {
-        return GetIItem().GetTypeSO();
+        return damageableEntitySO.GetTypeSO();
     }
 
     public Sprite GetIcon()
     {
-        return GetIItem().GetIcon();
+        return damageableEntitySO.GetIcon();
     }
 
     public string GetDescription()
     {
-        return GetIItem().GetDescription();
+        return damageableEntitySO.GetDescription();
     }
 
     public ItemRaritySO GetRaritySO()
     {
-        return GetIItem().GetRaritySO();
-    }
-
-    public IItem GetIItem()
-    {
-        return GetIItem().GetIItem();
+        return damageableEntitySO.GetRaritySO();
     }
 
     public bool IsNew()
@@ -168,5 +163,10 @@ public class CharacterDataStat : IEntity
     {
         currentEXP -= exp;
         currentEXP = Mathf.Max(currentEXP, 0);
+    }
+
+    public ItemTypeSO GetItemTypeSO()
+    {
+        return damageableEntitySO.CharacterTypeSO;
     }
 }

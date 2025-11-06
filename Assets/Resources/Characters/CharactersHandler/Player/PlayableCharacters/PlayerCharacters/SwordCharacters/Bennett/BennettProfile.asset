@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b1ebaa33de5314c9e21fd52eee3b16, type: 3}
   m_Name: BennettProfile
   m_EditorClassIdentifier: 
-  <CharacterName>k__BackingField: Bennett
-  <CharacterDescription>k__BackingField: A righteous and good-natured adventurer
-    from Mondstadt who's unfortunately extremely unlucky.
-  <CharacterIcon>k__BackingField: {fileID: 21300000, guid: 998682eb2b5f4b94d83ce302b21cc5bf,
-    type: 3}
+  <Name>k__BackingField: Bennett
+  <Description>k__BackingField: 
+  <Icon>k__BackingField: {fileID: 0}
+  <RaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
+    type: 2}
   <VoiceActor>k__BackingField: Cristina Vee Valenzuela

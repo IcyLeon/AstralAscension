@@ -10,10 +10,10 @@ public class ItemManagerSO : ScriptableObject
     [field: SerializeField] public GameObject StarPrefab { get; private set; }
     [field: SerializeField] public ItemRaritySO[] ItemRaritySOList { get; private set; }
 
-    public ItemQualityIEntity CreateItemQualityItem(IItem IItem, Transform ParentTransform)
+    public ItemQualityIEntity CreateItemQualityItem(IData iData, Transform ParentTransform)
     {
         ItemQualityIEntity itemQualityItem = Instantiate(ItemQualityItemPrefab, ParentTransform).GetComponent<ItemQualityIEntity>();
-        itemQualityItem.SetIItem(IItem);
+        itemQualityItem.SetIItem(iData);
         return itemQualityItem;
     }
 

@@ -12,15 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1354565da96937548bdf8dbb6d141e4e, type: 3}
   m_Name: ThunderingFurySands
   m_EditorClassIdentifier: 
-  <ItemName>k__BackingField: Hourglass of Thunder
-  <ItemSprite>k__BackingField: {fileID: 21300000, guid: c8f292db30b59a54e8fd5002bfdfc657,
-    type: 3}
-  <ItemRaritySO>k__BackingField: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa,
-    type: 2}
-  <ItemDescription>k__BackingField: The hourglass used to foretell the coming of
-    the Thunderbird by the tribe that worshiped it. It has fallen into eternal silence
-    now that the tribe is no more.
-  <ItemTypeSO>k__BackingField: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516,
-    type: 2}
+  Name: Hourglass of Thunder
+  Icon: {fileID: 21300000, guid: c8f292db30b59a54e8fd5002bfdfc657, type: 3}
+  RaritySO: {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa, type: 2}
+  ItemTypeSO: {fileID: 11400000, guid: 82a635c7adc7d1c4dae253e549229516, type: 2}
+  Description: The hourglass used to foretell the coming of the Thunderbird by the
+    tribe that worshiped it. It has fallen into eternal silence now that the tribe
+    is no more.
   <ArtifactFamilySO>k__BackingField: {fileID: 11400000, guid: 13100007aee165442855fb0a3690a081,
     type: 2}

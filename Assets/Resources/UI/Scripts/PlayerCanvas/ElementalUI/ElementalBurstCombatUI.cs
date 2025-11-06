@@ -47,6 +47,9 @@ public class ElementalBurstCombatUI : SkillCombatUI
 
     private void UpdateEnergyVisual()
     {
+        if (currentPlayableCharacterData == null)
+            return;
+
         EnergyFillImage.fillAmount = currentPlayableCharacterData.GetEnergyCostRatio();
         EnergyFillImage.gameObject.SetActive(!currentPlayableCharacterData.HasEnoughEnergy());
 
@@ -56,12 +59,11 @@ public class ElementalBurstCombatUI : SkillCombatUI
             backgroundImage.color = Color.white;
             backgroundImage.material = burstMaterial;
             burstMaterial.SetColor("_Color", currentPlayableCharacterData.damageableEntitySO.ElementSO.ColorText);
+            return;
         }
-        else
-        {
-            backgroundImage.color = defaultBackgroundColor;
-            backgroundImage.material = null;
-        }
+
+        backgroundImage.color = defaultBackgroundColor;
+        backgroundImage.material = null;
     }
 
     protected override void UpdateUsageAlpha()
@@ -69,11 +71,10 @@ public class ElementalBurstCombatUI : SkillCombatUI
         if (CanUseSkill())
         {
             BackgroundCanvasGroup.alpha = 1f;
+            return;
         }
-        else
-        {
-            BackgroundCanvasGroup.alpha = 0.5f;
-        }
+
+        BackgroundCanvasGroup.alpha = 0.5f;
     }
 
     private void CurrentPlayableCharacterData_OnEnergyChanged()

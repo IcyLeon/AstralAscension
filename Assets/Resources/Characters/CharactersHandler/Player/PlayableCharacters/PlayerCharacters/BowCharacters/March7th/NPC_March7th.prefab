@@ -4890,7 +4890,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1732883008649130788}
   - component: {fileID: 1732883008649130791}
-  - component: {fileID: 1732883008649130790}
   - component: {fileID: 1732883008649130789}
   m_Layer: 7
   m_Name: POIRig
@@ -4945,21 +4944,6 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &1732883008649130790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732883008649130795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cef8f6d82818e34e816a8062de6724a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soothingSpeed: 10
-  MultiAimConstraint: {fileID: 1732883009019722832}
-  TargetTransform: {fileID: 1732883008325258937}
 --- !u!114 &1732883008649130789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4972,8 +4956,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8719e8b2d9d3a4887bed39d6f811f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soothingWeightSpeed: 1
   FOVAngleXZ: 180
   FOVAngleY: 65
+  soothingTargetSpeed: 1
+  TargetTransform: {fileID: 1732883008325258937}
 --- !u!1 &1732883008868721051
 GameObject:
   m_ObjectHideFlags: 0

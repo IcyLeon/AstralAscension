@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84aec40edc18fbc408f229e7d6ac2d3a, type: 3}
   m_Name: Keqing
   m_EditorClassIdentifier: 
-  <CharacterProfileSO>k__BackingField: {fileID: 11400000, guid: adba7cac16373044fa7551ccc3f0c175,
+  <ProfileSO>k__BackingField: {fileID: 11400000, guid: adba7cac16373044fa7551ccc3f0c175,
     type: 2}
   <CharacterTypeSO>k__BackingField: {fileID: 11400000, guid: 99b66ae9d6d450441841fc1e3f40622a,
     type: 2}
-  <CharacterRaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
-    type: 2}
-  CharacterPrefab: {fileID: 2373691865069137203, guid: 837339f5700e3cd42bc0d4e368fd84f8,
+  <Prefab>k__BackingField: {fileID: 2373691865069137203, guid: 837339f5700e3cd42bc0d4e368fd84f8,
     type: 3}
   <ElementSO>k__BackingField: {fileID: 11400000, guid: caf06755cc1f7b74185e7a9a69027eab,
     type: 2}
@@ -33,5 +31,6 @@ MonoBehaviour:
     type: 2}
   <ElementalBurstInfo>k__BackingField: {fileID: 11400000, guid: ef1e80de85dc70840927fc6298c45463,
     type: 2}
-  <BurstEnergyCost>k__BackingField: 40
-  <SkinSO>k__BackingField: {fileID: 0}
+  <SkinSOList>k__BackingField:
+  - {fileID: 11400000, guid: 4e7964b2381a30f438371085ee6e71ec, type: 2}
+  - {fileID: 11400000, guid: e2a5a191424123c46961503c470745e8, type: 2}

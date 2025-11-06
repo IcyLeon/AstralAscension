@@ -7,25 +7,25 @@ public class CharacterStatsInformationPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI CharacterNameTxt;
     [SerializeField] private TextMeshProUGUI CharacterDescTxt;
-    private CharacterDataStat currentCharacterDataStat;
+    private CharacterEquipmentManager characterEquipmentManager;
     private CharacterScreenPanel characterScreenPanel;
 
     private void Awake()
     {
         characterScreenPanel = GetComponentInParent<CharacterScreenPanel>();
-        characterScreenPanel.OnIconSelected += CharacterScreenPanel_OnIconSelected;
+        characterScreenPanel.OnCharacterIconSelected += CharacterScreenPanel_OnIconSelected;
         UpdateVisual();
     }
 
     private void UpdateVisual()
     {
-        currentCharacterDataStat = characterScreenPanel.currentCharacterSelected;
+        characterEquipmentManager = characterScreenPanel.characterEquipmentManager;
 
-        if (currentCharacterDataStat == null)
+        if (characterEquipmentManager == null)
             return;
 
-        CharacterNameTxt.text = currentCharacterDataStat.damageableEntitySO.GetName();
-        CharacterDescTxt.text = currentCharacterDataStat.damageableEntitySO.GetDescription();
+        CharacterNameTxt.text = characterEquipmentManager.charactersSO.GetName();
+        CharacterDescTxt.text = characterEquipmentManager.charactersSO.GetDescription();
     }
 
     private void CharacterScreenPanel_OnIconSelected()
@@ -35,7 +35,7 @@ public class CharacterStatsInformationPanel : MonoBehaviour
 
     private void OnDestroy()
     {
-        characterScreenPanel.OnIconSelected -= CharacterScreenPanel_OnIconSelected;
+        characterScreenPanel.OnCharacterIconSelected -= CharacterScreenPanel_OnIconSelected;
     }
 
     // Start is called before the first frame update

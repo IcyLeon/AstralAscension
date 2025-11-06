@@ -10,11 +10,11 @@ public class UpgradeAction : MonoBehaviour
     private UpgradeItemContent upgradeItemContent;
     private UpgradableItems upgradableItem;
     private Button upgradeBtn;
-    private MainUI mainUI;
+    private CharacterScreenPanel characterScreenPanel;
 
     private void Awake()
     {
-        mainUI = GetComponentInParent<MainUI>();
+        characterScreenPanel = GetComponentInParent<CharacterScreenPanel>();
 
         itemContentDisplay = GetComponentInParent<ItemContentDisplay>();
         itemContentDisplay.OnItemContentDisplayChanged += ItemContentDisplay_OnItemContentDisplayChanged;
@@ -27,12 +27,12 @@ public class UpgradeAction : MonoBehaviour
 
     private void Start()
     {
-        upgradeItemContent = mainUI.UpgradeItemContent;
+        upgradeItemContent = characterScreenPanel.UpgradeItemContent;
     }
 
     private void ItemContentDisplay_OnItemContentDisplayChanged()
     {
-        upgradableItem = itemContentDisplay.iItem as UpgradableItems;
+        upgradableItem = itemContentDisplay.iData as UpgradableItems;
         UpdateVisuals();
     }
 
