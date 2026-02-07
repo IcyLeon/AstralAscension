@@ -5,10 +5,16 @@ using UnityEngine;
 
 public static class CharacterScreenMiscEvent
 {
-    public static event Action<CharacterStorage> OnCharacterSceneLoad;
+    public static event Action<CharacterStorage> OnSceneLoad;
+    public static event Action OnSceneUnload;
 
     public static void Load(CharacterStorage CharacterStorage)
     {
-        OnCharacterSceneLoad?.Invoke(CharacterStorage);
+        OnSceneLoad?.Invoke(CharacterStorage);
+    }
+
+    public static void Unload()
+    {
+        OnSceneUnload?.Invoke();
     }
 }

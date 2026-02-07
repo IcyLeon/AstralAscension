@@ -68,14 +68,14 @@ public class PartySetupManager
     }
 
 
-    public void AddMember(CharacterDataStat CharacterDataStat, int PartySetupIndex, int PartyLocation)
+    public void AddMember(CharacterDataStat CharacterDataStat, int PartyNumber, int PartyLocation)
     {
-        GetParty(PartySetupIndex).AddMember(CharacterDataStat, PartyLocation);
+        GetParty(PartyNumber - 1).AddMember(CharacterDataStat, PartyLocation);
     }
 
-    public void AddMember(CharacterDataStat CharacterDataStat, int PartySetupIndex)
+    public void AddMember(CharacterDataStat CharacterDataStat, int PartyNumber)
     {
-        GetParty(PartySetupIndex).AddMember(CharacterDataStat);
+        GetParty(PartyNumber - 1).AddMember(CharacterDataStat);
     }
 
 

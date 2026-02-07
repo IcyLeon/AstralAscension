@@ -10,17 +10,17 @@ public class CharacterManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float ProbabilityPlayVO;
 
-    private Dictionary<PlayerCharactersSO, SkinEquipment> playableCharactersSOs = new();
+    private Dictionary<CharactersSO, SkinStorage> playableCharactersSOs = new();
 
-    public CharacterStorage characterStorage { get; private set; }
+    public CharacterStorage mainCharacterStorage { get; private set; }
 
     public static event Action<CharacterStorage> OnCharacterStorageChanged;
 
 
     private void SetCharacterStorage(CharacterStorage CharacterStorage)
     {
-        characterStorage = CharacterStorage;
-        OnCharacterStorageChanged?.Invoke(characterStorage);
+        mainCharacterStorage = CharacterStorage;
+        OnCharacterStorageChanged?.Invoke(mainCharacterStorage);
     }
 
     private void Awake()
@@ -30,9 +30,17 @@ public class CharacterManager : MonoBehaviour
         LoadCharactersSO();
     }
 
+    public SkinStorage GetSkinStorage(CharactersSO CharactersSO)
+    {
+        if (!playableCharactersSOs.ContainsKey(CharactersSO))
+            return null;
+
+        return playableCharactersSOs[CharactersSO];
+    }
+
     public CharacterDataStat GetCharacterDataStat(PlayerCharactersSO PlayerCharactersSO)
     {
-        return characterStorage.GetCharacterDataStat(PlayerCharactersSO);
+        return mainCharacterStorage.GetCharacterDataStat(PlayerCharactersSO);
     }
 
     private void LoadCharactersSO()
@@ -41,16 +49,16 @@ public class CharacterManager : MonoBehaviour
 
         foreach (var CharactersSO in playableCharactersSOList)
         {
-            playableCharactersSOs.Add(CharactersSO, new SkinEquipment(CharactersSO));
-            characterStorage.AddCharacterData(CharactersSO, CharactersSO.CreateCharacterDataStat());
+            playableCharactersSOs.Add(CharactersSO, new SkinStorage(CharactersSO.GetPlayerCharacterProfileSO()));
+            mainCharacterStorage.AddCharacterData(CharactersSO, CharactersSO.CreateCharacterDataStat());
         }
     }
 
 
     private void Update()
     {
-        if (characterStorage != null)
-            characterStorage.Update();
+        if (mainCharacterStorage != null)
+            mainCharacterStorage.Update();
     }
 
     public static bool isInProbabilityRange(float a)

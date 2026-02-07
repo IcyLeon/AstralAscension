@@ -88,11 +88,11 @@ public class ArtifactBubble : MonoBehaviour, IPointerClickHandler
 
         if (artifact == null)
         {
-            ItemImage.overrideSprite = null;
+            ItemImage.sprite = null;
             return;
         }
 
-        ItemImage.overrideSprite = artifact.GetIcon();
+        ItemImage.sprite = artifact.GetIcon();
     }
 
     private void UpdateVisual()

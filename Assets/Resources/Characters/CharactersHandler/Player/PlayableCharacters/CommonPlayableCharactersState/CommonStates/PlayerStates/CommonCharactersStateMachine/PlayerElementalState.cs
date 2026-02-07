@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerElementalState : IState, IPlayableElementalState
+public abstract class PlayerElementalState : IState
 {
     protected SkillStateMachine skill { get; }
 

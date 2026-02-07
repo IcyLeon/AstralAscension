@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Piercing Thunderbolt
   m_EditorClassIdentifier: 
   Name: Piercing Thunderbolt
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 3e257c95dc6a77242a020567986ea433, type: 3}
   RaritySO: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0, type: 2}
   ItemTypeSO: {fileID: 0}
-  Description: 
+  Description: Keqing's outfit. A formidable-looking dress made using luxurious materials.
+  Wish: {fileID: 0}
   <Cost>k__BackingField: 1000
   ModelPrefab: {fileID: 2175476777524222747, guid: 6b6df3eb5e1e3be419fe8fbace293b4f,
     type: 3}
-  GameplayPrefab: {fileID: 2362715153462227121, guid: c1a868c32c4481e4688f0590de87e4a1,
+  GameplayPrefab: {fileID: 719547755994570955, guid: fe6def3da508f2f49bd3304c600366c1,
     type: 3}

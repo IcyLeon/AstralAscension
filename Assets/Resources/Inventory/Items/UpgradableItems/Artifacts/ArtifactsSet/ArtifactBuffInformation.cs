@@ -15,13 +15,13 @@ public class ArtifactBuffInformation
 
     public void AddBuffInformation(ArtifactBuffPieceStat ArtifactBuffPieceStat)
     {
-        if (nextNode != null)
+        if (nextNode == null)
         {
-            nextNode.AddBuffInformation(ArtifactBuffPieceStat);
+            nextNode = new(ArtifactBuffPieceStat, this);
             return;
         }
 
-        nextNode = new(ArtifactBuffPieceStat, this);
+        nextNode.AddBuffInformation(ArtifactBuffPieceStat);
     }
 
     public bool IsEnough(int totalAmt)

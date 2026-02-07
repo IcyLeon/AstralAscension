@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e7fb4d4bf5ea548b73b0a0413b9a9c, type: 3}
   m_Name: ItemManagerSO
   m_EditorClassIdentifier: 
-  ItemQualityItemPrefab: {fileID: 7806065613247282785, guid: daa9c2d306426ac45827450e9b817ef5,
+  <ItemQualityUpgradablePrefab>k__BackingField: {fileID: 7806065613247282785, guid: daa9c2d306426ac45827450e9b817ef5,
+    type: 3}
+  <ItemQualityBasePrefab>k__BackingField: {fileID: 7464879919522215558, guid: f550a4da4334bc24f9c2b3c1054ca3db,
     type: 3}
   <StarPrefab>k__BackingField: {fileID: 4927642505363939442, guid: 984e761652a4aa745900aa17082b31ee,
     type: 3}
-  <ItemRaritySOList>k__BackingField:
-  - {fileID: 11400000, guid: 7f9f21b02841d1c42b17686495c162aa, type: 2}
-  - {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0, type: 2}
-  - {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954, type: 2}

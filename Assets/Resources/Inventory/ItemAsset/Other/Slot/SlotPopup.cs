@@ -14,7 +14,7 @@ public class SlotPopup : MonoBehaviour
     private SlotManager slotManager;
 
     private Dictionary<ItemFamilyTypeSO, Dictionary<IData, ItemQualityIEntity>> itemQualityDictionary = new();
-    private List<ItemQuality> sortedEntities;
+    private List<ItemQualityIEntity> sortedEntities;
     private IData iData;
     private Inventory inventory;
     public event Action<Slot> OnSlotChanged;
@@ -62,7 +62,7 @@ public class SlotPopup : MonoBehaviour
 
         foreach(var ItemQualityIEntity in itemQualityDic.Values)
         {
-            ItemQualityIEntity.gameObject.SetActive(ItemQualityIEntity.iData != iData && !IsEquippedByCharacter(ItemQualityIEntity.iData));
+            ItemQualityIEntity.gameObject.SetActive(ItemQualityIEntity.iEntity != iData && !IsEquippedByCharacter(ItemQualityIEntity.iEntity));
         }
     }
 
@@ -120,6 +120,7 @@ public class SlotPopup : MonoBehaviour
         if (itemQualityIEntity == null)
             return;
 
+
         itemQualityIEntity.ItemQualitySelection.OnRemoveClick -= ItemQualitySelection_OnRemoveClick;
         Destroy(itemQualityIEntity.gameObject);
     }
@@ -141,8 +142,9 @@ public class SlotPopup : MonoBehaviour
 
     private void Inventory_OnItemAdd(Item Item)
     {
-        ItemQualityIEntity itemQualityIEntity = ItemManagerSO.CreateItemQualityItem(Item, ScrollRect.content);
-        itemQualityIEntity.OnItemQualitySelect += OnSelectedItemQualityButton;
+        ItemQuality itemQuality = ItemManagerSO.CreateItemQualityObject(Item, ScrollRect.content);
+        ItemQualityIEntity itemQualityIEntity = itemQuality.GetComponent<ItemQualityIEntity>();
+        itemQuality.OnItemQualitySelect += OnSelectedItemQualityButton;
         itemQualityIEntity.ItemQualitySelection.OnRemoveClick += ItemQualitySelection_OnRemoveClick;
         itemQualityIEntity.gameObject.SetActive(false);
         AddItemQualityToDictionary(itemQualityIEntity);
@@ -150,14 +152,14 @@ public class SlotPopup : MonoBehaviour
 
     private void AddItemQualityToDictionary(ItemQualityIEntity ItemQualityIEntity)
     {
-        ItemFamilyTypeSO itemFamilyTypeSO = ItemQualityIEntity.iData.GetTypeSO().ItemFamilyTypeSO;
+        ItemFamilyTypeSO itemFamilyTypeSO = ItemQualityIEntity.iEntity.GetTypeSO().ItemFamilyTypeSO;
 
         if (!itemQualityDictionary.ContainsKey(itemFamilyTypeSO))
         {
             itemQualityDictionary.Add(itemFamilyTypeSO, new());
         }
 
-        itemQualityDictionary[itemFamilyTypeSO].Add(ItemQualityIEntity.iData, ItemQualityIEntity);
+        itemQualityDictionary[itemFamilyTypeSO].Add(ItemQualityIEntity.iEntity, ItemQualityIEntity);
         AddSorted(ItemQualityIEntity);
         UpdateSlotContent();
     }
@@ -184,40 +186,40 @@ public class SlotPopup : MonoBehaviour
     }
 
 
-    private void AddSorted(ItemQuality itemQuality)
+    private void AddSorted(ItemQualityIEntity itemQuality)
     {
         int location = GetLocation(itemQuality, 0, sortedEntities.Count - 1);
         sortedEntities.Insert(location, itemQuality);
         itemQuality.transform.SetSiblingIndex(location);
     }
-    private int GetLocation(ItemQuality itemQuality, int start, int end)
+    private int GetLocation(ItemQualityIEntity ItemQualityIEntity, int start, int end)
     {
         if (start > end)
             return start;
 
         int mid = (start + end) / 2;
 
-        IData IMidEntity = sortedEntities[mid].iData;
+        IData IMidEntity = sortedEntities[mid].iEntity;
 
-        int nameComparison = string.Compare(IMidEntity.GetName(), itemQuality.iData.GetName(), StringComparison.OrdinalIgnoreCase);
+        int nameComparison = string.Compare(IMidEntity.GetName(), ItemQualityIEntity.iEntity.GetName(), StringComparison.OrdinalIgnoreCase);
 
-        if (IMidEntity.GetRaritySO().Rarity < itemQuality.iData.GetRaritySO().Rarity)
+        if (IMidEntity.GetRaritySO().Rarity < ItemQualityIEntity.iEntity.GetRaritySO().Rarity)
         {
-            return GetLocation(itemQuality, start, mid - 1);
+            return GetLocation(ItemQualityIEntity, start, mid - 1);
         }
-        else if (IMidEntity.GetRaritySO().Rarity > itemQuality.iData.GetRaritySO().Rarity)
+        else if (IMidEntity.GetRaritySO().Rarity > ItemQualityIEntity.iEntity.GetRaritySO().Rarity)
         {
-            return GetLocation(itemQuality, mid + 1, end);
+            return GetLocation(ItemQualityIEntity, mid + 1, end);
         }
         else
         {
             if (nameComparison < 0)
             {
-                return GetLocation(itemQuality, mid + 1, end);
+                return GetLocation(ItemQualityIEntity, mid + 1, end);
             }
             else if (nameComparison > 0)
             {
-                return GetLocation(itemQuality, start, mid - 1);
+                return GetLocation(ItemQualityIEntity, start, mid - 1);
             }
             else
             {
@@ -237,24 +239,24 @@ public class SlotPopup : MonoBehaviour
             if (index < 0)
                 break;
 
-            ItemQuality itemQuality = sortedEntities[index];
+            ItemQualityIEntity ItemQualityIEntity = sortedEntities[index];
 
-            if (!itemQuality.gameObject.activeSelf || itemQuality.iData.GetRaritySO().Rarity > MaxRarity ||
-                !slotManager.CanManualAdd(itemQuality.iData))
+            if (!ItemQualityIEntity.gameObject.activeSelf || ItemQualityIEntity.iEntity.GetRaritySO().Rarity > MaxRarity ||
+                !slotManager.CanManualAdd(ItemQualityIEntity.iEntity))
             {
                 amount++;
                 continue;
             }
 
-            entitiesList.Add(itemQuality.iData);
+            entitiesList.Add(ItemQualityIEntity.iEntity);
         }
 
         return entitiesList;
     }
 
-    private void ItemQualitySelection_OnRemoveClick(ItemQuality itemQuality)
+    private void ItemQualitySelection_OnRemoveClick(ItemQualityIEntity ItemQualityIEntity)
     {
-        Slot slot = slotManager.Contains(GetIItem(itemQuality));
+        Slot slot = slotManager.Contains(GetIItem(ItemQualityIEntity));
 
         if (slot != null)
         {
@@ -314,16 +316,14 @@ public class SlotPopup : MonoBehaviour
         itemCard.SetIItem(iData);
     }
 
-    private void OnSelectedItemQualityButton(ItemQuality itemQuality)
+    private void OnSelectedItemQualityButton(IData IData)
     {
-        IData iData = GetIItem(itemQuality);
+        RevealItemCard(IData);
 
-        RevealItemCard(iData);
-
-        if (!slotManager.CanManualAdd(iData))
+        if (!slotManager.CanManualAdd(IData))
             return;
 
-        AddEntityToSlot(iData);
+        AddEntityToSlot(IData);
     }
 
     public bool AddEntityToSlot(IData iData)
@@ -331,14 +331,14 @@ public class SlotPopup : MonoBehaviour
         return slotManager.TryAddEntityToSlot(iData);
     }
 
-    private IData GetIItem(ItemQuality itemQuality)
+    private IData GetIItem(ItemQualityIEntity itemQuality)
     {
         if (itemQuality == null)
         {
             return null;
         }
 
-        return itemQuality.iData;
+        return itemQuality.iEntity;
     }
 
     private void UpdateVisual()
@@ -350,7 +350,7 @@ public class SlotPopup : MonoBehaviour
 
         foreach (var item in inventory.itemList)
         {
-            Inventory_OnItemAdd(item.Key);
+            Inventory_OnItemAdd(item);
         }
     }
 

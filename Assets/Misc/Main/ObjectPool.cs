@@ -7,14 +7,14 @@ using Object = UnityEngine.Object;
 public class ObjectPool<T> where T : MonoBehaviour
 {
     private int amountToPool;
-    private List<T> pooledObjects;
+    private List<T> pooledObjects = new();
 
-    public ObjectPool(GameObject objectPool, Transform ParentTransform = null, int amountToPool = 1) : this(amountToPool)
+    public ObjectPool(GameObject objectPool, Transform ParentTransform = null, int amountToPool = 1, bool active = false) : this(amountToPool)
     {
         for (int i = 0; i < this.amountToPool; i++)
         {
             GameObject go = Object.Instantiate(objectPool, ParentTransform);
-            go.SetActive(false);
+            go.SetActive(active);
             pooledObjects.Add(go.GetComponent<T>());
         }
     }
@@ -26,18 +26,17 @@ public class ObjectPool<T> where T : MonoBehaviour
 
     private ObjectPool(int amountToPool)
     {
-        pooledObjects = new();
         this.amountToPool = amountToPool;
     }
 
-    public ObjectPool(string objectPoolPrefabName, Transform ParentTransform = null, int amountToPool = 1) : this(amountToPool)
+    public ObjectPool(string objectPoolPrefabName, Transform ParentTransform = null, int amountToPool = 1, bool active = false) : this(amountToPool)
     {
         T objectPool = Resources.LoadAll<T>(objectPoolPrefabName)[0];
 
         for (int i = 0; i < this.amountToPool; i++)
         {
             T go = Object.Instantiate(objectPool, ParentTransform);
-            go.gameObject.SetActive(false);
+            go.gameObject.SetActive(active);
             pooledObjects.Add(go);
         }
     }

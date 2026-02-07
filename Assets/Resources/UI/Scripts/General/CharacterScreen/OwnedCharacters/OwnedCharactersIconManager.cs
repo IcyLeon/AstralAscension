@@ -8,15 +8,13 @@ public class OwnedCharactersIconManager : MonoBehaviour
 {
     [SerializeField] private GameObject CharacterIconPrefab;
     [SerializeField] private Transform ParentTransform;
-    private Dictionary<CharactersSO, OwnedCharacterIconButton> characterSOIcons;
+    private Dictionary<CharactersSO, OwnedCharacterIconButton> characterSOIcons = new();
     public OwnedCharacterIconButton selectedIcon { get; private set; }
     private CharacterStorage characterStorage;
 
     private void Awake()
     {
-        characterSOIcons = new();
-
-        CharacterScreenMiscEvent.OnCharacterSceneLoad += CharacterScreenMiscEvent_OnCharacterSceneLoad;
+        CharacterScreenMiscEvent.OnSceneLoad += CharacterScreenMiscEvent_OnCharacterSceneLoad;
     }
 
     private void CharacterScreenMiscEvent_OnCharacterSceneLoad(CharacterStorage CharacterStorage)
@@ -62,6 +60,9 @@ public class OwnedCharactersIconManager : MonoBehaviour
 
     private void CharacterStorage_OnCharacterAdd(CharactersSO CharactersSO)
     {
+        if (characterSOIcons.ContainsKey(CharactersSO))
+            return;
+
         OwnedCharacterIconButton OwnedCharacterIconButton = Instantiate(CharacterIconPrefab, ParentTransform).GetComponent<OwnedCharacterIconButton>();
         OwnedCharacterIconButton.SetCharacterEquipmentManager(characterStorage.GetCharacterDataStat(CharactersSO).characterEquipmentManager);
         OwnedCharacterIconButton.OnCharacterIconSelected += OwnedCharacterIconButton_OnCharacterIconSelected;
@@ -91,7 +92,7 @@ public class OwnedCharactersIconManager : MonoBehaviour
     {
         DestroyAllButton();
 
-        CharacterScreenMiscEvent.OnCharacterSceneLoad -= CharacterScreenMiscEvent_OnCharacterSceneLoad;
+        CharacterScreenMiscEvent.OnSceneLoad -= CharacterScreenMiscEvent_OnCharacterSceneLoad;
 
         if (characterStorage != null)
         {

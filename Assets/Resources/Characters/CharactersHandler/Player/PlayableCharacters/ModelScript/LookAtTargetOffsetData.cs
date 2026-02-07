@@ -11,4 +11,9 @@ public class LookAtTargetOffsetData : MonoBehaviour
     {
         return Vector3.Magnitude(Start.position - End.position);
     }
+
+    public Vector3 GetStartingPosition()
+    {
+        return Start.position;
+    }
 }

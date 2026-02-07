@@ -1,51 +1,93 @@
-using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
+using static AssetManager;
+using DG.Tweening;
 
 [DisallowMultipleComponent]
-public abstract class ItemQuality : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemQuality : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Image RaycastImage { get; private set; }
-    [SerializeField] private ItemQualityVisual itemQualityVisual;
-    public event Action<ItemQuality> OnItemQualitySelect;
-    public IData iData { get; private set; }
+    private ItemManagerSO ItemAssetManagerSO;
+    [SerializeField] private TextMeshProUGUI DisplayText;
+    [Range(8, 15)]
+    [SerializeField] private int LimitTextAmount;
+    [SerializeField] private Image ItemBackgroundImage;
+    [SerializeField] private Image ItemImage;
+    private Button button;
+    public ItemQualityDisplayData itemQualityDisplayData { get; private set; }
+    public event Action<IData> OnItemQualitySelect;
 
-    protected virtual void Awake()
+    private void Awake()
     {
-        RaycastImage = itemQualityVisual.GetComponent<Image>();
+        button = GetComponent<Button>();
+        button.onClick.AddListener(Select);
     }
 
-    public virtual void SetIItem(IData IData)
+    public Graphic targetGraphic
     {
-        iData = IData;
-        itemQualityVisual.SetIItem(iData);
+        get
+        {
+            return button.targetGraphic;
+        }
     }
 
-    protected virtual void OnDestroy()
+    private void InitAssets()
     {
-        OnItemQualitySelect = null;
-    }
-
-    protected void UpdateDisplayText(string txt)
-    {
-        itemQualityVisual.UpdateDisplayText(txt);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button != PointerEventData.InputButton.Left)
+        if (itemQualityDisplayData == null)
             return;
 
-        Select();
+        InitAssetManager();
     }
 
     public void Select()
     {
-        OnItemQualitySelect?.Invoke(this);
+        OnItemQualitySelect?.Invoke(itemQualityDisplayData.iData);
+    }
+
+    private void InitAssetManager()
+    {
+        if (ItemAssetManagerSO != null)
+            return;
+
+        ItemAssetManagerSO = instance.ItemAssetManagerSO;
+    }
+
+    public void SetIData(ItemQualityDisplayData ItemQualityDisplayData)
+    {
+        if (itemQualityDisplayData != null)
+            return;
+
+        itemQualityDisplayData = ItemQualityDisplayData;
+        UpdateVisual();
+    }
+
+
+    private void UpdateVisual()
+    {
+        InitAssets();
+
+        ItemBackgroundImage.sprite = itemQualityDisplayData.iData.GetRaritySO().ItemQualityBackground;
+        ItemImage.sprite = itemQualityDisplayData.iData.GetIcon();
+        UpdateDisplayText();
+    }
+
+    public void UpdateDisplayText()
+    {
+        DisplayText.text = LimitText(itemQualityDisplayData.GetDisplayText(), LimitTextAmount);
+    }
+
+    private string LimitText(string text, int limitCharacters = 0)
+    {
+        if (text.Length >= limitCharacters)
+        {
+            return text.Substring(0, limitCharacters) + '.';
+        }
+
+        return text;
     }
 
     public virtual void OnSelect()

@@ -12,12 +12,11 @@ public class ActiveCharacter : MonoBehaviour
     private PlayerController playerController;
     private PartySetup currentPartySetup;
     private PartyMember currentPartyMember;
-    private Dictionary<PartyMember, DamageableCharacters> charactersList;
+    private Dictionary<PartyMember, DamageableCharacters> charactersList = new();
     private PartySystem partySystem;
 
     private void Awake()
     {
-        charactersList = new();
         Player player = GetComponentInParent<Player>();
         switchCharacterAudioSource = GetComponent<AudioSource>();
         playerController = player.playerController;

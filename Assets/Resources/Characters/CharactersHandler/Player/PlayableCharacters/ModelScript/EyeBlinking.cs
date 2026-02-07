@@ -47,7 +47,8 @@ public class EyeBlinking : MonoBehaviour
         {
             StopCoroutine(EyeBlinkCoroutine);
             EyeBlinkCoroutine = null;
-        }    
+        }
+        ResetEyeBlinking();
     }
 
     private IEnumerator BlinkCoroutine()
@@ -60,19 +61,26 @@ public class EyeBlinking : MonoBehaviour
 
         while (elapsedTime <= duration)
         {
-            foreach(var idx in eyeblinkingidxList)
-            {
-                SkinnedMeshRenderer.SetBlendShapeWeight(idx, Mathf.Sin(Mathf.PI * (elapsedTime / duration)) * maxValue);
-            }
+            SetBlendShapeWeight(Mathf.Sin(Mathf.PI * (elapsedTime / duration)) * maxValue);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
+        ResetEyeBlinking();
+
+        EyeBlinkCoroutine = StartCoroutine(BlinkCoroutine());
+    }
+
+    private void SetBlendShapeWeight(float value)
+    {
         foreach (var idx in eyeblinkingidxList)
         {
-            SkinnedMeshRenderer.SetBlendShapeWeight(idx, 0f);
+            SkinnedMeshRenderer.SetBlendShapeWeight(idx, value);
         }
+    }
 
-        StartCoroutine(BlinkCoroutine());
+    private void ResetEyeBlinking()
+    {
+        SetBlendShapeWeight(0f);
     }
 }

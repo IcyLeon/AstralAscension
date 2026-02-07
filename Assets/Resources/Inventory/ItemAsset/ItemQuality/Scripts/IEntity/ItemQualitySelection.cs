@@ -8,12 +8,12 @@ using UnityEngine.UI;
 public class ItemQualitySelection : MonoBehaviour
 {
     [SerializeField] private Button RemoveBtn;
-    public ItemQuality itemQuality { get; private set; }
-    public event Action<ItemQuality> OnRemoveClick;
+    public ItemQualityIEntity itemQuality { get; private set; }
+    public event Action<ItemQualityIEntity> OnRemoveClick;
 
     private void Awake()
     {
-        itemQuality = GetComponentInParent<ItemQuality>(true);
+        itemQuality = GetComponentInParent<ItemQualityIEntity>(true);
         RemoveBtn.onClick.AddListener(OnRemove);
     }
 

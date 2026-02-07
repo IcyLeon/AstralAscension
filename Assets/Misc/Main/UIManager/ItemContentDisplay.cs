@@ -103,9 +103,7 @@ public class ItemContentDisplay : MonoBehaviour
         InitStarPool();
         starPool.ResetAll();
 
-        ItemRaritySO itemRaritySO = iData.GetRaritySO();
-
-        for (int i = 0; i <= (int)itemRaritySO.Rarity; i++)
+        for (int i = 0; i < (int)iData.GetRaritySO().Rarity; i++)
         {
             starPool.GetPooledObject();
         }

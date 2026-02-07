@@ -6,111 +6,94 @@ using UnityEngine;
 
 public class CharacterDisplay : MonoBehaviour
 {
+    [SerializeField] private GameObject ModelsHandlerPrefab;
     private CharacterStorage characterStorage;
-    private Dictionary<CharactersSO, GameObject> characterObjectsDic;
-    public CharactersSO currentCharacterSelected { get; private set; }
+    private Dictionary<CharactersSO, ModelsHandler> characterObjectsDic = new();
+    private OutfitDisplayController outfitDisplayController;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        characterObjectsDic = new();
-
-        CharacterScreenMiscEvent.OnCharacterSceneLoad += CharacterScreenMiscEvent_OnCharacterSceneLoad;
+        CharacterScreenMiscEvent.OnSceneLoad += CharacterScreenMiscEvent_OnCharacterSceneLoad;
+        outfitDisplayController = new();
     }
 
     private void CharacterScreenMiscEvent_OnCharacterSceneLoad(CharacterStorage CharacterStorage)
     {
+        ResetList();
         characterStorage = CharacterStorage;
 
         if (characterStorage != null)
         {
             characterStorage.OnCharacterAdd += CharacterStorage_OnCharacterAdd;
-            InitCharacterObjects();
+
+            foreach (var characterStat in characterStorage.characterStatList)
+                CharacterStorage_OnCharacterAdd(characterStat.Key);
         }
+    }
+
+    private void UnsubscribeStorageEvents()
+    {
+        if (characterStorage == null)
+            return;
+
+        characterStorage.OnCharacterAdd -= CharacterStorage_OnCharacterAdd;
     }
 
     private void OnEnable()
     {
+        outfitDisplayController.OnEnable();
         OwnedCharacterButtonMiscEvent.OnCharacterIconSelected += OwnedCharacterButtonMiscEvent_OnCharacterIconSelected;
     }
 
     private void OnDisable()
     {
+        outfitDisplayController.OnDisable();
         OwnedCharacterButtonMiscEvent.OnCharacterIconSelected -= OwnedCharacterButtonMiscEvent_OnCharacterIconSelected;
     }
 
     private void OwnedCharacterButtonMiscEvent_OnCharacterIconSelected(CharacterEquipmentManager CharacterEquipmentManager)
     {
-        if (CharacterEquipmentManager == null)
-            return;
-
         SwitchCharacter(CharacterEquipmentManager.charactersSO);
     }
 
     private void CharacterStorage_OnCharacterAdd(CharactersSO CharactersSO)
     {
-        characterObjectsDic.Add(CharactersSO, null);
+        ModelsHandler modelsHandler = Instantiate(ModelsHandlerPrefab, transform).GetComponent<ModelsHandler>();
+        characterObjectsDic.Add(CharactersSO, modelsHandler);
     }
 
     private void SwitchCharacter(CharactersSO CharactersSO)
     {
+        if (!characterObjectsDic.ContainsKey(CharactersSO))
+            return;
 
+        ModelsHandler modelsHandler = characterObjectsDic[CharactersSO];
+        CharacterDisplayMiscEvent.Show(CharactersSO, modelsHandler);
 
-        CharacterDisplayMiscEvent.Show(CharactersSO);
-        currentCharacterSelected = CharactersSO;
-        //if (CharactersSO == null)
-        //    return;
+        foreach (var CharacterSOKey in characterObjectsDic.Keys)
+            characterObjectsDic[CharacterSOKey].gameObject.SetActive(CharacterSOKey == CharactersSO);
 
-        //GameObject gameObject = GetGameObject(currentCharacterSelected);
-
-        //if (gameObject != null)
-        //{
-        //    gameObject.SetActive(false);
-        //}
-
-        //currentCharacterSelected = CharactersSO;
-        //gameObject = GetGameObject(currentCharacterSelected);
-        //gameObject.SetActive(true);
-        //OnCharacterSelected?.Invoke();
     }
 
-    private GameObject GetGameObject(CharactersSO CharactersSO)
-    {
-        if (CharactersSO == null || !characterObjectsDic.TryGetValue(CharactersSO, out GameObject obj))
-            return null;
-
-        return obj;
-    }
-
-    private void Start()
-    {
-    }
-
-    private void InitCharacterObjects()
+    private void ResetList()
     {
         if (characterStorage == null)
             return;
 
-        foreach(var characterObject in characterObjectsDic)
-        {
+        UnsubscribeStorageEvents();
+        foreach (var characterObject in characterObjectsDic)
             Destroy(characterObject.Value.gameObject);
-        }
 
         characterObjectsDic.Clear();
 
-        foreach (var characterStat in characterStorage.characterStatList)
-        {
-            CharacterStorage_OnCharacterAdd(characterStat.Key);
-        }
     }
 
 
     private void OnDestroy()
     {
-        CharacterScreenMiscEvent.OnCharacterSceneLoad -= CharacterScreenMiscEvent_OnCharacterSceneLoad;
-        if (characterStorage != null)
-        {
-            characterStorage.OnCharacterAdd -= CharacterStorage_OnCharacterAdd;
-        }
+        CharacterScreenMiscEvent.OnSceneLoad -= CharacterScreenMiscEvent_OnCharacterSceneLoad;
+        UnsubscribeStorageEvents();
+        outfitDisplayController.OnDestroy();
     }
 }

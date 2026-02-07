@@ -33,10 +33,11 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
 
     private void ArtifactSpin_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        EnableRotation();
+
         if (!UICanvas.IsValid())
             return;
 
-        EnableRotation();
         artifactsRingRotation.AddRotateTorqueForce(deltaMouseDirection * Time.unscaledDeltaTime);
     }
 
@@ -54,7 +55,7 @@ public class ArtifactSphereMouseMotion : MonoBehaviour
         Vector2 delta = mousePos - previousMousePos;
         DisableRotation();
 
-        if (delta.magnitude <= 0)
+        if (delta.magnitude <= 0.01f)
             return;
 
         deltaMouseDirection = delta;

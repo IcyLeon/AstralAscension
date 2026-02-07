@@ -15,12 +15,12 @@ public class CharacterNavigationButton : NavigationButton
 
     private void LoadStorage()
     {
-        CharacterManager characterManager = CharacterManager.instance;
+        CharacterStorage c = CharacterManager.instance.mainCharacterStorage;
 
-        if (characterManager == null)
+        if (c == null)
             return;
 
-        CharacterScreenMiscEvent.Load(characterManager.characterStorage);
+        CharacterScreenMiscEvent.Load(c);
     }
 
     private void AsyncOperation_completed(AsyncOperation AsyncOperation)

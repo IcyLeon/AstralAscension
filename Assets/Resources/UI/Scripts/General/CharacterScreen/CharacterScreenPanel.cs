@@ -23,6 +23,7 @@ public class CharacterScreenPanel : MonoBehaviour
     private void OwnedCharacterButtonMiscEvent_OnCharacterIconSelected(CharacterEquipmentManager CharacterEquipmentManager)
     {
         characterEquipmentManager = CharacterEquipmentManager;
+        TabAttributesMiscEvent.Reset();
         OnCharacterIconSelected?.Invoke();
     }
 }

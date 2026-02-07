@@ -6,20 +6,20 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class SkillBurstManager : MonoBehaviour
 {
-    private static List<IPlayableElementalState> PlayableCharacterState;
+    private static List<PlayerElementalState> PlayableCharacterState;
 
     private void Awake()
     {
         PlayableCharacterState = new();
     }
 
-    public static void AddState(IPlayableElementalState IPlayableCharactersState)
+    public static void AddState(PlayerElementalState PlayerElementalState)
     {
-        if (PlayableCharacterState.Contains(IPlayableCharactersState))
+        if (PlayableCharacterState.Contains(PlayerElementalState))
             return;
 
-        IPlayableCharactersState.OnElementalStateEnter();
-        PlayableCharacterState.Add(IPlayableCharactersState);
+        PlayerElementalState.OnElementalStateEnter();
+        PlayableCharacterState.Add(PlayerElementalState);
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class SkillBurstManager : MonoBehaviour
     {
         for(int i = 0; i < PlayableCharacterState.Count; i++)
         {
-            IPlayableElementalState state = PlayableCharacterState[i];
+            PlayerElementalState state = PlayableCharacterState[i];
             if (state == null || state.IsElementalStateEnded())
             {
                 if (state != null)

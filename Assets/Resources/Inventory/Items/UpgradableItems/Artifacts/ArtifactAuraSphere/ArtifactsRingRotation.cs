@@ -71,12 +71,7 @@ public class ArtifactsRingRotation : MonoBehaviour
             previousRotationDirection = direction;
         }
 
-        if (magnitude > speed || direction == 0)
-        {
-            return;
-        }
-
-        rb.angularVelocity = transform.up * speed * direction;
+        rb.angularVelocity = transform.up * Mathf.Max(speed, magnitude) * direction;
 
     }
 

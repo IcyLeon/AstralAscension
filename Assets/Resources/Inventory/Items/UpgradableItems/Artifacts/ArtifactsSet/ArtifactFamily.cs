@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ArtifactFamily
 {
-    public Dictionary<ArtifactSO, Artifact> _artifacts { get; } = new();
+    private Dictionary<ArtifactSO, Artifact> _artifacts { get; } = new();
     private ArtifactEffectFactoryManager ArtifactEffectFactoryManager;
     public ArtifactFamilySO artifactFamilySO { get; private set; }
     private ArtifactBuffInformation current;

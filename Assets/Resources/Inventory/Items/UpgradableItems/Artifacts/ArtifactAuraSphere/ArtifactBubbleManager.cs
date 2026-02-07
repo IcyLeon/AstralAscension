@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -17,7 +18,7 @@ public class ArtifactBubbleManager : MonoBehaviour
     public event Action<ArtifactBubble> OnArtifactBubbleSelected;
     private SelectedArtifactBubble selectedArtifactBubble;
     private ArtifactsRingRotation artifactsRingRotation;
-    private Dictionary<ItemTypeSO, ArtifactBubble> artifactBubbleDic;
+    private Dictionary<ItemTypeSO, ArtifactBubble> artifactBubbleDic = new();
     private Coroutine scaleAnimationCoroutine;
 
     private void Awake()
@@ -152,14 +153,11 @@ public class ArtifactBubbleManager : MonoBehaviour
         if (currentArtifactInventory == null)
             return;
 
-        Dictionary<ArtifactFamilySO, ArtifactFamily> artifactList = currentArtifactInventory.artifactList;
+        Dictionary<ItemTypeSO, Artifact> artifactList = currentArtifactInventory.artifactList;
 
-        foreach (var artifactFamily in artifactList.Values)
+        foreach (var artifact in artifactList.Values)
         {
-            foreach (var _artifact in artifactFamily._artifacts.Values)
-            {
-                ArtifactInventory_OnArtifactEquip(_artifact);
-            }
+            ArtifactInventory_OnArtifactEquip(artifact);
         }
     }
 
@@ -176,11 +174,6 @@ public class ArtifactBubbleManager : MonoBehaviour
 
     private void InitSpheres()
     {
-        if (artifactBubbleDic != null)
-            return;
-
-        artifactBubbleDic = new();
-
         ArtifactBubble[] artifactBubbleList = GetComponentsInChildren<ArtifactBubble>(true);
 
         for (int i = 0; i < artifactBubbleList.Length; i++)
@@ -206,7 +199,7 @@ public class ArtifactBubbleManager : MonoBehaviour
         for (int i = 0; i < artifactBubbleDic.Values.Count; i++)
         {
             ArtifactBubble artifactBubble = artifactBubbleDic.ElementAt(i).Value;
-            Vector3 vec = GetVectorXZ(GetAngle(i));
+            Vector3 vec = Vector3Handler.FindVector(GetAngle(i), 0);
             artifactBubble.transform.localPosition = vec * distanceFromCharacter;
             artifactBubble.OnArtifactSphereSelect += ArtifactSphereManager_OnArtifactSphereSelect;
         }
@@ -262,10 +255,6 @@ public class ArtifactBubbleManager : MonoBehaviour
         }
     }
 
-    private Vector3 GetVectorXZ(float angle)
-    {
-        return Vector3Handler.FindVector(angle, 0);
-    }
     private float GetAngle(int noOfSlice)
     {
         float angle = 360f / artifactBubbleDic.Count;
