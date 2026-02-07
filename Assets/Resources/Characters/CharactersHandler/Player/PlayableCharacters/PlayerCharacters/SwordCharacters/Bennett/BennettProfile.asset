@@ -18,3 +18,7 @@ MonoBehaviour:
   <RaritySO>k__BackingField: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0,
     type: 2}
   <VoiceActor>k__BackingField: Cristina Vee Valenzuela
+  <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 0}
+  <DefaultSkinSO>k__BackingField: {fileID: 11400000, guid: 5417b5df023317240a6a3e3063bbe24d,
+    type: 2}
+  <SkinSOList>k__BackingField: []

@@ -24,31 +24,29 @@ public class CharacterEquipmentManager
         this.effectManager = effectManager;
     }
 
-    public void UnequipItem(Item Item)
+    public void UnequipItem(UpgradableItems UpgradableItem)
     {
-        UpgradableItems upgradableItem = Item as UpgradableItems;
-
-        if (upgradableItem == null)
+        if (UpgradableItem == null)
             return;
 
-        upgradableItem.Unequip();
+        UpgradableItem.Unequip();
     }
 
     private void UpgradableItem_OnUnEquip(UpgradableItems UpgradableItems)
     {
-        CharacterEquipment equipment = GetEquipmentMap(UpgradableItems);
+        CharacterEquipment equipment = GetEquipmentMap(UpgradableItems.GetType());
         equipment.UnEquip(UpgradableItems);
     }
 
     private void UpgradableItem_OnEquip(UpgradableItems UpgradableItems)
     {
-        CharacterEquipment equipment = GetEquipmentMap(UpgradableItems);
+        CharacterEquipment equipment = GetEquipmentMap(UpgradableItems.GetType());
         equipment.Equip(UpgradableItems);
     }
 
-    private CharacterEquipment GetEquipmentMap(UpgradableItems UpgradableItems)
+    private CharacterEquipment GetEquipmentMap(Type Type)
     {
-        if (_equipmentMap.TryGetValue(UpgradableItems.GetType(), out var equipment))
+        if (_equipmentMap.TryGetValue(Type, out var equipment))
         {
             return equipment;
         }
@@ -56,20 +54,15 @@ public class CharacterEquipmentManager
         return null;
     }
 
-    public void EquipItem(Item Item)
+    public void EquipItem(UpgradableItems UpgradableItem)
     {
-        UpgradableItems upgradableItem = Item as UpgradableItems;
-
-        if (upgradableItem == null)
-            return;
-
-        upgradableItem.OnEquip += UpgradableItem_OnEquip;
-        upgradableItem.OnUnEquip += UpgradableItem_OnUnEquip;
-        upgradableItem.Equip(charactersSO);
+        UpgradableItem.OnEquip += UpgradableItem_OnEquip;
+        UpgradableItem.OnUnEquip += UpgradableItem_OnUnEquip;
+        UpgradableItem.Equip(charactersSO);
     }
 
-    public IData GetItem(UpgradableItems UpgradableItems)
+    public IData GetExistingItem(UpgradableItems UpgradableItems)
     {
-        return GetEquipmentMap(UpgradableItems).GetItem(UpgradableItems);
+        return GetEquipmentMap(UpgradableItems.GetType()).GetExistingItem(UpgradableItems);
     }
 }

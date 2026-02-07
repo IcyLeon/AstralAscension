@@ -48,15 +48,15 @@ public class ArtifactEffectManager
         artifactEquipment.OnArtifactFamilyAdd -= Inventory_OnArtifactFamilyAdd;
         artifactEquipment.OnArtifactFamilyRemove -= Inventory_OnArtifactFamilyRemove;
 
-        for (int i = artifactEquipment.artifactList.Count - 1; i >= 0; i--)
+        for (int i = artifactEquipment.artifactFamilyList.Count - 1; i >= 0; i--)
         {
-            Inventory_OnArtifactFamilyRemove(artifactEquipment.artifactList.ElementAt(i).Value);
+            Inventory_OnArtifactFamilyRemove(artifactEquipment.artifactFamilyList.ElementAt(i).Value);
         }
     }
 
     public int GetBuffCurrentIndex(ArtifactFamilySO artifactFamilySO)
     {
-        if (!artifactEquipment.artifactList.TryGetValue(artifactFamilySO, out ArtifactFamily artifactFamily))
+        if (!artifactEquipment.artifactFamilyList.TryGetValue(artifactFamilySO, out ArtifactFamily artifactFamily))
             return -1;
 
         return artifactFamily.GetBuffCurrentIndex();

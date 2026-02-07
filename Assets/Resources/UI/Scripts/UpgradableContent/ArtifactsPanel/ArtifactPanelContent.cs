@@ -12,8 +12,8 @@ public class ArtifactPanelContent : MonoBehaviour
     private TabGroup TabGroup;
     public ItemTypeTabGroup itemTypeTabGroup { get; private set; }
     private Dictionary<ItemTypeSO, Transform> tabPanelDic;
-    public event Action<ItemQuality> OnItemQualitySelect;
-    private ItemManagerSO ItemAssetManagerSO;
+    public event Action<IData> OnItemQualitySelect;
+    private ItemManagerSO itemManagerSO;
     private Dictionary<IData, ItemQuality> itemQualityDictionary;
     private Inventory inventory;
 
@@ -27,7 +27,7 @@ public class ArtifactPanelContent : MonoBehaviour
     }
     private void Start()
     {
-        ItemAssetManagerSO = AssetManager.instance.ItemAssetManagerSO;
+        itemManagerSO = AssetManager.instance.ItemAssetManagerSO;
         InitTabPanelDic();
         Init();
     }
@@ -111,14 +111,14 @@ public class ArtifactPanelContent : MonoBehaviour
         if (Panel == null)
             return;
 
-        ItemQuality ItemQualityIEntity = ItemAssetManagerSO.CreateItemQualityItem(Item, Panel.transform);
-        ItemQualityIEntity.OnItemQualitySelect += OnSelectedItemQuality;
-        itemQualityDictionary.Add(Item, ItemQualityIEntity);
+        ItemQuality itemQuality = itemManagerSO.CreateItemQualityObject(Item, Panel.transform);
+        itemQuality.OnItemQualitySelect += OnSelectedItemQuality;
+        itemQualityDictionary.Add(Item, itemQuality);
     }
 
-    private void OnSelectedItemQuality(ItemQuality itemQuality)
+    private void OnSelectedItemQuality(IData IData)
     {
-        OnItemQualitySelect?.Invoke(itemQuality);
+        OnItemQualitySelect?.Invoke(IData);
     }
 
     private void UpdateVisual()
@@ -135,7 +135,7 @@ public class ArtifactPanelContent : MonoBehaviour
 
         foreach (var item in inventory.itemList)
         {
-            Inventory_OnItemAdd(item.Key);
+            Inventory_OnItemAdd(item);
         }
     }
 

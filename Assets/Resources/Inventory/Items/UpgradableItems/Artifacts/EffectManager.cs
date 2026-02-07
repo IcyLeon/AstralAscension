@@ -7,12 +7,11 @@ public class EffectManager
 {
     private ArtifactEffectManager artifactEffectManager;
 
-    private List<BuffEffect> buffEffectList;
+    private List<BuffEffect> buffEffectList = new();
     public event Action<BuffEvent> OnBuffRemove;
 
     public EffectManager(CharacterEquipmentManager characterEquipmentManager)
     {
-        buffEffectList = new();
         artifactEffectManager = new ArtifactEffectManager(characterEquipmentManager.artifactEquipment, this);
         characterEquipmentManager.SetEffectManager(this);
     }

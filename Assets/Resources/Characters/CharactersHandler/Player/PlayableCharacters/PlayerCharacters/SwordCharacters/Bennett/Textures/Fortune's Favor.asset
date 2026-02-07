@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbec9baeeffbd084ebe73917e51bb8df, type: 3}
+  m_Name: Fortune's Favor
+  m_EditorClassIdentifier: 
+  Name: Fortune's Favor
+  Icon: {fileID: 21300000, guid: 3e257c95dc6a77242a020567986ea433, type: 3}
+  RaritySO: {fileID: 11400000, guid: 367fa1fe11f200347b5036726dc53dd0, type: 2}
+  Description: Bennett's outfit. An old adventurer's uniform that has been patched
+    and sewn up in various places.
+  Wish: {fileID: 0}
+  <Cost>k__BackingField: 1000
+  ModelPrefab: {fileID: 5434905498415444374, guid: cb6cd695b22eb9e408a94c23fe7780b1,
+    type: 3}
+  GameplayPrefab: {fileID: 644074971077946249, guid: f75b1687ea0fe6d4092dd32e5f09ee68,
+    type: 3}

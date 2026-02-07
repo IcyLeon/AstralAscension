@@ -71,9 +71,9 @@ public class SlotManager : MonoBehaviour
             return false;
         }
 
-        ItemQuality ItemQuality = ItemAssetManagerSO.CreateItemQualityItem(iData, slot.transform);
-        ItemQuality.RaycastImage.raycastTarget = false;
-        ItemQuality.Select();
+        ItemQuality itemQuality = ItemAssetManagerSO.CreateItemQualityObject(iData, slot.transform);
+        itemQuality.targetGraphic.raycastTarget = false;
+        itemQuality.Select();
         slot.Init();
 
         return true;
@@ -99,7 +99,7 @@ public class SlotManager : MonoBehaviour
 
     private void Slot_OnSlotItemAdd(Slot Slot)
     {
-        IData iData = Slot.itemQuality.iData;
+        IData iData = Slot.itemQuality.iEntity;
 
         if (slotDic.TryGetValue(iData, out Slot slot))
             return;

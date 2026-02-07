@@ -13,7 +13,7 @@ public class CharacterTabAttributeActionManager : MonoBehaviour
 
     [SerializeField] private CharacterScreenPanel CharacterScreenPanel;
     public CameraPanManager cameraPanManager { get; private set; }
-    private Dictionary<TAB_ATTRIBUTE, CharacterTabAttributeAction> tabActionDic;
+    private Dictionary<TAB_ATTRIBUTE, CharacterTabAttributeAction> tabActionDic = new();
     private CharacterTabAttributeAction currentCharacterTabAttributeAction;
 
     private void Awake()
@@ -24,27 +24,40 @@ public class CharacterTabAttributeActionManager : MonoBehaviour
 
     private void Start()
     {
-        
     }
 
     private void OnEnable()
     {
         TabAttributesMiscEvent.OnTabSwitch += TabAttributesMiscEvent_OnTabSwitch;
+        TabAttributesMiscEvent.OnTabReset += TabAttributesMiscEvent_OnTabReset;
+    }
+
+    private void TabAttributesMiscEvent_OnTabReset()
+    {
+        if (currentCharacterTabAttributeAction == null)
+            return;
+
+        ChangeTabAttributeAction(currentCharacterTabAttributeAction);
     }
 
     private void OnDisable()
     {
         TabAttributesMiscEvent.OnTabSwitch -= TabAttributesMiscEvent_OnTabSwitch;
+        TabAttributesMiscEvent.OnTabReset -= TabAttributesMiscEvent_OnTabReset;
     }
 
     private void TabAttributesMiscEvent_OnTabSwitch(TAB_ATTRIBUTE TabAttribute)
     {
-        ChangeTabAttributeAction(GetCharacterTabAttributeAction(TabAttribute));
+        CharacterTabAttributeAction characterTabAttributeAction = GetCharacterTabAttributeAction(TabAttribute);
+
+        if (characterTabAttributeAction == currentCharacterTabAttributeAction)
+            return;
+
+        ChangeTabAttributeAction(characterTabAttributeAction);
     }
 
     private void SetupActionDic()
     {
-        tabActionDic = new();
         CharacterTabAttributeAction[] CharacterTabAttributeActionList = GetComponentsInChildren<CharacterTabAttributeAction>(true);
 
         foreach (var CharacterTabAttributeAction in CharacterTabAttributeActionList)
@@ -69,9 +82,6 @@ public class CharacterTabAttributeActionManager : MonoBehaviour
 
     private void ChangeTabAttributeAction(CharacterTabAttributeAction characterTabAttributeAction)
     {
-        if (characterTabAttributeAction == currentCharacterTabAttributeAction)
-            return;
-
         if (currentCharacterTabAttributeAction != null)
         {
             currentCharacterTabAttributeAction.OnExit();

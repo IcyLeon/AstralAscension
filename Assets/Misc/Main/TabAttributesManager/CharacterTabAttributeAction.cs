@@ -22,7 +22,6 @@ public abstract class CharacterTabAttributeAction : MonoBehaviour
 
     public virtual void SetScreenPanel(CharacterScreenPanel Panel)
     {
-
     }
 
     public virtual void OnEnter()

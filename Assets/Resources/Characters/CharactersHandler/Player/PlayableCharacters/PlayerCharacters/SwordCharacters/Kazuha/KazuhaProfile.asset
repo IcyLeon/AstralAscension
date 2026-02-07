@@ -19,3 +19,7 @@ MonoBehaviour:
   <RaritySO>k__BackingField: {fileID: 11400000, guid: 42ed509d1922dbf42bce8bc398793954,
     type: 2}
   <VoiceActor>k__BackingField: Mark Whitten
+  <PlayableCharacterVoicelinesSO>k__BackingField: {fileID: 0}
+  <DefaultSkinSO>k__BackingField: {fileID: 11400000, guid: 4e7964b2381a30f438371085ee6e71ec,
+    type: 2}
+  <SkinSOList>k__BackingField: []

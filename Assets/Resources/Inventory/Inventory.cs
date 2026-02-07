@@ -6,7 +6,7 @@ using UnityEngine;
 public class Inventory
 {
     public int mora { get; private set; }
-    public Dictionary<Item, Item> itemList { get; } = new();
+    public HashSet<Item> itemList { get; } = new();
 
     public delegate void OnItemChanged(Item Item);
     public event OnItemChanged OnItemAdd, OnItemRemove;
@@ -47,7 +47,7 @@ public class Inventory
             }
         }
 
-        itemList.Add(Item, Item);
+        itemList.Add(Item);
         OnItemAdd?.Invoke(Item);
     }
 

@@ -16,5 +16,5 @@ public abstract class CharacterEquipment
 
     public abstract void UnEquip(IData Item);
 
-    public abstract IData GetItem(IData Item);
+    public abstract IData GetExistingItem(IData Item);
 }

@@ -30,6 +30,7 @@ public class PartySystem : MonoBehaviour
         OnMainDataChanged?.Invoke();
     }
 
+
     private void SetFirstActiveParty()
     {
         SetActiveParty(mainPartySetupManagerData.currentPartySetup);
@@ -44,13 +45,19 @@ public class PartySystem : MonoBehaviour
         OnActivePartyChanged?.Invoke();
     }
 
-    private void TestAddMembers()
+    public void TestAddMembers()
     {
-        CharacterStorage c = CharacterManager.instance.characterStorage;
+        CharacterStorage c = CharacterManager.instance.mainCharacterStorage;
+
+        if (c == null)
+            return;
+
         for (int i = 0; i < c.characterStatList.Count; i++)
         {
-            mainPartySetupManagerData.AddMember(c.characterStatList.ElementAt(i).Value, 0);
+            mainPartySetupManagerData.AddMember(c.characterStatList.ElementAt(i).Value, 1);
         }
+
+        OnMainDataChanged?.Invoke();
     }
 
     private void OnDestroy()

@@ -16,4 +16,4 @@ MonoBehaviour:
     type: 3}
   <ItemCardBackground>k__BackingField: {fileID: 21300000, guid: f967dc9eb622ab24489de368da30254b,
     type: 3}
-  <Rarity>k__BackingField: 2
+  <Rarity>k__BackingField: 3

@@ -71,8 +71,7 @@ public class InventoryManager : MonoBehaviour
         CharacterEquipmentManager characterEquipmentManager = characterStorage.GetCharacterDataStat(characterSO).characterEquipmentManager;
 
         // get the existing artifact equipped from characterSO
-        UpgradableItems currentItemEquipped = characterEquipmentManager.GetItem(upgradableItems) as UpgradableItems;
-
+        UpgradableItems currentItemEquipped = characterEquipmentManager.GetExistingItem(upgradableItems) as UpgradableItems;
         CharactersSO previousOwnerSO = upgradableItems.equipByCharacter;
 
         UnequipItem(previousOwnerSO, upgradableItems); // remove previous owner of the artifact
@@ -85,6 +84,6 @@ public class InventoryManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        CharacterManager.OnCharacterStorageChanged -= CharacterManager_OnCharacterStorageNew;
+        AccountCharacters.OnCharacterStorageChanged -= CharacterManager_OnCharacterStorageNew;
     }
 }

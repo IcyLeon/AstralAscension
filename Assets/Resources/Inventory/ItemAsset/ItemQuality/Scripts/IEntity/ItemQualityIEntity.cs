@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemQualityIEntity : ItemQuality
+[RequireComponent(typeof(ItemQuality))]
+public abstract class ItemQualityIEntity : MonoBehaviour
 {
     [SerializeField] private Image NewImage;
+    [field: SerializeField] public ItemQuality itemQuality { get; private set; }
     [field: SerializeField] public ItemQualitySelection ItemQualitySelection { get; private set; }
     public IEntity iEntity { get; private set; }
     public event Action OnIEntityChanged;
 
-    protected override void Awake()
+    protected virtual void Awake()
     {
-        base.Awake();
-        OnItemQualitySelect += ItemQualityItem_OnItemQualitySelect;
+        itemQuality.OnItemQualitySelect += ItemQualityItem_OnItemQualitySelect;
     }
 
     private void UnSubscribeEvents()
@@ -43,31 +44,22 @@ public class ItemQualityIEntity : ItemQuality
         OnIEntityChanged?.Invoke();
     }
 
-    public override void SetIItem(IData iData)
+
+    public virtual void SetIData(ItemQualityIEntityDisplayData ItemQualityIEntityDisplayData)
     {
-        base.SetIItem(iData);
+        itemQuality.SetIData(ItemQualityIEntityDisplayData);
         UnSubscribeEvents();
-        iEntity = iData as IEntity;
-        InitIEntity();
+        iEntity = ItemQualityIEntityDisplayData.iEntity;
         SubscribeEvents();
     }
 
-    protected virtual void InitIEntity()
-    {
-
-    }
-
-    private void ItemQualityItem_OnItemQualitySelect(ItemQuality ItemQuality)
-    {
-        HideNewStatus();
-    }
-
-    public void HideNewStatus()
+    private void ItemQualityItem_OnItemQualitySelect(IData IData)
     {
         if (iEntity == null || !iEntity.IsNew())
             return;
 
         iEntity.SetNewStatus(false);
+        itemQuality.OnItemQualitySelect -= ItemQualityItem_OnItemQualitySelect;
     }
 
     protected virtual void UpdateVisual()
@@ -76,22 +68,13 @@ public class ItemQualityIEntity : ItemQuality
             return;
 
         NewImage.gameObject.SetActive(iEntity.IsNew());
+        itemQuality.UpdateDisplayText();
     }
 
-    protected override void OnDestroy()
+    protected virtual void OnDestroy()
     {
-        base.OnDestroy();
         UnSubscribeEvents();
+        itemQuality.OnItemQualitySelect -= ItemQualityItem_OnItemQualitySelect;
     }
 
-    public override void OnSelect()
-    {
-        base.OnSelect();
-    }
-
-    public override void OnDeSelect()
-    {
-        base.OnDeSelect();
-        HideNewStatus();
-    }
 }
